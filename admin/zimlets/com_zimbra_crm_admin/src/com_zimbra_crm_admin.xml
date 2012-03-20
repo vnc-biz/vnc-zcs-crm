@@ -1,0 +1,28 @@
+<zimlet name="com_zimbra_crm_admin" version="1.0" description="Admin Panel for CRM" extension="true">
+	<include>com_zimbra_crm_admin.js</include>
+	<include>ZaCRMadminViewController.js</include>
+	<include>ZaCRMxFormView.js</include>
+	<include>ZaCRMadminCountryListView.js</include>
+	<include>ZaEditCountryXFormDialog.js</include>
+	<include>ZaCRMCountryModel.js</include>
+	<include>ZaCRMadmin.js</include>
+	<include>ZaCRMadminCountryStateListView.js</include>
+	<include>ZaEditStateXFormDialog.js</include>
+	<include>ZaCRMStateModel.js</include>
+	<include>ZaCRMadminChannelListView.js</include>
+	<include>ZaEditChannelXFormDialog.js</include>
+	<include>ZaCRMChannelModel.js</include>
+	<include>ZaCRMadminPriorityListView.js</include>
+	<include>ZaEditPriorityXFormDialog.js</include>
+	<include>ZaCRMPriorityModel.js</include>
+	<include>ZaCRMadminCategoryListView.js</include>
+	<include>ZaEditCategoryXFormDialog.js</include>
+	<include>ZaCRMCategoryModel.js</include>
+	<include>ZaCRMadminSectionListView.js</include>
+	<include>ZaEditSectionXFormDialog.js</include>
+	<include>ZaCRMSectionModel.js</include>
+	<include>ZaCRMadminStageListView.js</include>
+	<include>ZaEditStageXFormDialog.js</include>
+	<include>ZaCRMStageModel.js</include>
+	<include>json-minified.js</include>
+</zimlet>

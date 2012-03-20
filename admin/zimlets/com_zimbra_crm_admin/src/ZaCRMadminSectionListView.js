@@ -1,0 +1,105 @@
+var headerList_section = new Array();
+	headerList_section[0] = new ZaListHeaderItem(ZaCRMadmin.A_sectionId, com_zimbra_crm_admin.HDR_id, null, "50px", true,ZaCRMadmin.A_sectionId,true, true);
+	headerList_section[1] = new ZaListHeaderItem(ZaCRMadmin.A_sectionName, com_zimbra_crm_admin.HDR_name, null,"200px", true,ZaCRMadmin.A_sectionName,true, true);
+	headerList_section[2] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCode, com_zimbra_crm_admin.HDR_code, null,"150px", true,ZaCRMadmin.A_sectionCode,true, true);
+	headerList_section[3] = new ZaListHeaderItem(ZaCRMadmin.A_sectionUserId, com_zimbra_crm_admin.HDR_sectionUId, null,"150px", true,ZaCRMadmin.A_sectionUserId,true, true);
+	headerList_section[4] = new ZaListHeaderItem(ZaCRMadmin.A_sectionStatus, com_zimbra_crm_admin.HDR_status, null,"50px", true,ZaCRMadmin.A_sectionStatus,true, true);
+	headerList_section[5] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreatedby, com_zimbra_crm_admin.HDR_createdBy, null,"150px", true,ZaCRMadmin.A_sectionCreatedby,true, true);
+	headerList_section[6] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreateddate, com_zimbra_crm_admin.HDR_createdDate, null,"150px", true,ZaCRMadmin.A_stateCreateddate,true, true);
+	headerList_section[7] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWriteby, com_zimbra_crm_admin.HDR_writeBy, null,"150px", true,ZaCRMadmin.A_A_sectionWriteby,true, true);
+	headerList_section[8] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWritedate, com_zimbra_crm_admin.HDR_writeDate, null,"150px", true,ZaCRMadmin.A_sectionWritedate,true, true);
+
+
+function ZaCRMadminSectionListView(parent, className, posStyle) {
+	ZaListView.call(this, parent, className, posStyle, headerList_section);
+}
+
+ZaCRMadminSectionListView.prototype = new ZaListView;
+ZaCRMadminSectionListView.prototype.constructor = ZaCRMadminSectionListView;
+
+ZaCRMadminSectionListView.prototype.toString = function() {
+	return "ZaCRMadminSectionListView";
+};
+
+ZaCRMadminSectionListView.prototype._createItemHtml =
+function(item) {
+	var html = new Array(100);
+	var div = document.createElement("div");
+	div[DwtListView._STYLE_CLASS] = "Row";
+	div[DwtListView._SELECTED_STYLE_CLASS] = div[DwtListView._STYLE_CLASS] + "-" + DwtCssStyle.SELECTED;
+	div.className = div[DwtListView._STYLE_CLASS];
+	this.associateItemWithElement(item, div, DwtListView.TYPE_LIST_ITEM);
+	
+	var idx = 0;
+	html[idx++] = "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
+
+	html[idx++] = "<tr>";
+	if(this._headerList) {
+		var cnt = this._headerList.length;
+		
+		 
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionId];
+				html[idx++] = "</td>";
+			
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[1]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionName];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[2]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionCode];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[3]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionUserId];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[4]._width + ">";
+				if(item[ZaCRMadmin.A_sectionStatus]==true){
+					html[idx++] = AjxImg.getImageHtml("Check");
+				}
+				else{
+					html[idx++] = AjxImg.getImageHtml("Delete");
+				}
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[5]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionCreatedby];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[6]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionCreateddate];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[7]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionWriteby];
+				html[idx++] = "</td>";
+
+				html[idx++] = "<td align=left height=20px width=" + this._headerList[8]._width + ">";
+				html[idx++] = item[ZaCRMadmin.A_sectionWritedate];
+				html[idx++] = "</td>";
+
+		
+	} else {
+		html[idx++] = "<td width=100%>";
+		html[idx++] = AjxStringUtil.htmlEncode(item);
+		html[idx++] = "</td>";
+	}
+	
+	html[idx++] = "</tr></table>";
+	div.innerHTML = html.join("");
+	return div;
+}
+
+ZaCRMadminSectionListView.prototype._setNoResultsHtml = function() {
+	var buffer = new AjxBuffer();
+	var	div = document.createElement("div");
+	
+	buffer.append("<table width='100%' cellspacing='0' cellpadding='0'>",
+				  "<tr><td class='NoResults'><br>&nbsp",
+				  "</td></tr></table>");
+	
+	div.innerHTML = buffer.toString();
+	this._addRow(div);
+};
+
