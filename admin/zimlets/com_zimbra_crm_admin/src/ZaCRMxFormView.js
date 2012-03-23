@@ -36,6 +36,7 @@ ZaTabView.XFormModifiers["ZaCRMxFormView"] = new Array();
 
 
 ZaCRMxFormView.prototype.TAB_INDEX=0;
+ZaCRMxFormView.prototype.lastid=0;
 ZaCRMxFormView.prototype.setObject = 
 function (entry) {
 
@@ -60,7 +61,7 @@ function (entry) {
 	reqJson = AjxStringUtil.urlEncode(json);
 	response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
 	this._containedObject[ZaCRMadmin.A_country] = jsonParse(response.text);
-
+	
 	json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
 //	reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	reqJson = AjxStringUtil.urlEncode(json);
@@ -134,10 +135,10 @@ function (entry) {
         }
     }
 	*/
-    if(!entry[ZaModel.currentTab]){
-        this._containedObject[ZaModel.currentTab] = "1";
+	if(!entry[ZaModel.currentTab]){
+	     this._containedObject[ZaModel.currentTab] = "1";
 	}else {
-        this._containedObject[ZaModel.currentTab] = entry[ZaModel.currentTab];
+	     this._containedObject[ZaModel.currentTab] = entry[ZaModel.currentTab];
 	}
     this._localXForm.setInstance(this._containedObject);
 	this.formDirtyLsnr = new AjxListener(ZaApp.getInstance().getCurrentController(),ZaXFormViewController.prototype.handleXFormChange);
@@ -169,7 +170,7 @@ ZaCRMxFormView.myXFormModifier = function(xFormObject) {
 	var newTab=++this.TAB_INDEX;
 	
 	
-	xFormObject.items=[{type:_TAB_BAR_,  ref:ZaModel.currentTab,id:"crm_admin_xform_tabbar", containerCssStyle: "padding-top:0px",cssClass:"ZaTabBar", 
+	xFormObject.items=[{type:_TAB_BAR_,  ref:ZaModel.currentTab,id:"crm_admin_xform_tabbar", containerCssStyle: "padding-top:0px",cssClass:"ZaTabBar",
 				choices:[
 				{value:1,label:com_zimbra_crm_admin.TBB_country},
 				{value:2,label:com_zimbra_crm_admin.TBB_country_state},
@@ -416,7 +417,7 @@ ZaCRMxFormView.myXFormModifier = function(xFormObject) {
 							cssStyle:"margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
 							items: [
 							//for main box of header list
-							{ref:ZaCRMadmin.A_stage, type:_DWT_LIST_, height:"300px",width:"1400", 
+							{ref:ZaCRMadmin.A_stage, type:_DWT_LIST_, height:"300px",width:"1350", 
 							forceUpdate: true, preserveSelection:false,multiselect:true,
 							cssClass:"DLSource", headerList:headerList_cont, widgetClass:ZaCRMadminStageListView,
 							onSelection:ZaCRMStageModel.stageSelectionListener,onChange:ZaCRMxFormView.currentFieldChanged,

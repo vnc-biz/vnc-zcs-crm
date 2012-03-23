@@ -13,7 +13,6 @@ ZaCRMStateModel.prototype = new ZaTabView;
 ZaCRMStateModel.prototype.constructor = ZaCRMStateModel;
 
 ZaCRMStateModel.prototype.toString = function() {
-	
 	return "ZaCRMadminListView";
 }
 
@@ -26,6 +25,15 @@ ZaCRMStateModel.isDeleteStateEnabled=function()
 	return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_state_list_cache)));
 }
 
+ZaCRMStateModel.display =
+function () {
+		var json,reqHeader,reqJson,response;
+		json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
+		reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+		reqJson = AjxStringUtil.urlEncode(json);
+		response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
+		return (jsonParse(response.text));
+}
 
 ZaCRMStateModel.stateSelectionListener = 
 function (ev) {
@@ -33,18 +41,14 @@ function (ev) {
 	var arr= this.widget.getSelection();
 
     if(arr && arr.length) {
-        //arr.sort(ZaServer.comparepersonsByName);
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_state_list_cache, arr);
-        //instance.state_list_cache = arr;
     } else {
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_state_list_cache, null);
-        //instance.state_list_cache = null;
     }
 
     if (ev.detail == DwtListView.ITEM_DBL_CLICKED) {
         ZaCRMStateModel.editButtonListener.call(this);
     }
-	
 }
 
 ZaCRMStateModel.deleteButtonListener_state=function()
@@ -64,26 +68,35 @@ ZaCRMStateModel.deleteButtonListener_state=function()
 				var cnt2 = instance[ZaCRMadmin.A_state].length-1;				
 				for(var k=cnt2;k>=0;k--) {
 					if(instance[ZaCRMadmin.A_state][k][ZaCRMadmin.A_stateName]==instance.state_list_cache[i][ZaCRMadmin.A_stateName]) {
-						instance[ZaCRMadmin.A_stateRemoved].push(instance[ZaCRMadmin.A_state][k]);
-						instance[ZaCRMadmin.A_state].splice(k,1);
 						idArray[i]	= instance.state_list_cache[i][ZaCRMadmin.A_stateId];
 						break;	
 					}
 				}
-			}
-				
+			}	
 		}
 	}
-	ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Delete,"Delete","Delete"));
-	instance[ZaCRMadmin.A_state_list_cache]=new Array();
-	this.getForm().parent.setDirty(true);
-	this.getForm().refresh();
+//	instance[ZaCRMadmin.A_state_list_cache]=new Array();
+	ZaApp.getInstance().dialogs["confirmMessageDialog"] = new ZaMsgDialog(ZaApp.getInstance().getAppCtxt().getShell(), null, [DwtDialog.YES_BUTTON, DwtDialog.NO_BUTTON], null, ZaId.VIEW_STATUS + "_confirmMessage");
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].setMessage(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Delete),DwtMessageDialog.INFO_STYLE );
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].registerCallback(DwtDialog.YES_BUTTON, ZaCRMStateModel.prototype.doDelete, this, [idArray]);
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].popup();		
+}
 
-	var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"state\",\"array\":\"" + idArray + "\"}";
+ZaCRMStateModel.prototype.doDelete = function(idArray) {
+	
+	var instance = this.getInstance();
+	var name = ZaZimbraAdmin.currentUserName;
+	var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"state\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
 	var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	var reqJson = AjxStringUtil.urlEncode(json);
 	var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
+	instance[ZaCRMadmin.A_state] = ZaCRMStateModel.display();
+
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
+	this.getForm().parent.setDirty(true);
+	this.getForm().refresh();
 }
+
 ZaCRMStateModel.closeButtonListener=
 function()
 {
@@ -96,8 +109,8 @@ function()
 }
 ZaCRMStateModel.editButtonListener =
 function () {
-    var instance = this.getInstance();
-    
+  
+	var instance = this.getInstance();
     if(instance.state_list_cache && instance.state_list_cache[0]) {
         var formPage = this.getForm().parent;
         if(!formPage.editStateDlg) {
@@ -111,23 +124,12 @@ function () {
 			if(ZaEditStateXFormDialog.countryChoices[i].label==instance.state_list_cache[0][ZaCRMadmin.A_stateCountryName])
 				obj[ZaCRMadmin.A_stateCountryName] = ZaEditStateXFormDialog.countryChoices[i].value;
 		}
+
         obj[ZaCRMadmin.A_stateId] = instance.state_list_cache[0][ZaCRMadmin.A_stateId];
 		obj[ZaCRMadmin.A_stateName] = instance.state_list_cache[0][ZaCRMadmin.A_stateName];
         obj[ZaCRMadmin.A_stateCode] = instance.state_list_cache[0][ZaCRMadmin.A_stateCode];
         obj[ZaCRMadmin.A_stateCountryStatus] = instance.state_list_cache[0][ZaCRMadmin.A_stateCountryStatus];
 
-	 var volArr = this.getModel().getInstanceValue(this.getInstance(),ZaCRMadmin.A_state);
-
-        var cnt = volArr.length;
-        for(var i=0; i < cnt; i++) {
-            if(volArr[i][ZaCRMadmin.A_stateName]==obj[ZaCRMadmin.A_stateName])
-             {
-                obj._index = i;
-                break;
-            }
-        }
-	
-	instance[ZaCRMadmin.A_state_list_cache]=new Array();
         formPage.editStateDlg.setObject(obj);
         formPage.editStateDlg.popup();
     }
@@ -135,86 +137,24 @@ function () {
 
 ZaCRMStateModel.updateState=function()
 {
-	
 	if(this.parent.editStateDlg) 
 	{
-	
-        	this.parent.editStateDlg.popdown();
-       		var obj = this.parent.editStateDlg.getObject();
-		
-		
+        this.parent.editStateDlg.popdown();
+       	var obj = this.parent.editStateDlg.getObject();
 		var instance = this.getInstance();
-		var countries = [];
-		var cnt = instance[ZaCRMadmin.A_state].length;
-		for (var i=0; i< cnt; i++) 
-		{
-			countries[i] = instance[ZaCRMadmin.A_state][i];
-		}
-		var dirty = false;
-		obj[ZaCRMadmin.A_stateWriteby]= ZaZimbraAdmin.currentUserName;
-		if(countries[obj._index]) 
-		{
-		    if(countries[obj._index][ZaCRMadmin.A_stateName] != obj[ZaCRMadmin.A_stateName]) 
-		    {
-		        countries[obj._index][ZaCRMadmin.A_stateName] = obj[ZaCRMadmin.A_stateName];
-		        dirty=true;
-		    }
-		    if(countries[obj._index][ZaCRMadmin.A_stateCode] != obj[ZaCRMadmin.A_stateCode]) {
-		        countries[obj._index][ZaCRMadmin.A_stateCode] = obj[ZaCRMadmin.A_stateCode];
-		        dirty=true;
-		    }
-			if(countries[obj._index][ZaCRMadmin.A_stateCountryName] != obj[ZaCRMadmin.A_stateCountryName]) {
-			    countries[obj._index][ZaCRMadmin.A_stateCountryName] = obj[ZaCRMadmin.A_stateCountryName];
-		        dirty=true;
-		    }
-			if(countries[obj._index][ZaCRMadmin.A_stateCountryStatus] != obj[ZaCRMadmin.A_stateCountryStatus]) {
-		        countries[obj._index][ZaCRMadmin.A_stateCountryStatus] = obj[ZaCRMadmin.A_stateCountryStatus];
-		        dirty=true;
-		    }
-		}
 
+		obj[ZaCRMadmin.A_stateWriteby]= ZaZimbraAdmin.currentUserName;
  		var j = JSON.stringify({action:"UPDATE",object:"state",stateId:obj[ZaCRMadmin.A_stateId],stateName:obj[ZaCRMadmin.A_stateName],stateCode:obj[ZaCRMadmin.A_stateCode],countryId:obj[ZaCRMadmin.A_stateCountryName],status:obj[ZaCRMadmin.A_stateCountryStatus],writeBy:obj[ZaCRMadmin.A_stateWriteby]});
 		var json = "jsonobj=" + j;
-		alert("JJJJJJJJJJJJJJ "+ j);
-		//var json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
 		var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 		var reqJson = AjxStringUtil.urlEncode(json);
 		var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-		
+		instance[ZaCRMadmin.A_state] = ZaCRMStateModel.display();
 
-//	 	this.getModel().setInstanceValue(this.getInstance(),ZaCRMadmin.A_state,countries);
-		this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_state_list_cache, new Array());
-		
-		for(t=0;t<cnt;t++)
-		{
-			instance[ZaCRMadmin.A_state].pop();
-			
-		}
-		this.parent.setDirty(true);
-		this.refresh();
-		var tmp={};
-		for(var k=0;k<cnt;k++)
-		{
-			tmp[ZaCRMadmin.A_stateId]=countries[k][ZaCRMadmin.A_stateId];
-			tmp[ZaCRMadmin.A_stateName]= countries[k][ZaCRMadmin.A_stateName];
-			tmp[ZaCRMadmin.A_stateCode]= countries[k][ZaCRMadmin.A_stateCode];
-			tmp[ZaCRMadmin.A_stateCountryName]= countries[k][ZaCRMadmin.A_stateCountryName];
-			tmp[ZaCRMadmin.A_stateCountryStatus]= countries[k][ZaCRMadmin.A_stateCountryStatus];
-			tmp[ZaCRMadmin.A_stateCreatedby]= countries[k][ZaCRMadmin.A_stateCreatedby];
-			tmp[ZaCRMadmin.A_stateCreateddate]= countries[k][ZaCRMadmin.A_stateCreateddate];
-			tmp[ZaCRMadmin.A_stateWriteby]= countries[k][ZaCRMadmin.A_stateWriteby];
-			tmp[ZaCRMadmin.A_stateWritedate]= countries[k][ZaCRMadmin.A_stateWritedate];
-			
-			instance[ZaCRMadmin.A_state].push(tmp);
-			tmp={};	
-		}
 		ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Edit+" : "+obj[ZaCRMadmin.A_stateName]));
 		this.parent.setDirty(true);
 		this.refresh();
-		
-		
 	}
-		
 }
 
 ZaCRMStateModel.addPerson  = function () {
@@ -225,7 +165,6 @@ ZaCRMStateModel.addPerson  = function () {
 		instance = this.getInstance();
 		var flag = 0;
 		var len = this.getInstance()[ZaCRMadmin.A_state].length;
-
 		for (var i=0;i<len;i++)
 		{
 			if((obj[ZaCRMadmin.A_stateName] == this.getInstance()[ZaCRMadmin.A_state][i][ZaCRMadmin.A_stateName]) || (obj[ZaCRMadmin.A_stateCode] == this.getInstance()[ZaCRMadmin.A_state][i][ZaCRMadmin.A_stateCode]))
@@ -235,16 +174,17 @@ ZaCRMStateModel.addPerson  = function () {
 		}
 		if(flag == 0)
 		{
-			instance[ZaCRMadmin.A_state].push(obj);
 			this.parent.addStateDlg.popdown();
-			var j = JSON.stringify({action:"ADD",object:"state",stateId:obj[ZaCRMadmin.A_stateId],stateName:obj[ZaCRMadmin.A_stateName],stateCode:obj[ZaCRMadmin.A_stateCode],countryId:obj[ZaCRMadmin.A_stateCountryName],status:obj[ZaCRMadmin.A_stateCountryStatus],createBy:obj[ZaCRMadmin.A_stateCreatedby],createDate:obj[ZaCRMadmin.A_stateCreateddate],writeBy:obj[ZaCRMadmin.A_stateWriteby],writeDate:obj[ZaCRMadmin.A_stateWritedate]});
+			var j = JSON.stringify({action:"ADD",object:"state",stateId:obj[ZaCRMadmin.A_stateId],stateName:obj[ZaCRMadmin.A_stateName],stateCode:obj[ZaCRMadmin.A_stateCode],countryId:obj[ZaCRMadmin.A_stateCountryName],status:obj[ZaCRMadmin.A_stateCountryStatus],createBy:obj[ZaCRMadmin.A_stateCreatedby],writeBy:obj[ZaCRMadmin.A_stateWriteby]});
 			var json = "jsonobj=" + j;
-			alert("J=====J=="+j);
-			//var json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
 			var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 			var reqJson = AjxStringUtil.urlEncode(json);
 			var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-			
+			var len = ZaEditStateXFormDialog.countryChoices.length;
+			for(var i=0;i<len;i++){
+			   if(ZaEditStateXFormDialog.countryChoices[i].value==obj[ZaCRMadmin.A_stateCountryName])
+				    obj[ZaCRMadmin.A_stateCountryName] = ZaEditStateXFormDialog.countryChoices[i].label;
+			}
 			ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Add+" : "+obj[ZaCRMadmin.A_stateName]));
 		}
 		else
@@ -252,16 +192,11 @@ ZaCRMStateModel.addPerson  = function () {
 			ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("State already exists"+" : "+obj[ZaCRMadmin.A_stateName] + " OR " + obj[ZaCRMadmin.A_stateCode]));
 		}
 
-		//alert("obj[ZaCRMadmin.A_stateCountryName] ::.."+obj[ZaCRMadmin.A_stateCountryName]);
-
+		instance[ZaCRMadmin.A_state] = ZaCRMStateModel.display();
 		this.parent.setDirty(true);
-		//this._localXForm.setInstance(this._containedObject);
-
 		this.refresh();	
 	}
-
 }
-
 
 ZaCRMStateModel.addButtonListener_state =
 function () {
@@ -274,16 +209,13 @@ function () {
 		
 		var obj = {};
 	
-
 		obj[ZaCRMadmin.A_stateId]= 0;
 		obj[ZaCRMadmin.A_stateName]= "";
 		obj[ZaCRMadmin.A_stateCode]= "";
 		obj[ZaCRMadmin.A_stateCountryName]= "Select Country";
 		obj[ZaCRMadmin.A_stateCountryStatus]= true;
 		obj[ZaCRMadmin.A_stateCreatedby]= ZaZimbraAdmin.currentUserName;
-		obj[ZaCRMadmin.A_stateCreateddate]= "null";
 		obj[ZaCRMadmin.A_stateWriteby]= ZaZimbraAdmin.currentUserName;
-		obj[ZaCRMadmin.A_stateWritedate]= "null";
 		
 		obj.current = false;		
 		

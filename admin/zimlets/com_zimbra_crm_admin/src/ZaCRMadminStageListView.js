@@ -1,16 +1,16 @@
 var headerList_stage = new Array();
 	headerList_stage[0] = new ZaListHeaderItem(ZaCRMadmin.A_id, com_zimbra_crm_admin.HDR_id, null, "50px", true,ZaCRMadmin.A_stageId,true, true);
 	headerList_stage[1] = new ZaListHeaderItem(ZaCRMadmin.A_name, com_zimbra_crm_admin.HDR_name, null, "150px", true,ZaCRMadmin.A_stageName,true, true);
-	headerList_stage[2] = new ZaListHeaderItem(ZaCRMadmin.A_stageSequence, com_zimbra_crm_admin.HDR_stageSequence, null, "80px", true,ZaCRMadmin.A_stageSequence,true, true);
+	headerList_stage[2] = new ZaListHeaderItem(ZaCRMadmin.A_stageSequence, com_zimbra_crm_admin.HDR_stageSequence, null, "70px", true,ZaCRMadmin.A_stageSequence,true, true);
 	headerList_stage[3] = new ZaListHeaderItem(ZaCRMadmin.A_stageType, com_zimbra_crm_admin.HDR_stageType, null, "100px", true,ZaCRMadmin.A_stageType,true, true);
-	headerList_stage[4] = new ZaListHeaderItem(ZaCRMadmin.A_stageProbability, com_zimbra_crm_admin.HDR_stageProb, null, "100px", true,ZaCRMadmin.A_stageProbability,true, true);
+	headerList_stage[4] = new ZaListHeaderItem(ZaCRMadmin.A_stageProbability, com_zimbra_crm_admin.HDR_stageProb, null, "80px", true,ZaCRMadmin.A_stageProbability,true, true);
 	headerList_stage[5] = new ZaListHeaderItem(ZaCRMadmin.A_stageDescription, com_zimbra_crm_admin.HDR_stageDesc, null, "200px", true,ZaCRMadmin.A_stageDescription,true, true);
 	headerList_stage[6] = new ZaListHeaderItem(ZaCRMadmin.A_stageAuto, com_zimbra_crm_admin.HDR_stageAuto, null, "50px", true,ZaCRMadmin.A_stageAuto,true, true);
 	headerList_stage[7] = new ZaListHeaderItem(ZaCRMadmin.A_stageStatus, com_zimbra_crm_admin.HDR_status, null, "50px", true,ZaCRMadmin.A_stageStatus,true, true);
 	headerList_stage[8] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreatedby, com_zimbra_crm_admin.HDR_createdBy, null, "150px", true,ZaCRMadmin.A_stageCreatedby,true, true);
-	headerList_stage[9] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreateddate, com_zimbra_crm_admin.HDR_createdDate, null, "150px", true,ZaCRMadmin.A_stagecreateddate,true, true);
+	headerList_stage[9] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreateddate, com_zimbra_crm_admin.HDR_createdDate, null, "125px", true,ZaCRMadmin.A_stagecreateddate,true, true);
 	headerList_stage[10] = new ZaListHeaderItem(ZaCRMadmin.A_stageWriteby, com_zimbra_crm_admin.HDR_writeBy, null, "150px", true,ZaCRMadmin.A_stageWriteby,true, true);
-	headerList_stage[11] = new ZaListHeaderItem(ZaCRMadmin.A_stageWritedate, com_zimbra_crm_admin.HDR_writeDate, null, "150px", true,ZaCRMadmin.A_stageWritedate,true, true);
+	headerList_stage[11] = new ZaListHeaderItem(ZaCRMadmin.A_stageWritedate, com_zimbra_crm_admin.HDR_writeDate, null, "125px", true,ZaCRMadmin.A_stageWritedate,true, true);
 
 function ZaCRMadminStageListView(parent, className, posStyle) {
 	ZaListView.call(this, parent, className, posStyle, headerList_stage);
@@ -70,7 +70,12 @@ function(item) {
 				html[idx++] = "</td>";
 
 				html[idx++] = "<td align=left height=20px width=" + this._headerList[6]._width + ">";
-				html[idx++] = item[ZaCRMadmin.A_stageAuto];
+				if(item[ZaCRMadmin.A_stageAuto]==true){
+					html[idx++] = AjxImg.getImageHtml("Check");
+				}
+				else{
+					html[idx++] = AjxImg.getImageHtml("Delete");
+				}
 				html[idx++] = "</td>";
 
 				html[idx++] = "<td align=left height=20px width=" + this._headerList[7]._width + ">";

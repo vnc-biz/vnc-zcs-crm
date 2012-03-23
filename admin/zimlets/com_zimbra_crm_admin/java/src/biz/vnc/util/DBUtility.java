@@ -25,7 +25,7 @@ public class DBUtility {
 			connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
 			statement = connection.createStatement();
 			System.out.println("Connection Established Successfully.");
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Exception:" + e);
 		}
 	}
@@ -37,7 +37,7 @@ public class DBUtility {
 		try {
 			statement.close();
 			connection.close();
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Connection close exception:" + e);
 		}
 	}
@@ -47,7 +47,7 @@ public class DBUtility {
 			System.out.println(query);
 			statement.execute(query);
 			return 1;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Insertion Exception: " + e);
 			return 0;
 		}
@@ -57,7 +57,7 @@ public class DBUtility {
 		try {
 			statement.execute(query);
 			return 1;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Updation Exception: " + e);
 			return 0;
 		}
@@ -67,7 +67,7 @@ public class DBUtility {
 		try {
 			statement.execute(query);
 			return 1;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Deletion Exception: " + e);
 			return 0;
 		}
@@ -78,7 +78,7 @@ public class DBUtility {
 			ResultSet rs = statement.executeQuery(query);
 			return rs;
 
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Selection Exception: " + e);
 		}
 		return null;

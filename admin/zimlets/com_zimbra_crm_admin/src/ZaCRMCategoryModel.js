@@ -25,6 +25,17 @@ ZaCRMCategoryModel.isDeleteCategoryEnabled=function()
 	return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_category_list_cache)));
 }
 
+ZaCRMCategoryModel.display =
+function () {
+		var json,reqHeader,reqJson,response;
+		json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
+		reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+		reqJson = AjxStringUtil.urlEncode(json);
+		response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
+		return (jsonParse(response.text));
+}
+
+
 
 ZaCRMCategoryModel.categorySelectionListener = 
 function (ev) {
@@ -32,12 +43,9 @@ function (ev) {
 	var arr= this.widget.getSelection();
 
     if(arr && arr.length) {
-        //arr.sort(ZaServer.comparepersonsByName);
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_category_list_cache, arr);
-        //instance.category_list_cache = arr;
     } else {
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_category_list_cache, null);
-        //instance.category_list_cache = null;
     }
 
     if (ev.detail == DwtListView.ITEM_DBL_CLICKED) {
@@ -62,8 +70,6 @@ ZaCRMCategoryModel.deleteButtonListener=function()
 				var cnt2 = instance[ZaCRMadmin.A_category].length-1;				
 				for(var k=cnt2;k>=0;k--) {
 					if(instance[ZaCRMadmin.A_category][k][ZaCRMadmin.A_categoryName]==instance.category_list_cache[i][ZaCRMadmin.A_categoryName]) {
-						instance[ZaCRMadmin.A_categoryRemoved].push(instance[ZaCRMadmin.A_category][k]);
-						instance[ZaCRMadmin.A_category].splice(k,1);
 						idArray[i]	= instance.category_list_cache[i][ZaCRMadmin.A_categoryId];
 						break;	
 					}
@@ -72,16 +78,29 @@ ZaCRMCategoryModel.deleteButtonListener=function()
 				
 		}
 	}
-	ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Delete,"Delete","Delete"));
-	instance[ZaCRMadmin.A_category_list_cache]=new Array();
-	this.getForm().parent.setDirty(true);
-	this.getForm().refresh();
+	//instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
+	ZaApp.getInstance().dialogs["confirmMessageDialog"] = new ZaMsgDialog(ZaApp.getInstance().getAppCtxt().getShell(), null, [DwtDialog.YES_BUTTON, DwtDialog.NO_BUTTON], null, ZaId.VIEW_STATUS + "_confirmMessage");
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].setMessage(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Delete),DwtMessageDialog.INFO_STYLE );
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].registerCallback(DwtDialog.YES_BUTTON, ZaCRMCategoryModel.prototype.doDelete, this, [idArray]);
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].popup();		
+}
 
-	var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"category\",\"array\":\"" + idArray + "\"}";
+ZaCRMCategoryModel.prototype.doDelete = function(idArray) {
+
+	var instance = this.getInstance();	
+	var name = ZaZimbraAdmin.currentUserName;
+	var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"category\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
 	var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	var reqJson = AjxStringUtil.urlEncode(json);
 	var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
+	instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
+
+	ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
+	this.getForm().parent.setDirty(true);
+	this.getForm().refresh();
+
 }
+
 ZaCRMCategoryModel.closeButtonListener=
 function()
 {
@@ -111,10 +130,10 @@ function () {
 			if(ZaEditCategoryXFormDialog.salesTeamChoices[i].label==instance.category_list_cache[0][ZaCRMadmin.A_sales_team_id])
 				obj[ZaCRMadmin.A_sales_team_id] = ZaEditCategoryXFormDialog.salesTeamChoices[i].value;
 		}
-//        obj[ZaCRMadmin.A_sales_team_id] = instance.category_list_cache[0][ZaCRMadmin.A_sales_team_id];
         obj[ZaCRMadmin.A_categoryStatus] = instance.category_list_cache[0][ZaCRMadmin.A_categoryStatus];
 		
-	 var volArr = this.getModel().getInstanceValue(this.getInstance(),ZaCRMadmin.A_category);
+		/*
+		var volArr = this.getModel().getInstanceValue(this.getInstance(),ZaCRMadmin.A_category);
 
         var cnt = volArr.length;
         for(var i=0; i < cnt; i++) {
@@ -125,23 +144,22 @@ function () {
             }
         }
 	
-	instance[ZaCRMadmin.A_category_list_cache]=new Array();
-        formPage.editcategoryDlg.setObject(obj);
+		instance[ZaCRMadmin.A_category_list_cache]=new Array();
+    */
+		formPage.editcategoryDlg.setObject(obj);
         formPage.editcategoryDlg.popup();
     }
 }
 
 ZaCRMCategoryModel.updatecategory=function()
 {
-	
 	if(this.parent.editcategoryDlg) 
 	{
 	
-        	this.parent.editcategoryDlg.popdown();
-       		var obj = this.parent.editcategoryDlg.getObject();
-		
-		
+       	this.parent.editcategoryDlg.popdown();
+    	var obj = this.parent.editcategoryDlg.getObject();
 		var instance = this.getInstance();
+/*	
 		var categoryes = [];
 		var cnt = instance[ZaCRMadmin.A_category].length;
 		for (var i=0; i< cnt; i++) 
@@ -149,7 +167,7 @@ ZaCRMCategoryModel.updatecategory=function()
 			categoryes[i] = instance[ZaCRMadmin.A_category][i];
 		}
 		var dirty = false;
-		obj[ZaCRMadmin.A_categoryWriteby]= ZaZimbraAdmin.currentUserName;
+
 		if(categoryes[obj._index]) 
 		{
 		    if(categoryes[obj._index][ZaCRMadmin.A_categoryName] != obj[ZaCRMadmin.A_categoryName]) 
@@ -166,17 +184,18 @@ ZaCRMCategoryModel.updatecategory=function()
 		        categoryes[obj._index][ZaCRMadmin.A_categoryStatus] = obj[ZaCRMadmin.A_categoryStatus];
 		        dirty=true;
 		    }
+			categoryes[obj._index][ZaCRMadmin.A_categoryWritedate] = AjxDateFormat.format("yyyy-MM-dd HH:mm:ss.0", new Date());
 
 		}
- 		
+		*/
+
+		obj[ZaCRMadmin.A_categoryWriteby]= ZaZimbraAdmin.currentUserName; 		
 		var j = JSON.stringify({action:"UPDATE",object:"category",categoryId:obj[ZaCRMadmin.A_categoryId],categoryName:obj[ZaCRMadmin.A_categoryName],sectionId:obj[ZaCRMadmin.A_sales_team_id],status:obj[ZaCRMadmin.A_categoryStatus],writeBy:obj[ZaCRMadmin.A_categoryWriteby]});
 		var json = "jsonobj=" + j;
 		var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 		var reqJson = AjxStringUtil.urlEncode(json);
 		var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-
-
-//	 	this.getModel().setInstanceValue(this.getInstance(),ZaCRMadmin.A_category,categoryes);
+/*
 		this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_category_list_cache, new Array());
 		
 		for(t=0;t<cnt;t++)
@@ -200,12 +219,13 @@ ZaCRMCategoryModel.updatecategory=function()
 			
 			instance[ZaCRMadmin.A_category].push(tmp);
 			tmp={};	
-		}
+		}*/
+
 		ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Edit+" : "+obj[ZaCRMadmin.A_categoryName]));
+		instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
 		this.parent.setDirty(true);
-		this.refresh();
-		
-		
+		this.refresh();		
+
 	}
 		
 }
@@ -228,23 +248,19 @@ ZaCRMCategoryModel.addPerson  = function () {
 		if(flag == 0)
 		{
 			this.parent.addcategoryDlg.popdown();
-			instance[ZaCRMadmin.A_category].push(obj);
-			var j = JSON.stringify({action:"ADD",object:"category",categoryId:obj[ZaCRMadmin.A_categoryId],categoryName:obj[ZaCRMadmin.A_categoryName],sectionId:obj[ZaCRMadmin.A_sales_team_id],status:obj[ZaCRMadmin.A_categoryStatus],createBy:obj[ZaCRMadmin.A_categoryCreatedby],createDate:obj[ZaCRMadmin.A_categoryCreateddate],writeBy:obj[ZaCRMadmin.A_categoryWriteby],writeDate:obj[ZaCRMadmin.A_categoryWritedate]});
+			var j = JSON.stringify({action:"ADD",object:"category",categoryId:obj[ZaCRMadmin.A_categoryId],categoryName:obj[ZaCRMadmin.A_categoryName],sectionId:obj[ZaCRMadmin.A_sales_team_id],status:obj[ZaCRMadmin.A_categoryStatus],createBy:obj[ZaCRMadmin.A_categoryCreatedby],writeBy:obj[ZaCRMadmin.A_categoryWriteby]});
 			var json = "jsonobj=" + j;
-			//var json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
 			var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 			var reqJson = AjxStringUtil.urlEncode(json);
 			var response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-			console.log(jsonParse(response.text));
 			ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(com_zimbra_crm_admin.MSG_Add+" : "+obj[ZaCRMadmin.A_categoryName]));			
 		}
 		else
 		{
 			ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Category already exists"+" : "+obj[ZaCRMadmin.A_categoryName]));
 		}
-
+		instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
 		this.parent.setDirty(true);
-		//this._localXForm.setInstance(this._containedObject);
 		this.refresh();	
 	}
 
@@ -271,10 +287,8 @@ function () {
 		obj[ZaCRMadmin.A_categoryStatus]= true;
 		obj[ZaCRMadmin.A_sales_team_id]= "Select Section";
 		obj[ZaCRMadmin.A_categoryCreatedby]= ZaZimbraAdmin.currentUserName;
-		obj[ZaCRMadmin.A_categoryCreateddate]= "null";
 		obj[ZaCRMadmin.A_categoryWriteby]= ZaZimbraAdmin.currentUserName;
-		obj[ZaCRMadmin.A_categoryWritedate]= "null";
-		
+	
 		obj.current = false;		
 		
 		formPage.addcategoryDlg.setObject(obj);

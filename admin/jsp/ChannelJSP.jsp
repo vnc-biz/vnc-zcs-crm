@@ -15,18 +15,12 @@
                 int operationStatus = 0;
                 Gson gson = new Gson();
                 String jString = request.getParameter("jsonobj");
-		System.out.println("JSP jString : " + jString);
                 InterfaceHelper interfaceHelper = Utility.callHelper(jString);
-		System.out.println("1......................");
                 JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
-		System.out.println("2......................");
                 String actionType = k.get("action").getAsString();
-		System.out.println("3......................");
                 AbstractBean abstractBean = interfaceHelper.toBean(jString);
-		System.out.println("4......................");
                 if(actionType.equals("LIST")){
                         try{
-				System.out.println("List 5...........................");
                                 String result = interfaceHelper.listView();
                                 out.println(result);
                         }catch(Exception e){
@@ -35,9 +29,7 @@
                 }
                 else if(actionType.equals("ADD")){
                         try{
-								System.out.println("5......................");
                                 operationStatus = interfaceHelper.add(abstractBean);
-								System.out.println("JSP Op Status : " + operationStatus);
                                 out.println(operationStatus);
                         }catch(Exception e){
                                 e.printStackTrace();
@@ -62,9 +54,9 @@
                 }
 			    else if(actionType.equals("DELETEBYID")){
                         try{
-
                                 String array = k.get("array").getAsString();
-                                operationStatus = interfaceHelper.deleteByIds(array);
+								String user = k.get("writeBy").getAsString();
+                                operationStatus = interfaceHelper.deleteByIds(array,user);
                                 out.println(operationStatus);
                         }catch(Exception e){
                                 e.printStackTrace();

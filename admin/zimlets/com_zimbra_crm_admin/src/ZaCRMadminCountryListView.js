@@ -21,6 +21,7 @@ ZaCRMadminCountryListView.prototype.toString = function() {
 
 ZaCRMadminCountryListView.prototype._createItemHtml =
 function(item) {
+
 	var html = new Array(100);
 	var div = document.createElement("div");
 	div[DwtListView._STYLE_CLASS] = "Row";

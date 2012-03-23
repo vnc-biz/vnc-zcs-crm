@@ -14,6 +14,7 @@ import biz.vnc.beans.SectionBean;
 import biz.vnc.util.DBUtility;
 
 import com.google.gson.Gson;
+import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.Domain;
 import com.zimbra.cs.account.soap.SoapProvisioning;
 import com.zimbra.cs.account.soap.SoapProvisioning.Options;
@@ -33,7 +34,8 @@ public class SectionHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		SectionBean sectionBean = (SectionBean)ab;
-		String query = "insert into tbl_crm_section values (" + sectionBean.getSectionId() + ",\"" + sectionBean.getSectionName() + "\",\"" + sectionBean.getSectionCode() + "\",\"" + sectionBean.getUserId() + "\"," + sectionBean.isStatus() + ",\"" + sectionBean.getCreateBy() + "\"," + sectionBean.getCreateDate() + ",\"" + sectionBean.getWriteBy() + "\"," + sectionBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_section values (" + sectionBean.getSectionId() + ",\"" + sectionBean.getSectionName() + "\",\"" + sectionBean.getSectionCode() + "\",\"" + sectionBean.getUserId() + "\"," + sectionBean.isStatus() + ",\"" + sectionBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + sectionBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
+		System.out.println("Query--------->>>>>>>" +query);
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -79,7 +81,7 @@ public class SectionHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		SectionBean sectionBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				sectionBean = new SectionBean();
 				sectionBean.setSectionId(rs.getInt("sectionId"));
 				sectionBean.setSectionName(rs.getString("sectionName"));
@@ -101,8 +103,8 @@ public class SectionHelper implements InterfaceHelper {
 
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_section set status = false where sectionId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_section set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where sectionId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -131,7 +133,7 @@ public class SectionHelper implements InterfaceHelper {
 			//sectionBean.setSectionName(gson.get("sectionName").toString());
 			//sectionBean.setSectionCode(gson.get("sectionCode").toString());
 			return sectionBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -143,22 +145,33 @@ public class SectionHelper implements InterfaceHelper {
 		return null;
 	}
 
+	@Override
 	public String getUsers () {
 		try {
+			int cnt = 1;
+			String rec = "";
 			List<String> listOfAccounts = new ArrayList<String>();
 			SoapProvisioning soap = null;
 			Options options=new Options();
 			options.setLocalConfigAuth(true);
 			soap = new SoapProvisioning(options);
-			System.out.println("All Domain size" +soap.getAllDomains().size());
-			for (int i=0; i<soap.getAllDomains().size(); i++) {
-				System.out.println("All User size" +soap.getAllAccounts(soap.getAllDomains().get(i)).size());
+			for(int i=0; i<soap.getAllDomains().size(); i++) {
 				Domain singleD = soap.getAllDomains().get(i);
-				listOfAccounts.add(soap.getAllAccounts(singleD).toString());
-				System.out.println("Inner : " +listOfAccounts.toString());
+				for(int j=0; j<singleD.getAllAccounts().size(); j++) {
+					Account ac = (Account) soap.getAllAccounts(singleD).get(j);
+					rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
+					listOfAccounts.add(rec);
+					//System.out.println(ac.getMail().toString());
+					//listOfAccounts.add(ac.getMail().toString());
+					cnt++;
+				}
 			}
+			System.out.println("Whole List : " + listOfAccounts);
+			/*for(int i=0;i<cnt;i++){
+				System.out.println("Account [" + i + "] : " + listOfAccounts.get(i).toString());
+			}*/
 			return listOfAccounts.toString();
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return null;

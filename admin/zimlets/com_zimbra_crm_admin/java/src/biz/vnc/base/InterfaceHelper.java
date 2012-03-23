@@ -7,7 +7,7 @@ public interface InterfaceHelper {
 	public int add(AbstractBean ab);
 	public int update(AbstractBean ab);
 	public int delete(AbstractBean ab);
-	public int deleteByIds(String arrayIds);
+	public int deleteByIds(String arrayIds,String user);
 	public List<AbstractBean> getAllRecords();
 	public AbstractBean getRecordById(String id);
 	public AbstractBean getRecordByName(String name);

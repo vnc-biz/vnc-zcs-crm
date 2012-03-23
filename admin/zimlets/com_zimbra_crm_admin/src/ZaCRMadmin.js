@@ -14,6 +14,7 @@ function ZaCRMadmin(app)
 ZaCRMadmin.prototype=new ZaItem;
 ZaCRMadmin.prototype.constructor=ZaCRMadmin;
 
+
 // Country list 
 ZaCRMadmin.A_country_list_cache="country_list_cache";
 ZaCRMadmin.A_country="country";
@@ -219,7 +220,7 @@ ZaCRMadmin.stageList = {
 		{id:ZaCRMadmin.A_stageSequence, type:_STRING_,ref:ZaCRMadmin.A_stageSequence},
 		{id:ZaCRMadmin.A_stageType, type:_NUMBER_,ref:ZaCRMadmin.A_stageType},
 		{id:ZaCRMadmin.A_stageProbability, type:_STRING_,ref:ZaCRMadmin.A_stageProbability},
-		{id:ZaCRMadmin.A_stageAuto, type:_STRING_,ref:ZaCRMadmin.A_stageAuto},
+		{id:ZaCRMadmin.A_A_stageAuto, type:_ENUM_, choices:[false,true], defaultValue:true},
 		{id:ZaCRMadmin.A_stageDescription, type:_STRING_,ref:ZaCRMadmin.A_stageDescription},
 		{id:ZaCRMadmin.A_stageStatus, type:_ENUM_, choices:[false,true], defaultValue:true},
 		{id:ZaCRMadmin.A_stageCreatedby, type:_STRING_,ref:ZaCRMadmin.A_stageCreatedby},

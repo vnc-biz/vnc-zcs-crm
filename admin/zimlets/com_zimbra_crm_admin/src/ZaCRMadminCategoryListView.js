@@ -36,7 +36,6 @@ function(item) {
 	html[idx++] = "<tr>";
 	if(this._headerList) {
 		var cnt = this._headerList.length;
-		
 		 
 				html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
 				html[idx++] = item[ZaCRMadmin.A_categoryId];
@@ -51,10 +50,10 @@ function(item) {
 				html[idx++] = "</td>";
 
 				html[idx++] = "<td align=left height=20px width=" + this._headerList[3]._width + ">";
-				if(item[ZaCRMadmin.A_categoryStatus]==true){
+				if(item[ZaCRMadmin.A_categoryStatus] == true){
 					html[idx++] = AjxImg.getImageHtml("Check");
 				}
-				else{
+				else if(item[ZaCRMadmin.A_categoryStatus] == false){
 					html[idx++] = AjxImg.getImageHtml("Delete");
 				}
 				html[idx++] = "</td>";

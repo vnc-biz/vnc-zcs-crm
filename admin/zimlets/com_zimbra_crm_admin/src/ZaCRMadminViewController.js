@@ -61,6 +61,6 @@ ZaController.setViewMethods["ZaCRMadminViewController"].push(ZaCRMadminViewContr
 ZaCRMadminViewController.prototype._saveChanges =
 function () {
 	this._contentView.setDirty(false);
+	alert("Save Changes.......................");
   return true;
-}
-*/
+}*/

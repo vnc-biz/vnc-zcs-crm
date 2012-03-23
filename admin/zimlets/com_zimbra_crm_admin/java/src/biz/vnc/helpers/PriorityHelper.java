@@ -29,7 +29,7 @@ public class PriorityHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		PriorityBean priorityBean = (PriorityBean)ab;
-		String query = "insert into tbl_crm_priority values (" + priorityBean.getPriorityId() + ",\"" + priorityBean.getPriorityName() + "\",\"" + priorityBean.getPriorityCode() + "\"," + priorityBean.isStatus() + ",\"" + priorityBean.getCreateBy() + "\"," + priorityBean.getCreateDate() + ",\"" + priorityBean.getWriteBy() + "\"," + priorityBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_priority values (" + priorityBean.getPriorityId() + ",\"" + priorityBean.getPriorityName() + "\",\"" + priorityBean.getPriorityCode() + "\"," + priorityBean.isStatus() + ",\"" + priorityBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + priorityBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -76,7 +76,7 @@ public class PriorityHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		PriorityBean priorityBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				priorityBean = new PriorityBean();
 				priorityBean.setPriorityId(rs.getInt("priorityId"));
 				priorityBean.setPriorityName(rs.getString("priorityName"));
@@ -96,8 +96,8 @@ public class PriorityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_priority set status = false where priorityId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_priority set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where priorityId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -125,7 +125,7 @@ public class PriorityHelper implements InterfaceHelper {
 
 			priorityBean = gson.fromJson(jsonString, PriorityBean.class);
 			return priorityBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;

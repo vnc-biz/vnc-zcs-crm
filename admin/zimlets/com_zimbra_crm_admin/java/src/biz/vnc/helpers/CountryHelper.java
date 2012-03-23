@@ -35,7 +35,7 @@ public class CountryHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		CountryBean countryBean = (CountryBean)ab;
-		String query = "insert into tbl_crm_country values (" + countryBean.getCountryId() + ",\"" + countryBean.getCountryName() + "\",\"" + countryBean.getCountryCode() + "\"," + countryBean.isStatus() + ",\"" + countryBean.getCreateBy() + "\"," + countryBean.getCreateDate() + ",\"" + countryBean.getWriteBy() + "\"," + countryBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_country values (" + countryBean.getCountryId() + ",\"" + countryBean.getCountryName() + "\",\"" + countryBean.getCountryCode() + "\"," + countryBean.isStatus() + ",\"" + countryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + countryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -83,7 +83,7 @@ public class CountryHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CountryBean countryBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				countryBean = new CountryBean();
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
@@ -103,8 +103,8 @@ public class CountryHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_country set status = false where countryId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_country set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where countryId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -135,7 +135,7 @@ public class CountryHelper implements InterfaceHelper {
 			//countryBean.setCountryName(gson.get("countryName").toString());
 			//countryBean.setCountryCode(gson.get("countryCode").toString());
 			return countryBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;

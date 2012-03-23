@@ -1,4 +1,3 @@
-
 function ZaEditStateXFormDialog(parent,  app, w, h, title) {
 	if (arguments.length == 0) return;
 	this._standardButtons = [DwtDialog.OK_BUTTON, DwtDialog.CANCEL_BUTTON];	
@@ -18,8 +17,9 @@ function() {
 	reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	reqJson = AjxStringUtil.urlEncode(json);
 	response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-	alert(response.text);
+	
 	this._containedObject[ZaCRMadmin.A_country] = jsonParse(response.text);
+
 
 	var len = this._containedObject[ZaCRMadmin.A_country].length;
 	var temp="[";
@@ -38,8 +38,6 @@ function() {
 	}
 	var chkListJson = eval(temp);
 	ZaEditStateXFormDialog.countryChoices= chkListJson;
-	alert("ABCD value===>"+ZaEditStateXFormDialog.countryChoices[0].value);
-	alert("ABCD label===>"+ZaEditStateXFormDialog.countryChoices[0].label);
 	var xFormObject = {
 		numCols:1,
 		items:[

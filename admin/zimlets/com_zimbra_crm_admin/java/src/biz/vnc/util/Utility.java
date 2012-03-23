@@ -18,19 +18,19 @@ public class Utility {
 		JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 		String objType = k.get("object").getAsString();
 		//JsonObject k = gson.fromJson(jString, JsonObject.class);
-		if (objType.equals("country")) {
+		if(objType.equals("country")) {
 			return new CountryHelper();
-		} else if (objType.equals("state")) {
+		} else if(objType.equals("state")) {
 			return new StateHelper();
-		} else if (objType.equals("category")) {
+		} else if(objType.equals("category")) {
 			return new CategoryHelper();
-		} else if (objType.equals("channel")) {
+		} else if(objType.equals("channel")) {
 			return new ChannelHelper();
-		} else if (objType.equals("section")) {
+		} else if(objType.equals("section")) {
 			return new SectionHelper();
-		} else if (objType.equals("priority")) {
+		} else if(objType.equals("priority")) {
 			return new PriorityHelper();
-		} else if (objType.equals("stage")) {
+		} else if(objType.equals("stage")) {
 			return new StageHelper();
 		}
 		return null;

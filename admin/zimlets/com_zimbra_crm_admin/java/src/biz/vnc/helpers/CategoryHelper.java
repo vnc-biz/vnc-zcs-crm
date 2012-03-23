@@ -29,7 +29,7 @@ public class CategoryHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		CategoryBean categoryBean = (CategoryBean)ab;
-		String query = "insert into tbl_crm_category values (" + categoryBean.getCategoryId() + ",\"" + categoryBean.getCategoryName() + "\"," + categoryBean.getSectionId() + "," + categoryBean.isStatus() + ",\"" + categoryBean.getCreateBy() + "\"," + categoryBean.getCreateDate() + ",\"" + categoryBean.getWriteBy() + "\"," + categoryBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_category values (" + categoryBean.getCategoryId() + ",\"" + categoryBean.getCategoryName() + "\"," + categoryBean.getSectionId() + "," + categoryBean.isStatus() + ",\"" + categoryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + categoryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -72,11 +72,11 @@ public class CategoryHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select categoryId,categoryName,s.sectionName,s.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.sectionId = s.sectionId;" ;
+		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.sectionId = s.sectionId;" ;
 		ResultSet rs = dbu.select(query);
 		CategoryBean categoryBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				categoryBean = new CategoryBean();
 				categoryBean.setCategoryId(rs.getInt("categoryId"));
 				categoryBean.setCategoryName(rs.getString("categoryName"));
@@ -96,8 +96,8 @@ public class CategoryHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_category set status = false where categoryId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_category set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where categoryId IN (" + arrayIds + ");" ;
 		System.out.println(query);
 		operationStatus = dbu.delete(query);
 		System.out.println(operationStatus);
@@ -127,7 +127,7 @@ public class CategoryHelper implements InterfaceHelper {
 
 			categoryBean = gson.fromJson(jsonString, CategoryBean.class);
 			return categoryBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;

@@ -27,7 +27,7 @@ public class StateHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		StateBean stateBean = (StateBean)ab;
-		String query = "insert into tbl_crm_state values (" +stateBean.getStateId() + ",\"" + stateBean.getStateName() + "\",\"" + stateBean.getStateCode() + "\"," + stateBean.getCountryId() + "," + stateBean.isStatus() + ",\"" + stateBean.getCreateBy() + "\"," + stateBean.getCreateDate() + ",\"" + stateBean.getWriteBy() + "\"," + stateBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_state values (" +stateBean.getStateId() + ",\"" + stateBean.getStateName() + "\",\"" + stateBean.getStateCode() + "\"," + stateBean.getCountryId() + "," + stateBean.isStatus() + ",\"" + stateBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + stateBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -75,7 +75,7 @@ public class StateHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StateBean stateBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				stateBean = new StateBean();
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
@@ -97,8 +97,8 @@ public class StateHelper implements InterfaceHelper {
 
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_state set status = false where stateId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_state set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where stateId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -127,7 +127,7 @@ public class StateHelper implements InterfaceHelper {
 			//stateBean.setStateName(gson.get("stateName").toString());
 			//stateBean.setStateCode(gson.get("stateCode").toString());
 			return stateBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;

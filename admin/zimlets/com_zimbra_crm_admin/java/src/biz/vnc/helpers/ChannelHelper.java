@@ -29,7 +29,7 @@ public class ChannelHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		ChannelBean channelBean = (ChannelBean)ab;
-		String query = "insert into tbl_crm_channel values (" + channelBean.getChannelId() + ",\"" + channelBean.getChannelName() + "\"," + channelBean.isStatus() + ",\"" + channelBean.getCreateBy() + "\"," + channelBean.getCreateDate() + ",\"" + channelBean.getWriteBy() + "\"," + channelBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_channel values (" + channelBean.getChannelId() + ",\"" + channelBean.getChannelName() + "\"," + channelBean.isStatus() + ",\"" + channelBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + channelBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
 		System.out.println("Operation Status :  " + operationStatus);
 		return operationStatus;
@@ -76,7 +76,7 @@ public class ChannelHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		ChannelBean channelBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				channelBean = new ChannelBean();
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
@@ -95,8 +95,8 @@ public class ChannelHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_channel set status = false where channelId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds,String user) {
+		String query = "update tbl_crm_channel set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where channelId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -124,7 +124,7 @@ public class ChannelHelper implements InterfaceHelper {
 
 			channelBean = gson.fromJson(jsonString, ChannelBean.class);
 			return channelBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;

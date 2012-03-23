@@ -18,7 +18,6 @@ function() {
 	reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	reqJson = AjxStringUtil.urlEncode(json);
 	response = AjxRpc.invoke(reqJson,com_zimbra_crm_admin.jspUrl, reqHeader, null, false);
-	alert(response.text);
 	this._containedObject[ZaCRMadmin.A_section] = jsonParse(response.text);
 
 	var len = this._containedObject[ZaCRMadmin.A_section].length;

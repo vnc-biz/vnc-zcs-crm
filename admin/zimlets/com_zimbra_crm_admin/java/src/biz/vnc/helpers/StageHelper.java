@@ -29,7 +29,7 @@ public class StageHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 
 		StageBean stageBean = (StageBean)ab;
-		String query = "insert into tbl_crm_stage values (" + stageBean.getStageId() + ",\"" + stageBean.getStageName() + "\"," + stageBean.getStageSequence() + "," + stageBean.getStageType() + "," + stageBean.getStageProbability() + ",\"" + stageBean.getStageDescription() + "\"," + stageBean.getStageAuto() + "," + stageBean.isStatus() + ",\"" + stageBean.getCreateBy() + "\"," + stageBean.getCreateDate() + ",\"" + stageBean.getWriteBy() + "\"," + stageBean.getWriteDate() + ");" ;
+		String query = "insert into tbl_crm_stage values (" + stageBean.getStageId() + ",\"" + stageBean.getStageName() + "\"," + stageBean.getStageSequence() + "," + stageBean.getStageType() + "," + stageBean.getStageProbability() + ",\"" + stageBean.getStageDescription() + "\"," + stageBean.getStageAuto() + "," + stageBean.isStatus() + ",\"" + stageBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + stageBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		System.out.println("query ------------->" + query);
 		operationStatus = dbu.insert(query);
 		return operationStatus;
@@ -81,7 +81,7 @@ public class StageHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StageBean stageBean = null;
 		try {
-			while (rs.next()) {
+			while(rs.next()) {
 				stageBean = new StageBean();
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
@@ -105,8 +105,8 @@ public class StageHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteByIds(String arrayIds) {
-		String query = "update tbl_crm_stage set status = false where stageId IN (" + arrayIds + ");" ;
+	public int deleteByIds(String arrayIds, String user) {
+		String query = "update tbl_crm_stage set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where stageId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -134,7 +134,7 @@ public class StageHelper implements InterfaceHelper {
 
 			stageBean = gson.fromJson(jsonString, StageBean.class);
 			return stageBean;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
