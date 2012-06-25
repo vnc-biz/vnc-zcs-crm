@@ -1,0 +1,5 @@
+<template id='Frame'>
+	<div align=center  style='display:block;overflow:auto;background:white;'  id='linkedInZimlet_MainDiv'>
+	This is a zimbra CRM zimlet.
+	</div>
+</template>

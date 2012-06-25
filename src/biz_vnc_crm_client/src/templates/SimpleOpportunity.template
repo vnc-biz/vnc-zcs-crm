@@ -1,0 +1,3 @@
+<template id="MainOpportunity">
+<div id="datagridOpportunity"  style="background: #DADADA"></div>
+</template>

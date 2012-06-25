@@ -1,0 +1,10 @@
+VERSION=1.0.0
+PACKAGE=zimlet-template
+MAINTAINER=Enrico Weigelt <enrico.weigelt@vnc.biz>
+SECTION=base
+ARCHITECTURE=All
+PRIORITY=optional
+DEPENDS=
+DESCRIPTION=Zimlet package template
+REDMINE_UPLOAD_PROJECT=zcs-extension-template
+REDMINE_UPLOAD_URL=https://redmine.vnc.biz/redmine/

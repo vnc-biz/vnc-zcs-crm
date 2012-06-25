@@ -1,0 +1,87 @@
+.AttachMailTabBox
+{
+	background-color:#FDFCFA;
+	height:227px!important;
+	width:385px!important;
+}
+
+.AttachMailTabBox .AttachMailList
+{
+	width:385px;
+}
+
+.ImgtabIcon
+{
+	background:url(group.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Imgnew
+{
+	background:url(new.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Imgopen
+{
+	background:url(open.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Imgpending
+{
+	background:url(pending.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Imgtoday
+{
+	background:url(today.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Imgweek
+{
+	background:url(week.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.Icnweek
+{
+	background:url(week.png) no-repeat 0 0;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.ImgLinkedinZimletIcon
+{
+	background:url(group.png) no-repeat center center;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+}
+
+.LinkedInText
+{
+	color:blue;
+	font-size:12px;
+	font-weight:700;
+}
+
+.LinkedInHeader
+{
+	border-right:gray solid 1px;
+}

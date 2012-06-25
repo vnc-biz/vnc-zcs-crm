@@ -1,0 +1,168 @@
+.add
+{
+	background-image:url(images/add.gif)!important;
+}
+
+.add16
+{
+	background-image:url(./default/btn/edit.png)!important;
+}
+
+.add_contact
+{
+	background-image:url(./default/btn/add_contact.png)!important;
+}
+
+.phone
+{
+	background-image:url(./default/btn/phone.png)!important;
+}
+
+.meeting
+{
+	background-image:url(./default/btn/meeting.png)!important;
+}
+
+.open
+{
+	background-image:url(./default/btn/forward.png)!important;
+}
+
+.save
+{
+	background-image:url(./default/btn/save.png)!important;
+}
+
+.attachment
+{
+	background-image:url(./default/btn/attachment.png)!important;
+}
+
+.task
+{
+	background-image:url(./default/btn/task.png)!important;
+}
+
+.refresh
+{
+	background-image:url(./default/btn/refresh.png)!important;
+}
+
+.appointment
+{
+	background-image:url(./default/btn/appointment.png)!important;
+}
+
+.email
+{
+	background-image:url(./default/btn/email.png)!important;
+}
+
+.cancel
+{
+	background-image:url(./default/btn/cancel.png)!important;
+}
+
+.cancel1
+{
+	icon:url(./default/btn/cancel.png)!important;
+}
+
+.pending
+{
+	background-image:url(./default/btn/pending.png)!important;
+}
+
+.convert
+{
+	background-image:url(./default/btn/convert.png)!important;
+}
+
+.add24
+{
+	background-image:url(./default/btn/create.png)!important;
+}
+
+.delete
+{
+	background-image:url(./default/btn/delete.png)!important;
+}
+
+.remove
+{
+	background-image:url(../menu/images/delete.gif)!important;
+}
+
+.edit
+{
+	background-image:url(../menu/images/edit.gif)!important;
+}
+
+.find
+{
+	background-image:url(../menu/images/find.gif)!important;
+}
+
+.view
+{
+	background-image:url(../menu/images/view.gif)!important;
+}
+
+.money-up
+{
+	background-image:url(images/money_add.png)!important;
+}
+
+.money-down
+{
+	background-image:url(images/money_delete.png)!important;
+}
+
+.btn-panel td
+{
+	padding-left:5px;
+}
+
+h2
+{
+	color:#083772!important;
+	margin:20px 0 0!important;
+	padding:5px;
+	background:#eee;
+	width:400px;
+}
+
+h3
+{
+	font-weight:400;
+}
+
+.company
+{
+	float:left;
+	width:179px;
+	height:30px;
+	margin:5px;
+	padding:5px;
+	cursor:pointer;
+}
+
+.company h3
+{
+	font-weight:700;
+}
+
+.company .up
+{
+	color:green;
+}
+
+.company .down
+{
+	color:red;
+}
+
+.company.x-view-selected
+{
+	background-color:#efefef;
+}
