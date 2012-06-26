@@ -3,7 +3,7 @@ ZmReportView.prototype.constructor = ZmReportView;
 
 ZmReportView.prototype.toString = function() {
 		return "ZmReportView";
-}
+};
 
 ZmReportView.createForm = function(app){
 	var content = AjxTemplate.expand("biz_vnc_crm_client.templates.SimpleOpportunity#MainOpportunity");
@@ -38,7 +38,7 @@ ZmReportView.createForm = function(app){
 			,'Ext.layout.container.Card'
 			,'Ext.chart.*'
 			,'Ext.EventManager'
-			,'Ext.ux.grid.Printer'
+			//,'Ext.ux.grid.Printer'
 		]);
 
 // -------------data load-----------------------------------------------------------------	
@@ -93,7 +93,7 @@ ZmReportView.createForm = function(app){
   		{name: 'nextAction', type: 'string'},
 		{name: 'status', type: 'bool'},
 		{name: 'createBy', type: 'string'},
-		{name: 'createDate', type: 'date'},
+		{name: 'createDate', type: 'string'},
 		{name: 'writeBy', type: 'string'},
   		{name: 'writeDate', type: 'date'}
         ]
@@ -109,7 +109,7 @@ ZmReportView.createForm = function(app){
 		var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 		var reqJson = AjxStringUtil.urlEncode(json);
 		var responseOpportunity = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	//	alert(responseOpportunity.text);
+		alert(responseOpportunity.text);
 
 //---------------------------combo panel start --------------------------------
 var typeData = Ext.create('Ext.data.Store', {
@@ -164,7 +164,7 @@ Ext.create('Ext.panel.Panel', {
 					queryMode: 'local',
 					displayField: 'name',
 					labelWidth:130,
-					valueField: 'value',
+					valueField: 'value'
 					
 				}]
 				}],
@@ -172,7 +172,7 @@ Ext.create('Ext.panel.Panel', {
 			
 		
 		//html: '<p>World!</p>',
-		renderTo: 'datagridOpportunity',
+		renderTo: 'datagridOpportunity'
 });
 //--------------------------- combo panel end --------------------------------
 
@@ -220,7 +220,8 @@ Ext.create('Ext.panel.Panel', {
 			   stripeRows: true
 			},
 			columns: [
-				{text: biz_vnc_crm_client.creationDate, width: 160, renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), dataIndex: 'createDate'},
+				{text: biz_vnc_crm_client.creationDate, width: 160, dataIndex: 'createDate'},
+				   // renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), 
 				{text: biz_vnc_crm_client.subject, width: 160, dataIndex: 'subjectName'},
 		//		{text: biz_vnc_crm_client.contactName, width: 160, dataIndex: 'contactName'},
 		//		{text: biz_vnc_crm_client.email, width: 160, dataIndex: 'email'},
@@ -288,7 +289,8 @@ var oppGridWindow = Ext.create('widget.window', {
 		   stripeRows: true
 		},
 		columns: [
-			{header: biz_vnc_crm_client.creationDate, width: 120, dataIndex: 'createDate', renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), sortable: true},
+			{header: biz_vnc_crm_client.creationDate, width: 120, dataIndex: 'createDate', sortable: true},
+			   //renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), 
 			{header: biz_vnc_crm_client.opportunity, width: 150, dataIndex: 'subjectName', sortable: true},
 		//	{header: biz_vnc_crm_client.customer, width: 150, dataIndex: 'contactName', sortable: true},
 		//	{header: biz_vnc_crm_client.nextActionDate, width: 120, dataIndex: 'nextActionDate', renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), sortable: true},
@@ -582,41 +584,48 @@ var oppGridWindow = Ext.create('widget.window', {
 	var jan=feb=march=april=may=jun=jul=aug=sep=oct=nov=dec=0;
 	for(var i =0; i< oppData.length;i++)
 	{
-	// alert("oppData[i].createDate--new date-"+new Date(oppData[i].createDate).getMonth());
-	 if (new Date(oppData[i].createDate).getMonth() == 0)
+
+	//	alert("oppData[i].createDate--new date--->"+new Date(oppData[i].createDate).getMonth());
+		date = oppData[i].createDate;
+	//	alert("b4====>"+date);
+		date = date.split(" ");
+		date = date[0];
+	//	alert("a4====>"+date);
+	//			alert("a4==datee[0]==>"+date);
+	 if (new Date(date).getMonth() == 0)
 	 {
 		jan +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 1)
+	 } else if (new Date(date).getMonth() == 1)
 	 {
 		feb +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 2)
+	 } else if (new Date(date).getMonth() == 2)
 	 {
 		march +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 3)
+	 } else if (new Date(date).getMonth() == 3)
 	 {
 		april +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 4)
+	 } else if (new Date(date).getMonth() == 4)
 	 {
 		may +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 5)
+	 } else if (new Date(date).getMonth() == 5)
 	 {
 		jun +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 6)
+	 } else if (new Date(date).getMonth() == 6)
 	 {
 		jul +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 7)
+	 } else if (new Date(date).getMonth() == 7)
 	 {
 		aug +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 8)
+	 } else if (new Date(date).getMonth() == 8)
 	 {
 		sep +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 9)
+	 } else if (new Date(date).getMonth() == 9)
 	 {
 		oct +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 10)
+	 } else if (new Date(date).getMonth() == 10)
 	 {
 		nov +=parseInt(oppData[i].valuation);
-	 } else if (new Date(oppData[i].createDate).getMonth() == 11)
+	 } else if (new Date(date).getMonth() == 11)
 	 {
 		
 		dec +=parseInt(oppData[i].valuation);

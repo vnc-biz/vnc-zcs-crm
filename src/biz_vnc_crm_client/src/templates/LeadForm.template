@@ -1,3 +1,3 @@
 <template id="LeadFormMain">
-<div id="LeadForm"  style="background: #DADADA"></div>
+<div id="LeadForm"  style="background: #DADADA; overflow:auto; width:100%; height:100%;"></div>
 </template>

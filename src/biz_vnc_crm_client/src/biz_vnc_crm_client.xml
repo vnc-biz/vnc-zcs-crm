@@ -8,6 +8,7 @@
 	<include>ZmReportView.js</include>
 	<include>templates/LinkedIn.template.js</include>
 	<include>ZmOpportunityListView.js</include>
+	<include>ZmDashboardView.js</include>
 	<include>json-minified.js</include>
 	<includeCSS>My.css</includeCSS>
 	<includeCSS>ext-all.css</includeCSS>
