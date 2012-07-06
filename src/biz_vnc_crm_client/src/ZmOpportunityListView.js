@@ -1,7 +1,6 @@
 
 ZmOpportunityListView.prototype.getContacts=function(offset, contactList, rec, app){
-			console.log("rec print----"+app);			
-			console.log(rec);
+			console.log("5");		
 			contactBook="Contacts";
 			if(contactBook == null){
 				return;
@@ -29,10 +28,9 @@ ZmOpportunityListView.prototype.getContacts=function(offset, contactList, rec, a
 		};
 			
 ZmOpportunityListView.prototype.handleGetContactsResponse = function(app, contactList, rec, result) {
+		console.log("6");
 		if (result) {
-			console.log("rec print contactlist------"+app);			
-			console.log(contactList);
-			console.log(rec);
+
 				var contactList = [];
 				var response = result.getResponse().SearchResponse;
 				var responseContactList = response[ZmList.NODE[ZmItem.CONTACT]];
@@ -45,7 +43,7 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function(app, contac
 
 					}
 				}
-				console.log("rec======contact response======>"+rec);
+				
 				ZmOpportunityListView.createForm(rec, contactList, app);
 
 				 if (response.more) {
@@ -68,18 +66,23 @@ ZmOpportunityListView.prototype.toString = function() {
 
 
 ZmOpportunityListView.createForm = function(rec, contactList, app){
+	console.log("7");
 	var toolbar = app.getToolbar();
 	toolbar.setVisibility(false);
 	//var mailData;	
 	//mailData = eval(mailData);
-	console.log("mailData :: > " + biz_vnc_crm_client.mailData);
+	var oppTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
+	biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
 	if(biz_vnc_crm_client.mailData == ""){
+		console.log("8");
 		biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
 	}
 	var temp = "[";
 	for (var i = 0; i < contactList.length; i++) {
+		console.log("9");
 		var contact = contactList[i];
 		if(i == contactList.length-1) {
+			console.log("10");
 			temp +="{\"value\":\""+contact.id+"\",\"label\":\""+contact._attrs.firstName+"\"}]";
 		} else {
 			temp +="{\"value\":\""+contact.id+"\",\"label\":\""+contact._attrs.firstName+"\"},";
@@ -91,7 +94,6 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 	];*/
 
 	
-	console.log(temp);
 	var json,responsePriority,responseCategory,responseStage,responseChannel,responseState,responseMailHistory,responseCountry,responseSection,responseCompany,responseContactName,responseUser;
 	var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 	var reqJson;
@@ -241,19 +243,24 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 			{name: 'message', type: 'string'}
 		]
 	});
-	Ext.define('task',{ 
+console.log("10");
+Ext.define('oppTaskModel',{ 
 		extend:'Ext.data.Model',
 		fields:[
+			{name: 'taskId', type: 'string'},
 			{name: 'subject', type: 'string'},
 			{name: 'status', type: 'string'},
-			{name: 'calendar', type: 'string'},
-			{name: 'startdate', type: 'string'}
+			{name: 'complete', type: 'string'},
+			{name: 'dueDate', type: 'date'}
+			
 		]
 	});
+
 
 	Ext.define('appt',{ 
 		extend:'Ext.data.Model',
 		fields:[
+			{name: 'appointmentId', type: 'string'},
 			{name: 'subject', type: 'string'},
 			{name: 'location1', type: 'string'},
 			{name: 'status', type: 'string'},
@@ -261,7 +268,7 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 			{name: 'startdate', type: 'string'}
 		]
 	});
-
+console.log("11");
 	var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
 
@@ -281,7 +288,7 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 			}
         }
     });
-var smTask = Ext.create('Ext.selection.CheckboxModel', {
+var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
 
 		
@@ -300,8 +307,6 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 });
 
 
-var taskData = [{'subject':'Deposit cheque of Jignesh','status':'Not Started','calendar':'0%','startdate':'Jun 17 2012'},{'subject':'Purchase of new hard disks','status':'Not Started','calendar':'0%','startdate':'Jun 17 2012'}];
-var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':'Ahmedabad Office','status':'Accepted','calendar':'Calendar','startdate':'Jun 17 2012'}];
 
 	var historyGrid;
 	var tab2 = Ext.create('Ext.form.Panel', {
@@ -540,6 +545,7 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
         },{
             xtype:'tabpanel',
             plain:true,
+			id: 'oppTabPanel',
             activeTab: 0,
             height:'80%',
             defaults:{bodyStyle:'padding:10px'},
@@ -577,7 +583,6 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 					listeners:{
 						change:function(combo, ewVal, oldVal) {
 						var selname = Ext.getCmp('cmbOpppartner').getValue();
-						console.log(contactList);
 						for (var i = 0; i < contactList.length; i++) {
 							if(contactList[i].id == selname) {
 								var contactName = contactList[i]._attrs.firstName +" "+contactList[i]._attrs.lastName;
@@ -896,6 +901,25 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 						handler: function(){
 							var leadId = rec.get('leadId');
 							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlg(leadId);
+							if(rec!=null){
+										var leadId = rec.get('leadId');
+										var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+										var reqJson = AjxStringUtil.urlEncode(json);
+										var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+										var msgArray = [];
+										var item;
+										var msgArray = (responseMailHistory.text).split(",");
+
+										//biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+										if(msgArray != "null"){
+											biz_vnc_crm_client.requestMailList(msgArray);
+										}else{
+											biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+										}
+										Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData),false);
+										Ext.getCmp('oppMailGrid').getView().refresh();
+							}
 						}
 					}, {
 						iconCls: 'cancel',
@@ -909,35 +933,37 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 								if(btn == "no"){
 									Ext.example.msg('No', 'You cancelled the deletion..');		
 								}else {
-									var rec1 = Ext.getCmp('mailGrid').getSelectionModel().getSelection();
+									var rec1 = Ext.getCmp('oppMailGrid').getSelectionModel().getSelection();
 									var idArray = [];
 									Ext.each(rec1, function (item) {
 											idArray.push(item.data.mailId);
 									});
-									var json = "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+
+									var leadId = rec.get('leadId')
+									var json = "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
 									var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 									var reqJson = AjxStringUtil.urlEncode(json);
 									var responseUser = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 								
 									if(rec!=null){
-											var leadId = rec.get('leadId');
-											var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
-											var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
-											var reqJson = AjxStringUtil.urlEncode(json);
-											var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-											var msgArray = [];
-											var item;
-											var msgArray = (responseMailHistory.text).split(",");
-											var len = msgArray.length;
-											var i=0;
-											console.log(msgArray);
-											if(msgArray != "null"){
-												var flag = 3;
-												biz_vnc_crm_client.mailData = "[";
-												item = new ZmMailMsg(msgArray[i],null,true);
-												item.load({"noBusyOverlay":true,"forceLoad": true,"callback":new AjxCallback(this,biz_vnc_crm_client._loadData,[i,msgArray,rec,flag])});
-											}
+										var leadId = rec.get('leadId');
+										var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+										var reqJson = AjxStringUtil.urlEncode(json);
+										var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+										var msgArray = [];
+										var item;
+										var msgArray = (responseMailHistory.text).split(",");
+
+										//biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+										if(msgArray != "null"){
+											biz_vnc_crm_client.requestMailList(msgArray);
+										}else{
+											biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
 										}
+										Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData),false);
+										Ext.getCmp('oppMailGrid').getView().refresh();
+									}
 								}
 							};
 						}
@@ -969,12 +995,12 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 									var msgArray = (responseMailHistory.text).split(",");
 									var len = msgArray.length;
 									var i=0;
-									console.log(msgArray);
 									if(msgArray != "null"){
 										var flag = 3;
 										biz_vnc_crm_client.mailData = "[";
+										console.log("not null msgarray");
 										item = new ZmMailMsg(msgArray[i],null,true);
-										item.load({"noBusyOverlay":true,"forceLoad": true,"callback":new AjxCallback(this,biz_vnc_crm_client._loadData,[i,msgArray,rec,flag])});
+										item.load({"noBusyOverlay":true,"forceLoad": true,"callback":new AjxCallback(this,biz_vnc_crm_client._loadData,[i,msgArray,rec,flag]),"errorCallback":new AjxCallback(this,biz_vnc_crm_client._errorloadData)});
 									}/*else{
 										biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
 										var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");		
@@ -989,7 +1015,7 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 					},{
 						xtype: 'grid',
 						selModel:sm,
-						id: 'mailGrid',
+						id: 'oppMailGrid',
 						//margin: 0 0 0 0,
 						defaults: {
 							autoRender: true,	
@@ -1080,7 +1106,14 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 						itemId: 'newappoint',
 						//scope: this,
 						handler: function(){
-							//store1.loadData(biz_vnc_crm_client.mailData);										
+							AjxDispatcher.run("GetCalController").newAppointment(null, null, null, null);
+						   //var calApp = appCtxt.getApp(ZmApp.CALENDAR);
+						   var calController = appCtxt.getCurrentController();
+						   console.log(calController);
+						   calController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
+						   calController.getToolbar().addSelectionListener(ZmOperation.CANCEL,new AjxListener(this,ZmOpportunityListView._oppCalCancelListener,[app]));
+						   calController.getToolbar().addSelectionListener(ZmOperation.SAVE,new AjxListener(this,ZmOpportunityListView._oppCalSaveListener,[app]));
+							
 						}
 					}, {
 						iconCls: 'refresh',
@@ -1093,7 +1126,7 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 					},{
 						xtype: 'grid',
 						selModel:smAppoint,
-						id: 'appointGrid',
+						id: 'oppApptGrid',
 						//margin: 0 0 0 0,
 						defaults: {
 							autoRender: true,	
@@ -1103,7 +1136,7 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 							model:'appt',
 							proxy:{
 								type:'memory',
-								data:apptData
+								data:jsonParse(biz_vnc_crm_client.apptData)
 							},
 							autoLoad:true,
 							actionMethods:{read:'POST'}
@@ -1152,7 +1185,7 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 				}]
 		  },{
                 title:'Tasks',
-				id: 'task',
+				id: 'oppTask',
           		layout:'column',
 				//margin: 0 0 0 0,
 				width: '100%',
@@ -1165,9 +1198,12 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 						//scope: this,
 						handler: function(){
 							var leadId = rec.get('leadId');
-							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlg(leadId);
+							//appCtxt.getAppViewMgr().pushView("TKL");
+							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlgForTask(leadId);
+							
+
 						}
-					}, {
+					},  {
 						iconCls: 'cancel',
 						text: 'Delete',
 						//disabled: true,
@@ -1179,18 +1215,90 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 								if(btn == "no"){
 									Ext.example.msg('No', 'You cancelled the deletion..');		
 								}else {
-									Ext.example.msg('Yes', 'Save successfully..');		
-								}
+										var rec1 = Ext.getCmp('oppTaskGrid').getSelectionModel().getSelection();
+										var idArray = [];
+										Ext.each(rec1, function (item) {
+												idArray.push(item.data.taskId);
+										});
+									
+										var leadId = rec.get('leadId');
+										var json = "jsonobj={\"action\":\"DELETETASK\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
+										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+										var reqJson = AjxStringUtil.urlEncode(json);
+										var responseUser = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+										
+										if(rec!=null){
+											var leadId = rec.get('leadId');
+											var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+											var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+											var reqJson = AjxStringUtil.urlEncode(json);
+											var responseTaskList = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+											var newtaskArray = (responseTaskList.text).split(",");
+
+											var allTask = appCtxt.getTaskManager()._rawTasks;
+																	
+											var taskArray = [];
+											if (newtaskArray != null)
+											{
+												
+												var k=0;
+												for (var i=0;i<allTask.length;i++) {
+													for (var j=0;j<newtaskArray.length ;j++)
+													{
+														if (allTask[i].id == newtaskArray[j])
+														{
+															taskArray[k++] = newtaskArray[j];
+														}
+													}
+												}
+											}
+											if (taskArray.length <= 0)
+											{
+												oppTaskListData ="[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+											} else {
+												oppTaskListData = "[";
+												var flag=0;
+												for (var i=0;i<allTask.length;i++) {
+													var temp = allTask[i];
+													for (var j=0;j<taskArray.length;j++) {
+														if (temp.id == taskArray[j]) {
+															if(flag == taskArray.length-1) {
+																oppTaskListData +="{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+															} else {
+																oppTaskListData +="{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+																flag++;
+															}
+														}
+													}
+												}
+											}
+											
+											Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData),false);
+											Ext.getCmp('oppTaskGrid').getView().refresh();
+											
+										}
+
+										
+									}
 							};
 						}
 					},{
 						iconCls: 'task',
 						text: 'New',
 						//disabled: true,
-						itemId: 'newappoint',
+						itemId: 'newtask',
 						//scope: this,
 						handler: function(){
-							//store1.loadData(biz_vnc_crm_client.mailData);										
+							var taskApp = appCtxt.getApp(ZmApp.TASKS);
+							taskApp._handleLoadNewTask();
+							//AjxDispatcher.require(["TasksCore", "Tasks"]);
+							var taskController = appCtxt.getCurrentController();
+							console.log(taskController);
+							taskController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
+							taskController.getToolbar().addSelectionListener(ZmOperation.CANCEL,new AjxListener(this,ZmOpportunityListView._oppTaskCancelListener,[app]));
+							taskController.getToolbar().addSelectionListener(ZmOperation.SAVE,new AjxListener(this,ZmOpportunityListView._oppTaskSaveListener,[app]));
+						
 						}
 					}, {
 						iconCls: 'refresh',
@@ -1202,47 +1310,46 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 					}]
 					},{
 						xtype: 'grid',
-						selModel:smTask,
-						id: 'taskGrid',
+						selModel:oppSMTask,
+						id: 'oppTaskGrid',
 						//margin: 0 0 0 0,
 						defaults: {
 							autoRender: true,	
 							autoScroll: true
 						},
 						store: Ext.create('Ext.data.Store', {
-							model:'task',
+							model:'oppTaskModel',
 							proxy:{
 								type:'memory',
-								data:taskData
+								data:jsonParse(oppTaskListData)
 							},
 							autoLoad:true,
 							actionMethods:{read:'POST'}
 						}),
 						columnLines: true,
-						columns: [
-							{
+						columns: [{
 								text     : 'Subject',
 								sortable : false,
-								width: 450,
+								width: 600,
 								dataIndex: 'subject'
 							},
 							{
 								text     : 'Status', 
-								width    : 300, 
+								width    : 200, 
 								sortable : true, 
 								dataIndex: 'status'
 							},
 							{
 								text     : '% Complete', 
-								width    : 350, 
+								width    : 100, 
 								sortable : true, 
-								dataIndex: 'calendar'
+								dataIndex: 'complete'
 							},
 							{
 								text     : 'Due Date',
 								sortable : false,
-								width: 250,
-								dataIndex: 'startdate',
+								width: 200,
+								dataIndex: 'dueDate',
 								renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
 							}
 						],
@@ -1329,30 +1436,102 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 						anchor:'60%'
 				}]
 			   }]
-		  }]/*,
+		  }],
 			listeners: {
                 'tabchange': function(tabPanel, tab){
-                    if(tab.id == 'comm'){
+                    if(tab.id == 'appointment'){
 						if(rec!=null){
 							var leadId = rec.get('leadId');
-							json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
-							reqJson = AjxStringUtil.urlEncode(json);
-							responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-							alert(responseMailHistory.text);
-							console.log(responseMailHistory);
+							var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+							var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+							var reqJson = AjxStringUtil.urlEncode(json);
+							var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 							var msgArray = [];
 							var item;
 							var msgArray = (responseMailHistory.text).split(",");
-							for(var i=0;i<msgArray.length;i++){
-								alert("Fetching :" + msgArray[i]);
-								item = new ZmMailMsg(msgArray[i],null,true);//ZmMailMsg.fetchMsg({msgId:msgArray[i]});
-								item.load({"noBusyOverlay":true,"forceLoad": true,"callback":new AjxCallback(this,ZmOpportunityListView._loadData,[i,msgArray.length])});
-								console.log(item);
+							alert("msgArray===========>"+msgArray);			
+							if(msgArray != "null"){
+								biz_vnc_crm_client.requestApptList(msgArray);
+													
+							//	Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData),false);
+							//	Ext.getCmp('oppApptGrid').getView().refresh();
+							}else{
+								biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+							}
+						}
+					} else if (tab.id == 'oppTask'){
+						if(rec!=null){
+							var leadId = rec.get('leadId');
+							var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+							var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+							var reqJson = AjxStringUtil.urlEncode(json);
+							var responseOppTaskList = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+							var newtaskArray = (responseOppTaskList.text).split(",");
+
+							var allTask = appCtxt.getTaskManager()._rawTasks;
+							var taskArray = [];
+							if (newtaskArray != null)
+							{
+								
+								var k=0;
+								for (var i=0;i<allTask.length;i++) {
+									for (var j=0;j<newtaskArray.length ;j++)
+									{
+										if (allTask[i].id == newtaskArray[j])
+										{
+											taskArray[k++] = newtaskArray[j];
+										}
+									}
+								}
+							}
+							if (taskArray.length <= 0)
+							{
+								oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+							} else {
+								oppTaskListData = "[";
+								var flag=0;
+								for (var i=0;i<allTask.length;i++) {
+									var temp = allTask[i];
+									for (var j=0;j<taskArray.length;j++) {
+										if (temp.id == taskArray[j]) {
+											if(flag == taskArray.length-1) {
+												oppTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+											} else {
+												oppTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+												flag++;
+											}
+										}
+									}
+								}
+							}
+							Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData),false);
+							Ext.getCmp('oppTaskGrid').getView().refresh();
+						}
+
+					} else if(tab.id == 'comm'){
+						if(rec!=null){
+							var leadId = rec.get('leadId');
+							var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+							var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+							var reqJson = AjxStringUtil.urlEncode(json);
+							var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+							var msgArray = [];
+							var item;
+							var msgArray = (responseMailHistory.text).split(",");
+					
+							if(msgArray != "null"){
+								biz_vnc_crm_client.requestMailList(msgArray);
+													
+								Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData),false);
+								Ext.getCmp('oppMailGrid').getView().refresh();
+							}else{
+								biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
 							}
 						}
 					}
                 }
-            }*/
+            }
         }],
         buttons: [{
 			text: 'Save',
@@ -1489,7 +1668,10 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 			
         }]
     });
-    tab2.render(OpportunityForm);
+
+
+console.log("14");
+    tab2.render("OpportunityForm");
 	
 	if(rec!=null){
 
@@ -1580,3 +1762,22 @@ var apptData = [{'subject':'Meeting with Jignesh about price quote','location1':
 	}
 
 };
+
+
+
+ZmOpportunityListView._oppTaskCancelListener = function(app) {
+ app.pushView(app.getName());
+}
+
+ZmOpportunityListView._oppTaskSaveListener = function(app){
+ alert("Helo world");
+}
+
+
+ZmOpportunityListView._oppCalCancelListener = function(app) {
+ app.pushView(app.getName());
+}
+
+ZmOpportunityListView._oppCalSaveListener = function(app){
+ alert("Helo world");
+}

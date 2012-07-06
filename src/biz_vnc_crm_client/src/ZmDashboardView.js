@@ -68,15 +68,14 @@ ZmDashboardView.dashboard = function(app){
 				{ 'name': 'Pending', 'data': pendinglead}
 			]});
 
-		var donut = false,
+		var donut = false;
+		//Ext.getBody().update('<html><body><div id="datagrid"></div></body></html>');
 		leadChart = Ext.create('Ext.chart.Chart', {
 				xtype: 'chart',
 				id: 'chartCmp',
-				animate: true,
+				animate: false,
 				store: leadChartStore,
-				height: 200,
-				width: 350,
-				shadow: true,
+				shadow: false,
 				legend: {
 					position: 'right'
 				},
@@ -179,6 +178,7 @@ ZmDashboardView.dashboard = function(app){
    { 'name': 'Pending', 'data': pendingopp}
   ]
  });
+var date;
 var jan=feb=march=april=may=jun=jul=aug=sep=oct=nov=dec=0;
  for(var i =0; i< oppData.length;i++)
  {
@@ -250,7 +250,8 @@ var oppChart = Ext.create('Ext.chart.Chart', {
             style: 'background:#fff',
             animate: true,
             shadow: true,
-
+			height: 440,
+			width: 300,
             store: oppChartStore,
             axes: [{
                 type: 'Numeric',
@@ -408,18 +409,13 @@ var oppChart = Ext.create('Ext.chart.Chart', {
 		height: 300,
 		x:10,
 		y:10,
-		defaults: {
-			autoRender: true,	
-			autoScroll: true
-		},
 		title: 'My Opportunities',
         id:'oppPanel',
-		//layout: 'border',
+		layout: 'fit',
         //bodyBorder: true,
 		items: [{
 		xtype: 'grid',
 		id: 'opportunityGrid',
-		//layout: 'fit',
 		defaults: {
 			autoRender: true,	
 			autoScroll: true
@@ -530,17 +526,11 @@ var oppChart = Ext.create('Ext.chart.Chart', {
 		height: 300,
 		x:10,
 		y: 320,
-		defaults: {
-			autoRender: true,	
-			autoScroll: true
-		},
-        id:'leadPanel',
-		//layout: 'border',
-        //bodyBorder: true,
+		id:'leadPanel',
+		layout: 'fit',
 		items: [{
 		xtype: 'grid',
 		id: 'leadGrid',
-		//layout: 'fit',
 		defaults: {
 			autoRender: true,	
 			autoScroll: true

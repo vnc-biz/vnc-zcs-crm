@@ -110,8 +110,9 @@
 				 else if(actionType.equals("DELETEHISTORY")){
                         try{
                                 String array = k.get("array").getAsString();
+								String leadId = k.get("leadId").getAsString();
 							//	String user = k.get("writeBy").getAsString();
-                                operationStatus = interfaceHelper.deleteHistory(array);
+                                operationStatus = interfaceHelper.deleteHistory(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
                                 e.printStackTrace();
@@ -150,10 +151,41 @@
                                 e.printStackTrace();
                         }
                 }
+				else if(actionType.equals("DELETETASK")){
+                        try{
+                                String array = k.get("array").getAsString();
+								String leadId = k.get("leadId").getAsString();
+								System.out.println("==>>>>>>>>" + array);
+                                operationStatus = interfaceHelper.deleteTask(array,leadId);
+                                out.println(operationStatus);
+                        }catch(Exception e){
+                                e.printStackTrace();
+                        }
+                }
 				else if(actionType.equals("LISTHISTORY")){
                         try{
                                 String leadId = k.get("leadId").getAsString();
                                 String result = interfaceHelper.listHistory(leadId);
+                                out.print(result);
+								System.out.println(result);
+                        }catch(Exception e){
+                                e.printStackTrace();
+                        }
+                }
+				else if(actionType.equals("listTask")){
+                        try{
+                                String leadId = k.get("leadId").getAsString();
+                                String result = interfaceHelper.listTask(leadId);
+                                out.print(result);
+								System.out.println(result);
+                        }catch(Exception e){
+                                e.printStackTrace();
+                        }
+                }
+				else if(actionType.equals("LISTAPPTHISTORY")){
+                        try{
+                                String leadId = k.get("leadId").getAsString();
+                                String result = interfaceHelper.listAppointment(leadId);
                                 out.print(result);
 								System.out.println(result);
                         }catch(Exception e){

@@ -399,9 +399,9 @@ public class LeadHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteHistory(String array) {
+	public int deleteHistory(String array,String leadId) {
 		// TODO Auto-generated method stub
-		String query = "delete from tbl_crm_lead_mailHistory where messageId IN (" + array + ");";
+		String query = "delete from tbl_crm_lead_mailHistory where leadId = " + leadId + " and messageId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -410,8 +410,8 @@ public class LeadHelper implements InterfaceHelper {
 	public int addAppointment(String array, String leadId) {
 		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str) {
-			String query = "insert into tbl_crm_lead_calendar values ('" + leadId +"','" + messageId + "');";
+		for(String appointmentId : str) {
+			String query = "insert into tbl_crm_lead_calendar values ('" + leadId +"','" + appointmentId + "');";
 			operationStatus = dbu.insert(query);
 		}
 		return operationStatus;
@@ -420,7 +420,7 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public String listAppointment(String leadId) {
 		// TODO Auto-generated method stub
-		String query = "select messageId from tbl_crm_lead_calendar where leadId = " + leadId + ";";
+		String query = "select appointmentId from tbl_crm_lead_calendar where leadId = " + leadId + ";";
 		ResultSet rs = dbu.select(query);
 		String str;
 		String msgArray = null;
@@ -441,9 +441,9 @@ public class LeadHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteAppointment(String array) {
+	public int deleteAppointment(String array,String leadId) {
 		// TODO Auto-generated method stub
-		String query = "delete from tbl_crm_lead_calendar where messageId IN (" + array + ");";
+		String query = "delete from tbl_crm_lead_calendar where leadId = " + leadId + " and appointmentId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
@@ -452,8 +452,8 @@ public class LeadHelper implements InterfaceHelper {
 	public int addTask(String array, String leadId) {
 		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str) {
-			String query = "insert into tbl_crm_lead_task values ('" + leadId +"','" + messageId + "');";
+		for(String taskId : str) {
+			String query = "insert into tbl_crm_lead_task values ('" + leadId +"','" + taskId + "');";
 			operationStatus = dbu.insert(query);
 		}
 		return operationStatus;
@@ -462,7 +462,7 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public String listTask(String leadId) {
 		// TODO Auto-generated method stub
-		String query = "select messageId from tbl_crm_lead_task where leadId = " + leadId + ";";
+		String query = "select taskId from tbl_crm_lead_task where leadId = " + leadId + ";";
 		ResultSet rs = dbu.select(query);
 		String str;
 		String msgArray = null;
@@ -483,9 +483,9 @@ public class LeadHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteTask(String array) {
+	public int deleteTask(String array,String leadId) {
 		// TODO Auto-generated method stub
-		String query = "delete from tbl_crm_lead_task where messageId IN (" + array + ");";
+		String query = "delete from tbl_crm_lead_task where leadId = " + leadId + " and taskId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}

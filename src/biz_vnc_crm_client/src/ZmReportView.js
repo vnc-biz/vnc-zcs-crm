@@ -3,7 +3,7 @@ ZmReportView.prototype.constructor = ZmReportView;
 
 ZmReportView.prototype.toString = function() {
 		return "ZmReportView";
-};
+}
 
 ZmReportView.createForm = function(app){
 	var content = AjxTemplate.expand("biz_vnc_crm_client.templates.SimpleOpportunity#MainOpportunity");
@@ -38,7 +38,7 @@ ZmReportView.createForm = function(app){
 			,'Ext.layout.container.Card'
 			,'Ext.chart.*'
 			,'Ext.EventManager'
-			//,'Ext.ux.grid.Printer'
+			,'Ext.ux.grid.Printer'
 		]);
 
 // -------------data load-----------------------------------------------------------------	
@@ -93,23 +93,39 @@ ZmReportView.createForm = function(app){
   		{name: 'nextAction', type: 'string'},
 		{name: 'status', type: 'bool'},
 		{name: 'createBy', type: 'string'},
-		{name: 'createDate', type: 'string'},
+		{name: 'createDate', type: 'date'},
 		{name: 'writeBy', type: 'string'},
   		{name: 'writeDate', type: 'date'}
         ]
+   });	
+
+		Ext.define('model_2',{
+      extend:'Ext.data.Model',
+	   
+    fields:[
+		{name: 'leadId', type: 'int'},
+		{name: 'valuation', type: 'string'},
+		{name: 'stageName',mapping: 'stageBean.stageName',type: 'string'},
+  		{name: 'stageId',mapping: 'stageBean.stageId',type: 'int'},
+  		]
    });	
 
 		var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
 		var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 		var reqJson = AjxStringUtil.urlEncode(json);
 		var responseLead = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	//	alert(responseLead.text);
+	//	console.log(responseLead.length);
+	
+
 
 		var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
 		var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
 		var reqJson = AjxStringUtil.urlEncode(json);
 		var responseOpportunity = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-		alert(responseOpportunity.text);
+
+		var json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
+		var reqJson = AjxStringUtil.urlEncode(json);
+		var responseStage = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
 //---------------------------combo panel start --------------------------------
 var typeData = Ext.create('Ext.data.Store', {
@@ -122,8 +138,11 @@ var typeData = Ext.create('Ext.data.Store', {
 var reportData = Ext.create('Ext.data.Store', {
 		fields: ['name', 'value'],
 		data : [
-			{'name':'By state', 'value': 'By state'},
-			{'name':'By revenue', 'value': 'By revenue'}
+			{'name':'By State', 'value': 'By State'},
+			{'name':'By month vise revenue', 'value': 'By month vise revenue'},
+			{'name':'By Stage', 'value': 'By Stage '},
+			{'name':'By year vise revenue', 'value': 'By year vise revenue'}
+
 		]
 	});
 
@@ -220,8 +239,7 @@ Ext.create('Ext.panel.Panel', {
 			   stripeRows: true
 			},
 			columns: [
-				{text: biz_vnc_crm_client.creationDate, width: 160, dataIndex: 'createDate'},
-				   // renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), 
+				{text: biz_vnc_crm_client.creationDate, width: 160, renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), dataIndex: 'createDate'},
 				{text: biz_vnc_crm_client.subject, width: 160, dataIndex: 'subjectName'},
 		//		{text: biz_vnc_crm_client.contactName, width: 160, dataIndex: 'contactName'},
 		//		{text: biz_vnc_crm_client.email, width: 160, dataIndex: 'email'},
@@ -234,7 +252,7 @@ Ext.create('Ext.panel.Panel', {
 		}],
 		tbar: [{
 			text: 'Print',
-			iconCls: 'email',
+			iconCls: 'print',
 			handler : function(){
 				//Ext.ux.panel.Printer.printAutomatically = false;
 				//Ext.ux.panel.Printer.print(LeadPanel);
@@ -289,19 +307,26 @@ var oppGridWindow = Ext.create('widget.window', {
 		   stripeRows: true
 		},
 		columns: [
-			{header: biz_vnc_crm_client.creationDate, width: 120, dataIndex: 'createDate', sortable: true},
-			   //renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), 
+			{header: biz_vnc_crm_client.creationDate, width: 120, dataIndex: 'createDate', renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), sortable: true},
 			{header: biz_vnc_crm_client.opportunity, width: 150, dataIndex: 'subjectName', sortable: true},
 		//	{header: biz_vnc_crm_client.customer, width: 150, dataIndex: 'contactName', sortable: true},
 		//	{header: biz_vnc_crm_client.nextActionDate, width: 120, dataIndex: 'nextActionDate', renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), sortable: true},
 		//	{header: biz_vnc_crm_client.nextAction, width: 150, dataIndex: 'nextAction', sortable: true},
-		//	{header: biz_vnc_crm_client.stage, width:150, dataIndex: 'stageName', sortable: true},
-			{header: biz_vnc_crm_client.expectedRevenue, width:150, dataIndex: 'valuation', sortable: true},
+			{header: biz_vnc_crm_client.stage, width:150, dataIndex: 'stageName', sortable: true},
+		//	{header: biz_vnc_crm_client.expectedRevenue, width:150, dataIndex: 'valuation', sortable: true},
 		//	{header: biz_vnc_crm_client.probability, width:110, dataIndex: 'probability', sortable: true},
 		//	{header: biz_vnc_crm_client.salesman, width:120, dataIndex: 'userId', sortable: true},
 			{header: biz_vnc_crm_client.state, width:120, dataIndex: 'leadState', sortable: true}
 		]
 
+		}],
+		tbar: [{
+			text: 'Print',
+			iconCls: 'print',
+			handler : function(){
+				//Ext.ux.panel.Printer.printAutomatically = false;
+				//Ext.ux.panel.Printer.print(LeadPanel);
+			}
 		}]
 	})],
 	renderTo : 'datagridOpportunity'
@@ -310,13 +335,472 @@ var oppGridWindow = Ext.create('widget.window', {
 
 
 //--------------------------all opportunity grid window end ---------------------------------------------------------
+//-------------------------- all lead pie chart stage wise window start ---------------------------------------------------------
 
+
+	function foo(arr) {
+		var a = [], b = [], prev;
+		arr.sort();
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( arr[i] !== prev ) {
+				a.push(arr[i]);
+				b.push(1);
+			} else {
+				b[b.length-1]++;
+			}
+			prev = arr[i];
+		}
+		return [a, b];
+	}
+/*var alldata =  Ext.create('Ext.data.Store', {
+			model:'model_2',
+			id  : 'alldataId',
+			proxy:{
+			type:'memory',
+			data:jsonParse(responseLead.text)
+			},
+		   autoLoad:true,
+		   actionMethods:{read:'POST'}
+
+		}); 
+*/		
+
+	//var sectionData = jsonParse(responseStage.text);
+	var len = jsonParse(responseLead.text).length;
+	var stages = [];
+	for(var i =0; i< len;i++)
+	{	
+		if(!((jsonParse(responseLead.text))[i].stageBean.stageName)) {
+			stages.push("Undefined");
+		} else {
+			stages.push((jsonParse(responseLead.text))[i].stageBean.stageName);
+		}
+	}
+	console.log(stages);
+	var fooArr = foo(stages);
+	var stage = fooArr[0];
+	var stagecnt = fooArr[1];
+
+	var total = 0;
+	var leadStageChartStore = Ext.create('Ext.data.JsonStore', {
+		fields: [{name:'name', type:'string'},{name:'data', type:'int'}]
+	});
+	for(var i=0;i<stage.length;i++){
+		leadStageChartStore.add({ 'name': stage[i], 'data': stagecnt[i]});
+		total +=  stagecnt[i];
+	}
+	var donut = false,
+	leadStageChart = Ext.create('Ext.chart.Chart', {
+			xtype: 'chart',
+			id: 'chartCmpStage',
+			animate: true,
+			store: leadStageChartStore,
+			height: 200,
+			width: 350,
+			shadow: true,
+			legend: {
+				position: 'right'
+			},
+			theme: 'Base:gradients',
+			series: [{
+				type: 'pie',
+				angleField: 'data',
+				showInLegend: true,
+				donut: donut,
+				tips: {
+				  trackMouse: true,
+				  width: 140,
+				  height: 28,
+				  renderer: function(storeItem, item) {
+					this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
+				  }
+				},
+				highlight: {
+				  segment: {
+					margin: 20
+				  }
+				},
+				label: {
+					field: 'name',
+					display: 'rotate',
+					contrast: true,
+					font: '10px Arial'
+				}
+			}]
+	});
+
+
+	var leadStageChartPanel = Ext.create('widget.panel', {
+		width: 700,
+		height: 450,
+		title: null,
+		renderTo: Ext.getBody(),
+		layout: 'fit',
+		tbar: [{
+			text: 'Save Chart',
+			handler: function() {
+				Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function(choice){
+					if(choice == 'yes'){
+						leadStageChart.save({
+							type: 'image/png'
+						});
+					}
+				});
+			}
+		},{
+			enableToggle: true,
+			pressed: false,
+			text: 'Donut',
+			toggleHandler: function(btn, pressed) {
+				var chart = Ext.getCmp('chartCmpStage');
+				chart.series.first().donut = pressed ? 35 : false;
+				chart.refresh();
+			}
+		}],
+		items: leadStageChart
+	});
+		
+	var leadStagePieChartWindow = new Ext.Window({
+         title: 'Number of leads by Stage'
+        ,renderTo: 'datagridOpportunity'
+        ,maxWidth:700
+        ,maxHeight:500
+		,minWidth:700
+        ,minHeight:500
+		,x:620
+		,y:110
+		,collapsible: true
+        ,closable:true
+        ,border:false
+        ,layoutConfig:{animate:true}
+        ,items:[{
+             stateId:'first'
+            ,title: null
+            ,collapsed:false
+			,items: leadStageChartPanel
+        }]
+    });
+    leadStagePieChartWindow.show();
+
+
+
+//-------------------------- all lead pie chart stage wise window end ---------------------------------------------------------
+
+//-------------------------- all Opp pie chart stage wise window start ---------------------------------------------------------
+
+	
+/*var alldata =  Ext.create('Ext.data.Store', {
+			model:'model_2',
+			id  : 'alldataId',
+			proxy:{
+			type:'memory',
+			data:jsonParse(responseLead.text)
+			},
+		   autoLoad:true,
+		   actionMethods:{read:'POST'}
+
+		}); 
+*/		
+	var len = jsonParse(responseOpportunity.text).length;
+	var stages = [];
+	for(var i =0; i< len;i++)
+	{	
+		if(!((jsonParse(responseOpportunity.text))[i].stageBean.stageName)) {
+			stages.push("Undefined");
+		} else {
+			stages.push((jsonParse(responseOpportunity.text))[i].stageBean.stageName);
+		}
+	}
+
+	var fooArr = foo(stages);
+	var stage = fooArr[0];
+	var stagecnt = fooArr[1];
+	
+	var total = len;
+	var oppStageChartStore = Ext.create('Ext.data.JsonStore', {
+		fields: [{name:'name', type:'string'},{name:'data', type:'int'}]
+	});
+
+	for(var i=0;i<stage.length;i++){
+		oppStageChartStore.add({ 'name': stage[i], 'data': stagecnt[i]});
+		//total +=  stagecnt[i];
+	}
+
+	var donut = false,
+	oppStageChart = Ext.create('Ext.chart.Chart', {
+			xtype: 'chart',
+			id: 'chartCmpOppStage',
+			animate: true,
+			store: oppStageChartStore,
+			height: 200,
+			width: 350,
+			shadow: true,
+			legend: {
+				position: 'right'
+			},
+			theme: 'Base:gradients',
+			series: [{
+				type: 'pie',
+				angleField: 'data',
+				showInLegend: true,
+				donut: donut,
+				tips: {
+				  trackMouse: true,
+				  width: 140,
+				  height: 28,
+				  renderer: function(storeItem, item) {
+					this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
+				  }
+				},
+				highlight: {
+				  segment: {
+					margin: 20
+				  }
+				},
+				label: {
+					field: 'name',
+					display: 'rotate',
+					contrast: true,
+					font: '10px Arial'
+				}
+			}]
+		});
+
+
+	var oppStageChartPanel = Ext.create('widget.panel', {
+		width: 700,
+		height: 450,
+		title: null,
+		renderTo: Ext.getBody(),
+		layout: 'fit',
+		tbar: [{
+			text: 'Save Chart',
+			handler: function() {
+				Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function(choice){
+					if(choice == 'yes'){
+						oppStageChart.save({
+							type: 'image/png'
+						});
+					}
+				});
+			}
+		},{
+			enableToggle: true,
+			pressed: false,
+			text: 'Donut',
+			toggleHandler: function(btn, pressed) {
+				var chart = Ext.getCmp('chartCmpOppStage');
+				chart.series.first().donut = pressed ? 35 : false;
+				chart.refresh();
+			}
+		}],
+		items: oppStageChart
+	});
+		
+	var oppStagePieChartWindow = new Ext.Window({
+         title: 'Number of Opportunity by Stage'
+        ,renderTo: 'datagridOpportunity'
+        ,maxWidth:700
+        ,maxHeight:500
+		,minWidth:700
+        ,minHeight:500
+		,x:620
+		,y:110
+		,collapsible: true
+        ,closable:true
+        ,border:false
+        ,layoutConfig:{animate:true}
+        ,items:[{
+             stateId:'first'
+            ,title: null
+            ,collapsed:false
+			,items: oppStageChartPanel
+        }]
+    });
+    oppStagePieChartWindow.show();
+
+
+
+//-------------------------- all Opportunity pie chart stage wise window end ---------------------------------------------------------
+//-------------------------- all Opportunity column chart stage wise window start ---------------------------------------------------------
+/*
+
+function foo(arr) {
+		var a = [], b = [], prev;
+		arr.sort();
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( arr[i] !== prev ) {
+				a.push(arr[i]);
+				b.push(1);
+			} else {
+				b[b.length-1]++;
+			}
+			prev = arr[i];
+		}
+		return [a, b];
+	}
+
+*/
+	var len = jsonParse(responseOpportunity.text).length;
+	var allyear = [];
+	for(var i =0; i< len;i++)
+	{	
+		allyear.push(new Date((jsonParse(responseOpportunity.text))[i].createDate).getFullYear());
+	}
+
+	var fooArr = foo(allyear);
+	var year = fooArr[0];
+	var val = new Array(year.length);
+	var item = jsonParse(responseOpportunity.text);
+	for(var i =0; i<year.length;i++)
+	{	
+		val[i] = 0;	
+		for(var j =0; j< len;j++)
+		{	
+			if(year[i] == new Date(item[j].createDate).getFullYear()) {
+				val[i] += parseInt(item[j].valuation); 
+			}
+		}
+	}
+	var total = len;
+	var oppValuationChartStore = Ext.create('Ext.data.JsonStore', {
+		fields: [{name:'name', type:'string'},{name:'data', type:'int'}]
+	});
+	
+
+	for(var i=0;i<year.length;i++){
+		
+		oppValuationChartStore.add({ 'name': year[i], 'data': val[i]});
+		//total +=  stagecnt[i];
+	}
+
+
+var oppRevenueChart = Ext.create('Ext.chart.Chart', {
+			id: 'chartCmpRevenue',
+			xtype: 'chart',
+			style: 'background:#fff',
+			animate: true,
+			shadow: true,
+
+			store: oppValuationChartStore,
+			axes: [{
+				type: 'Numeric',
+				position: 'left',
+				fields: ['data'],
+				label: {
+					renderer: Ext.util.Format.numberRenderer('0,0')
+				},
+				title: 'Expected Revenue',
+				grid: true,
+				minimum: 0
+			}, {
+				type: 'Category',
+				position: 'bottom',
+				fields: ['name'],
+				title: 'YEARS'
+			}],
+			series: [{
+				type: 'column',
+				axis: 'left',
+				highlight: true,
+				tips: {
+				  trackMouse: true,
+				  width: 140,
+				  height: 28,
+				  renderer: function(storeItem, item) {
+					this.setTitle(storeItem.get('name') + ': ' + storeItem.get('data'));
+				  }
+				},
+				label: {
+				  display: 'insideEnd',
+				  'text-anchor': 'middle',
+					field: 'data',
+					renderer: Ext.util.Format.numberRenderer('0'),
+					orientation: 'vertical',
+					color: '#333'
+				},
+				xField: 'name',
+				yField: 'data'
+			}]
+		});
+
+	var oppRevenueChartPanel = Ext.create('widget.panel', {
+		width: 700,
+		height: 450,
+		title: null,
+		renderTo: Ext.getBody(),
+		layout: 'fit',
+		 tbar: [{
+			text: 'Save Chart',
+			handler: function() {
+				Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function(choice){
+					if(choice == 'yes'){
+						oppRevenueChart.save({
+							type: 'image/png'
+						});
+					}
+				});
+			}
+		}],
+		items: oppRevenueChart
+		
+	});
+	
+	var oppRevenueChartWindow = new Ext.Window({
+         title: 'Year vise Revenue'
+        ,renderTo: 'datagridOpportunity'
+        ,maxWidth:700
+        ,maxHeight:500
+		,minWidth:700
+        ,minHeight:500
+		,x:620
+		,y:110
+		,collapsible: true
+        ,closable:true
+        ,border:false
+        ,layoutConfig:{animate:true}
+        ,items:[{
+             stateId:'first'
+            ,title: null
+            ,collapsed:false
+			,items: oppRevenueChartPanel
+			//DJ,items: oppChartPanel
+        }]
+    });
+    oppRevenueChartWindow.show();
+    
+
+
+//-------------------------- all Opportunity column chart stage wise window end ---------------------------------------------------------
 
 //-------------------------- all lead pie chart window start ---------------------------------------------------------
+/*
+function foo(arr) {
+    var a = [], b = [], prev;
+
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            a.push(arr[i]);
+            b.push(1);
+        } else {
+            b[b.length-1]++;
+        }
+        prev = arr[i];
+    }
+
+    return [a, b];
+}
+
+*/
+
+
 	var leadData = jsonParse(responseLead.text); 
 	var closelead=inProgresslead=newlead=pendinglead=total=0;
+//	var fooarr = [];
+
 	for(var i =0; i< leadData.length;i++)
-	{
+	{	//fooarr.push(leadData[i].leadState);
 		if (leadData[i].leadState == "New"){
 			newlead++;
 		} else if (leadData[i].leadState == "In Progress"){
@@ -327,6 +811,8 @@ var oppGridWindow = Ext.create('widget.window', {
 			closelead++;
 		}
 	}
+	//alert("fooarr====>"+foo(fooarr));
+	
 	total = closelead+inProgresslead+newlead+pendinglead;
 	var leadChartStore = Ext.create('Ext.data.JsonStore', {
 	fields: [{name:'name', type:'string'},{name:'data', type:'int'}],
@@ -431,6 +917,62 @@ var oppGridWindow = Ext.create('widget.window', {
 
 
 //-------------------------- all lead pie chart window end ---------------------------------------------------------
+/*
+ var leadGroupChart = Ext.create('Ext.Window', {
+        width: 800,
+        height: 600,
+        minHeight: 400,
+        minWidth: 550,
+        hidden: false,
+        maximizable: true,
+        title: 'Grouped Bar Chart',
+        renderTo: Ext.getBody(),
+        layout: 'fit',
+        tbar: [{
+            enableToggle: true,
+            pressed: true,
+            text: 'Animate',
+            toggleHandler: function(btn, pressed) {
+                var chart = Ext.getCmp('chartCmp');
+                chart.animate = pressed ? { easing: 'ease', duration: 500 } : false;
+            }
+        }],
+        items: {
+            id: 'chartCmp',
+            xtype: 'chart',
+            style: 'background:#fff',
+            animate: true,
+            shadow: true,
+            store: store1,
+            legend: {
+              position: 'right'  
+            },
+            axes: [{
+                type: 'Numeric',
+                position: 'bottom',
+                fields: ['data1', 'data2', 'data3'],
+                minimum: 0,
+                label: {
+                    renderer: Ext.util.Format.numberRenderer('0,0')
+                },
+                grid: true,
+                title: 'Number of Hits'
+            }, {
+                type: 'Category',
+                position: 'left',
+                fields: ['name'],
+                title: 'Month of the Year'
+            }],
+            series: [{
+                type: 'bar',
+                axis: 'bottom',
+                xField: 'name',
+                yField: ['data1', 'data2', 'data3']
+            }]
+        }
+    });
+
+*/
 //-------------------------- all opp pie chart window start ---------------------------------------------------------
 
 	var oppData = jsonParse(responseOpportunity.text); 
@@ -548,6 +1090,7 @@ var oppGridWindow = Ext.create('widget.window', {
         }]
     });
     oppPieChartWindow.show();
+	// leadStagePieChartWindow.show();
 
 
 //-------------------------- all opp pie chart window end ---------------------------------------------------------
@@ -584,48 +1127,41 @@ var oppGridWindow = Ext.create('widget.window', {
 	var jan=feb=march=april=may=jun=jul=aug=sep=oct=nov=dec=0;
 	for(var i =0; i< oppData.length;i++)
 	{
-
-	//	alert("oppData[i].createDate--new date--->"+new Date(oppData[i].createDate).getMonth());
-		date = oppData[i].createDate;
-	//	alert("b4====>"+date);
-		date = date.split(" ");
-		date = date[0];
-	//	alert("a4====>"+date);
-	//			alert("a4==datee[0]==>"+date);
-	 if (new Date(date).getMonth() == 0)
+	// alert("oppData[i].createDate--new date-"+new Date(oppData[i].createDate).getMonth());
+	 if (new Date(oppData[i].createDate).getMonth() == 0)
 	 {
 		jan +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 1)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 1)
 	 {
 		feb +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 2)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 2)
 	 {
 		march +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 3)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 3)
 	 {
 		april +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 4)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 4)
 	 {
 		may +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 5)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 5)
 	 {
 		jun +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 6)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 6)
 	 {
 		jul +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 7)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 7)
 	 {
 		aug +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 8)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 8)
 	 {
 		sep +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 9)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 9)
 	 {
 		oct +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 10)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 10)
 	 {
 		nov +=parseInt(oppData[i].valuation);
-	 } else if (new Date(date).getMonth() == 11)
+	 } else if (new Date(oppData[i].createDate).getMonth() == 11)
 	 {
 		
 		dec +=parseInt(oppData[i].valuation);

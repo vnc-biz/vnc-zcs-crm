@@ -234,12 +234,6 @@ public class CompanyHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteHistory(String array) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int addAppointment(String array, String leadId) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -249,12 +243,6 @@ public class CompanyHelper implements InterfaceHelper {
 	public String listAppointment(String leadId) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public int deleteAppointment(String array) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -270,7 +258,19 @@ public class CompanyHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int deleteTask(String array) {
+	public int deleteHistory(String array, String leadId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAppointment(String array, String leadId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -21,11 +21,11 @@ public interface InterfaceHelper {
 	public String filterByContact(String Array);
 	public int addHistory(String array, String leadId);
 	public String listHistory(String leadId);
-	public int deleteHistory(String array);
+	public int deleteHistory(String array,String leadId);
 	public int addAppointment(String array, String leadId);
 	public String listAppointment(String leadId);
-	public int deleteAppointment(String array);
+	public int deleteAppointment(String array,String leadId);
 	public int addTask(String array, String leadId);
 	public String listTask(String leadId);
-	public int deleteTask(String array);
+	public int deleteTask(String array,String leadId);
 }

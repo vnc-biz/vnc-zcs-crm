@@ -17,6 +17,7 @@
 	<include>ext-all.js</include>
 	<include>examples.js</include>
 	<include>AttachMailTabView1.js</include>
+	<include>AttachTaskTabView1.js</include>
 	<handlerObject>biz_vnc_crm_client_HandlerObject</handlerObject>
 	<!--
 <include>ZmLeadListViewPanel.js</include>
