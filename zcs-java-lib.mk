@@ -58,8 +58,12 @@ clean:
 		$(IMAGE_ROOT)/$(ZIMLET_LIB_JARDIR)/$(JAR_FILE_NAME)		\
 		$(IMAGE_ROOT)/$(CONTAINER_ZIMLET_JARDIR)/$(JAR_FILE_NAME)
 
-$(JAR_FILE_NAME):
-	@mkdir -p `dirname "$@"`
+build_classes:
 	@mkdir -p classes
-	@if [ "$(IMPORT_CP)" ]; then $(JAVAC) $(JAVAC_FLAGS) -d classes -cp $(IMPORT_CP) $(SRCS) ; else $(JAVAC) $(JAVAC_FLAGS) -d classes $(SRCS) ; fi
+	@$(JAVAC) $(JAVAC_FLAGS) -d classes -cp "$(IMPORT_CP)" $(SRCS)
+
+$(JAR_FILE_NAME):	build_classes $(JAR_FILE_PREPARE_RULE)
+	@mkdir -p `dirname "$@"`
 	@$(JAR) cvf $(JAR_FILE_NAME) -C classes .
+
+.PHONY:	build_classes

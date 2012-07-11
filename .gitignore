@@ -1,0 +1,7 @@
+*.class
+*.deb
+/image
+/src/biz_vnc_crm_client/_jspc_tmp/
+/src/lib_vnc_crm/classes/
+/src/lib_vnc_crm/ZimbraCRM.jar
+/zimlets.list

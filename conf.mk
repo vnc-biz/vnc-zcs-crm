@@ -1,10 +1,10 @@
 VERSION=1.0.0
-PACKAGE=zimlet-template
+PACKAGE=zcs-crm
 MAINTAINER=Enrico Weigelt <enrico.weigelt@vnc.biz>
 SECTION=base
 ARCHITECTURE=All
 PRIORITY=optional
-DEPENDS=
-DESCRIPTION=Zimlet package template
-REDMINE_UPLOAD_PROJECT=zcs-extension-template
+DEPENDS=zcs-core-libs,zcs-lib-json-simple,zcs-lib-gson,zcs-lib-vnc-common
+DESCRIPTION=Zimbra CRM
+REDMINE_UPLOAD_PROJECT=zcs-crm
 REDMINE_UPLOAD_URL=https://redmine.vnc.biz/redmine/

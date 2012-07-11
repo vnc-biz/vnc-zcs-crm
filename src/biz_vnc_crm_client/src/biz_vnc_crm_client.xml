@@ -1,4 +1,4 @@
-<zimlet name="biz_vnc_crm_client" version="1.0" description="Zimbra CRM Zimlet">
+<zimlet name="@ZIMLET_NAME@" version="@ZIMLET_VERSION@" description="${msg.ZIMLET_NAME}">
 	<include>templates/Simple.template.js</include>
 	<include>templates/SimpleOpportunity.template.js</include>
 	<include>templates/LeadForm.template.js</include>

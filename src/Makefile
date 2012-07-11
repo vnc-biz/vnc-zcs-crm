@@ -1,5 +1,5 @@
 
-SUBDIRS=`find -mindepth 1 -maxdepth 1 -type d | sed -e 's~\./~~'`
+SUBDIRS=lib_vnc_crm biz_vnc_crm_admin biz_vnc_crm_client core-jsp
 
 all:
 	@for t in $(SUBDIRS) ; do if [ -f "$$t/Makefile" ] ; then $(MAKE) -C $$t ; fi done
