@@ -4,6 +4,7 @@
 <%@ page import="biz.vnc.helpers.*" %>
 <%@ page import="biz.vnc.util.*" %>
 <%@ page import="biz.vnc.zimbra.util.JSPUtil"%>
+<%@ page import="biz.vnc.zimbra.util.ZLog"%>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.JsonParser" %>
 <%
@@ -22,7 +23,7 @@
 				out.println(result);
 								
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in listing", e);
                         }
                 }
                 else if(actionType.equals("FILTER")){
@@ -37,7 +38,7 @@
 					out.println(result);
 				}
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Filter", e);
                         }
                 }else if(actionType.equals("CONTACT")){
                         try{
@@ -51,14 +52,14 @@
 					out.println(result);
 				}
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Contact", e);
                         }
                 }else if(actionType.equals("ADD")){
                         try{
                                 operationStatus = interfaceHelper.add(abstractBean);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Add", e);
                         }
                 }
                 else if(actionType.equals("UPDATE")){
@@ -66,7 +67,7 @@
                                 operationStatus = interfaceHelper.update(abstractBean);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Update", e);
                         }
                 }
 
@@ -75,7 +76,7 @@
                                	String allAccounts = interfaceHelper.getUsers();
                                 out.println(allAccounts);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in User", e);
                         }
                 }else if(actionType.equals("DELETEBYID")){
                         try{
@@ -84,7 +85,7 @@
                                 operationStatus = interfaceHelper.deleteByIds(array,user);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Deleted by Id", e);
                         }
                 }else if(actionType.equals("DELETEHISTORY")){
                         try{
@@ -93,7 +94,7 @@
                                 operationStatus = interfaceHelper.deleteHistory(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in Delete history", e);
                         }
                 }else if(actionType.equals("HISTORY")){
                         try{
@@ -102,7 +103,7 @@
                                 operationStatus = interfaceHelper.addHistory(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in history", e);
                         }
                 }else if(actionType.equals("CALHISTORY")){
                         try{
@@ -111,7 +112,7 @@
                                 operationStatus = interfaceHelper.addAppointment(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in cal history", e);
                         }
                 }else if(actionType.equals("TASKHISTORY")){
                         try{
@@ -120,7 +121,7 @@
                                 operationStatus = interfaceHelper.addTask(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in task history", e);
                         }
                 }else if(actionType.equals("DELETETASK")){
                         try{
@@ -129,7 +130,7 @@
                                 operationStatus = interfaceHelper.deleteTask(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in delete task", e);
                         }
                 }else if(actionType.equals("LISTHISTORY")){
                         try{
@@ -137,7 +138,7 @@
                                 String result = interfaceHelper.listHistory(leadId);
                                 out.print(result);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in list history", e);
                         }
                 }else if(actionType.equals("listTask")){
                         try{
@@ -145,7 +146,7 @@
                                 String result = interfaceHelper.listTask(leadId);
                                 out.print(result);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in list task", e);
                         }
                 }else if(actionType.equals("DELETEAPPT")){
                         try{
@@ -154,7 +155,7 @@
                                 operationStatus = interfaceHelper.deleteAppointment(array,leadId);
                                 out.println(operationStatus);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in delete appointment", e);
                         }
                 }else if(actionType.equals("LISTAPPTHISTORY")){
                         try{
@@ -162,10 +163,10 @@
                                 String result = interfaceHelper.listAppointment(leadId);
                                 out.print(result);
                         }catch(Exception e){
-                                e.printStackTrace();
+				ZLog.err("CRM CLIENT","Error in list appointment", e);
                         }
                 }
     }catch (Exception e) {
-        e.printStackTrace();
+	ZLog.err("CRM CLIENT","Error", e);
     }
 %>
