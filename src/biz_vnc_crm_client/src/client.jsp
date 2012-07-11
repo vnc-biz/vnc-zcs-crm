@@ -182,6 +182,17 @@
                                 e.printStackTrace();
                         }
                 }
+				else if(actionType.equals("DELETEAPPT")){
+                        try{
+                                String array = k.get("array").getAsString();
+								String leadId = k.get("leadId").getAsString();
+								System.out.println("==------------------===>>>>>>>>" + array);
+                                operationStatus = interfaceHelper.deleteAppointment(array,leadId);
+                                out.println(operationStatus);
+                        }catch(Exception e){
+                                e.printStackTrace();
+                        }
+                }
 				else if(actionType.equals("LISTAPPTHISTORY")){
                         try{
                                 String leadId = k.get("leadId").getAsString();

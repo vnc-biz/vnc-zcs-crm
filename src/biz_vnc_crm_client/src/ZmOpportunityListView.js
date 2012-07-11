@@ -1,6 +1,5 @@
 
 ZmOpportunityListView.prototype.getContacts=function(offset, contactList, rec, app){
-			console.log("5");		
 			contactBook="Contacts";
 			if(contactBook == null){
 				return;
@@ -28,7 +27,6 @@ ZmOpportunityListView.prototype.getContacts=function(offset, contactList, rec, a
 		};
 			
 ZmOpportunityListView.prototype.handleGetContactsResponse = function(app, contactList, rec, result) {
-		console.log("6");
 		if (result) {
 
 				var contactList = [];
@@ -66,7 +64,6 @@ ZmOpportunityListView.prototype.toString = function() {
 
 
 ZmOpportunityListView.createForm = function(rec, contactList, app){
-	console.log("7");
 	var toolbar = app.getToolbar();
 	toolbar.setVisibility(false);
 	//var mailData;	
@@ -74,15 +71,14 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 	var oppTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
 	biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
 	if(biz_vnc_crm_client.mailData == ""){
-		console.log("8");
+		
 		biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
 	}
 	var temp = "[";
 	for (var i = 0; i < contactList.length; i++) {
-		console.log("9");
+		
 		var contact = contactList[i];
 		if(i == contactList.length-1) {
-			console.log("10");
 			temp +="{\"value\":\""+contact.id+"\",\"label\":\""+contact._attrs.firstName+"\"}]";
 		} else {
 			temp +="{\"value\":\""+contact.id+"\",\"label\":\""+contact._attrs.firstName+"\"},";
@@ -243,7 +239,6 @@ ZmOpportunityListView.createForm = function(rec, contactList, app){
 			{name: 'message', type: 'string'}
 		]
 	});
-console.log("10");
 Ext.define('oppTaskModel',{ 
 		extend:'Ext.data.Model',
 		fields:[
@@ -257,7 +252,7 @@ Ext.define('oppTaskModel',{
 	});
 
 
-	Ext.define('appt',{ 
+Ext.define('oppApptModel',{ 
 		extend:'Ext.data.Model',
 		fields:[
 			{name: 'appointmentId', type: 'string'},
@@ -268,7 +263,18 @@ Ext.define('oppTaskModel',{
 			{name: 'startdate', type: 'string'}
 		]
 	});
-console.log("11");
+
+var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
+        listeners: {
+
+		
+            selectionchange: function(sm, selections) {
+			}
+        }
+});
+
+
+
 	var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
 
@@ -297,14 +303,6 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
         }
 });
 
-var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
-        listeners: {
-
-		
-            selectionchange: function(sm, selections) {
-			}
-        }
-});
 
 
 
@@ -900,8 +898,9 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						//scope: this,
 						handler: function(){
 							var leadId = rec.get('leadId');
-							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlg(leadId);
-							if(rec!=null){
+							var flag = 1;
+							biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog(leadId, flag);
+							/*if(rec!=null){
 										var leadId = rec.get('leadId');
 										var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
 										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
@@ -919,7 +918,7 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 										}
 										Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData),false);
 										Ext.getCmp('oppMailGrid').getView().refresh();
-							}
+							}*/
 						}
 					}, {
 						iconCls: 'cancel',
@@ -967,7 +966,7 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 								}
 							};
 						}
-					},{
+					},/*{
 						iconCls: 'email',
 						text: 'Email',
 						//disabled: true,
@@ -976,7 +975,7 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						handler: function(){
 							//store1.loadData(biz_vnc_crm_client.mailData);										
 						}
-					}, {
+					}, */{
 						iconCls: 'refresh',
 						text: 'Refresh',
 						//disabled: true,
@@ -985,31 +984,25 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						handler: function(){
 							//store1.loadData(biz_vnc_crm_client.mailData);
 							if(rec!=null){
-									var leadId = rec.get('leadId');
-									var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
-									var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
-									var reqJson = AjxStringUtil.urlEncode(json);
-									var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-									var msgArray = [];
-									var item;
-									var msgArray = (responseMailHistory.text).split(",");
-									var len = msgArray.length;
-									var i=0;
-									if(msgArray != "null"){
-										var flag = 3;
-										biz_vnc_crm_client.mailData = "[";
-										console.log("not null msgarray");
-										item = new ZmMailMsg(msgArray[i],null,true);
-										item.load({"noBusyOverlay":true,"forceLoad": true,"callback":new AjxCallback(this,biz_vnc_crm_client._loadData,[i,msgArray,rec,flag]),"errorCallback":new AjxCallback(this,biz_vnc_crm_client._errorloadData)});
-									}/*else{
-										biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-										var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");		
-										app.setContent(content);
-										ZmLeadListView.prototype.getContacts(0, [], rec, app);
+								alert("Refresh");
+								var leadId = rec.get('leadId');
+								var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+								var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+								var reqJson = AjxStringUtil.urlEncode(json);
+								var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+								var msgArray = [];
+								var item;
+								var msgArray = (responseMailHistory.text).split(",");
 
-									}*/
-										
+								//biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+								if(msgArray != "null"){
+									biz_vnc_crm_client.requestMailList(msgArray);
+								}else{
+									biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
 								}
+								Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData),false);
+								Ext.getCmp('oppMailGrid').getView().refresh();
+							}
 						}
 					}]
 					},{
@@ -1081,7 +1074,8 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						//scope: this,
 						handler: function(){
 							var leadId = rec.get('leadId');
-							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlg(leadId);
+							var flag = 1;
+							biz_vnc_crm_client_HandlerObject.prototype.showAttachAppointmentDialog(leadId, flag);
 						}
 					}, {
 						iconCls: 'cancel',
@@ -1095,7 +1089,35 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 								if(btn == "no"){
 									Ext.example.msg('No', 'You cancelled the deletion..');		
 								}else {
-									Ext.example.msg('Yes', 'Save successfully..');		
+									var rec1 = Ext.getCmp('oppApptGrid').getSelectionModel().getSelection();
+									var idArray = [];
+									Ext.each(rec1, function (item) {
+											idArray.push("'"+item.data.appointmentId+"'");
+									});
+									
+
+									var leadId = rec.get('leadId')
+									var json = "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
+									var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+									var reqJson = AjxStringUtil.urlEncode(json);
+									var responseUser = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+									if(rec!=null){
+										var leadId = rec.get('leadId');
+										var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+										var reqJson = AjxStringUtil.urlEncode(json);
+										var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+										var msgArray = [];
+										var item;
+										var msgArray = (responseMailHistory.text).split(",");
+										if(msgArray != "null"){
+											biz_vnc_crm_client.requestApptList(msgArray);
+										}else{
+											biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+										}
+										Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData),false);
+										Ext.getCmp('oppApptGrid').getView().refresh();
+									}
 								}
 							};
 						}
@@ -1106,14 +1128,11 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						itemId: 'newappoint',
 						//scope: this,
 						handler: function(){
-							AjxDispatcher.run("GetCalController").newAppointment(null, null, null, null);
-						   //var calApp = appCtxt.getApp(ZmApp.CALENDAR);
-						   var calController = appCtxt.getCurrentController();
-						   console.log(calController);
-						   calController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-						   calController.getToolbar().addSelectionListener(ZmOperation.CANCEL,new AjxListener(this,ZmOpportunityListView._oppCalCancelListener,[app]));
-						   calController.getToolbar().addSelectionListener(ZmOperation.SAVE,new AjxListener(this,ZmOpportunityListView._oppCalSaveListener,[app]));
-							
+							if(rec!=null){
+								biz_vnc_crm_client.leadId = rec.get('leadId');
+								biz_vnc_crm_client.flag = 1;
+								new ZmCRMCalViewController(appCtxt.getApp(ZmApp.CALENDAR)).newAppointmentHelper(new Date(),null,10,null);	
+							}	
 						}
 					}, {
 						iconCls: 'refresh',
@@ -1121,7 +1140,26 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						//disabled: true,
 						itemId: 'refresh',
 						//scope: this,
-						handler: function(){}
+						handler: function(){
+							if(rec!=null){
+								var leadId = rec.get('leadId');
+								var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
+								var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+								var reqJson = AjxStringUtil.urlEncode(json);
+								var responseMailHistory = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+								var msgArray = [];
+								var item;
+								var msgArray = (responseMailHistory.text).split(",");
+								if(msgArray != "null"){
+									biz_vnc_crm_client.requestApptList(msgArray);
+								}else{
+									biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+								}
+								Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData),false);
+								Ext.getCmp('oppApptGrid').getView().refresh();
+							}
+						
+						}
 					}]
 					},{
 						xtype: 'grid',
@@ -1133,7 +1171,7 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 							autoScroll: true
 						},
 						store: Ext.create('Ext.data.Store', {
-							model:'appt',
+							model:'oppApptModel',
 							proxy:{
 								type:'memory',
 								data:jsonParse(biz_vnc_crm_client.apptData)
@@ -1146,31 +1184,31 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 							{
 								text     : 'Subject',
 								sortable : false,
-								width: 200,
+								width: 400,
 								dataIndex: 'subject'
 							},
 							{
 								text     : 'Location',
 								sortable : false,
-								width: 300,
+								width: 250,
 								dataIndex: 'location1'
 							},
 							{
 								text     : 'Status', 
-								width    : 275, 
+								width    : 100, 
 								sortable : true, 
 								dataIndex: 'status'
 							},
 							{
 								text     : 'Calendar', 
-								width    : 350, 
+								width    : 100, 
 								sortable : true, 
 								dataIndex: 'calendar'
 							},
 							{
 								text     : 'Start Date',
 								sortable : false,
-								width: 250,
+								width: 200,
 								dataIndex: 'startdate',
 								renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
 							}
@@ -1199,7 +1237,7 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 						handler: function(){
 							var leadId = rec.get('leadId');
 							//appCtxt.getAppViewMgr().pushView("TKL");
-							biz_vnc_crm_client_HandlerObject.prototype.showSideStepDlgForTask(leadId);
+							//biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialogForTask(leadId);
 							
 
 						}
@@ -1453,8 +1491,8 @@ var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
 							if(msgArray != "null"){
 								biz_vnc_crm_client.requestApptList(msgArray);
 													
-							//	Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData),false);
-							//	Ext.getCmp('oppApptGrid').getView().refresh();
+								Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData),false);
+								Ext.getCmp('oppApptGrid').getView().refresh();
 							}else{
 								biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
 							}
@@ -1770,7 +1808,7 @@ ZmOpportunityListView._oppTaskCancelListener = function(app) {
 }
 
 ZmOpportunityListView._oppTaskSaveListener = function(app){
- alert("Helo world");
+ alert("Opp Task Save Listener.");
 }
 
 

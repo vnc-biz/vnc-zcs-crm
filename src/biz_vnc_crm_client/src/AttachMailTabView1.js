@@ -17,7 +17,7 @@ AttachMailTabView1.prototype.toString = function() {
  * Shows the tab view.
  * 
  */
-AttachMailTabView1.prototype.showMe =
+AttachMailTabView1.prototype.showMe  =
 function() {
 	DwtTabViewPage.prototype.showMe.call(this);
 	if(this._isLoaded) {
