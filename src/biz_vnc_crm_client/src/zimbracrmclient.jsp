@@ -1,8 +1,3 @@
-<%
-        response.setHeader( "Pragma", "no-cache" );
-        response.setHeader( "Cache-Control", "no-cache" );
-        response.setDateHeader( "Expires", 0 );
-%>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="biz.vnc.base.*" %>
 <%@ page import="biz.vnc.beans.*" %>
@@ -10,7 +5,9 @@
 <%@ page import="biz.vnc.util.*" %>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.JsonParser" %>
+<%@ page import="biz.vnc.zimbra.util.JSPUtil" %>
 <%
+	JSPUtil.nocache(response);
         try{
                 int operationStatus = 0;
                 Gson gson = new Gson();
@@ -63,7 +60,6 @@
                         }
                 }
     }catch (Exception e) {
-        System.out.println("Nothing came." + e);
         e.printStackTrace();
     }
 %>
