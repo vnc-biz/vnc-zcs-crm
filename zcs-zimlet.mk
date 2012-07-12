@@ -23,7 +23,7 @@ $(ZIMLET_ZIP):	src/*	src/$(ZIMLET_NAME).xml src/$(ZIMLET_NAME).properties src/$(
 	    | sed -e "s~@ZIMLET_NAME@~$(ZIMLET_NAME)~g" \
 	    | sed -e "s~@ZIMLET_VERSION@~$(ZIMLET_VERSION)~g" \
 	    > tmp/$(ZIMLET_NAME).xml
-	@zip -j $(ZIMLET_ZIP) tmp/*
+	@chdir tmp;zip -r ../$(ZIMLET_ZIP) ./*;chdir ..
 	@rm -Rf tmp
 	@echo "$(ZIMLET_NAME).zip" >> $(TOPDIR)/zimlets.list
 
