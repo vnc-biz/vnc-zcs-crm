@@ -866,8 +866,9 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 				
 		},{
                 title:'Communication & History',
-				id: 'comm',
+				id: 'leadComm',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1025,6 +1026,7 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
                 title:'Appointments',
 				id: 'leadAppointment',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1185,6 +1187,7 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
                 title:'Tasks',
 				id: 'leadTask',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1196,7 +1199,8 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 						//scope: this,
 						handler: function(){
 							var leadId = rec.get('leadId');
-							//	biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog(leadId);
+							var flag = 0;
+                            biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog(leadId, flag);
 						}
 					}, {
 						iconCls: 'cancel',
@@ -1213,9 +1217,8 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 										var rec1 = Ext.getCmp('leadTaskGrid').getSelectionModel().getSelection();
 										var idArray = [];
 										Ext.each(rec1, function (item) {
-												idArray.push(item.data.taskId);
+												idArray.push("'"+item.data.taskId+"'");
 										});
-										alert("idArray=====>"+idArray);
 										var leadId = rec.get('leadId');
 										var json = "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
 										var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
@@ -1241,7 +1244,7 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 												for (var i=0;i<allTask.length;i++) {
 													for (var j=0;j<newtaskArray.length ;j++)
 													{
-														if (allTask[i].id == newtaskArray[j])
+														if (allTask[i].invId == newtaskArray[j])
 														{
 															taskArray[k++] = newtaskArray[j];
 														}
@@ -1257,11 +1260,11 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 												for (var i=0;i<allTask.length;i++) {
 													var temp = allTask[i];
 													for (var j=0;j<taskArray.length;j++) {
-														if (temp.id == taskArray[j]) {
+														if (temp.invId == taskArray[j]) {
 															if(flag == taskArray.length-1) {
-																leadTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+																leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
 															} else {
-																leadTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+																leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
 																flag++;
 															}
 														}
@@ -1285,13 +1288,12 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 						itemId: 'newappoint',
 						//scope: this,
 						handler: function(){
-							var taskApp = appCtxt.getApp(ZmApp.TASKS);
-							taskApp._handleLoadNewTask();
-							//AjxDispatcher.require(["TasksCore", "Tasks"]);
-							var taskController = appCtxt.getCurrentController();
-							taskController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-							taskController.getToolbar().addSelectionListener(ZmOperation.CANCEL,new AjxListener(this,ZmLeadListView._leadTaskCancelListener,[app]));
-							taskController.getToolbar().addSelectionListener(ZmOperation.SAVE,new AjxListener(this,ZmLeadListView._leadTaskSaveListener,[app]));
+							biz_vnc_crm_client.flag = 0;
+							var leadId = rec.get('leadId');
+							var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container,appCtxt.getApp(ZmApp.TASKS),appCtxt.getCurrentViewId(),leadId);
+							taskController.initComposeView();
+                            taskController.show(new ZmTask(null, null, 15),ZmCalItem.MODE_NEW,true);
+
 						}
 					}, {
 						iconCls: 'refresh',
@@ -1522,7 +1524,7 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 								for (var i=0;i<allTask.length;i++) {
 									for (var j=0;j<newtaskArray.length ;j++)
 									{
-										if (allTask[i].id == newtaskArray[j])
+										if (allTask[i].invId == newtaskArray[j])
 										{
 											taskArray[k++] = newtaskArray[j];
 										}
@@ -1538,11 +1540,11 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 								for (var i=0;i<allTask.length;i++) {
 									var temp = allTask[i];
 									for (var j=0;j<taskArray.length;j++) {
-										if (temp.id == taskArray[j]) {
+										if (temp.invId == taskArray[j]) {
 											if(flag == taskArray.length-1) {
-												leadTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+												leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
 											} else {
-												leadTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+												leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
 												flag++;
 											}
 										}
@@ -1553,7 +1555,7 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 							Ext.getCmp('leadTaskGrid').getView().refresh();
 						}
 
-					} else if(tab.id == 'comm'){
+					} else if(tab.id == 'leadComm'){
 						if(rec!=null){
 							var leadId = rec.get('leadId');
 							var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\""+ leadId + "\"}";
@@ -1695,8 +1697,12 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
     });
     tab2.render('LeadForm');
 
-
 	if(rec!=null){
+
+		Ext.getCmp('leadTask').setDisabled(false);
+		Ext.getCmp('leadAppointment').setDisabled(false);
+		Ext.getCmp('leadComm').setDisabled(false);
+
 		Ext.getCmp('cmbpartner').getStore().load({
 			callback: function(){
 				Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
@@ -1769,11 +1775,3 @@ var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
 
 	}
 };
-
-ZmLeadListView._leadTaskCancelListener = function(app) {
- app.pushView(app.getName());
-}
-
-ZmLeadListView._leadTaskSaveListener = function(app){
- alert("Lead Task Save Listener.");
-}

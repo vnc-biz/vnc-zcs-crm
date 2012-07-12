@@ -486,10 +486,10 @@
                                  var rec = grid.getStore().getAt(rowIndex);
                                  var leadId = rec.get('leadId');
                                  var selmsg = appCtxt.getCurrentController().getSelection();
-                                 var len = selmsg.length
+								 var len = selmsg.length
                                  var taskids = [];
                                  for (var i = 0; i < len; i++) {
-                                     taskids[i] = selmsg[i].id;
+                                     taskids[i] = selmsg[i].invId;
                                  }
 
                                  var json = "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + taskids + "\",\"leadId\":\"" + leadId + "\"}";
@@ -638,13 +638,11 @@
                                  var len = selmsg.length
                                  var taskids = [];
                                  for (var i = 0; i < len; i++) {
-                                     taskids[i] = selmsg[i].id;
+                                     taskids[i] = selmsg[i].invId;
                                  }
 
                                  var json = "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"leadId\":\"" + leadId + "\"}";
-                                 var reqHeader = {
-                                     "Content-Type": "application/x-www-form-urlencoded"
-                                 };
+                                 var reqHeader = {"Content-Type": "application/x-www-form-urlencoded"};
                                  var reqJson = AjxStringUtil.urlEncode(json);
                                  var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                  if (response.text == 1) {
@@ -858,8 +856,7 @@
          }, {
              name: 'userId',
              type: 'string'
-         }, //userId
-         {
+         },{
              name: 'priorityId',
              mapping: 'priorityBean.priorityId',
              type: 'int'
@@ -895,8 +892,6 @@
      var contactOppGridWindow = Ext.create('widget.window', {
          height: 300,
          width: 900,
-         //x: '20%',
-         //y: '20%',
          shrinkWrap: true,
          titleCollapse: true,
          toFrontOnShow: true,
@@ -1183,7 +1178,143 @@
      this.attachApptDialog = new OpenDialog(appCtxt.getShell(), "Appointments", view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okAppointmentAttach, [this]));
      this.attachApptDialog.popup();
  }
+     /*..... Task Attachment Dialogbox......*/
 
+ biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog = function (leadId, flag) {
+     /*..... Generates main Dialogbox......*/
+	var view = new DwtComposite(appCtxt.getShell());
+    this.attachTaskTabView = new DwtTabView(view,"AttachTask");
+
+	this.attachTaskTabPage = new AttachTask(this.attachTaskTabView,this);
+    view.setSize("485", "255");
+    this.attachTaskTabView.setSize("485", "230");
+    this.attachTaskTabPage.setSize("485", "230");
+    
+	tabKeys = [];
+    tabKeys.push(this.attachTaskTabView.addTab("Tasks",this.attachTaskTabPage));
+	this.attachTaskDialog = new OpenDialog(appCtxt.getShell(),"Tasks",view,leadId, flag,new AjxListener(this, biz_vnc_crm_client.okTaskAttach, [this]));
+    this.attachTaskDialog.popup();
+}
+
+biz_vnc_crm_client.okTaskAttach = function () {
+	
+     if (0 == AttachTask._tabAttachTaskView.getSelectionCount()) {
+         appCtxt.setStatusMsg(biz_vnc_crm_client.select_atleast_one_record_msg);
+         return;
+     }
+	var item, count;
+	var array = [];
+    var bcView = AttachTask._tabAttachTaskView;
+    count = bcView.getSelectionCount();
+    for (var i = 0; i < count; i++) {
+        array.push(bcView.getSelection()[i].invId);
+    }
+	var json = "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}";
+	var reqHeader = {
+	 "Content-Type": "application/x-www-form-urlencoded"
+	};
+	var reqJson = AjxStringUtil.urlEncode(json);
+	var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+	var query = "";
+	var folderAry = appCtxt.getTaskManager().getCheckedCalendarFolderIds(true);
+	for(var i in folderAry){
+		if(folderAry.length-1 != i){
+			query=query + "inid:\"" + folderAry[i] +	"\"" + " OR ";
+		}else{
+			query=query + "inid:\"" + folderAry[i] +	"\"";
+		}
+	}
+	this.attachTaskDialog.popdown();
+	appCtxt.getTaskManager()._rawTasks = [];
+	var searchResponse = appCtxt.getTaskManager()._search({offset:0,query:query,"types":"task"});
+	if (response.text == 1) {
+		if (biz_vnc_crm_client.flag == 0) {
+			var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\""+ biz_vnc_crm_client.leadId + "\"}";
+			var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+			var reqJson = AjxStringUtil.urlEncode(json);
+			var responseTaskList = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+			var newtaskArray = (responseTaskList.text).split(",");
+			var allTask = searchResponse.getArray();//appCtxt.getTaskManager()._rawTasks;
+			var taskArray = [];
+			if (newtaskArray != null) {
+				for (var i=0;i<allTask.length;i++) {
+					for (var j=0;j<newtaskArray.length ;j++) {
+						if (allTask[i].invId == newtaskArray[j]) {
+							taskArray.push(newtaskArray[j]);
+						}
+					}
+				}
+			}
+			if (taskArray.length <= 0) {
+				leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+			} else {
+				leadTaskListData = "[";
+				var flag=0;
+				var isFinished = false;
+				for (var i=0;i<allTask.length;i++) {
+					var temp = allTask[i];
+					for (var j=0;j<taskArray.length;j++) {
+						if (temp.invId == taskArray[j]) {
+							if(flag == taskArray.length-1) {
+								leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.pComplete+"\",\"dueDate\":\""+new Date(temp.endDate)+"\"}]";
+								isFinished = true;
+								break;
+							} else {
+								leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.pComplete+"\",\"dueDate\":\""+new Date(temp.endDate)+"\"},";
+							}
+							flag++;							
+						}
+					}
+					if(isFinished)break;
+				}
+			}
+			Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData),false);
+			Ext.getCmp('leadTaskGrid').getView().refresh();
+		} else if(biz_vnc_crm_client.flag == 1) {
+			var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\""+ biz_vnc_crm_client.leadId + "\"}";
+			var reqHeader = {"Content-Type":"application/x-www-form-urlencoded"};
+			var reqJson = AjxStringUtil.urlEncode(json);
+			var responseTaskList = AjxRpc.invoke(reqJson,"/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+			var newtaskArray = (responseTaskList.text).split(",");
+			var allTask = searchResponse.getArray();//appCtxt.getTaskManager()._rawTasks;
+			var taskArray = [];
+			if (newtaskArray != null) {
+				for (var i=0;i<allTask.length;i++) {
+					for (var j=0;j<newtaskArray.length ;j++) {
+						if (allTask[i].invId == newtaskArray[j]) {
+							taskArray.push(newtaskArray[j]);
+						}
+					}
+				}
+			}
+			if (taskArray.length <= 0) {
+				leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+			} else {
+				leadTaskListData = "[";
+				var flag=0;
+				var isFinished = false;
+				for (var i=0;i<allTask.length;i++) {
+					var temp = allTask[i];
+					for (var j=0;j<taskArray.length;j++) {
+						if (temp.invId == taskArray[j]) {
+							if(flag == taskArray.length-1) {
+								leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.pComplete+"\",\"dueDate\":\""+new Date(temp.endDate)+"\"}]";
+								isFinished = true;
+								break;
+							} else {
+								leadTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.pComplete+"\",\"dueDate\":\""+new Date(temp.endDate)+"\"},";
+							}
+							flag++;							
+						}
+					}
+					if(isFinished)break;
+				}
+			}
+			Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(leadTaskListData),false);
+			Ext.getCmp('oppTaskGrid').getView().refresh();
+		}
+	}
+}
  function OpenDialog(parent, title, view, leadId, flag, listener) {
      if (arguments.length == 0) return;
      biz_vnc_crm_client.leadId = leadId;
@@ -1203,6 +1334,11 @@
  OpenDialog.prototype.constructor = OpenDialog;
 
  biz_vnc_crm_client.okMailAttach = function () {
+	
+	if (0 == AttachMailTabView1._tabAttachMailView.getSelectionCount()) {
+         appCtxt.setStatusMsg(biz_vnc_crm_client.select_atleast_one_record_msg);
+         return;
+     }
      var item, count;
      var array = [];
      var bcView = AttachMailTabView1._tabAttachMailView;
@@ -1563,8 +1699,7 @@
          }, {
              name: 'userId',
              type: 'string'
-         }, //userId
-         {
+         }, {
              name: 'priorityId',
              mapping: 'priorityBean.priorityId',
              type: 'int'
@@ -1945,7 +2080,6 @@
                      }),
                      listeners: {
                          change: function (combo, ewVal, oldVal) {
-                             // do something
                          }
                      },
                      anchor: '95%'
@@ -1954,7 +2088,6 @@
                  columnWidth: .25,
                  border: false,
                  layout: 'anchor',
-                 //defaultType: 'textfield',
                  items: [{
                      xtype: 'combo',
                      mode: 'local',
@@ -2484,7 +2617,6 @@
                          handler: function () {
                              var leadId = biz_vnc_crm_client.leadId;
                              var flag = 0;
-
                              biz_vnc_crm_client_HandlerObject.prototype.showAttachAppointmentDialog(leadId, flag);
                          }
                      }, {
@@ -2628,7 +2760,11 @@
                      items: [{
                          iconCls: 'attachment',
                          text: 'Attach',
-                         handler: function () {}
+                         handler: function () {
+                             var leadId = biz_vnc_crm_client.leadId;
+                             var flag = 0;
+                             biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog(leadId, flag);
+						 }
                      }, {
                          iconCls: 'cancel',
                          text: 'Delete',
@@ -2643,7 +2779,7 @@
                                      var rec1 = Ext.getCmp('leadTaskGrid').getSelectionModel().getSelection();
                                      var idArray = [];
                                      Ext.each(rec1, function (item) {
-                                         idArray.push(item.data.taskId);
+                                         idArray.push("'"+item.data.taskId+"'");
                                      });
                                      var leadId = biz_vnc_crm_client.leadId;
                                      var json = "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
@@ -2667,7 +2803,7 @@
                                          var k = 0;
                                          for (var i = 0; i < allTask.length; i++) {
                                              for (var j = 0; j < newtaskArray.length; j++) {
-                                                 if (allTask[i].id == newtaskArray[j]) {
+                                                 if (allTask[i].invId == newtaskArray[j]) {
                                                      taskArray[k++] = newtaskArray[j];
                                                  }
                                              }
@@ -2681,19 +2817,18 @@
                                          for (var i = 0; i < allTask.length; i++) {
                                              var temp = allTask[i];
                                              for (var j = 0; j < taskArray.length; j++) {
-                                                 if (temp.id == taskArray[j]) {
+                                                 if (temp.invId == taskArray[j]) {
                                                      if (flag == taskArray.length - 1) {
-                                                         leadTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                                         leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                                      } else {
-                                                         leadTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                         leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                                          flag++;
                                                      }
                                                  }
                                              }
                                          }
                                      }
-
-                                     Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
+									 Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                      Ext.getCmp('leadTaskGrid').getView().refresh();
 
                                  }
@@ -2704,13 +2839,12 @@
                          text: 'New',
                          itemId: 'newappoint',
                          handler: function () {
-                             var taskApp = appCtxt.getApp(ZmApp.TASKS);
-                             taskApp._handleLoadNewTask();
-                             var taskController = appCtxt.getCurrentController();
-                             taskController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-                             taskController.getToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, biz_vnc_crm_client._leadTaskCancelListener, [app]));
-                             taskController.getToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, biz_vnc_crm_client._leadTaskSaveListener, [app]));
-                         }
+							 biz_vnc_crm_client.flag = 0;
+							 var leadId = biz_vnc_crm_client.leadId;
+							 var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container,appCtxt.getApp(ZmApp.TASKS),appCtxt.getCurrentViewId(),leadId);
+							 taskController.initComposeView();
+                             taskController.show(new ZmTask(null, null, 15),ZmCalItem.MODE_NEW,true);
+   						 }
                      }, {
                          iconCls: 'refresh',
                          text: 'Refresh',
@@ -3051,7 +3185,7 @@
                              var k = 0;
                              for (var i = 0; i < allTask.length; i++) {
                                  for (var j = 0; j < newtaskArray.length; j++) {
-                                     if (allTask[i].id == newtaskArray[j]) {
+                                     if (allTask[i].invId == newtaskArray[j]) {
                                          taskArray[k++] = newtaskArray[j];
                                      }
                                  }
@@ -3065,11 +3199,11 @@
                              for (var i = 0; i < allTask.length; i++) {
                                  var temp = allTask[i];
                                  for (var j = 0; j < taskArray.length; j++) {
-                                     if (temp.id == taskArray[j]) {
+                                     if (temp.invId == taskArray[j]) {
                                          if (flag == taskArray.length - 1) {
-                                             leadTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                             leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                          } else {
-                                             leadTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                             leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                              flag++;
                                          }
                                      }
@@ -3729,7 +3863,7 @@
          }, {
              name: 'userId',
              type: 'string'
-         }, //userId
+         }, 
          {
              name: 'priorityId',
              mapping: 'priorityBean.priorityId',
@@ -4896,7 +5030,11 @@
                      items: [{
                          iconCls: 'attachment',
                          text: 'Attach',
-                         handler: function () {}
+                         handler: function () {
+							 var leadId = biz_vnc_crm_client.leadId;
+                             var flag = 1;
+                             biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog(leadId, flag);
+						 }
                      }, {
                          iconCls: 'cancel',
                          text: 'Delete',
@@ -4911,7 +5049,7 @@
                                      var rec1 = Ext.getCmp('oppTaskGrid').getSelectionModel().getSelection();
                                      var idArray = [];
                                      Ext.each(rec1, function (item) {
-                                         idArray.push(item.data.taskId);
+                                         idArray.push("'"+item.data.taskId+"'");
                                      });
 
                                      var leadId = biz_vnc_crm_client.leadId;
@@ -4940,7 +5078,7 @@
                                          var k = 0;
                                          for (var i = 0; i < allTask.length; i++) {
                                              for (var j = 0; j < newtaskArray.length; j++) {
-                                                 if (allTask[i].id == newtaskArray[j]) {
+                                                 if (allTask[i].invId == newtaskArray[j]) {
                                                      taskArray[k++] = newtaskArray[j];
                                                  }
                                              }
@@ -4954,11 +5092,11 @@
                                          for (var i = 0; i < allTask.length; i++) {
                                              var temp = allTask[i];
                                              for (var j = 0; j < taskArray.length; j++) {
-                                                 if (temp.id == taskArray[j]) {
+                                                 if (temp.invId == taskArray[j]) {
                                                      if (flag == taskArray.length - 1) {
-                                                         oppTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                                         oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                                      } else {
-                                                         oppTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                         oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                                          flag++;
                                                      }
                                                  }
@@ -4976,13 +5114,11 @@
                          text: 'New',
                          itemId: 'newappoint',
                          handler: function () {
-                             var taskApp = appCtxt.getApp(ZmApp.TASKS);
-                             taskApp._handleLoadNewTask();
-                             var taskController = appCtxt.getCurrentController();
-                             taskController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-                             taskController.getToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, biz_vnc_crm_client._oppTaskCancelListener, [app]));
-                             taskController.getToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, biz_vnc_crm_client._oppTaskSaveListener, [app]));
-
+							biz_vnc_crm_client.flag = 1;
+							var leadId = biz_vnc_crm_client.leadId;
+							var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container,appCtxt.getApp(ZmApp.TASKS),appCtxt.getCurrentViewId(),leadId);
+							taskController.initComposeView();
+                            taskController.show(new ZmTask(null, null, 15),ZmCalItem.MODE_NEW,true);
                          }
                      }, {
                          iconCls: 'refresh',
@@ -5116,7 +5252,6 @@
                          var msgArray = [];
                          var item;
                          var msgArray = (responseMailHistory.text).split(",");
-                         alert("msgArray===========>" + msgArray);
                          if (msgArray != "null") {
                              biz_vnc_crm_client.requestApptList(msgArray);
 
@@ -5140,7 +5275,7 @@
                              var k = 0;
                              for (var i = 0; i < allTask.length; i++) {
                                  for (var j = 0; j < newtaskArray.length; j++) {
-                                     if (allTask[i].id == newtaskArray[j]) {
+                                     if (allTask[i].invId == newtaskArray[j]) {
                                          taskArray[k++] = newtaskArray[j];
                                      }
                                  }
@@ -5154,11 +5289,11 @@
                              for (var i = 0; i < allTask.length; i++) {
                                  var temp = allTask[i];
                                  for (var j = 0; j < taskArray.length; j++) {
-                                     if (temp.id == taskArray[j]) {
+                                     if (temp.invId == taskArray[j]) {
                                          if (flag == taskArray.length - 1) {
-                                             oppTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                             oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                          } else {
-                                             oppTaskListData += "{\"taskId\":\"" + temp.id + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                             oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                              flag++;
                                          }
                                      }
@@ -5206,7 +5341,6 @@
                      Ext.example.msg('Empty Field', 'Please enter subject.');
 
                  } else {
-
 
                      var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
                      var stageId = Ext.getCmp('cmbOppstage').getValue();
@@ -5472,7 +5606,6 @@
                  actionMethods: {
                      read: 'POST'
                  }
-
              }),
              viewConfig: {
                  stripeRows: true
@@ -5492,7 +5625,7 @@
                          ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                      }
                  }]
-             }, // renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'), 
+             },
              {
                  header: biz_vnc_crm_client.creationDate,
                  width: 120,
@@ -5577,8 +5710,6 @@
 
          }],
          renderTo: 'datagridOpportunity'
-
-
      });
 
      var grid = Ext.getCmp('opportunityGrid');
@@ -5711,11 +5842,9 @@
 
  }
 
-
  biz_vnc_crm_client.requestApptList = function (msgArray) {
 
-
-     biz_vnc_crm_client.apptData = "[";
+	 biz_vnc_crm_client.apptData = "[";
      var soapDoc = AjxSoapDoc.create("BatchRequest", "urn:zimbra");
      soapDoc.setMethodAttribute("onerror", "continue");
      for (var j = 0; j < msgArray.length; j++) {
@@ -5741,8 +5870,6 @@
          }
      }
  }
-
-
 
  /**
   * This method gets called by the Zimlet framework each time the application is opened or closed.
@@ -5772,8 +5899,6 @@
          }
      }
  };
-
-
 
 
  /**
@@ -5928,19 +6053,3 @@
      }
  };
 
- biz_vnc_crm_client._leadTaskCancelListener = function (app) {
-     app.pushView(app.getName());
- }
-
- biz_vnc_crm_client._leadTaskSaveListener = function (app) {
-     alert("Lead Task Save Listener.");
- }
-
-
- biz_vnc_crm_client._oppTaskCancelListener = function (app) {
-     app.pushView(app.getName());
- }
-
- biz_vnc_crm_client._oppTaskSaveListener = function (app) {
-     alert("Opp Task Save Listener.");
- }

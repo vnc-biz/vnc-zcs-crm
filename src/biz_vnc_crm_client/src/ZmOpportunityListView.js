@@ -885,8 +885,9 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 			}]
 		},{
                 title:'Communication & History',
-				id: 'comm',
+				id: 'oppComm',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1061,8 +1062,9 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 				}]
 		  },{
                 title:'Appointments',
-				id: 'appointment',
+				id: 'oppAppointment',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1225,6 +1227,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
                 title:'Tasks',
 				id: 'oppTask',
           		layout:'column',
+				disabled: true,
 				//margin: 0 0 0 0,
 				width: '100%',
 				height: 250,
@@ -1236,12 +1239,10 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 						//scope: this,
 						handler: function(){
 							var leadId = rec.get('leadId');
-							//appCtxt.getAppViewMgr().pushView("TKL");
-							//biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialogForTask(leadId);
-							
-
+							var flag = 1;
+                            biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog(leadId, flag);
 						}
-					},  {
+					}, {
 						iconCls: 'cancel',
 						text: 'Delete',
 						//disabled: true,
@@ -1256,7 +1257,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 										var rec1 = Ext.getCmp('oppTaskGrid').getSelectionModel().getSelection();
 										var idArray = [];
 										Ext.each(rec1, function (item) {
-												idArray.push(item.data.taskId);
+												idArray.push("'"+item.data.taskId+"'");
 										});
 									
 										var leadId = rec.get('leadId');
@@ -1284,7 +1285,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 												for (var i=0;i<allTask.length;i++) {
 													for (var j=0;j<newtaskArray.length ;j++)
 													{
-														if (allTask[i].id == newtaskArray[j])
+														if (allTask[i].invId == newtaskArray[j])
 														{
 															taskArray[k++] = newtaskArray[j];
 														}
@@ -1300,11 +1301,11 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 												for (var i=0;i<allTask.length;i++) {
 													var temp = allTask[i];
 													for (var j=0;j<taskArray.length;j++) {
-														if (temp.id == taskArray[j]) {
+														if (temp.invId == taskArray[j]) {
 															if(flag == taskArray.length-1) {
-																oppTaskListData +="{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+																oppTaskListData +="{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
 															} else {
-																oppTaskListData +="{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+																oppTaskListData +="{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
 																flag++;
 															}
 														}
@@ -1328,15 +1329,11 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 						itemId: 'newtask',
 						//scope: this,
 						handler: function(){
-							var taskApp = appCtxt.getApp(ZmApp.TASKS);
-							taskApp._handleLoadNewTask();
-							//AjxDispatcher.require(["TasksCore", "Tasks"]);
-							var taskController = appCtxt.getCurrentController();
-							console.log(taskController);
-							taskController.getToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-							taskController.getToolbar().addSelectionListener(ZmOperation.CANCEL,new AjxListener(this,ZmOpportunityListView._oppTaskCancelListener,[app]));
-							taskController.getToolbar().addSelectionListener(ZmOperation.SAVE,new AjxListener(this,ZmOpportunityListView._oppTaskSaveListener,[app]));
-						
+							biz_vnc_crm_client.flag = 1;
+							var leadId = rec.get('leadId');
+							var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container,appCtxt.getApp(ZmApp.TASKS),appCtxt.getCurrentViewId(),leadId);
+							taskController.initComposeView();
+                            taskController.show(new ZmTask(null, null, 15),ZmCalItem.MODE_NEW,true);
 						}
 					}, {
 						iconCls: 'refresh',
@@ -1477,7 +1474,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 		  }],
 			listeners: {
                 'tabchange': function(tabPanel, tab){
-                    if(tab.id == 'appointment'){
+                    if(tab.id == 'oppAppointment'){
 						if(rec!=null){
 							var leadId = rec.get('leadId');
 							var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
@@ -1516,7 +1513,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 								for (var i=0;i<allTask.length;i++) {
 									for (var j=0;j<newtaskArray.length ;j++)
 									{
-										if (allTask[i].id == newtaskArray[j])
+										if (allTask[i].invId == newtaskArray[j])
 										{
 											taskArray[k++] = newtaskArray[j];
 										}
@@ -1532,11 +1529,11 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 								for (var i=0;i<allTask.length;i++) {
 									var temp = allTask[i];
 									for (var j=0;j<taskArray.length;j++) {
-										if (temp.id == taskArray[j]) {
+										if (temp.invId == taskArray[j]) {
 											if(flag == taskArray.length-1) {
-												oppTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
+												oppTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"}]";
 											} else {
-												oppTaskListData += "{\"taskId\":\""+temp.id+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
+												oppTaskListData += "{\"taskId\":\""+temp.invId+"\",\"subject\":\""+temp.name+"\",\"status\":\""+temp.status+"\",\"complete\":\""+temp.percentComplete+"\",\"dueDate\":\""+new Date(temp.d)+"\"},";
 												flag++;
 											}
 										}
@@ -1547,7 +1544,7 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
 							Ext.getCmp('oppTaskGrid').getView().refresh();
 						}
 
-					} else if(tab.id == 'comm'){
+					} else if(tab.id == 'oppComm'){
 						if(rec!=null){
 							var leadId = rec.get('leadId');
 							var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\""+ leadId + "\"}";
@@ -1708,12 +1705,16 @@ var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
     });
 
 
-console.log("14");
+
     tab2.render("OpportunityForm");
 	
 	if(rec!=null){
 
-		
+		Ext.getCmp('oppTask').setDisabled(false);
+		Ext.getCmp('oppAppointment').setDisabled(false);
+		Ext.getCmp('oppComm').setDisabled(false);
+
+
 		Ext.getCmp('cmbOppstage').getStore().load({
 			callback: function(){
 				Ext.getCmp('cmbOppstage').setValue(rec.get('stageId'));
@@ -1801,21 +1802,3 @@ console.log("14");
 
 };
 
-
-
-ZmOpportunityListView._oppTaskCancelListener = function(app) {
- app.pushView(app.getName());
-}
-
-ZmOpportunityListView._oppTaskSaveListener = function(app){
- alert("Opp Task Save Listener.");
-}
-
-
-ZmOpportunityListView._oppCalCancelListener = function(app) {
- app.pushView(app.getName());
-}
-
-ZmOpportunityListView._oppCalSaveListener = function(app){
- alert("Helo world");
-}
