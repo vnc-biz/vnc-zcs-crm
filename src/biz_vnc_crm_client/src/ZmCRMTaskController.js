@@ -65,11 +65,11 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
                     for (var j = 0; j < taskArray.length; j++) {
                         if (temp.invId == taskArray[j]) {
                             if (flag == taskArray.length - 1) {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
                                 isFinished = true;
                                 break;
                             } else {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
                             }
                             flag++;
                         }
@@ -109,11 +109,11 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
                     for (var j = 0; j < taskArray.length; j++) {
                         if (temp.invId == taskArray[j]) {
                             if (flag == taskArray.length - 1) {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
                                 isFinished = true;
                                 break;
                             } else {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
                             }
                             flag++;
                         }

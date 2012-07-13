@@ -107,7 +107,7 @@ AttachAppointmentTabView.prototype._createErView = function (zm) {
 AttachAppointmentTabView.prototype.search_appt = function () {
     var start_date = document.getElementById(this.crm_apt_start_date_id).value;
     var end_date = document.getElementById(this.crm_apt_end_date_id).value;
-    if (start_date.trim() == "") {
+	if (start_date.trim() == "") {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_start_date_msg);
         return;
     }
@@ -115,11 +115,10 @@ AttachAppointmentTabView.prototype.search_appt = function () {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_end_date_msg);
         return;
     }
-    var dateFormatter = new AjxDateFormat("MM/dd/yyyy");
-    start_date = dateFormatter.parse(start_date);
-    end_date = dateFormatter.parse(end_date);
 
-    if (start_date.getTime() > end_date.getTime()) {
+	start_date = new Date(AjxDateUtil.getSimpleDateFormat().parse(start_date));
+	end_date = new Date(AjxDateUtil.getSimpleDateFormat().parse(end_date));
+	if (start_date.getTime() > end_date.getTime()) {
         appCtxt.setStatusMsg(biz_vnc_crm_client.start_date_gt_end_date_msg);
         return;
     }
