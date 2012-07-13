@@ -10,8 +10,7 @@
 <%
 
 JSPUtil.nocache(response);
-try
-{
+try {
 	int operationStatus = 0;
 	Gson gson = new Gson();
 	String jString = request.getParameter("jsonobj");
@@ -19,71 +18,45 @@ try
 	JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 	String actionType = k.get("action").getAsString();
 	AbstractBean abstractBean = interfaceHelper.toBean(jString);
-	if(actionType.equals("LIST"))
-	{
-		try
-		{
+	if(actionType.equals("LIST")) {
+		try {
 			String result = interfaceHelper.listView();
 			out.println(result);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			ZLog.err("Zimbra CRM Admin","Error in list",e);
 		}
-	}
-	else if(actionType.equals("ADD"))
-	{
-		try
-		{
+	} else if(actionType.equals("ADD")) {
+		try {
 			operationStatus = interfaceHelper.add(abstractBean);
 			out.println(operationStatus);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			ZLog.err("Zimbra CRM Admin","Error in add",e);
 		}
-	}
-	else if(actionType.equals("UPDATE"))
-	{
-		try
-		{
+	} else if(actionType.equals("UPDATE")) {
+		try {
 			operationStatus = interfaceHelper.update(abstractBean);
 			out.println(operationStatus);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			ZLog.err("Zimbra CRM Admin","Error in update",e);
 		}
-	}
-	else if(actionType.equals("USER"))
-	{
-		try
-		{
+	} else if(actionType.equals("USER")) {
+		try {
 			String allAccounts = interfaceHelper.getUsers();
 			out.println(allAccounts);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			ZLog.err("Zimbra CRM Admin","Error in user",e);
 		}
-	}
-	else if(actionType.equals("DELETEBYID"))
-	{
-		try
-		{
+	} else if(actionType.equals("DELETEBYID")) {
+		try {
 			String array = k.get("array").getAsString();
 			String user = k.get("writeBy").getAsString();
 			operationStatus = interfaceHelper.deleteByIds(array,user);
 			out.println(operationStatus);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			ZLog.err("Zimbra CRM Admin","Error in delete by id",e);
 		}
 	}
-}
-catch (Exception e)
-{
+} catch (Exception e) {
 	ZLog.err("Zimbra CRM Admin","Error",e);
 }
 
