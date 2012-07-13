@@ -1264,11 +1264,11 @@ biz_vnc_crm_client.okTaskAttach = function () {
                     for (var j = 0; j < taskArray.length; j++) {
                         if (temp.invId == taskArray[j]) {
                             if (flag == taskArray.length - 1) {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
                                 isFinished = true;
                                 break;
                             } else {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
                             }
                             flag++;
                         }
@@ -1308,11 +1308,11 @@ biz_vnc_crm_client.okTaskAttach = function () {
                     for (var j = 0; j < taskArray.length; j++) {
                         if (temp.invId == taskArray[j]) {
                             if (flag == taskArray.length - 1) {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"}]";
                                 isFinished = true;
                                 break;
                             } else {
-                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
+                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.pComplete + "\",\"dueDate\":\"" + new Date(temp.endDate) + "\"},";
                             }
                             flag++;
                         }
@@ -1447,7 +1447,7 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
             if (msgArray != "null") {
                 biz_vnc_crm_client.requestApptList(msgArray);
             } else {
-                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
             }
             Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
             Ext.getCmp('leadApptGrid').getView().refresh();
@@ -1466,7 +1466,7 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
             if (msgArray != "null") {
                 biz_vnc_crm_client.requestApptList(msgArray);
             } else {
-                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
             }
             Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
             Ext.getCmp('oppApptGrid').getView().refresh();
@@ -1540,7 +1540,7 @@ biz_vnc_crm_client.handleGetContactsResponse = function (contactList, rec, resul
 biz_vnc_crm_client.initLeadGrid = function (app) {
 
 
-    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
     }
@@ -1762,14 +1762,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }
         }
     });
-    var sm = Ext.create('Ext.selection.CheckboxModel', {
-        listeners: {
-
-
-            selectionchange: function (sm, selections) {}
-        }
-    });
-
     Ext.define('leadApptModel', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -1795,7 +1787,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
     var leadSMAppt = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (leadSMAppt, selections) {}
         }
     });
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
@@ -1803,7 +1795,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         listeners: {
 
 
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (smleadTask, selections) {}
         }
     });
 
@@ -2616,6 +2608,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 title: 'Appointments',
                 id: 'leadAppointment',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -2663,7 +2656,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     if (msgArray != "null") {
                                         biz_vnc_crm_client.requestApptList(msgArray);
                                     } else {
-                                        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                                        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                                     }
                                     Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('leadApptGrid').getView().refresh();
@@ -2696,7 +2689,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             if (msgArray != "null") {
                                 biz_vnc_crm_client.requestApptList(msgArray);
                             } else {
-                                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                             }
                             Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                             Ext.getCmp('leadApptGrid').getView().refresh();
@@ -2734,11 +2727,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         width: 250,
                         dataIndex: 'location1'
                     }, {
-                        text: 'Status',
-                        width: 100,
-                        sortable: true,
-                        dataIndex: 'status'
-                    }, {
                         text: 'Calendar',
                         width: 100,
                         sortable: true,
@@ -2758,6 +2746,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 title: 'Tasks',
                 id: 'leadTask',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -2829,9 +2818,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                             for (var j = 0; j < taskArray.length; j++) {
                                                 if (temp.invId == taskArray[j]) {
                                                     if (flag == taskArray.length - 1) {
-                                                        leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                                        leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                                     } else {
-                                                        leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                        leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                                         flag++;
                                                     }
                                                 }
@@ -2910,7 +2899,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 }]
             }, {
                 title: 'Communication & History',
-                id: 'comm',
+                id: 'leadComm',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -3178,7 +3168,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                             Ext.getCmp('leadApptGrid').getView().refresh();
                         } else {
-                            biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                            biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                         }
                     } else if (tab.id == 'leadTask') {
                         var leadId = biz_vnc_crm_client.leadId;
@@ -3211,9 +3201,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 for (var j = 0; j < taskArray.length; j++) {
                                     if (temp.invId == taskArray[j]) {
                                         if (flag == taskArray.length - 1) {
-                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                         } else {
-                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                             flag++;
                                         }
                                     }
@@ -3223,7 +3213,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                         Ext.getCmp('leadTaskGrid').getView().refresh();
 
-                    } else if (tab.id == 'comm') {
+                    } else if (tab.id == 'leadComm') {
                         var leadId = biz_vnc_crm_client.leadId;
                         var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
                         var reqHeader = {
@@ -3381,16 +3371,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         biz_vnc_crm_client.initLeadGrid(app);
                     }
                 }
-            }
-        }, {
-            text: 'Cancel',
-            width: 150,
-            id: 'btncancel',
-            height: 25,
-            iconCls: 'cancel',
-            handler: function () {
-                Ext.example.msg('Cancel', 'Successfully Canceled...');
-                biz_vnc_crm_client.initLeadGrid(app);
             }
         }]
     });
@@ -3615,12 +3595,13 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             Ext.getCmp('btnleadsave').enable();
             Ext.getCmp('btnConvertToOpp').enable();
             Ext.getCmp('btnLeadAddContact').enable();
+			Ext.getCmp('leadTask').setDisabled(false);
+			Ext.getCmp('leadAppointment').setDisabled(false);
+			Ext.getCmp('leadComm').setDisabled(false);
             var rec = selectedRecord[0];
-
+			Ext.getCmp('leadTabPanel').setActiveTab(0);
             if (rec != null) {
-                Ext.getCmp('leadTabPanel').setActiveTab(0);
                 biz_vnc_crm_client.leadId = rec.get('leadId');
-
                 Ext.getCmp('cmbpartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
@@ -3692,6 +3673,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             Ext.getCmp('btnleadsave').disable();
             Ext.getCmp('btnConvertToOpp').disable();
             Ext.getCmp('btnLeadAddContact').disable();
+			Ext.getCmp('leadTask').setDisabled(true);
+			Ext.getCmp('leadAppointment').setDisabled(true);
+			Ext.getCmp('leadComm').setDisabled(true);
         }
     });
 };
@@ -3703,7 +3687,7 @@ biz_vnc_crm_client.initReports = function (app) {
     biz_vnc_crm_client._flag = 3;
 }
 biz_vnc_crm_client.initOpportunityGrid = function (app) {
-    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
     }
@@ -4751,7 +4735,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }]
             }, {
                 title: 'Communication & History',
-                id: 'comm',
+                id: 'oppComm',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -4881,7 +4866,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }]
             }, {
                 title: 'Appointments',
-                id: 'appointment',
+                id: 'oppAppointment',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -4932,7 +4918,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     if (msgArray != "null") {
                                         biz_vnc_crm_client.requestApptList(msgArray);
                                     } else {
-                                        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                                        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                                     }
                                     Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('oppApptGrid').getView().refresh();
@@ -4965,7 +4951,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             if (msgArray != "null") {
                                 biz_vnc_crm_client.requestApptList(msgArray);
                             } else {
-                                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                             }
                             Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                             Ext.getCmp('oppApptGrid').getView().refresh();
@@ -5003,11 +4989,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         width: 250,
                         dataIndex: 'location1'
                     }, {
-                        text: 'Status',
-                        width: 100,
-                        sortable: true,
-                        dataIndex: 'status'
-                    }, {
                         text: 'Calendar',
                         width: 100,
                         sortable: true,
@@ -5027,6 +5008,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }, {
                 title: 'Tasks',
                 id: 'oppTask',
+				disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 250,
@@ -5103,9 +5085,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                             for (var j = 0; j < taskArray.length; j++) {
                                                 if (temp.invId == taskArray[j]) {
                                                     if (flag == taskArray.length - 1) {
-                                                        oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                                        oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                                     } else {
-                                                        oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                        oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                                         flag++;
                                                     }
                                                 }
@@ -5250,7 +5232,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }],
             listeners: {
                 'tabchange': function (tabPanel, tab) {
-                    if (tab.id == 'appointment') {
+                    if (tab.id == 'oppAppointment') {
                         var leadId = biz_vnc_crm_client.leadId;
                         var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
                         var reqHeader = {
@@ -5267,7 +5249,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                             Ext.getCmp('oppApptGrid').getView().refresh();
                         } else {
-                            biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                            biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
                         }
                     } else if (tab.id == 'oppTask') {
                         var leadId = biz_vnc_crm_client.leadId;
@@ -5300,9 +5282,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                 for (var j = 0; j < taskArray.length; j++) {
                                     if (temp.invId == taskArray[j]) {
                                         if (flag == taskArray.length - 1) {
-                                            oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                            oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
                                         } else {
-                                            oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + temp.status + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                            oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
                                             flag++;
                                         }
                                     }
@@ -5311,7 +5293,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         }
                         Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                         Ext.getCmp('oppTaskGrid').getView().refresh();
-                    } else if (tab.id == 'comm') {
+                    } else if (tab.id == 'oppComm') {
                         var leadId = biz_vnc_crm_client.leadId;
                         var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
                         var reqHeader = {
@@ -5482,16 +5464,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         biz_vnc_crm_client.initOpportunityGrid(app);
                     }
                 }
-            }
-        }, {
-            id: 'btnOppCancel',
-            text: 'Cancel',
-            width: 150,
-            height: 25,
-            iconCls: 'cancel',
-            handler: function () {
-                Ext.example.msg('Cancel', 'You clicked the cancel button');
-                biz_vnc_crm_client.initOpportunityGrid(app);
             }
         }]
     });
@@ -5726,13 +5698,15 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
             Ext.getCmp('btnOppsave').enable();
             Ext.getCmp('btnOppAddContact').enable();
-            var rec = selectedRecord[0];
-
+			Ext.getCmp('oppTask').setDisabled(false);
+		    Ext.getCmp('oppAppointment').setDisabled(false);
+	        Ext.getCmp('oppComm').setDisabled(false);
+            Ext.getCmp('oppTabPanel').setActiveTab(0);
+			var rec = selectedRecord[0];
             if (rec != null) {
-                Ext.getCmp('oppTabPanel').setActiveTab(0);
                 biz_vnc_crm_client.leadId = rec.get('leadId');
 
-                Ext.getCmp('cmbOpppartner').getStore().load({
+				Ext.getCmp('cmbOpppartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbOpppartner').setValue(rec.get('partnerName'));
                     }
@@ -5815,6 +5789,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         } else {
             Ext.getCmp('btnOppsave').disable();
             Ext.getCmp('btnOppAddContact').disable();
+			Ext.getCmp('oppTask').setDisabled(true);
+		    Ext.getCmp('oppAppointment').setDisabled(true);
+	        Ext.getCmp('oppComm').setDisabled(true);
         }
     });
 
@@ -5867,14 +5844,14 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
         soapDoc: soapDoc,
         asyncMode: false
     });
-    var msgResp = bc.BatchResponse.GetMsgResponse;
-    var respLen = msgResp.length;
+	var msgResp = bc.BatchResponse.GetMsgResponse;
+	var respLen = msgResp.length;
     for (var i = 0; i < respLen; i++) {
         var resp = msgResp[i].m[0].inv[0].comp[0];
         if (i == respLen - 1) {
-            biz_vnc_crm_client.apptData += "{\"appointmentId\":\"" + msgArray[i] + "\",\"subject\":\"" + resp.name + "\",\"location1\":\"" + resp.loc + "\",\"status\":\"" + resp.status + "\",\"calendar\":\"" + appCtxt.getFolderTree().getById(resp.ciFolder).name + "\",\"startdate\":\"" + new Date(resp.d) + "\"}]";
+            biz_vnc_crm_client.apptData += "{\"appointmentId\":\"" + msgArray[i] + "\",\"subject\":\"" + resp.name + "\",\"location1\":\"" + resp.loc + "\",\"calendar\":\"" + appCtxt.getFolderTree().getById(resp.ciFolder).name + "\",\"startdate\":\"" + new Date(resp.d) + "\"}]";
         } else {
-            biz_vnc_crm_client.apptData += "{\"appointmentId\":\"" + msgArray[i] + "\",\"subject\":\"" + resp.name + "\",\"location1\":\"" + resp.loc + "\",\"status\":\"" + resp.status + "\",\"calendar\":\"" + appCtxt.getFolderTree().getById(resp.ciFolder).name + "\",\"startdate\":\"" + new Date(resp.d) + "\"},";
+            biz_vnc_crm_client.apptData += "{\"appointmentId\":\"" + msgArray[i] + "\",\"subject\":\"" + resp.name + "\",\"location1\":\"" + resp.loc + "\",\"calendar\":\"" + appCtxt.getFolderTree().getById(resp.ciFolder).name + "\",\"startdate\":\"" + new Date(resp.d) + "\"},";
         }
     }
 }

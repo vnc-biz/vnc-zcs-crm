@@ -48,7 +48,7 @@ AttachTask.prototype._resetQuery = function (newQuery) {
  * @return	{string}	the query
  */
 AttachTask.prototype._getQueryFromFolder = function (folderId) {
-    return this._resetQuery('in:"' + folderId + '"');
+    return this._resetQuery('inid:"' + folderId + '"');
 };
 
 /**
@@ -84,12 +84,12 @@ AttachTask.prototype._createHtml1 = function () {
 
     var params = {
         parent: appCtxt.getShell(),
-        className: "AttachMailTabBox AttachMailList",
+        className: "AttachTasksTabBox AttachTasksList",
         posStyle: DwtControl.ABSOLUTE_STYLE,
         view: ZmId.VIEW_BRIEFCASE_ICON,
         type: ZmItem.ATT
     };
-    var bcView = AttachTask._tabAttachTaskView = new ZmAttachMailListView(params);
+    var bcView = AttachTask._tabAttachTaskView = new ZmAttachTasksListView(params);
     bcView.reparentHtmlElement(this._folderListId);
     bcView.addSelectionListener(new AjxListener(this, this._listSelectionListener));
     Dwt.setPosition(bcView.getHtmlElement(), Dwt.RELATIVE_STYLE);
@@ -209,13 +209,15 @@ AttachTask.prototype._setOverview = function (params) {
     if (!overview) {
         var ovParams = {
             overviewId: overviewId,
-            overviewClass: "AttachMailTabBox",
+            overviewClass: "AttachTasksTabBox",
             headerClass: "DwtTreeItem",
             noTooltips: true,
-            treeIds: params.treeIds
+            treeIds: params.treeIds		
         };
+		ovParams.omit = {};
+		ovParams.omit[ZmFolder.ID_TRASH] = true;
         overview = opc.createOverview(ovParams);
-        overview.set(params.treeIds);
+        overview.set(params.treeIds,ovParams.omit);
 
     } else if (params.account) {
         overview.account = params.account;
@@ -229,7 +231,7 @@ AttachTask.prototype._setOverview = function (params) {
 
 AttachTask.prototype._treeListener = function (ev) {
     var item = this.treeView.getSelected();
-    var query = this._getQueryFromFolder(item.getName());
+	var query = this._getQueryFromFolder(item.id);
     this.executeQuery(query);
 };
 
@@ -271,17 +273,17 @@ AttachTask.prototype.executeQuery = function (query, forward) {
  * 
  * @extends		ZmListController
  */
-ZmAttachMailController = function (container, app) {
+ZmAttachTasksController = function (container, app) {
     if (arguments.length == 0) {
         return;
     }
 
 };
 
-ZmAttachMailController.prototype = new ZmListController;
-ZmAttachMailController.prototype.constructor = ZmAttachMailController;
+ZmAttachTasksController.prototype = new ZmListController;
+ZmAttachTasksController.prototype.constructor = ZmAttachTasksController;
 
-ZmAttachMailController.prototype._resetToolbarOperations = function () {
+ZmAttachTasksController.prototype._resetToolbarOperations = function () {
     // override to avoid js expn although we do not have a toolbar per se
 };
 
@@ -291,27 +293,36 @@ ZmAttachMailController.prototype._resetToolbarOperations = function () {
  * 
  * @extends		ZmListView
  */
-ZmAttachMailListView = function (params) {
+ZmAttachTasksListView = function (params) {
     ZmListView.call(this, params);
-    this._controller = new ZmAttachMailController();
+    this._controller = new ZmAttachTasksController();
 };
 
-ZmAttachMailListView.prototype = new ZmListView;
-ZmAttachMailListView.prototype.constructor = ZmAttachMailListView;
+ZmAttachTasksListView.prototype = new ZmListView;
+ZmAttachTasksListView.prototype.constructor = ZmAttachTasksListView;
 
-ZmAttachMailListView.prototype._getDivClass = function (base, item, params) {
+ZmAttachTasksListView.prototype._getDivClass = function (base, item, params) {
     return "";
 };
 
-ZmAttachMailListView.prototype._getCellContents = function (htmlArr, idx, item, field, colIdx, params) {
-    var subject = item.name;
+ZmAttachTasksListView.prototype._getCellContents = function (htmlArr, idx, item, field, colIdx, params) {
+	var subject = item.name;
     if (!subject) {
         subject = "";
     }
     var dueDate = "";
-    if (item.dueDate != "") {
-        dueDate = new Date(dueDate);
+    if (item.endDate != "" && item.endDate != null) {
+		dueDate = AjxDateFormat.format("dd/MM/yyyy", new Date(item.endDate));
     }
+	var status ="";
+	if(item.status != ""){
+		status=ZmCalItem.getLabelForStatus(item.status);
+	}
+
+	var percentComplete ="";
+	if(item.percentComplete = ""){
+		percentComplete=item.percentComplete;
+	}
     var attachCell = item.loc;
     htmlArr[idx++] = "<DIV style=\"height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;\">";
     htmlArr[idx++] = "<TABLE width=100%><tr> ";
@@ -319,10 +330,10 @@ ZmAttachMailListView.prototype._getCellContents = function (htmlArr, idx, item, 
     htmlArr[idx++] = "<td  align=left><span style=\"font-weight:bold;font-size:14px;\"> ";
     htmlArr[idx++] = subject;
     htmlArr[idx++] = "</SPAN></td><td align=right>";
-    htmlArr[idx++] = AjxDateUtil.computeDateStr(params.now || new Date(), item.dueDate);
+    htmlArr[idx++] = dueDate; 
     htmlArr[idx++] = "</td></tr></TABLE>";
 
-    htmlArr[idx++] = "<span style=\"font-weight:bold;\">  kaik muko   </SPAN>";
-    htmlArr[idx++] = "<span style=\"color:gray\"> - ahi pan</SPAN></DIV>";
+    htmlArr[idx++] = "<span style=\"font-weight:bold;\">"+ status +"</SPAN>";
+    htmlArr[idx++] = "<span style=\"color:gray\">"+ percentComplete +"</SPAN></DIV>";
     return idx;
 };

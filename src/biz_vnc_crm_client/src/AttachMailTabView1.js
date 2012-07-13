@@ -217,8 +217,12 @@ AttachMailTabView1.prototype._setOverview = function (params) {
             noTooltips: true,
             treeIds: params.treeIds
         };
+		ovParams.omit = {};
+		ovParams.omit[ZmFolder.ID_TRASH] = true;
+		ovParams.omit[ZmFolder.ID_SPAM] = true;
+		ovParams.omit[ZmFolder.ID_DRAFTS] = true;
         overview = opc.createOverview(ovParams);
-        overview.set(params.treeIds);
+        overview.set(params.treeIds,ovParams.omit);
 
     } else if (params.account) {
         overview.account = params.account;
