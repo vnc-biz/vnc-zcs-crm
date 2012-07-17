@@ -11,6 +11,9 @@ ZmDashboardView.dashboard = function (app) {
     app.setContent(content);
 
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
+	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+
     // pie chart start--------------------------------------------------------------------------------------------
     var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
     var reqHeader = {
@@ -62,7 +65,6 @@ ZmDashboardView.dashboard = function (app) {
     });
 
     var donut = false;
-    //Ext.getBody().update('<html><body><div id="datagrid"></div></body></html>');
     leadChart = Ext.create('Ext.chart.Chart', {
         xtype: 'chart',
         id: 'chartCmp',
@@ -102,36 +104,36 @@ ZmDashboardView.dashboard = function (app) {
 
 
     var leadChartPanel = Ext.create('widget.panel', {
-        width: 450,
-        height: 300,
-        x: 920,
-        y: 320,
-        title: 'Number of leads by state',
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.lblConfermHdr, biz_vnc_crm_client.lblConfirmMsg, function (choice) {
-                    if (choice == 'yes') {
-                        leadChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }, {
-            enableToggle: true,
-            pressed: false,
-            text: biz_vnc_crm_client.btnDonut,
-            toggleHandler: function (btn, pressed) {
-                var chart = Ext.getCmp('chartCmp');
-                chart.series.first().donut = pressed ? 35 : false;
-                chart.refresh();
-            }
-        }],
-        items: leadChart
-    });
+			width: 450,
+			height: 300,
+			x: 920,
+			y: 320,
+			title: 'Number of leads by state',
+			renderTo: Ext.getBody(),
+			layout: 'fit',
+			tbar: [{
+				text: biz_vnc_crm_client.btnSaveChart,
+				handler: function() {
+					Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
+						if (choice == 'yes'){
+							leadChart.save({
+								type: 'image/png'
+							});
+						}
+					});
+				}
+			},{
+				enableToggle: true,
+				pressed: false,
+				text: biz_vnc_crm_client.btnDonut,
+				toggleHandler: function(btn, pressed) {
+					var chart = Ext.getCmp('chartCmp');
+					chart.series.first().donut = pressed ? 35 : false;
+					chart.refresh();
+				}
+			}],
+			items: leadChart
+		});
 
     // pie chart end--------------------------------------------------------------------------------------------
 
@@ -331,7 +333,7 @@ ZmDashboardView.dashboard = function (app) {
         tbar: [{
             text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.lblConfermHdr, biz_vnc_crm_client.lblConfirmMsg, function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         oppChart.save({
                             type: 'image/png'
@@ -620,12 +622,9 @@ ZmDashboardView.dashboard = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-                        Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
-
+						Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
-                            if (btn == "no") {
-                                Ext.example.msg('No', 'You cancelled the deletion of opportunities');
-                            } else {
+                            if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
                                 var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -634,7 +633,7 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                Ext.example.msg('Yes', 'Records deleted successfully.');
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 biz_vnc_crm_client.initOpportunityGrid(app);
                             }
                         };
@@ -744,13 +743,9 @@ ZmDashboardView.dashboard = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-
-                        Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
-
+						Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
-                            if (btn == "no") {
-                                Ext.example.msg('No', 'You cancelled the deletion of leads');
-                            } else {
+                            if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
                                 var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -759,7 +754,7 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                Ext.example.msg('Yes', 'Records deleted successfully.');
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 biz_vnc_crm_client.initLeadGrid(app);
                             }
 

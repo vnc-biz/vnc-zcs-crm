@@ -193,8 +193,10 @@ biz_vnc_crm_client_HandlerObject.prototype._getTooltipBGHtml = function () {
 
 biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controller, app) {
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
+	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-    // ------------------------------------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------------------------------------
 
     var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
     var reqHeader = {
@@ -349,8 +351,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         }, {
             name: 'userId',
             type: 'string'
-        }, //userId
-        {
+        }, {
             name: 'priorityId',
             mapping: 'priorityBean.priorityId',
             type: 'int'
@@ -386,8 +387,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
     var mailOppGridWindow = Ext.create('widget.window', {
         height: 300,
         width: 900,
-        //x: '20%',
-        //y: '20%',
         shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
@@ -455,9 +454,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('',biz_vnc_crm_client.msgAttach);
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
                                 }
                                 mailOppGridWindow.hide();
                             } else if (view == "CAL") {
@@ -477,9 +476,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('',biz_vnc_crm_client.msgAttach);
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
                                 }
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
@@ -499,10 +498,10 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('',biz_vnc_crm_client.msgAttach);
 
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('',biz_vnc_crm_client.msgNotAttach);
 
                                 }
                                 mailOppGridWindow.hide();
@@ -604,9 +603,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgAttach);
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
                                 }
                                 mailOppGridWindow.hide();
                             } else if (view == "CAL") {
@@ -626,9 +625,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgAttach);
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
                                 }
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
@@ -648,10 +647,10 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
-                                    Ext.example.msg('Added Successfully', '');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgAttach);
 
                                 } else {
-                                    Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
                                 }
                                 mailOppGridWindow.hide();
                             }
@@ -695,6 +694,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
 
 biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (controller, app) {
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
+	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+
     var count = appCtxt.getCurrentController().getSelection().length;
     var record;
     var idArray = [];
@@ -986,12 +988,10 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                         tooltip: biz_vnc_crm_client.btnDelete,
                         handler: function (grid, rowIndex, colIndex) {
                             var rec = grid.getStore().getAt(rowIndex);
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion of opportunities');
-                                } else {
+                                if (btn == "yes") {
                                     var name = appCtxt.getUsername();
                                     var idArray = rec.get('leadId');
                                     var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -1000,7 +1000,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                     };
                                     var reqJson = AjxStringUtil.urlEncode(json);
                                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                    Ext.example.msg('Yes', 'Records deleted successfully.');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                     biz_vnc_crm_client.initOpportunityGrid(app);
                                 }
                             };
@@ -1093,13 +1093,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                         tooltip: biz_vnc_crm_client.btnDelete,
                         handler: function (grid, rowIndex, colIndex) {
                             var rec = grid.getStore().getAt(rowIndex);
-
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
-
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion of leads');
-                                } else {
+                                if (btn == "yes") {
                                     var name = appCtxt.getUsername();
                                     var idArray = rec.get('leadId');
                                     var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -1108,7 +1104,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                     };
                                     var reqJson = AjxStringUtil.urlEncode(json);
                                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                    Ext.example.msg('Yes', 'Records deleted successfully.');
+                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                     biz_vnc_crm_client.initLeadGrid(app);
                                 }
                             };
@@ -1242,8 +1238,8 @@ biz_vnc_crm_client.okTaskAttach = function () {
             var reqJson = AjxStringUtil.urlEncode(json);
             var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
             var newtaskArray = (responseTaskList.text).split(",");
-            var allTask = searchResponse.getArray(); //appCtxt.getTaskManager()._rawTasks;
-            var taskArray = [];
+            var allTask = searchResponse.getArray();
+			var taskArray = [];
             if (newtaskArray != null) {
                 for (var i = 0; i < allTask.length; i++) {
                     for (var j = 0; j < newtaskArray.length; j++) {
@@ -1286,7 +1282,7 @@ biz_vnc_crm_client.okTaskAttach = function () {
             var reqJson = AjxStringUtil.urlEncode(json);
             var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
             var newtaskArray = (responseTaskList.text).split(",");
-            var allTask = searchResponse.getArray(); //appCtxt.getTaskManager()._rawTasks;
+            var allTask = searchResponse.getArray();
             var taskArray = [];
             if (newtaskArray != null) {
                 for (var i = 0; i < allTask.length; i++) {
@@ -1365,9 +1361,9 @@ biz_vnc_crm_client.okMailAttach = function () {
         var reqJson = AjxStringUtil.urlEncode(json);
         var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
         if (response.text == 1) {
-            Ext.example.msg('Added Successfully', '');
+            Ext.example.msg('', biz_vnc_crm_client.msgAttach);
         } else {
-            Ext.example.msg('Save Error', 'Not Successfully Edit...');
+            Ext.example.msg('', biz_vnc_crm_client.msgNotAttach);
         }
     }
     canvas.popdown();
@@ -1550,10 +1546,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     toolbar.setVisibility(true);
     biz_vnc_crm_client._flag = 0;
 
-    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border'
+    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
+	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-
-    ]);
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
     var idArray = [];
@@ -1572,7 +1568,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -1652,13 +1647,13 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }, {
             name: 'dateOpen',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'dateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'expectedDateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'stageName',
             mapping: 'stageBean.stageName',
@@ -1720,7 +1715,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }, {
             name: 'nextActionDate',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'nextAction',
             type: 'string'
@@ -1738,7 +1733,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }, {
             name: 'writeDate',
-            type: 'date'
+            type: 'string'
         }]
 
     });
@@ -2150,30 +2145,34 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 Ext.getCmp('txtleadState').setValue(rec1.get('stageState'));
 
                             }
-                            var dateOpen = Ext.getCmp('dateopened').getSubmitValue();
+                            var dateOpen = Ext.getCmp('dateopened').getValue();
                             var state = Ext.getCmp('txtleadState').getValue();
 
-                            if (dateOpen == '' && state != "New") {
+                            if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 if (state == "Close") {
                                     Ext.getCmp('dateopened').setValue(new Date());
                                     Ext.getCmp('dateclosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != '' && state == "Close") {
+                            } else if (dateOpen != null && state == "Close") {
                                 Ext.getCmp('dateclosed').setValue(new Date());
                             }
                             if (oldState == "Close" && state != "Close") {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 Ext.getCmp('dateclosed').setValue('');
                             }
-
-                            var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+							if (Ext.getCmp('dateopened').getValue() != null) {
+								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+								Ext.getCmp('txtleadday2open').setValue(dayopen);
+							} else { 
+								Ext.getCmp('txtleadday2open').setValue(0);
+							}
                             if (Ext.getCmp('dateclosed').getValue() != null) {
-                                var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+								var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtleadday2close').setValue(dayclose);
-                            }
-                            Ext.getCmp('txtleadday2open').setValue(dayopen);
-
+                            } else { 
+								Ext.getCmp('txtleadday2close').setValue(0);
+							}
                         }
                     },
                     anchor: '95%'
@@ -2266,7 +2265,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            Ext.example.msg('Empty Field', 'Please enter subject.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                         } else {
 
@@ -2382,7 +2381,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var reqJson = AjxStringUtil.urlEncode(json);
                             var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-                            Ext.example.msg('Convert to Opportunity', 'Lead successfully converted into Opportunity.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
 
@@ -2627,11 +2626,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {} else {
-                                    var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
+                                if (btn == "yes") {
+									var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
 
@@ -2769,12 +2768,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
-
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('leadTaskGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -2919,12 +2915,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -3112,28 +3106,28 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s.00',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Creation Date',
                         id: 'datecreationdate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Update Date',
                         id: 'dateupdatedate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Opened',
                         id: 'dateopened',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Closed',
                         id: 'dateclosed',
                         disabled: true,
@@ -3248,7 +3242,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    Ext.example.msg('Empty Field', 'Please enter subject.');
+                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                 } else {
 
@@ -3364,10 +3358,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     var reqJson = AjxStringUtil.urlEncode(json);
                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                     if (response.text == 1) {
-                        Ext.example.msg('Save', 'Successfully Edit...');
+                        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                         biz_vnc_crm_client.initLeadGrid(app);
                     } else {
-                        Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                         biz_vnc_crm_client.initLeadGrid(app);
                     }
                 }
@@ -3436,12 +3430,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     Ext.each(rec, function (item) {
                         idArray.push(item.data.leadId);
                     });
-                    Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                    Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                     function showResult(btn) {
-                        if (btn == "no") {
-                            Ext.example.msg('No', 'You cancelled the deletion of leads');
-                        } else {
+                        if (btn == "yes") {
                             var name = appCtxt.getUsername();
                             var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
                             var reqHeader = {
@@ -3449,7 +3441,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             };
                             var reqJson = AjxStringUtil.urlEncode(json);
                             var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                            Ext.example.msg('Yes', 'Records deleted successfully.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
                     };
@@ -3511,7 +3503,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
                         app.setContent(content);
                         ZmLeadListView.prototype.getContacts(0, [], rec, app);
-
                     }
                 }]
             }, {
@@ -3557,13 +3548,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-
-                        Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
-
+                        Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
-                            if (btn == "no") {
-                                Ext.example.msg('No', 'You cancelled the deletion of leads');
-                            } else {
+                            if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
                                 var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -3572,7 +3559,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                Ext.example.msg('Yes', 'Records deleted successfully.');
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 biz_vnc_crm_client.initLeadGrid(app);
                             }
 
@@ -3703,6 +3690,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     });
     Ext.Loader.setPath('Ext.ux', '../ux');
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.tip.QuickTipManager']);
+	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -3799,13 +3789,13 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }, {
             name: 'dateOpen',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'dateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'expectedDateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'stageName',
             mapping: 'stageBean.stageName',
@@ -3867,7 +3857,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }, {
             name: 'nextActionDate',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'nextAction',
             type: 'string'
@@ -3885,7 +3875,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }, {
             name: 'writeDate',
-            type: 'date'
+            type: 'string'
         }]
     });
 
@@ -4228,7 +4218,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppNextActionDate',
-                    format: 'Y-m-d H:i:s',
+                    format: 'Y-m-d H:i:s.0',
                     fieldLabel: 'Next Action Date',
                     anchor: '95%'
                 }]
@@ -4273,30 +4263,34 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     Ext.getCmp('txtOppProbability').setValue('0');
                                 }
                             }
-                            var dateOpen = Ext.getCmp('dateOppOpened').getSubmitValue();
+                            var dateOpen = Ext.getCmp('dateOppOpened').getValue();
                             var state = Ext.getCmp('txtOppState').getValue();
 
-                            if (dateOpen == '' && state != "New") {
+                            if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 if (state == "Close") {
                                     Ext.getCmp('dateOppOpened').setValue(new Date());
                                     Ext.getCmp('dateOppClosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != '' && state == "Close") {
+                            } else if (dateOpen != null && state == "Close") {
                                 Ext.getCmp('dateOppClosed').setValue(new Date());
                             }
                             if (oldState == "Close" && state != "Close") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 Ext.getCmp('dateOppClosed').setValue('');
                             }
-
-                            var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+							if (Ext.getCmp('dateOppOpened').getValue() != null) {
+								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+								Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
+							} else { 
+								Ext.getCmp('txtOppDaysToOpen').setValue(0);
+							}
                             if (Ext.getCmp('dateOppClosed').getValue() != null) {
-                                var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+								var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
-                            }
-                            Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
-
+                            } else { 
+								Ext.getCmp('txtOppDaysToClose').setValue(0);
+							}
                         }
                     },
                     anchor: '95%'
@@ -4350,7 +4344,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppExpectedClosing',
-                    format: 'Y-m-d H:i:s',
+                    format: 'Y-m-d H:i:s.0',
                     fieldLabel: 'Expected closing',
                     anchor: '95%'
                 }, {
@@ -4755,12 +4749,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -4886,12 +4878,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -5031,12 +5021,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppTaskGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -5175,28 +5163,28 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     items: [{
                         xtype: 'datefield',
                         fieldLabel: 'Creation Date',
-                        format: 'Y-m-d H:i:s.00',
+                        format: 'Y-m-d H:i:s.0',
                         id: 'dateOppCreationdate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppUpdateDate',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Update Date',
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppOpened',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Opened',
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppClosed',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Closed',
                         anchor: '60%'
@@ -5329,7 +5317,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
-                    Ext.example.msg('Empty Field', 'Please enter subject.');
+                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                 } else {
 
@@ -5457,10 +5445,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var reqJson = AjxStringUtil.urlEncode(json);
                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                     if (response.text == 1) {
-                        Ext.example.msg('Save', 'Successfully Edit...');
+	     				Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                         biz_vnc_crm_client.initOpportunityGrid(app);
                     } else {
-                        Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                        Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                         biz_vnc_crm_client.initOpportunityGrid(app);
                     }
                 }
@@ -5532,12 +5520,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         idArray.push(item.data.leadId);
                     });
 
-                    Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                    Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                     function showResult(btn) {
-                        if (btn == "no") {
-                            Ext.example.msg('No', 'You cancelled the deletion of opportunities.');
-                        } else {
+                        if (btn == "yes") {
                             var name = appCtxt.getUsername();
                             var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
                             var reqHeader = {
@@ -5545,7 +5531,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             };
                             var reqJson = AjxStringUtil.urlEncode(json);
                             var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                            Ext.example.msg('Yes', 'Records deleted successfully.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
 
@@ -5610,7 +5596,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 header: biz_vnc_crm_client.creationDate,
                 width: 120,
                 dataIndex: 'createDate',
-                sortable: true
+			    sortable: true
             }, {
                 header: biz_vnc_crm_client.opportunity,
                 width: 150,
@@ -5625,7 +5611,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 header: biz_vnc_crm_client.nextActionDate,
                 width: 120,
                 dataIndex: 'nextActionDate',
-                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'),
                 sortable: true
             }, {
                 header: biz_vnc_crm_client.nextAction,
@@ -5666,12 +5651,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-                        Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                        Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                         function showResult(btn) {
-                            if (btn == "no") {
-                                Ext.example.msg('No', 'You cancelled the deletion of opportunities');
-                            } else {
+                            if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
                                 var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -5680,7 +5663,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                Ext.example.msg('Yes', 'Records deleted successfully.');
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 biz_vnc_crm_client.initOpportunityGrid(app);
                             }
                         };

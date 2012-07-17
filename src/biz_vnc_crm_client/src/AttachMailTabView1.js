@@ -131,7 +131,7 @@ AttachMailTabView1.prototype.handleSearchResponse = function (params) {
  */
 AttachMailTabView1.prototype.processDocsResponse = function (params) {
     var msgs = params.searchResponse.m;
-    var mailList = new ZmMailList(ZmItem.MSG, ""); //this._currentSearch);
+    var mailList = new ZmMailList(ZmItem.MSG, "");
     mailList.setHasMore(params.searchResponse.more);
     if (msgs == undefined) return mailList;
 

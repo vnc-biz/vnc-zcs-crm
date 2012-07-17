@@ -100,13 +100,13 @@ ZmReportView.createForm = function (app) {
             type: 'string'
         }, {
             name: 'dateOpen',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'dateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'expectedDateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'stageName',
             mapping: 'stageBean.stageName',
@@ -158,8 +158,7 @@ ZmReportView.createForm = function (app) {
         }, {
             name: 'userId',
             type: 'string'
-        }, //userId
-        {
+        }, {
             name: 'priorityId',
             mapping: 'priorityBean.priorityId',
             type: 'int'
@@ -169,7 +168,7 @@ ZmReportView.createForm = function (app) {
             type: 'string'
         }, {
             name: 'nextActionDate',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'nextAction',
             type: 'string'
@@ -181,13 +180,13 @@ ZmReportView.createForm = function (app) {
             type: 'string'
         }, {
             name: 'createDate',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'writeBy',
             type: 'string'
         }, {
             name: 'writeDate',
-            type: 'date'
+            type: 'string'
         }]
     });
 
@@ -348,7 +347,6 @@ ZmReportView.createForm = function (app) {
                 columns: [{
                     text: biz_vnc_crm_client.creationDate,
                     width: 160,
-                    renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'),
                     dataIndex: 'createDate'
                 }, {
                     text: biz_vnc_crm_client.subject,
@@ -364,12 +362,12 @@ ZmReportView.createForm = function (app) {
                     dataIndex: 'leadState'
                 }]
 
-            }],
+            }]/*,
             tbar: [{
                 text: 'Print',
                 iconCls: 'print',
                 handler: function () {}
-            }]
+            }]*/
         })],
         renderTo: 'datagridOpportunity'
     });
@@ -414,7 +412,6 @@ ZmReportView.createForm = function (app) {
                     header: biz_vnc_crm_client.creationDate,
                     width: 120,
                     dataIndex: 'createDate',
-                    renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'),
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.opportunity,
@@ -433,21 +430,19 @@ ZmReportView.createForm = function (app) {
                     sortable: true
                 }]
 
-            }],
+            }]/*,
             tbar: [{
                 text: 'Print',
                 iconCls: 'print',
                 handler: function () {}
-            }]
+            }]*/
         })],
         renderTo: 'datagridOpportunity'
     });
     oppGridWindow.show();
 
-
     //--------------------------all opportunity grid window end ---------------------------------------------------------
     //-------------------------- all lead pie chart stage wise window start ---------------------------------------------------------
-
 
     function foo(arr) {
         var a = [],
@@ -546,7 +541,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+				Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         leadStageChart.save({
                             type: 'image/png'
@@ -590,8 +585,6 @@ ZmReportView.createForm = function (app) {
         }]
     });
     leadStagePieChartWindow.show();
-
-
 
     //-------------------------- all lead pie chart stage wise window end ---------------------------------------------------------
 
@@ -679,7 +672,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         oppStageChart.save({
                             type: 'image/png'
@@ -724,17 +717,16 @@ ZmReportView.createForm = function (app) {
     });
     oppStagePieChartWindow.show();
 
-
-
     //-------------------------- all Opportunity pie chart stage wise window end ---------------------------------------------------------
     //-------------------------- all Opportunity column chart stage wise window start ---------------------------------------------------------
 
     var len = jsonParse(responseOpportunity.text).length;
     var allyear = [];
     for (var i = 0; i < len; i++) {
-        allyear.push(new Date((jsonParse(responseOpportunity.text))[i].createDate).getFullYear());
+		date = (jsonParse(responseOpportunity.text))[i].createDate;
+        date = date.split(" ");
+        allyear.push(new Date(date[0]).getFullYear());
     }
-
     var fooArr = foo(allyear);
     var year = fooArr[0];
     var val = new Array(year.length);
@@ -742,7 +734,10 @@ ZmReportView.createForm = function (app) {
     for (var i = 0; i < year.length; i++) {
         val[i] = 0;
         for (var j = 0; j < len; j++) {
-            if (year[i] == new Date(item[j].createDate).getFullYear()) {
+			date = item[j].createDate;
+			date = date.split(" ");
+			yr = new Date(date[0]).getFullYear();
+            if (year[i] == yr) {
                 val[i] += parseInt(item[j].valuation);
             }
         }
@@ -825,7 +820,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         oppRevenueChart.save({
                             type: 'image/png'
@@ -861,8 +856,6 @@ ZmReportView.createForm = function (app) {
         }]
     });
     oppRevenueChartWindow.show();
-
-
 
     //-------------------------- all Opportunity column chart stage wise window end ---------------------------------------------------------
 
@@ -955,7 +948,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         leadChart.save({
                             type: 'image/png'
@@ -1081,7 +1074,6 @@ ZmReportView.createForm = function (app) {
             }]
         });
 
-
     var oppPieChartPanel = Ext.create('widget.panel', {
         width: 700,
         height: 450,
@@ -1091,7 +1083,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         oppPieChart.save({
                             type: 'image/png'
@@ -1177,29 +1169,31 @@ ZmReportView.createForm = function (app) {
     });
     var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
     for (var i = 0; i < oppData.length; i++) {
-        if (new Date(oppData[i].createDate).getMonth() == 0) {
+        date = oppData[i].createDate;
+        date = date.split(" ");
+        if (new Date(date[0]).getMonth() == 0) {
             jan += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 1) {
+        } else if (new Date(date[0]).getMonth() == 1) {
             feb += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 2) {
+        } else if (new Date(date[0]).getMonth() == 2) {
             march += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 3) {
+        } else if (new Date(date[0]).getMonth() == 3) {
             april += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 4) {
+        } else if (new Date(date[0]).getMonth() == 4) {
             may += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 5) {
+        } else if (new Date(date[0]).getMonth() == 5) {
             jun += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 6) {
+        } else if (new Date(date[0]).getMonth() == 6) {
             jul += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 7) {
+        } else if (new Date(date[0]).getMonth() == 7) {
             aug += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 8) {
+        } else if (new Date(date[0]).getMonth() == 8) {
             sep += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 9) {
+        } else if (new Date(date[0]).getMonth() == 9) {
             oct += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 10) {
+        } else if (new Date(date[0]).getMonth() == 10) {
             nov += parseInt(oppData[i].valuation);
-        } else if (new Date(oppData[i].createDate).getMonth() == 11) {
+        } else if (new Date(date[0]).getMonth() == 11) {
 
             dec += parseInt(oppData[i].valuation);
         }
@@ -1252,8 +1246,7 @@ ZmReportView.createForm = function (app) {
         }]
     });
 
-
-    var oppChart = Ext.create('Ext.chart.Chart', {
+	var oppChart = Ext.create('Ext.chart.Chart', {
         id: 'chartCmp12',
         xtype: 'chart',
         style: 'background:#fff',
@@ -1311,7 +1304,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: 'Save Chart',
             handler: function () {
-                Ext.MessageBox.confirm('Confirm Download', 'Would you like to download the chart as an image?', function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         oppChart.save({
                             type: 'image/png'

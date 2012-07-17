@@ -133,7 +133,7 @@ AttachTask.prototype.handleSearchResponse = function (params) {
  */
 AttachTask.prototype.processDocsResponse = function (params) {
     var tasks = params.searchResponse.task;
-    var taskList = new ZmMailList(ZmItem.TASK, ""); //this._currentSearch);
+    var taskList = new ZmMailList(ZmItem.TASK, "");
     taskList.setHasMore(params.searchResponse.more);
     if (tasks == undefined) return taskList;
 

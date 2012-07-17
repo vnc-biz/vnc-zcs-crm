@@ -380,7 +380,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppNextActionDate',
-                    format: 'Y-m-d H:i:s',
+                    format: 'Y-m-d H:i:s.0',
                     fieldLabel: 'Next Action Date',
                     anchor: '95%'
                 }]
@@ -425,29 +425,33 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                     Ext.getCmp('txtOppProbability').setValue('0');
                                 }
                             }
-                            var dateOpen = Ext.getCmp('dateOppOpened').getSubmitValue();
+                            var dateOpen = Ext.getCmp('dateOppOpened').getValue();
                             var state = Ext.getCmp('txtOppState').getValue();
-
-                            if (dateOpen == '' && state != "New") {
+                            if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 if (state == "Close") {
                                     Ext.getCmp('dateOppOpened').setValue(new Date());
                                     Ext.getCmp('dateOppClosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != '' && state == "Close") {
+                            } else if (dateOpen != null && state == "Close") {
                                 Ext.getCmp('dateOppClosed').setValue(new Date());
                             }
                             if (oldState == "Close" && state != "Close") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 Ext.getCmp('dateOppClosed').setValue('');
                             }
-
-                            var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
-                            if (Ext.getCmp('dateOppClosed').getValue() != '') {
-                                var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+							if (Ext.getCmp('dateOppOpened').getValue() != null) {
+								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+								Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
+							} else { 
+								Ext.getCmp('txtOppDaysToOpen').setValue(0);
+							}
+                            if (Ext.getCmp('dateOppClosed').getValue() != null) {
+								var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
-                            }
-                            Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
+                            } else { 
+								Ext.getCmp('txtOppDaysToClose').setValue(0);
+							}
                         }
                     },
                     anchor: '95%'
@@ -501,7 +505,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppExpectedClosing',
-                    format: 'Y-m-d H:i:s',
+                    format: 'Y-m-d H:i:s.0',
                     fieldLabel: 'Expected closing',
                     anchor: '95%'
                 }, {
@@ -903,12 +907,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -1040,12 +1042,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -1168,7 +1168,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }
                 }]
             }, {
-                title: 'Tasks',
+                title: biz_vnc_crm_client.task,
                 id: 'oppTask',
                 layout: 'column',
                 disabled: true,
@@ -1189,12 +1189,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: 'Delete',
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('oppTaskGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -1337,28 +1335,28 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     items: [{
                         xtype: 'datefield',
                         fieldLabel: 'Creation Date',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         id: 'dateOppCreationdate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppUpdateDate',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Update Date',
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppOpened',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Opened',
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppClosed',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         disabled: true,
                         fieldLabel: 'Closed',
                         anchor: '60%'
@@ -1499,7 +1497,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
-                    Ext.example.msg('Empty Field', 'Please enter subject.');
+                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                 } else {
                     var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
@@ -1625,10 +1623,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         var reqJson = AjxStringUtil.urlEncode(json);
                         var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                         if (response.text == 1) {
-                            Ext.example.msg('Save', 'Successfully Edit...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         } else {
-                            Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
                     } else {
@@ -1684,11 +1682,11 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         var reqJson = AjxStringUtil.urlEncode(json);
                         var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                         if (response.text == 1) {
-                            Ext.example.msg('Save', 'Successfully Added New Opportunity...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgSave);
                             biz_vnc_crm_client.initOpportunityGrid(app);
 
                         } else {
-                            Ext.example.msg('Save Error', 'Not Successfully Added New Opportunity...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
                     }

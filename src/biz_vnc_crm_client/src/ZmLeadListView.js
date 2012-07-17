@@ -103,7 +103,8 @@ ZmLeadListView._mySaveListener = function (app) {
 }
 
 ZmLeadListView.createForm = function (rec, contactList, app) {
-    var toolbar = app.getToolbar();
+
+	var toolbar = app.getToolbar();
     toolbar.setVisibility(false);
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
@@ -358,7 +359,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     });
 
     var tab2 = Ext.create('Ext.form.Panel', {
-        title: 'Leads',
+        title: biz_vnc_crm_client.titleLead,
         id: 'formLead',
         bodyStyle: 'padding:5px',
         width: '100%',
@@ -384,7 +385,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 layout: 'anchor',
                 items: [{
                     xtype: 'textfield',
-                    fieldLabel: 'Subject',
+                    fieldLabel: biz_vnc_crm_client.subject,
                     id: 'txtleadsubjectName',
                     allowBlank: false,
                     anchor: '95%'
@@ -481,30 +482,34 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             if (rec1 != null) {
                                 Ext.getCmp('txtleadState').setValue(rec1.get('stageState'));
                             }
-                            var dateOpen = Ext.getCmp('dateopened').getSubmitValue();
+                            var dateOpen = Ext.getCmp('dateopened').getValue();
                             var state = Ext.getCmp('txtleadState').getValue();
 
-                            if (dateOpen == '' && state != "New") {
+                            if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 if (state == "Close") {
                                     Ext.getCmp('dateopened').setValue(new Date());
                                     Ext.getCmp('dateclosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != '' && state == "Close") {
+                            } else if (dateOpen != null && state == "Close") {
                                 Ext.getCmp('dateclosed').setValue(new Date());
                             }
                             if (oldState == "Close" && state != "Close") {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 Ext.getCmp('dateclosed').setValue('');
                             }
-
-                            var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
-                            if (Ext.getCmp('dateclosed').getValue() != '') {
+							if (Ext.getCmp('dateopened').getValue() != null) {
+								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+								Ext.getCmp('txtleadday2open').setValue(dayopen);
+							} else { 
+								Ext.getCmp('txtleadday2open').setValue(0);
+							}
+                            if (Ext.getCmp('dateclosed').getValue() != null) {
                                 var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtleadday2close').setValue(dayclose);
-                            }
-                            Ext.getCmp('txtleadday2open').setValue(dayopen);
-
+                            } else { 
+								Ext.getCmp('txtleadday2close').setValue(0);
+							}
                         }
                     },
                     anchor: '95%'
@@ -586,7 +591,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                 items: [{
                     xtype: 'button',
-                    text: 'Convert to Opportunity',
+                    text: biz_vnc_crm_client.btnLeadToOpp,
                     width: 250,
                     height: 25,
                     iconCls: 'convert',
@@ -595,7 +600,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            Ext.example.msg('Empty Field', 'Please enter subject.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                         } else {
 
@@ -761,7 +766,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                             }
-                            Ext.example.msg('Convert to Opportunity', 'Lead successfully converted into Opportunity.');
+                            Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
 
@@ -781,7 +786,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 background: '#DADADA'
             },
             items: [{
-                title: 'Contact Info',
+                title: biz_vnc_crm_client.tabContactInfo,
                 height: '70%',
                 layout: 'column',
                 items: [{
@@ -980,7 +985,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 }]
 
             }, {
-                title: 'Communication & History',
+                title: biz_vnc_crm_client.tabComm_History,
                 id: 'leadComm',
                 layout: 'column',
                 disabled: true,
@@ -990,7 +995,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 0;
@@ -999,16 +1004,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
-                                    var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
+                                if (btn == "yes") {
+									var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
                                         idArray.push(item.data.mailId);
@@ -1047,7 +1050,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
                             if (rec != null) {
@@ -1092,34 +1095,34 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Date',
+                        text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 200,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
-                        text: 'From',
+                        text: biz_vnc_crm_client.from,
                         sortable: false,
                         width: 200,
                         dataIndex: 'from'
                     }, {
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         width: 300,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Message',
+                        text: biz_vnc_crm_client.message,
                         width: 600,
                         sortable: true,
                         dataIndex: 'message'
                     }],
-                    title: 'History',
+                    title: biz_vnc_crm_client.histories,
                     viewConfig: {
                         stripeRows: true
                     }
                 }]
             }, {
-                title: 'Appointments',
+                title: biz_vnc_crm_client.tabAppointment,
                 id: 'leadAppointment',
                 layout: 'column',
                 disabled: true,
@@ -1129,7 +1132,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 0;
@@ -1137,16 +1140,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
-                                    var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
+                                if (btn == "yes") {
+									var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
 
@@ -1183,7 +1184,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'appointment',
-                        text: 'New',
+                        text: biz_vnc_crm_client.btnNew,
                         itemId: 'newappoint',
                         handler: function () {
                             if (rec != null) {
@@ -1194,7 +1195,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
                             if (rec != null) {
@@ -1239,22 +1240,22 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 400,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Location',
+                        text: biz_vnc_crm_client.locations,
                         sortable: false,
                         width: 250,
                         dataIndex: 'location1'
                     },{
-                        text: 'Calendar',
+                        text: biz_vnc_crm_client.calendar,
                         width: 100,
                         sortable: true,
                         dataIndex: 'calendar'
                     }, {
-                        text: 'Start Date',
+                        text: biz_vnc_crm_client.start_date,
                         sortable: false,
                         width: 200,
                         dataIndex: 'startdate',
@@ -1266,7 +1267,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }
                 }]
             }, {
-                title: 'Tasks',
+                title: biz_vnc_crm_client.tabTask,
                 id: 'leadTask',
                 layout: 'column',
                 disabled: true,
@@ -1276,7 +1277,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 0;
@@ -1284,15 +1285,13 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
-                            Ext.MessageBox.confirm('Confirm', 'Are you sure you want to do that?', showResult);
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
                             function showResult(btn) {
-                                if (btn == "no") {
-                                    Ext.example.msg('No', 'You cancelled the deletion..');
-                                } else {
+                                if (btn == "yes") {
                                     var rec1 = Ext.getCmp('leadTaskGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
@@ -1362,7 +1361,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'task',
-                        text: 'New',
+                        text: biz_vnc_crm_client.btnNew,
                         itemId: 'newappoint',
                         handler: function () {
                             biz_vnc_crm_client.flag = 0;
@@ -1374,7 +1373,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {}
                     }]
@@ -1399,22 +1398,22 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 600,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Status',
+                        text: biz_vnc_crm_client.status,
                         width: 200,
                         sortable: true,
                         dataIndex: 'status'
                     }, {
-                        text: '% Complete',
+                        text: biz_vnc_crm_client.complete,
                         width: 100,
                         sortable: true,
                         dataIndex: 'complete'
                     }, {
-                        text: 'Due Date',
+                        text: biz_vnc_crm_client.dueDate,
                         sortable: false,
                         width: 200,
                         dataIndex: 'dueDate',
@@ -1426,7 +1425,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }
                 }]
             }, {
-                title: 'Extra Info',
+                title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
                 items: [{
                     columnWidth: .50,
@@ -1504,28 +1503,28 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Creation Date',
                         id: 'datecreationdate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Update Date',
                         id: 'dateupdatedate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Opened',
                         id: 'dateopened',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
-                        format: 'Y-m-d H:i:s',
+                        format: 'Y-m-d H:i:s.0',
                         fieldLabel: 'Closed',
                         id: 'dateclosed',
                         disabled: true,
@@ -1639,7 +1638,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             }
         }],
         buttons: [{
-            text: 'Save',
+            text: biz_vnc_crm_client.btnSave,
             id: 'btnsave',
             width: 150,
             height: 25,
@@ -1648,7 +1647,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    Ext.example.msg('Empty Field', 'Please enter subject.');
+                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
 
                 } else {
 
@@ -1764,10 +1763,10 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         var reqJson = AjxStringUtil.urlEncode(json);
                         var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                         if (response.text == 1) {
-                            Ext.example.msg('Save', 'Successfully Edit...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                             biz_vnc_crm_client.initLeadGrid(app);
                         } else {
-                            Ext.example.msg('Save Error', 'Not Successfully Edit...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
                     } else {
@@ -1823,11 +1822,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         var reqJson = AjxStringUtil.urlEncode(json);
                         var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                         if (response.text == 1) {
-                            Ext.example.msg('Save', 'Successfully Created New Lead...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgSave);
                             biz_vnc_crm_client.initLeadGrid(app);
 
                         } else {
-                            Ext.example.msg('Save Error', 'Not Successfully Created New Lead...');
+                            Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
 
@@ -1835,7 +1834,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 }
             }
         }, {
-            text: 'Cancel',
+            text: biz_vnc_crm_client.btnCancel,
             width: 150,
             id: 'btncancel',
             height: 25,
@@ -1915,8 +1914,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtleadmobile').setValue(rec.get('mobile'));
         Ext.getCmp('txtleadfax').setValue(rec.get('fax'));
         Ext.getCmp('txtleadphone').setValue(rec.get('phone'));
-        Ext.getCmp('datecreationdate').setValue(rec.get('createDate'));
-        Ext.getCmp('dateupdatedate').setValue(rec.get('writeDate'));
+		Ext.getCmp('datecreationdate').setValue(rec.get('createDate'));
+		Ext.getCmp('dateupdatedate').setValue(rec.get('writeDate'));
         Ext.getCmp('dateopened').setValue(rec.get('dateOpen'));
         Ext.getCmp('dateclosed').setValue(rec.get('dateClose'));
     }
