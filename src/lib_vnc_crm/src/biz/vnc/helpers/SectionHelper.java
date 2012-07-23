@@ -1,26 +1,21 @@
 package biz.vnc.helpers;
 
-
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.SectionBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
+import com.zimbra.cs.account.Account;
+import com.zimbra.cs.account.Domain;
+import com.zimbra.cs.account.soap.SoapProvisioning;
+import com.zimbra.cs.account.soap.SoapProvisioning.Options;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.SectionBean;
-
-import biz.vnc.util.DBUtility;
-
-import com.google.gson.Gson;
-import com.zimbra.cs.account.Account;
-import com.zimbra.cs.account.Domain;
-import com.zimbra.cs.account.soap.SoapProvisioning;
-import com.zimbra.cs.account.soap.SoapProvisioning.Options;
-
 public class SectionHelper implements InterfaceHelper {
-
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
@@ -35,7 +30,6 @@ public class SectionHelper implements InterfaceHelper {
 
 		SectionBean sectionBean = (SectionBean)ab;
 		String query = "insert into tbl_crm_section values (" + sectionBean.getSectionId() + ",\"" + sectionBean.getSectionName() + "\",\"" + sectionBean.getSectionCode() + "\",\"" + sectionBean.getSectionManagerId() + "\",\"" + sectionBean.getSectionLeaderId() + "\",\"" + sectionBean.getSectionWatcherId() + "\",\"" + sectionBean.getSectionSalesTeamIds() + "\"," + sectionBean.isStatus() + ",\"" + sectionBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + sectionBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		System.out.println("Query--------->>>>>>>" +query);
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -135,11 +129,7 @@ public class SectionHelper implements InterfaceHelper {
 	public AbstractBean toBean(String jsonString) {
 		try {
 			SectionBean sectionBean  = new SectionBean ();
-
 			sectionBean = gson.fromJson(jsonString, SectionBean.class);
-			//JSONObject jObj = (JSONObject)new JSONParser().parse(jsonString);
-			//sectionBean.setSectionName(gson.get("sectionName").toString());
-			//sectionBean.setSectionCode(gson.get("sectionCode").toString());
 			return sectionBean;
 		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
@@ -169,16 +159,9 @@ public class SectionHelper implements InterfaceHelper {
 					Account ac = (Account) soap.getAllAccounts(singleD).get(j);
 					rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
 					listOfAccounts.add(rec);
-					//System.out.println(ac.getMail().toString());
-					//listOfAccounts.add(ac.getMail().toString());
 					cnt++;
 				}
 			}
-
-			System.out.println("Whole List : " + listOfAccounts);
-			/*for(int i=0;i<cnt;i++){
-				System.out.println("Account [" + i + "] : " + listOfAccounts.get(i).toString());
-			}*/
 			return listOfAccounts.toString();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -223,8 +206,6 @@ public class SectionHelper implements InterfaceHelper {
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
-
-
 
 	@Override
 	public String filterView(String array) {
@@ -297,5 +278,4 @@ public class SectionHelper implements InterfaceHelper {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

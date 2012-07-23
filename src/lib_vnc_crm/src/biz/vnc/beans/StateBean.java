@@ -54,5 +54,4 @@ public class StateBean extends AbstractBean {
 	public String toString() {
 		return null;
 	}
-
 }

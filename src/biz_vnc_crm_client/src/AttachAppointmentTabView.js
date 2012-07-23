@@ -91,7 +91,7 @@ AttachAppointmentTabView.prototype._createErView = function (zm) {
     this.crm_apt_list_id = Dwt.getNextId();
     var i = 0;
     var html = new Array();
-    html[i++] = "<table><tr><td><div>";
+    html[i++] = "<table style='width:500px'><tr><td><div>";
     html[i++] = "<input type='text' id='" + this.crm_apt_start_date_id + "' style='height:24px;float:left;'/>";
     html[i++] = "<div id='" + this.crm_apt_start_date_container_id + "' style='margin-right:6px;width:21px;float:left;'></div>";
     html[i++] = "<input type='text' id='" + this.crm_apt_end_date_id + "' style='height:24px;float:left;'/>";
@@ -99,7 +99,7 @@ AttachAppointmentTabView.prototype._createErView = function (zm) {
     html[i++] = "<div id='" + this.crm_apt_search_button_id + "' style='float:left;'></div>";
     html[i++] = "</div></td></tr>";
     html[i++] = "<tr><td>";
-    html[i++] = "<div id='" + this.crm_apt_list_id + "'></div>";
+    html[i++] = "<div id='" + this.crm_apt_list_id + "'style='height:240px;'></div>";
     html[i++] = "</td></tr></table>";
     this.getContentHtmlElement().innerHTML = html.join("");
 };

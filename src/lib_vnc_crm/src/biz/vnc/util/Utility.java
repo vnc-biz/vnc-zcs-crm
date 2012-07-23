@@ -11,7 +11,6 @@ import biz.vnc.helpers.PriorityHelper;
 import biz.vnc.helpers.SectionHelper;
 import biz.vnc.helpers.StageHelper;
 import biz.vnc.helpers.StateHelper;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -20,8 +19,6 @@ public class Utility {
 	public static InterfaceHelper callHelper(String jString) {
 		JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 		String objType = k.get("object").getAsString();
-		System.out.println(">>>>>>>>>>>>" + objType);
-		//JsonObject k = gson.fromJson(jString, JsonObject.class);
 		if(objType.equals("country")) {
 			return new CountryHelper();
 		} else if(objType.equals("company")) {
@@ -39,10 +36,8 @@ public class Utility {
 		} else if(objType.equals("stage")) {
 			return new StageHelper();
 		} else if(objType.equals("lead")) {
-			System.out.println(">>>>>>>>>> 9");
 			return new LeadHelper();
 		} else if(objType.equals("opp")) {
-			System.out.println(">>>>>>>>>> 9");
 			return new OpportunityHelper();
 		}
 		return null;

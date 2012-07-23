@@ -348,7 +348,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
     var historyGrid;
     var tab2 = Ext.create('Ext.form.Panel', {
-        title: 'Opportunity',
+        title: biz_vnc_crm_client.lblOpportunityForm,
         bodyStyle: 'padding:5px',
         width: '100%',
         height: '70%',
@@ -369,19 +369,19 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 items: [{
                     xtype: 'textfield',
                     id: 'txtOppOpportunity',
-                    fieldLabel: 'Opportunity',
+                    fieldLabel: biz_vnc_crm_client.opportunity,
                     allowBlank: false,
                     anchor: '95%'
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppExpectedRevenue',
-                    fieldLabel: 'Expected Revenue',
+                    fieldLabel: biz_vnc_crm_client.expectedRevenue,
                     anchor: '95%'
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppNextActionDate',
                     format: 'Y-m-d H:i:s.0',
-                    fieldLabel: 'Next Action Date',
+                    fieldLabel: biz_vnc_crm_client.nextActionDate,
                     anchor: '95%'
                 }]
             }, {
@@ -395,7 +395,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Stage',
+                    fieldLabel: biz_vnc_crm_client.stage,
                     id: 'cmbOppstage',
                     name: 'title',
                     displayField: 'stageName',
@@ -458,13 +458,13 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppProbability',
-                    fieldLabel: 'Probability',
+                    fieldLabel: biz_vnc_crm_client.probability,
                     value: '0',
                     anchor: '95%'
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppNextAction',
-                    fieldLabel: 'Next Action',
+                    fieldLabel: biz_vnc_crm_client.nextAction,
                     anchor: '95%'
                 }]
             }, {
@@ -478,7 +478,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'SalesMan',
+                    fieldLabel: biz_vnc_crm_client.salesman,
                     id: 'cmbOppsalesman',
                     name: 'title',
                     displayField: 'label',
@@ -506,7 +506,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'datefield',
                     id: 'dateOppExpectedClosing',
                     format: 'Y-m-d H:i:s.0',
-                    fieldLabel: 'Expected closing',
+                    fieldLabel: biz_vnc_crm_client.expectedClosing,
                     anchor: '95%'
                 }, {
                     xtype: 'combo',
@@ -515,7 +515,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Priority',
+                    fieldLabel: biz_vnc_crm_client.priority,
                     id: 'cmbOpppriority',
                     name: 'title',
                     displayField: 'priorityName',
@@ -537,7 +537,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppState',
-                    fieldLabel: 'Opportunity State',
+                    fieldLabel: biz_vnc_crm_client.opportunityState,
                     value: 'New',
                     disabled: true
                 }]
@@ -580,7 +580,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 bodyStyle: 'padding:10px'
             },
             items: [{
-                title: 'Opportunity',
+                title: biz_vnc_crm_client.tabOpportunity,
                 layout: 'column',
                 items: [{
                     columnWidth: .33,
@@ -593,7 +593,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Partner',
+                        fieldLabel: biz_vnc_crm_client.partner,
                         id: 'cmbOpppartner',
                         name: 'title',
                         displayField: 'label',
@@ -639,7 +639,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Company',
+                        fieldLabel: biz_vnc_crm_client.company,
                         id: 'cmbOppcompanyName',
                         name: 'CompanyName',
                         displayField: 'companyName',
@@ -660,17 +660,17 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppContact',
-                        fieldLabel: 'Contact',
+                        fieldLabel: biz_vnc_crm_client.contactName,
                         anchor: '100%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppEmail',
-                        fieldLabel: 'Email',
+                        fieldLabel: biz_vnc_crm_client.email,
                         anchor: '100%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppPhone',
-                        fieldLabel: 'Phone',
+                        fieldLabel: biz_vnc_crm_client.phone,
                         anchor: '100%'
                     }]
 
@@ -705,7 +705,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Section',
+                        fieldLabel: biz_vnc_crm_client.section,
                         id: 'cmbOppsection',
                         name: 'title',
                         displayField: 'sectionName',
@@ -730,7 +730,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Category',
+                        fieldLabel: biz_vnc_crm_client.category,
                         id: 'cmbOppcategory',
                         name: 'title',
                         displayField: 'categoryName',
@@ -753,12 +753,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         grow: false,
                         id: 'txtOppDetails',
                         name: 'Details',
-                        fieldLabel: 'Details',
+                        fieldLabel: biz_vnc_crm_client.description,
                         anchor: '95%'
                     }]
                 }]
             }, {
-                title: 'Lead',
+                title: biz_vnc_crm_client.tabLead,
                 layout: 'column',
                 items: [{
                     columnWidth: .33,
@@ -767,27 +767,27 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     items: [{
                         xtype: 'textfield',
                         id: 'txtOppCustomer',
-                        fieldLabel: 'Customer',
+                        fieldLabel: biz_vnc_crm_client.customer,
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppStreet1',
-                        fieldLabel: 'Street1',
+                        fieldLabel: biz_vnc_crm_client.street1,
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppStreet2',
-                        fieldLabel: 'Street2',
+                        fieldLabel: biz_vnc_crm_client.street2,
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppCity',
-                        fieldLabel: 'City',
+                        fieldLabel: biz_vnc_crm_client.city,
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppZip',
-                        fieldLabel: 'Zip',
+                        fieldLabel: biz_vnc_crm_client.zipCode,
                         anchor: '95%'
                     }, {
                         xtype: 'combo',
@@ -796,7 +796,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'State',
+                        fieldLabel: biz_vnc_crm_client.state,
                         id: 'cmbOppstate',
                         name: 'title',
                         displayField: 'stateName',
@@ -822,7 +822,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Country',
+                        fieldLabel: biz_vnc_crm_client.country,
                         id: 'cmbOppcountry',
                         name: 'title',
                         displayField: 'countryName',
@@ -850,12 +850,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'textfield',
-                        fieldLabel: 'Mobile',
+                        fieldLabel: biz_vnc_crm_client.mobile,
                         id: 'txtOppMobile',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Fax',
+                        fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtOppFax',
                         anchor: '95%'
                     }, {
@@ -865,7 +865,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Channel',
+                        fieldLabel: biz_vnc_crm_client.channel,
                         id: 'cmbOppchannel',
                         name: 'channel',
                         displayField: 'channelName',
@@ -886,7 +886,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }]
                 }]
             }, {
-                title: 'Communication & History',
+                title: biz_vnc_crm_client.tabComm_History,
                 id: 'oppComm',
                 layout: 'column',
                 disabled: true,
@@ -896,7 +896,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 1;
@@ -904,7 +904,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
@@ -949,7 +949,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
                             if (rec != null) {
@@ -994,34 +994,34 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Date',
+                        text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 200,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
-                        text: 'From',
+                        text: biz_vnc_crm_client.from,
                         sortable: false,
                         width: 200,
                         dataIndex: 'from'
                     }, {
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         width: 375,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Message',
+                        text: biz_vnc_crm_client.message,
                         width: 600,
                         sortable: true,
                         dataIndex: 'message'
                     }],
-                    title: 'History',
+                    title: null,
                     viewConfig: {
                         stripeRows: true
                     }
                 }]
             }, {
-                title: 'Appointments',
+                title: biz_vnc_crm_client.tabAppointment,
                 id: 'oppAppointment',
                 layout: 'column',
                 disabled: true,
@@ -1031,7 +1031,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 1;
@@ -1039,7 +1039,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
@@ -1095,7 +1095,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
                             if (rec != null) {
@@ -1141,7 +1141,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 400,
                         dataIndex: 'subject'
@@ -1168,7 +1168,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }
                 }]
             }, {
-                title: biz_vnc_crm_client.task,
+                title: biz_vnc_crm_client.tabTask,
                 id: 'oppTask',
                 layout: 'column',
                 disabled: true,
@@ -1178,7 +1178,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'toolbar',
                     items: [{
                         iconCls: 'attachment',
-                        text: 'Attach',
+                        text: biz_vnc_crm_client.btnAttach,
                         handler: function () {
                             var leadId = rec.get('leadId');
                             var flag = 1;
@@ -1186,7 +1186,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-                        text: 'Delete',
+                        text: biz_vnc_crm_client.btnDelete,
                         itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
@@ -1254,10 +1254,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
                                         Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                                         Ext.getCmp('oppTaskGrid').getView().refresh();
-
                                     }
-
-
                                 }
                             };
                         }
@@ -1274,9 +1271,57 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'refresh',
-                        text: 'Refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
-                        handler: function () {}
+                        handler: function () {
+							if (rec != null) {
+								var leadId = rec.get('leadId');
+								var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+								var reqHeader = {
+									"Content-Type": "application/x-www-form-urlencoded"
+								};
+								var reqJson = AjxStringUtil.urlEncode(json);
+								var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+								var newtaskArray = (responseTaskList.text).split(",");
+
+								var allTask = appCtxt.getTaskManager()._rawTasks;
+
+								var taskArray = [];
+								if (newtaskArray != null) {
+
+									var k = 0;
+									for (var i = 0; i < allTask.length; i++) {
+										for (var j = 0; j < newtaskArray.length; j++) {
+											if (allTask[i].invId == newtaskArray[j]) {
+												taskArray[k++] = newtaskArray[j];
+											}
+										}
+									}
+								}
+								if (taskArray.length <= 0) {
+									oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+								} else {
+									oppTaskListData = "[";
+									var flag = 0;
+									for (var i = 0; i < allTask.length; i++) {
+										var temp = allTask[i];
+										for (var j = 0; j < taskArray.length; j++) {
+											if (temp.invId == taskArray[j]) {
+												if (flag == taskArray.length - 1) {
+													oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+												} else {
+													oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+													flag++;
+												}
+											}
+										}
+									}
+								}
+								Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
+								Ext.getCmp('oppTaskGrid').getView().refresh();
+							}						
+						}
                     }]
                 }, {
                     xtype: 'grid',
@@ -1299,7 +1344,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }),
                     columnLines: true,
                     columns: [{
-                        text: 'Subject',
+                        text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 600,
                         dataIndex: 'subject'
@@ -1326,7 +1371,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }
                 }]
             }, {
-                title: 'Extra Info',
+                title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
                 items: [{
                     columnWidth: .50,
@@ -1334,7 +1379,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'datefield',
-                        fieldLabel: 'Creation Date',
+                        fieldLabel: biz_vnc_crm_client.creationDate,
                         format: 'Y-m-d H:i:s.0',
                         id: 'dateOppCreationdate',
                         disabled: true,
@@ -1344,21 +1389,21 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         id: 'dateOppUpdateDate',
                         format: 'Y-m-d H:i:s.0',
                         disabled: true,
-                        fieldLabel: 'Update Date',
+                        fieldLabel: biz_vnc_crm_client.updateDate,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppOpened',
                         format: 'Y-m-d H:i:s.0',
                         disabled: true,
-                        fieldLabel: 'Opened',
+                        fieldLabel: biz_vnc_crm_client.opened,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         id: 'dateOppClosed',
                         format: 'Y-m-d H:i:s.0',
                         disabled: true,
-                        fieldLabel: 'Closed',
+                        fieldLabel: biz_vnc_crm_client.closed,
                         anchor: '60%'
                     }]
                 }, {
@@ -1367,7 +1412,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'textfield',
-                        fieldLabel: 'Days to Open',
+                        fieldLabel: biz_vnc_crm_client.daystoOpen,
                         id: 'txtOppDaysToOpen',
                         name: 'days2open',
                         disabled: true,
@@ -1375,7 +1420,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         anchor: '60%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Days to Close',
+                        fieldLabel: biz_vnc_crm_client.daystoClose,
                         id: 'txtOppDaysToClose',
                         disabled: true,
                         name: 'days2close',
@@ -1383,7 +1428,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         anchor: '60%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Referred By',
+                        fieldLabel: biz_vnc_crm_client.referredBy,
                         id: 'txtOppReferredBy',
                         name: 'last',
                         anchor: '60%'
@@ -1488,7 +1533,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }
         }],
         buttons: [{
-            text: 'Save',
+            text: biz_vnc_crm_client.btnSave,
             width: 150,
             height: 25,
             iconCls: 'save',
@@ -1695,7 +1740,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }
         }, {
             id: 'btnOppCancel',
-            text: 'Cancel',
+            text: biz_vnc_crm_client.btnCancel,
             width: 150,
             height: 25,
             iconCls: 'cancel',

@@ -1,17 +1,15 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.CategoryBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.CategoryBean;
-import biz.vnc.util.DBUtility;
 
 public class CategoryHelper implements InterfaceHelper {
 
@@ -24,7 +22,6 @@ public class CategoryHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
 	@Override
 	public int add(AbstractBean ab) {
 
@@ -34,7 +31,6 @@ public class CategoryHelper implements InterfaceHelper {
 		return operationStatus;
 	}
 
-
 	@Override
 	public int update(AbstractBean ab) {
 		CategoryBean categoryBean = (CategoryBean)ab;
@@ -42,7 +38,6 @@ public class CategoryHelper implements InterfaceHelper {
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public int delete(AbstractBean ab) {
@@ -100,12 +95,9 @@ public class CategoryHelper implements InterfaceHelper {
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
 		String query = "update tbl_crm_category set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where categoryId IN (" + arrayIds + ");" ;
-		System.out.println(query);
 		operationStatus = dbu.delete(query);
-		System.out.println(operationStatus);
 		return operationStatus;
 	}
-
 
 	@Override
 	public AbstractBean getRecordById(String id) {
@@ -126,7 +118,6 @@ public class CategoryHelper implements InterfaceHelper {
 
 		try {
 			CategoryBean categoryBean  = new CategoryBean ();
-
 			categoryBean = gson.fromJson(jsonString, CategoryBean.class);
 			return categoryBean;
 		} catch(Exception e) {
@@ -135,20 +126,17 @@ public class CategoryHelper implements InterfaceHelper {
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public String getUsers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
@@ -177,7 +165,6 @@ public class CategoryHelper implements InterfaceHelper {
 		return retValue;
 	}
 
-
 	@Override
 	public String listClientView() {
 		// TODO Auto-generated method stub
@@ -185,13 +172,11 @@ public class CategoryHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
 	@Override
 	public String filterView(String array) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
@@ -199,13 +184,11 @@ public class CategoryHelper implements InterfaceHelper {
 		return null;
 	}
 
-
 	@Override
 	public String filterByContact(String Array) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addHistory(String array, String leadId) {
@@ -213,13 +196,11 @@ public class CategoryHelper implements InterfaceHelper {
 		return 0;
 	}
 
-
 	@Override
 	public String listHistory(String leadId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addAppointment(String array, String leadId) {
@@ -227,13 +208,11 @@ public class CategoryHelper implements InterfaceHelper {
 		return 0;
 	}
 
-
 	@Override
 	public String listAppointment(String leadId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addTask(String array, String leadId) {
@@ -241,15 +220,11 @@ public class CategoryHelper implements InterfaceHelper {
 		return 0;
 	}
 
-
 	@Override
 	public String listTask(String leadId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
 
 	@Override
 	public int deleteHistory(String array, String leadId) {
@@ -257,18 +232,15 @@ public class CategoryHelper implements InterfaceHelper {
 		return 0;
 	}
 
-
 	@Override
 	public int deleteAppointment(String array, String leadId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

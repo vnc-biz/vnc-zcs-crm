@@ -396,7 +396,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Section',
+                    fieldLabel: biz_vnc_crm_client.section,
                     id: 'cmbsection',
                     name: 'title',
                     displayField: 'sectionName',
@@ -431,7 +431,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Priority',
+                    fieldLabel: biz_vnc_crm_client.priority,
                     id: 'cmbpriority',
                     name: 'title',
                     displayField: 'priorityName',
@@ -457,7 +457,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Stage',
+                    fieldLabel: biz_vnc_crm_client.stage,
                     id: 'cmbstage',
                     name: 'title',
                     displayField: 'stageName',
@@ -527,7 +527,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'Category',
+                    fieldLabel: biz_vnc_crm_client.category,
                     id: 'cmbcategory',
                     name: 'title',
                     displayField: 'categoryName',
@@ -552,7 +552,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     triggerAction: 'all',
                     forceSelection: true,
                     editable: false,
-                    fieldLabel: 'SalesMan',
+                    fieldLabel: biz_vnc_crm_client.salesman,
                     id: 'cmbsalesman',
                     name: 'title',
                     displayField: 'label',
@@ -579,7 +579,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'textfield',
                     id: 'txtleadState',
-                    fieldLabel: 'Lead State',
+                    fieldLabel: biz_vnc_crm_client.leadState,
                     value: 'New',
                     disabled: true
                 }]
@@ -840,19 +840,19 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         anchor: '100%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Contact Name',
+                        fieldLabel: biz_vnc_crm_client.contactName,
                         id: 'txtleadcontactName',
                         anchor: '100%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Email',
+                        fieldLabel: biz_vnc_crm_client.email,
                         id: 'txtleademail',
                         vtype: 'email',
                         anchor: '100%'
                     }, {
                         xtype: 'textareafield',
                         grow: false,
-                        fieldLabel: 'Description',
+                        fieldLabel: biz_vnc_crm_client.description,
                         id: 'txtleadleadDescription',
                         anchor: '100%'
                     }]
@@ -884,17 +884,17 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'textfield',
-                        fieldLabel: 'Street1',
+                        fieldLabel: biz_vnc_crm_client.street1,
                         id: 'txtleadstreet1',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Street2',
+                        fieldLabel: biz_vnc_crm_client.street2,
                         id: 'txtleadstreet2',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'City',
+                        fieldLabel: biz_vnc_crm_client.city,
                         id: 'txtleadcity',
                         anchor: '95%'
                     }, {
@@ -904,7 +904,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'State',
+                        fieldLabel: biz_vnc_crm_client.state,
                         id: 'cmbstate',
                         name: 'title',
                         displayField: 'stateName',
@@ -931,7 +931,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Country',
+                        fieldLabel: biz_vnc_crm_client.country,
                         id: 'cmbcountry',
                         name: 'title',
                         displayField: 'countryName',
@@ -953,7 +953,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Zip Code',
+                        fieldLabel: biz_vnc_crm_client.zipCode,
                         id: 'txtleadzip',
                         anchor: '95%'
                     }]
@@ -963,22 +963,22 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'textfield',
-                        fieldLabel: 'Phone',
+                        fieldLabel: biz_vnc_crm_client.phone,
                         id: 'txtleadphone',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Work Phone',
+                        fieldLabel: biz_vnc_crm_client.workPhone,
                         id: 'txtleadworkPhone',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Mobile',
+                        fieldLabel: biz_vnc_crm_client.mobile,
                         id: 'txtleadmobile',
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Fax',
+                        fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtleadfax',
                         anchor: '95%'
                     }]
@@ -1116,7 +1116,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         sortable: true,
                         dataIndex: 'message'
                     }],
-                    title: biz_vnc_crm_client.histories,
+                    title: null,
                     viewConfig: {
                         stripeRows: true
                     }
@@ -1272,7 +1272,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 layout: 'column',
                 disabled: true,
                 width: '100%',
-                height: 250,
+                height: 190,
+				defaults: {
+                    autoRender: true,
+                    autoScroll: true
+                },
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -1439,7 +1443,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Company',
+                        fieldLabel: biz_vnc_crm_client.company,
                         id: 'cmbcompanyName',
                         name: 'CompanyName',
                         displayField: 'companyName',
@@ -1464,7 +1468,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         triggerAction: 'all',
                         forceSelection: true,
                         editable: false,
-                        fieldLabel: 'Channel',
+                        fieldLabel: biz_vnc_crm_client.channel,
                         id: 'cmbchannel',
                         name: 'channel',
                         displayField: 'channelName',
@@ -1484,13 +1488,13 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         anchor: '60%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Referred By',
+                        fieldLabel: biz_vnc_crm_client.referredBy,
                         id: 'txtleadreferredby',
                         name: 'last',
                         anchor: '60%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Days to Open',
+                        fieldLabel: biz_vnc_crm_client.daystoOpen,
                         id: 'txtleadday2open',
                         name: 'days2open',
                         disabled: true,
@@ -1504,34 +1508,34 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     items: [{
                         xtype: 'datefield',
                         format: 'Y-m-d H:i:s.0',
-                        fieldLabel: 'Creation Date',
+                        fieldLabel: biz_vnc_crm_client.creationDate,
                         id: 'datecreationdate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         format: 'Y-m-d H:i:s.0',
-                        fieldLabel: 'Update Date',
+                        fieldLabel: biz_vnc_crm_client.updateDate,
                         id: 'dateupdatedate',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         format: 'Y-m-d H:i:s.0',
-                        fieldLabel: 'Opened',
+                        fieldLabel: biz_vnc_crm_client.opened,
                         id: 'dateopened',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'datefield',
                         format: 'Y-m-d H:i:s.0',
-                        fieldLabel: 'Closed',
+                        fieldLabel: biz_vnc_crm_client.closed,
                         id: 'dateclosed',
                         disabled: true,
                         anchor: '60%'
                     }, {
                         xtype: 'textfield',
-                        fieldLabel: 'Days to Close',
+                        fieldLabel: biz_vnc_crm_client.daystoClose,
                         name: 'day2Close',
                         id: 'txtleadday2close',
                         disabled: true,

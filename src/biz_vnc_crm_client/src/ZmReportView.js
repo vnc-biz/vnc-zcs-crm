@@ -259,7 +259,7 @@ ZmReportView.createForm = function (app) {
     });
 
     Ext.create('Ext.panel.Panel', {
-        title: 'Report',
+        title: biz_vnc_crm_client.lblReport,
         width: '100%',
         height: 100,
         layout: 'column',
@@ -274,7 +274,7 @@ ZmReportView.createForm = function (app) {
             items: [{
                 xtype: 'combo',
                 id: 'cmbChooseType',
-                fieldLabel: 'Choose Type',
+                fieldLabel: biz_vnc_crm_client.chooseType,
 
                 store: typeData,
                 queryMode: 'local',
@@ -290,7 +290,7 @@ ZmReportView.createForm = function (app) {
             items: [{
                 xtype: 'combo',
                 id: 'cmbChooseReport',
-                fieldLabel: 'Choose Report Type',
+                fieldLabel: biz_vnc_crm_client.chooseReportType,
                 store: reportData,
                 queryMode: 'local',
                 displayField: 'name',
@@ -311,7 +311,7 @@ ZmReportView.createForm = function (app) {
         width: 600,
         x: 10,
         y: 110,
-        title: 'My Leads',
+        title: biz_vnc_crm_client.lblMyLeads,
         closable: true,
         collapsible: true,
 
@@ -357,7 +357,7 @@ ZmReportView.createForm = function (app) {
                     width: 160,
                     dataIndex: 'stageName'
                 }, {
-                    text: biz_vnc_crm_client.leadstate,
+                    text: biz_vnc_crm_client.state,
                     width: 160,
                     dataIndex: 'leadState'
                 }]
@@ -380,7 +380,7 @@ ZmReportView.createForm = function (app) {
         width: 600,
         x: 10,
         y: 110,
-        title: 'My Opportunities',
+        title: biz_vnc_crm_client.lblMyOpportunities,
         closable: true,
         collapsible: true,
         layout: 'fit',
@@ -539,7 +539,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
 				Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -552,7 +552,7 @@ ZmReportView.createForm = function (app) {
         }, {
             enableToggle: true,
             pressed: false,
-            text: 'Donut',
+            text: biz_vnc_crm_client.btnDonut,
             toggleHandler: function (btn, pressed) {
                 var chart = Ext.getCmp('chartCmpStage');
                 chart.series.first().donut = pressed ? 35 : false;
@@ -563,7 +563,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var leadStagePieChartWindow = new Ext.Window({
-        title: 'Number of leads by Stage',
+        title: biz_vnc_crm_client.lblNumberofleadsbystage,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,
@@ -670,7 +670,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
                 Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -683,7 +683,7 @@ ZmReportView.createForm = function (app) {
         }, {
             enableToggle: true,
             pressed: false,
-            text: 'Donut',
+            text: biz_vnc_crm_client.btnDonut,
             toggleHandler: function (btn, pressed) {
                 var chart = Ext.getCmp('chartCmpOppStage');
                 chart.series.first().donut = pressed ? 35 : false;
@@ -694,7 +694,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var oppStagePieChartWindow = new Ext.Window({
-        title: 'Number of Opportunity by Stage',
+        title: biz_vnc_crm_client.lblNumberofoppbystage,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,
@@ -784,7 +784,7 @@ ZmReportView.createForm = function (app) {
             type: 'Category',
             position: 'bottom',
             fields: ['name'],
-            title: 'YEARS'
+            title: biz_vnc_crm_client.lblYears
         }],
         series: [{
             type: 'column',
@@ -818,7 +818,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
                 Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -834,7 +834,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var oppRevenueChartWindow = new Ext.Window({
-        title: 'Year vise Revenue',
+        title: biz_vnc_crm_client.lblYearviseRevenue,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,
@@ -946,7 +946,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
                 Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -959,7 +959,7 @@ ZmReportView.createForm = function (app) {
         }, {
             enableToggle: true,
             pressed: false,
-            text: 'Donut',
+            text: biz_vnc_crm_client.btnDonut,
             toggleHandler: function (btn, pressed) {
                 var chart = Ext.getCmp('chartCmp');
                 chart.series.first().donut = pressed ? 35 : false;
@@ -970,7 +970,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var leadPieChartWindow = new Ext.Window({
-        title: 'Number of leads by state',
+        title: biz_vnc_crm_client.lblNumberofleadsbystate,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,
@@ -1081,7 +1081,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
                 Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -1094,7 +1094,7 @@ ZmReportView.createForm = function (app) {
         }, {
             enableToggle: true,
             pressed: false,
-            text: 'Donut',
+            text: biz_vnc_crm_client.btnDonut,
             toggleHandler: function (btn, pressed) {
                 var chart = Ext.getCmp('oppPieChart');
                 chart.series.first().donut = pressed ? 35 : false;
@@ -1105,7 +1105,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var oppPieChartWindow = new Ext.Window({
-        title: 'Number of opportunity by state',
+        title: biz_vnc_crm_client.lblNumberofoppbystate,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,
@@ -1268,7 +1268,7 @@ ZmReportView.createForm = function (app) {
             type: 'Category',
             position: 'bottom',
             fields: ['name'],
-            title: 'Months of current year'
+            title: biz_vnc_crm_client.lblMonthsOfCurrentYear
         }],
         series: [{
             type: 'column',
@@ -1302,7 +1302,7 @@ ZmReportView.createForm = function (app) {
         renderTo: Ext.getBody(),
         layout: 'fit',
         tbar: [{
-            text: 'Save Chart',
+            text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
                 Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
@@ -1318,7 +1318,7 @@ ZmReportView.createForm = function (app) {
     });
 
     var oppChartWindow = new Ext.Window({
-        title: 'Monthly Expected Revenue',
+        title: biz_vnc_crm_client.lblMonthlyRevenue,
         renderTo: 'datagridOpportunity',
         maxWidth: 700,
         maxHeight: 500,

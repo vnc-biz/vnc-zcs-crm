@@ -1,18 +1,15 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.CountryBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.CountryBean;
-import biz.vnc.util.DBUtility;
-
-
-import com.google.gson.Gson;
 
 public class CountryHelper implements InterfaceHelper {
 
@@ -22,14 +19,9 @@ public class CountryHelper implements InterfaceHelper {
 
 	@Override
 	public String listView() {
-
 		String strOfAllRecords = gson.toJson(getAllRecords());
-		/*for(AbstractBean cb : getAllRecords()){
-			System.out.println("Bean: " + ((CountryBean)cb).getCountryName());
-		}*/
 		return strOfAllRecords;
 	}
-
 
 	@Override
 	public int add(AbstractBean ab) {
@@ -45,7 +37,6 @@ public class CountryHelper implements InterfaceHelper {
 	public int update(AbstractBean ab) {
 		CountryBean countryBean = (CountryBean)ab;
 		String query = "update tbl_crm_country set countryName = \"" + countryBean.getCountryName() + "\", countryCode =\"" + countryBean.getCountryCode() + "\", status =" + countryBean.isStatus() + ", writeBy = \"" + countryBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where countryId = " + countryBean.getCountryId() + ";" ;
-		System.out.println("Query------------->" + query);
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
@@ -114,9 +105,7 @@ public class CountryHelper implements InterfaceHelper {
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		System.out.println("ch::::>>>>>" + id);
 		String query = "select * from tbl_crm_country where countryId = '" + id + "' " ;
-		System.out.println(">>>>>>>>>>>>" + query);
 		ResultSet rs = dbu.select(query);
 		return (getRecordFromResultSet(rs));
 	}
@@ -133,11 +122,7 @@ public class CountryHelper implements InterfaceHelper {
 
 		try {
 			CountryBean countryBean  = new CountryBean ();
-
 			countryBean = gson.fromJson(jsonString, CountryBean.class);
-			//JSONObject jObj = (JSONObject)new JSONParser().parse(jsonString);
-			//countryBean.setCountryName(gson.get("countryName").toString());
-			//countryBean.setCountryCode(gson.get("countryCode").toString());
 			return countryBean;
 		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
@@ -177,7 +162,6 @@ public class CountryHelper implements InterfaceHelper {
 				countryBean.setCreateDate(rs.getString("createDate"));
 				countryBean.setWriteBy(rs.getString("writeBy"));
 				countryBean.setWriteDate(rs.getString("writeDate"));
-
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
@@ -185,7 +169,6 @@ public class CountryHelper implements InterfaceHelper {
 		}
 		return retValue;
 	}
-
 
 	@Override
 	public String listClientView() {

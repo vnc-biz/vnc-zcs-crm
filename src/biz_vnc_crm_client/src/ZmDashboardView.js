@@ -37,9 +37,6 @@ ZmDashboardView.dashboard = function (app) {
         }
     }
 
-
-
-
     total = closelead + inProgresslead + newlead + pendinglead;
     var leadChartStore = Ext.create('Ext.data.JsonStore', {
         fields: [{
@@ -108,7 +105,7 @@ ZmDashboardView.dashboard = function (app) {
 			height: 300,
 			x: 920,
 			y: 320,
-			title: 'Number of leads by state',
+			title: biz_vnc_crm_client.lblNumberofleadsbystate,
 			renderTo: Ext.getBody(),
 			layout: 'fit',
 			tbar: [{
@@ -189,7 +186,6 @@ ZmDashboardView.dashboard = function (app) {
 	for (var i = 0; i < oppData.length; i++) {
         date = oppData[i].createDate;
         date = date.split(" ");
-
         if (new Date(date[0]).getMonth() == 0) {
             jan += parseInt(oppData[i].valuation);
         } else if (new Date(date[0]).getMonth() == 1) {
@@ -328,7 +324,7 @@ ZmDashboardView.dashboard = function (app) {
         height: 300,
         x: 920,
         y: 10,
-        title: 'Monthly Expected Revenue',
+        title: biz_vnc_crm_client.lblMonthlyRevenue,
         layout: 'fit',
         tbar: [{
             text: biz_vnc_crm_client.btnSaveChart,
@@ -544,7 +540,7 @@ ZmDashboardView.dashboard = function (app) {
         height: 300,
         x: 10,
         y: 10,
-        title: 'My Opportunities',
+        title: biz_vnc_crm_client.lblMyOpportunities,
         id: 'oppPanel',
         layout: 'fit',
         items: [{
@@ -661,7 +657,7 @@ ZmDashboardView.dashboard = function (app) {
     });
 
     LeadPanel = Ext.create('Ext.form.Panel', {
-        title: 'My Leads',
+        title: biz_vnc_crm_client.lblMyLeads,
         width: 900,
         height: 300,
         x: 10,
@@ -730,7 +726,7 @@ ZmDashboardView.dashboard = function (app) {
                 width: 110,
                 dataIndex: 'stageName'
             }, {
-                text: biz_vnc_crm_client.leadstate,
+                text: biz_vnc_crm_client.state,
                 width: 120,
                 dataIndex: 'leadState'
             }, {

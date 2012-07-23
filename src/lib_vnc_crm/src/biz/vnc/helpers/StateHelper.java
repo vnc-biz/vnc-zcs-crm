@@ -1,20 +1,17 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.StateBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.StateBean;
-import biz.vnc.util.DBUtility;
-
 public class StateHelper implements InterfaceHelper {
-
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
@@ -36,7 +33,6 @@ public class StateHelper implements InterfaceHelper {
 	public int update(AbstractBean ab) {
 		StateBean stateBean = (StateBean)ab;
 		String query = "update tbl_crm_state set stateName =\"" + stateBean.getStateName() + "\", stateCode =\"" + stateBean.getStateCode() + "\", countryId =" + stateBean.getCountryId() + ", status =" + stateBean.isStatus() + ", writeBy = \"" + stateBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where stateId = " + stateBean.getStateId() + ";" ;
-		System.out.println("query -------->" + query);
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
@@ -85,7 +81,6 @@ public class StateHelper implements InterfaceHelper {
 				stateBean.setStateCode(rs.getString("stateCode"));
 				stateBean.setStatus(rs.getBoolean("status"));
 				stateBean.setCountryId(rs.getString("countryName"));
-
 				stateBean.setCreateBy(rs.getString("createBy"));
 				stateBean.setCreateDate(rs.getString("createDate"));
 				stateBean.setWriteBy(rs.getString("writeBy"));
@@ -125,11 +120,7 @@ public class StateHelper implements InterfaceHelper {
 	public StateBean toBean(String jsonString) {
 		try {
 			StateBean stateBean  = new StateBean ();
-
 			stateBean = gson.fromJson(jsonString, StateBean.class);
-			//JSONObject jObj = (JSONObject)new JSONParser().parse(jsonString);
-			//stateBean.setStateName(gson.get("stateName").toString());
-			//stateBean.setStateCode(gson.get("stateCode").toString());
 			return stateBean;
 		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
@@ -168,7 +159,6 @@ public class StateHelper implements InterfaceHelper {
 				stateBean.setCreateDate(rs.getString("createDate"));
 				stateBean.setWriteBy(rs.getString("writeBy"));
 				stateBean.setWriteDate(rs.getString("writeDate"));
-
 				retValue.add(stateBean);
 			}
 		} catch (SQLException e) {
@@ -255,5 +245,4 @@ public class StateHelper implements InterfaceHelper {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

@@ -41,5 +41,4 @@ public class PriorityBean extends AbstractBean {
 
 		return null;
 	}
-
 }

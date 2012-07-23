@@ -1,5 +1,4 @@
 package biz.vnc.base;
-
 public abstract class AbstractBean {
 	private String createBy;
 	private String createDate;
@@ -48,5 +47,4 @@ public abstract class AbstractBean {
 	}
 
 	public abstract String toString();
-
 }

@@ -1,17 +1,15 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.PriorityBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.PriorityBean;
-import biz.vnc.util.DBUtility;
 
 public class PriorityHelper implements InterfaceHelper {
 
@@ -27,7 +25,6 @@ public class PriorityHelper implements InterfaceHelper {
 
 	@Override
 	public int add(AbstractBean ab) {
-
 		PriorityBean priorityBean = (PriorityBean)ab;
 		String query = "insert into tbl_crm_priority values (" + priorityBean.getPriorityId() + ",\"" + priorityBean.getPriorityName() + "\",\"" + priorityBean.getPriorityCode() + "\"," + priorityBean.isStatus() + ",\"" + priorityBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + priorityBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
@@ -88,7 +85,6 @@ public class PriorityHelper implements InterfaceHelper {
 				priorityBean.setCreateDate(rs.getString("createDate"));
 				priorityBean.setWriteBy(rs.getString("writeBy"));
 				priorityBean.setWriteDate(rs.getString("writeDate"));
-
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {
@@ -124,7 +120,6 @@ public class PriorityHelper implements InterfaceHelper {
 
 		try {
 			PriorityBean priorityBean = new PriorityBean();
-
 			priorityBean = gson.fromJson(jsonString, PriorityBean.class);
 			return priorityBean;
 		} catch(Exception e) {
@@ -166,7 +161,6 @@ public class PriorityHelper implements InterfaceHelper {
 				priorityBean.setCreateDate(rs.getString("createDate"));
 				priorityBean.setWriteBy(rs.getString("writeBy"));
 				priorityBean.setWriteDate(rs.getString("writeDate"));
-
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {

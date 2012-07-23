@@ -1,20 +1,17 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.StageBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.StageBean;
-import biz.vnc.util.DBUtility;
-
 public class StageHelper implements InterfaceHelper {
-
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
@@ -30,7 +27,6 @@ public class StageHelper implements InterfaceHelper {
 
 		StageBean stageBean = (StageBean)ab;
 		String query = "insert into tbl_crm_stage values (" + stageBean.getStageId() + ",\"" + stageBean.getStageName() + "\"," + stageBean.getStageSequence() + "," + stageBean.getStageType() + ",'" + stageBean.getStageState() + "'," + stageBean.getStageProbability() + ",\"" + stageBean.getStageDescription() + "\"," + stageBean.getStageAuto() + "," + stageBean.isStatus() + ",\"" + stageBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + stageBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		System.out.println("query ------------->" + query);
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -115,7 +111,6 @@ public class StageHelper implements InterfaceHelper {
 		return operationStatus;
 	}
 
-
 	@Override
 	public AbstractBean getRecordById(String id) {
 		String query = "select * from tbl_crm_stage where stageId = " + id + ";" ;
@@ -135,7 +130,6 @@ public class StageHelper implements InterfaceHelper {
 
 		try {
 			StageBean stageBean  = new StageBean ();
-
 			stageBean = gson.fromJson(jsonString, StageBean.class);
 			return stageBean;
 		} catch(Exception e) {

@@ -1,17 +1,15 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.CompanyBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.CompanyBean;
-import biz.vnc.util.DBUtility;
 
 public class CompanyHelper implements InterfaceHelper {
 
@@ -30,9 +28,6 @@ public class CompanyHelper implements InterfaceHelper {
 	public String listView() {
 		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllRecords());
-		/*for(AbstractBean cb : getAllRecords()){
-			System.out.println("Bean: " + ((CompanyBean)cb).getCompanyName());
-		}*/
 		return strOfAllRecords;
 	}
 
@@ -50,7 +45,6 @@ public class CompanyHelper implements InterfaceHelper {
 		// TODO Auto-generated method stub
 		CompanyBean companyBean = (CompanyBean)ab;
 		String query = "update tbl_crm_company set companyName = \"" + companyBean.getCompanyName() + "\", companyAddress =\"" + companyBean.getCompanyAddress() + "\", companyPhone =\"" + companyBean.getCompanyPhone() + "\", companyFax =\"" + companyBean.getCompanyFax() + "\", companyEmail =\"" + companyBean.getCompanyEmail() + "\", status =" + companyBean.isStatus() + ", writeBy = \"" + companyBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where companyId = " + companyBean.getCompanyId() + ";" ;
-		System.out.println("Query------------->" + query);
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
@@ -127,9 +121,7 @@ public class CompanyHelper implements InterfaceHelper {
 	@Override
 	public AbstractBean getRecordById(String id) {
 		// TODO Auto-generated method stub
-		System.out.println("ch::::>>>>>" + id);
 		String query = "select * from tbl_crm_company where companyId = '" + id + "' " ;
-		System.out.println(">>>>>>>>>>>>" + query);
 		ResultSet rs = dbu.select(query);
 		return (getRecordFromResultSet(rs));
 	}
@@ -149,9 +141,6 @@ public class CompanyHelper implements InterfaceHelper {
 			CompanyBean companyBean  = new CompanyBean ();
 
 			companyBean = gson.fromJson(jsonString, CompanyBean.class);
-			//JSONObject jObj = (JSONObject)new JSONParser().parse(jsonString);
-			//companyBean.setCompanyName(gson.get("companyName").toString());
-			//companyBean.setCompanyCode(gson.get("companyCode").toString());
 			return companyBean;
 		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);

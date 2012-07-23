@@ -1,8 +1,12 @@
 package biz.vnc.util;
 
-import java.io.*;
-import java.sql.*;
-
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class DBUtility {
 	public static Connection connection;
@@ -17,10 +21,9 @@ public class DBUtility {
 			InputStreamReader isr = new InputStreamReader(stdin);
 			BufferedReader br = new BufferedReader(isr);
 			MYSQL_PASSWORD = br.readLine();
-			System.out.println("Mysql password: " + MYSQL_PASSWORD);
 
 			Class.forName("com.mysql.jdbc.Driver");
-			String dbUrl = "jdbc:mysql://localhost:7306/test_zimbra?zeroDateTimeBehavior=convertToNull";
+			String dbUrl = "jdbc:mysql://localhost:7306/test_zimbra?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
 			String dbUsername = "zimbra";
 			connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
 			statement = connection.createStatement();
@@ -83,6 +86,5 @@ public class DBUtility {
 			System.out.println("Selection Exception: " + e);
 		}
 		return null;
-
 	}
 }

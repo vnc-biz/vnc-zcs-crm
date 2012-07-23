@@ -87,7 +87,4 @@ public class StageBean extends AbstractBean {
 	public String getStageState() {
 		return stageState;
 	}
-
-
-
 }

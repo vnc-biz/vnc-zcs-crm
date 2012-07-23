@@ -38,8 +38,6 @@ public class CategoryBean extends AbstractBean {
 
 	@Override
 	public String toString() {
-
 		return null;
 	}
-
 }

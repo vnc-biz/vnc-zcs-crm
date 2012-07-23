@@ -1,17 +1,15 @@
 package biz.vnc.helpers;
 
+import biz.vnc.base.AbstractBean;
+import biz.vnc.base.InterfaceHelper;
+import biz.vnc.beans.ChannelBean;
+import biz.vnc.util.DBUtility;
+import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.Gson;
-
-import biz.vnc.base.AbstractBean;
-import biz.vnc.base.InterfaceHelper;
-import biz.vnc.beans.ChannelBean;
-import biz.vnc.util.DBUtility;
 
 public class ChannelHelper implements InterfaceHelper {
 
@@ -31,7 +29,6 @@ public class ChannelHelper implements InterfaceHelper {
 		ChannelBean channelBean = (ChannelBean)ab;
 		String query = "insert into tbl_crm_channel values (" + channelBean.getChannelId() + ",\"" + channelBean.getChannelName() + "\"," + channelBean.isStatus() + ",\"" + channelBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + channelBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
-		System.out.println("Operation Status :  " + operationStatus);
 		return operationStatus;
 	}
 
@@ -123,7 +120,6 @@ public class ChannelHelper implements InterfaceHelper {
 
 		try {
 			ChannelBean channelBean = new ChannelBean();
-
 			channelBean = gson.fromJson(jsonString, ChannelBean.class);
 			return channelBean;
 		} catch(Exception e) {
@@ -139,13 +135,11 @@ public class ChannelHelper implements InterfaceHelper {
 		return null;
 	}
 
-
 	@Override
 	public String getUsers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
@@ -173,7 +167,6 @@ public class ChannelHelper implements InterfaceHelper {
 		return retValue;
 	}
 
-
 	@Override
 	public String listClientView() {
 		// TODO Auto-generated method stub
@@ -181,20 +174,17 @@ public class ChannelHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
 	@Override
 	public String filterView(String array) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public String filterByContact(String Array) {
@@ -216,10 +206,6 @@ public class ChannelHelper implements InterfaceHelper {
 		return null;
 	}
 
-
-
-
-
 	@Override
 	public int addAppointment(String array, String leadId) {
 		// TODO Auto-generated method stub
@@ -232,10 +218,6 @@ public class ChannelHelper implements InterfaceHelper {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
 
 	@Override
 	public int addTask(String array, String leadId) {
