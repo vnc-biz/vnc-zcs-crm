@@ -548,7 +548,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 items: [{
 
                     xtype: 'button',
-                    text: 'Schedule/Log Call',
+                    text: biz_vnc_crm_client.btnScheduleLogCall,
                     width: 250,
                     height: 25,
                     iconCls: 'phone',
@@ -560,7 +560,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }
                 }, {
                     xtype: 'button',
-                    text: 'Schedule Meeting',
+                    text: biz_vnc_crm_client.btnScheduleMeeting,
                     width: 250,
                     height: 25,
                     margin: '3 0 3 0',
@@ -1084,7 +1084,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'appointment',
-                        text: 'New',
+                        text: biz_vnc_crm_client.btnNew,
                         itemId: 'newappoint',
                         handler: function () {
                             if (rec != null) {
@@ -1146,17 +1146,17 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         width: 400,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Location',
+                        text: biz_vnc_crm_client.locations,
                         sortable: false,
                         width: 250,
                         dataIndex: 'location1'
                     }, {
-                        text: 'Calendar',
+                        text: biz_vnc_crm_client.calendar,
                         width: 100,
                         sortable: true,
                         dataIndex: 'calendar'
                     }, {
-                        text: 'Start Date',
+                        text: biz_vnc_crm_client.start_date,
                         sortable: false,
                         width: 200,
                         dataIndex: 'startdate',
@@ -1260,7 +1260,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'task',
-                        text: 'New',
+                        text: biz_vnc_crm_client.btnNew,
                         itemId: 'newtask',
                         handler: function () {
                             biz_vnc_crm_client.flag = 1;
@@ -1349,17 +1349,17 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         width: 600,
                         dataIndex: 'subject'
                     }, {
-                        text: 'Status',
+                        text: biz_vnc_crm_client.status,
                         width: 200,
                         sortable: true,
                         dataIndex: 'status'
                     }, {
-                        text: '% Complete',
+                        text: biz_vnc_crm_client.complete,
                         width: 100,
                         sortable: true,
                         dataIndex: 'complete'
                     }, {
-                        text: 'Due Date',
+                        text: biz_vnc_crm_client.dueDate,
                         sortable: false,
                         width: 200,
                         dataIndex: 'dueDate',

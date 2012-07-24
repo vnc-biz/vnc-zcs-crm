@@ -1432,6 +1432,11 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+	if (response.text == 1) {
+		Ext.example.msg('', biz_vnc_crm_client.msgApptAttach);
+	} else {
+		Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
+	}
     if (1 == response.text) {
         this.attachApptDialog.popdown();
         if (biz_vnc_crm_client.flag == 0) {
@@ -4391,7 +4396,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 layout: 'anchor',
                 items: [{
                     xtype: 'button',
-                    text: 'Schedule/Log Call',
+                    text: biz_vnc_crm_client.btnScheduleLogCall,
                     width: 250,
                     height: 25,
                     iconCls: 'phone',
@@ -4401,7 +4406,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     }
                 }, {
                     xtype: 'button',
-                    text: 'Schedule Meeting',
+                    text: biz_vnc_crm_client.btnScheduleMeeting,
                     width: 250,
                     height: 25,
                     margin: '3 0 3 0',
