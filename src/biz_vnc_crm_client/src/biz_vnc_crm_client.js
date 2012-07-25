@@ -27,13 +27,65 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.mailData = "";
     biz_vnc_crm_client.apptData = "";
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
+
+	biz_vnc_crm_client.responsePriority = "";
+	biz_vnc_crm_client.responseCategory = "";
+	biz_vnc_crm_client.responseStage = "";
+	biz_vnc_crm_client.responseChannel = "";
+	biz_vnc_crm_client.responseState = "";
+	biz_vnc_crm_client.responseCountry = "";
+	biz_vnc_crm_client.responseCompany = "";
+	biz_vnc_crm_client.responseSection = "";
+	biz_vnc_crm_client.responseUser = "";
+
+	var json, reqJson;
+	var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+	
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+	
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+	json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+	json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
 };
 
 
 // Intializing the toolbar for putting zimbraCRM button in the toolbar
 
 biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, toolbar, controller, view) {
-    if (view == "CNS") {
+	if (view == "CNS") {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
             menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
@@ -1833,11 +1885,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('category', {
+	Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -1847,11 +1896,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('stage', {
+	Ext.define('stage', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stageId',
@@ -1864,11 +1910,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('channel', {
+	Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -1878,11 +1921,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('state', {
+	Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -1892,11 +1932,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('country', {
+	Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -1906,15 +1943,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    Ext.define('company', {
+	Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -1936,12 +1966,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-
-    Ext.define('user', {
+	Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -1952,20 +1977,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    function onEnter(elem, e) {
+	function onEnter(elem, e) {
         if (e.getKey() === e.ENTER) {}
     }
-
-
-
-
 
     //**********************************************************************************************************
 
@@ -1994,9 +2008,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             selectionchange: function (leadSMMail, selections) {}
         }
     });
-
-
-
 
     Ext.define('leadTaskModel', {
         extend: 'Ext.data.Model',
@@ -2027,7 +2038,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }
     });
 
-
     Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -2038,7 +2048,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }]
     });
-
 
     var LeadFooterPanel = Ext.create('Ext.form.Panel', {
         title: null,
@@ -2090,7 +2099,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'section',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseSection.text)
+                            data: jsonParse(biz_vnc_crm_client.responseSection.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2125,7 +2134,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responsePriority.text)
+                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2150,7 +2159,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseStage.text)
+                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2221,7 +2230,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'category',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseCategory.text)
+                            data: jsonParse(biz_vnc_crm_client.responseCategory.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2246,7 +2255,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'user',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseUser.text)
+                            data: jsonParse(biz_vnc_crm_client.responseUser.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2556,7 +2565,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseState.text)
+                                data: jsonParse(biz_vnc_crm_client.responseState.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -2583,7 +2592,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCountry.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -2866,7 +2875,49 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         iconCls: 'refresh',
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
-                        handler: function () {}
+                        handler: function () {
+							var leadId = biz_vnc_crm_client.leadId;
+							var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+							var reqHeader = {
+								"Content-Type": "application/x-www-form-urlencoded"
+							};
+							var reqJson = AjxStringUtil.urlEncode(json);
+							var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+							var newtaskArray = (responseTaskList.text).split(",");
+							var allTask = appCtxt.getTaskManager()._rawTasks;
+							var taskArray = [];
+							if (newtaskArray != null) {
+								var k = 0;
+								for (var i = 0; i < allTask.length; i++) {
+									for (var j = 0; j < newtaskArray.length; j++) {
+										if (allTask[i].invId == newtaskArray[j]) {
+											taskArray[k++] = newtaskArray[j];
+										}
+									}
+								}
+							}
+							if (taskArray.length <= 0) {
+								leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+							} else {
+								leadTaskListData = "[";
+								var flag = 0;
+								for (var i = 0; i < allTask.length; i++) {
+									var temp = allTask[i];
+									for (var j = 0; j < taskArray.length; j++) {
+										if (temp.invId == taskArray[j]) {
+											if (flag == taskArray.length - 1) {
+												leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+											} else {
+												leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+												flag++;
+											}
+										}
+									}
+								}
+							}
+							Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
+							Ext.getCmp('leadTaskGrid').getView().refresh();
+						}
                     }]
                 }, {
                     xtype: 'grid',
@@ -3076,7 +3127,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCompany.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -3101,7 +3152,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseChannel.text)
+                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -3920,13 +3971,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }
         }
     });
-
-    var json, responsePriority, responseCategory, responseStage, responseChannel, responseState, responseCountry, responseSection, responseCompany, responseContactName, responseUser;
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson;
-    Ext.define('priority', {
+	
+	Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'priorityId',
@@ -3936,11 +3982,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('section', {
+	Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'sectionId',
@@ -3950,10 +3993,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
 
     Ext.define('customer', {
         extend: 'Ext.data.Model',
@@ -3979,11 +4018,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
         ]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseContactName = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('category', {
+	Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -3993,15 +4029,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    Ext.define('company', {
+	Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -4032,11 +4061,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
         ]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('channel', {
+	Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -4046,11 +4072,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('state', {
+	Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -4060,11 +4083,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('country', {
+	Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -4074,21 +4094,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('contact1', {
-        extend: 'Ext.data.Model',
-        fields: [{
-            name: 'value',
-            type: 'string'
-        }, {
-            name: 'label',
-            type: 'string'
-        }]
-    });
-    Ext.define('user', {
+	Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -4099,13 +4106,16 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
+	Ext.define('user', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'value',
+            type: 'string'
+        }, {
+            name: 'label',
+            type: 'string'
+        }]
+    });
 
     var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
@@ -4113,8 +4123,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }
     });
 
-
-    var smappoint = Ext.create('Ext.selection.CheckboxModel', {
+	var smappoint = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {}
         }
@@ -4267,7 +4276,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseStage.text)
+                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4351,7 +4360,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'user',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseUser.text)
+                            data: jsonParse(biz_vnc_crm_client.responseUser.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4389,7 +4398,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responsePriority.text)
+                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4510,7 +4519,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCompany.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4580,7 +4589,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'section',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseSection.text)
+                                data: jsonParse(biz_vnc_crm_client.responseSection.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4605,7 +4614,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'category',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCategory.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCategory.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4688,7 +4697,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseChannel.text)
+                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4714,7 +4723,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseState.text)
+                                data: jsonParse(biz_vnc_crm_client.responseState.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4740,7 +4749,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCountry.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -5129,7 +5138,51 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         iconCls: 'refresh',
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
-                        handler: function () {}
+                        handler: function () {
+							var leadId = biz_vnc_crm_client.leadId;
+							var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+							var reqHeader = {
+								"Content-Type": "application/x-www-form-urlencoded"
+							};
+							var reqJson = AjxStringUtil.urlEncode(json);
+							var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+							var newtaskArray = (responseTaskList.text).split(",");
+							var allTask = appCtxt.getTaskManager()._rawTasks;
+							var taskArray = [];
+							if (newtaskArray != null) {
+
+								var k = 0;
+								for (var i = 0; i < allTask.length; i++) {
+									for (var j = 0; j < newtaskArray.length; j++) {
+										if (allTask[i].invId == newtaskArray[j]) {
+											taskArray[k++] = newtaskArray[j];
+										}
+									}
+								}
+							}
+							if (taskArray.length <= 0) {
+								oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+							} else {
+								oppTaskListData = "[";
+								var flag = 0;
+								for (var i = 0; i < allTask.length; i++) {
+									var temp = allTask[i];
+									for (var j = 0; j < taskArray.length; j++) {
+										if (temp.invId == taskArray[j]) {
+											if (flag == taskArray.length - 1) {
+												oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+											} else {
+												oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+												flag++;
+											}
+										}
+									}
+								}
+							}
+							Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
+							Ext.getCmp('oppTaskGrid').getView().refresh();
+					
+						}
                     }]
                 }, {
                     xtype: 'grid',

@@ -82,12 +82,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.firstName + "\"},";
         }
     }
-    var json, responsePriority, responseCategory, responseStage, responseChannel, responseState, responseMailHistory, responseCountry, responseSection, responseCompany, responseContactName, responseUser;
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson;
-    Ext.define('priority', {
+
+	Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'priorityId',
@@ -97,11 +93,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('section', {
+	Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'sectionId',
@@ -111,10 +104,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
 
     Ext.define('customer', {
         extend: 'Ext.data.Model',
@@ -140,11 +129,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
         ]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseContactName = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('category', {
+	Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -154,15 +140,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    Ext.define('company', {
+	Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -193,11 +172,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
         ]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('channel', {
+	Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -207,11 +183,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('state', {
+	Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -221,11 +194,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('country', {
+	Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -235,11 +205,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('contact1', {
+	Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -260,14 +227,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    Ext.define('mail', {
+	Ext.define('mail', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'mailId',
@@ -405,7 +365,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseStage.text)
+                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -488,7 +448,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'user',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseUser.text)
+                            data: jsonParse(biz_vnc_crm_client.responseUser.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -526,7 +486,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responsePriority.text)
+                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -649,7 +609,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCompany.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -715,7 +675,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'section',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseSection.text)
+                                data: jsonParse(biz_vnc_crm_client.responseSection.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -740,7 +700,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'category',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCategory.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCategory.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -808,7 +768,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseState.text)
+                                data: jsonParse(biz_vnc_crm_client.responseState.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -834,7 +794,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCountry.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -876,7 +836,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseChannel.text)
+                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
                             },
                             autoLoad: true,
                             actionMethods: {

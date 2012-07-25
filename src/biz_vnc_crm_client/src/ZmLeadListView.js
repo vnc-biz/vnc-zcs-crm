@@ -136,10 +136,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    Ext.define('category', {
+
+	Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -149,11 +147,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('stage', {
+	Ext.define('stage', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stageId',
@@ -166,11 +161,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('channel', {
+	Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -180,11 +172,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('state', {
+	Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -194,11 +183,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    Ext.define('country', {
+	Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -208,15 +194,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    Ext.define('company', {
+	Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -238,10 +217,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    Ext.define('user', {
+	Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -252,15 +228,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    //**********************************************************************************************************
-
+	//**********************************************************************************************************
 
     Ext.define('taskModel', {
         extend: 'Ext.data.Model',
@@ -294,7 +262,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
 
     //**********************************************************************************************************
     Ext.define('mail', {
@@ -406,7 +373,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         model: 'section',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseSection.text)
+                            data: jsonParse(biz_vnc_crm_client.responseSection.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -442,7 +409,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responsePriority.text)
+                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -467,7 +434,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseStage.text)
+                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -537,7 +504,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         model: 'category',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseCategory.text)
+                            data: jsonParse(biz_vnc_crm_client.responseCategory.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -562,7 +529,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         model: 'user',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(responseUser.text)
+                            data: jsonParse(biz_vnc_crm_client.responseUser.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -916,7 +883,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseState.text)
+                                data: jsonParse(biz_vnc_crm_client.responseState.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -943,7 +910,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCountry.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -1382,7 +1349,56 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         iconCls: 'refresh',
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
-                        handler: function () {}
+	                    handler: function () {
+							if (rec != null) {
+								var leadId = rec.get('leadId');
+								var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+								var reqHeader = {
+									"Content-Type": "application/x-www-form-urlencoded"
+								};
+								var reqJson = AjxStringUtil.urlEncode(json);
+								var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+								var newtaskArray = (responseTaskList.text).split(",");
+
+								var allTask = appCtxt.getTaskManager()._rawTasks;
+
+								var taskArray = [];
+								if (newtaskArray != null) {
+
+									var k = 0;
+									for (var i = 0; i < allTask.length; i++) {
+										for (var j = 0; j < newtaskArray.length; j++) {
+											if (allTask[i].invId == newtaskArray[j]) {
+												taskArray[k++] = newtaskArray[j];
+											}
+										}
+									}
+								}
+								if (taskArray.length <= 0) {
+									leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+								} else {
+									leadTaskListData = "[";
+									var flag = 0;
+									for (var i = 0; i < allTask.length; i++) {
+										var temp = allTask[i];
+										for (var j = 0; j < taskArray.length; j++) {
+											if (temp.invId == taskArray[j]) {
+												if (flag == taskArray.length - 1) {
+													leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+												} else {
+													leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+													flag++;
+												}
+											}
+										}
+									}
+								}
+
+								Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
+								Ext.getCmp('leadTaskGrid').getView().refresh();
+							}
+						}
                     }]
                 }, {
                     xtype: 'grid',
@@ -1458,7 +1474,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseCompany.text)
+                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -1483,7 +1499,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(responseChannel.text)
+                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
                             },
                             autoLoad: true,
                             actionMethods: {
