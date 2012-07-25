@@ -788,6 +788,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             items: [{
                 title: biz_vnc_crm_client.tabContactInfo,
                 height: '70%',
+				height: 250,
                 layout: 'column',
                 items: [{
                     columnWidth: .32,
@@ -1078,6 +1079,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: sm,
                     id: 'leadMailGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1097,7 +1099,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     columns: [{
                         text: biz_vnc_crm_client.date,
                         sortable: false,
-                        width: 200,
+                        width: 170,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
@@ -1107,12 +1109,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         dataIndex: 'from'
                     }, {
                         text: biz_vnc_crm_client.subject,
-                        width: 300,
+                        width: 250,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.message,
-                        width: 600,
+                        width: 500,
                         sortable: true,
                         dataIndex: 'message'
                     }],
@@ -1223,6 +1225,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: leadSMAppt,
                     id: 'leadApptGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1272,7 +1275,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 layout: 'column',
                 disabled: true,
                 width: '100%',
-                height: 190,
+                height: 250,
 				defaults: {
                     autoRender: true,
                     autoScroll: true
@@ -1385,6 +1388,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: leadSMTask,
                     id: 'leadTaskGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1431,6 +1435,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
+				height: 250,
                 items: [{
                     columnWidth: .50,
                     border: false,

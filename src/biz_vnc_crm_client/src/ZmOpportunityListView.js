@@ -582,6 +582,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             items: [{
                 title: biz_vnc_crm_client.tabOpportunity,
                 layout: 'column',
+				height: 250,
                 items: [{
                     columnWidth: .33,
                     border: false,
@@ -617,7 +618,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                     if (contactList[i].id == selname) {
                                         var contactName = contactList[i]._attrs.firstName + " " + contactList[i]._attrs.lastName;
                                         contactList[i]._attrs.company;
-
                                         Ext.getCmp('txtOppMobile').setValue(contactList[i]._attrs.mobilePhone);
                                         Ext.getCmp('txtOppContact').setValue(contactName);
                                         Ext.getCmp('txtOppZip').setValue(contactList[i]._attrs.homePostalCode);
@@ -760,6 +760,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabLead,
                 layout: 'column',
+				height: 250,
                 items: [{
                     columnWidth: .33,
                     layout: 'anchor',
@@ -888,10 +889,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabComm_History,
                 id: 'oppComm',
+				height: 250,
                 layout: 'column',
                 disabled: true,
                 width: '100%',
-                height: 250,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -977,6 +978,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: sm,
                     id: 'oppMailGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -996,7 +998,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     columns: [{
                         text: biz_vnc_crm_client.date,
                         sortable: false,
-                        width: 200,
+                        width: 170,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
@@ -1006,12 +1008,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         dataIndex: 'from'
                     }, {
                         text: biz_vnc_crm_client.subject,
-                        width: 375,
+                        width: 250,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.message,
-                        width: 600,
+                        width: 500,
                         sortable: true,
                         dataIndex: 'message'
                     }],
@@ -1124,6 +1126,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: smAppoint,
                     id: 'oppApptGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1170,7 +1173,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabTask,
                 id: 'oppTask',
-                layout: 'column',
+				layout: 'column',
                 disabled: true,
                 width: '100%',
                 height: 250,
@@ -1327,6 +1330,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: oppSMTask,
                     id: 'oppTaskGrid',
+					height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1373,6 +1377,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
+				height: 250,
                 items: [{
                     columnWidth: .50,
                     border: false,

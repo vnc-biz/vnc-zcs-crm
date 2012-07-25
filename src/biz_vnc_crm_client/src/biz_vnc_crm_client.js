@@ -82,8 +82,8 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         var buttonArgs = {
             text: biz_vnc_crm_client.crmclient_label,
             tooltip: "View Info",
-            index: buttonIndex, // position of the button
-            image: "tabIcon" // icon
+            index: buttonIndex,
+            image: "tabIcon"
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
@@ -110,8 +110,8 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         var buttonArgs = {
             text: biz_vnc_crm_client.lead_window_title,
             tooltip: "View Info",
-            index: buttonIndex, // position of the button
-            image: "tabIcon" // icon
+            index: buttonIndex,
+            image: "tabIcon"
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
@@ -383,11 +383,12 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         }]
     });
     var MailOppPanel, MailLeadPanel;
-
     var mailOppGridWindow = Ext.create('widget.window', {
-        height: 300,
-        width: 900,
-        shrinkWrap: true,
+   		maxWidth: 850,
+        maxHeight: 420,
+        minWidth: 850,
+        minHeight: 420,
+		shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
         title: null,
@@ -396,15 +397,21 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         collapsible: true,
         items: [MailOppPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
+			height: 200,
             title: biz_vnc_crm_client.lblMyOpportunities,
-            id: 'mailOppPanel',
+            id: 'mailOppPanel1',
+			defaults: {
+                    autoRender: true
+            },
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
+				width: '100%',
+				height: 170,
                 id: 'contactOpportunityGrid',
                 defaults: {
                     autoRender: true,
-                    autoScroll: true
+					overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_mailLead',
@@ -526,12 +533,12 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.expectedRevenue,
-                    width: 150,
+                    width: 140,
                     dataIndex: 'valuation',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.probability,
-                    width: 110,
+                    width: 100,
                     dataIndex: 'probability',
                     sortable: true
                 }, {
@@ -544,15 +551,18 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         }),
         MailLeadPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
-            id: 'mailLeadPanel',
+            id: 'mailLeadPanel1',
+			height: 200,
             title: biz_vnc_crm_client.lblMyLeads,
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'mailLeadGrid',
+				height: 160,
+				width: '100%',
                 defaults: {
                     autoRender: true,
-                    autoScroll: true
+					overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_mailLead',
@@ -670,7 +680,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                     dataIndex: 'email'
                 }, {
                     text: biz_vnc_crm_client.phone,
-                    width: 150,
+                    width: 130,
                     dataIndex: 'phone'
                 }, {
                     text: biz_vnc_crm_client.stage,
@@ -892,10 +902,12 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         }]
     });
     var ContactOppPanel, ContactLeadPanel;
-
     var contactOppGridWindow = Ext.create('widget.window', {
-        height: 300,
-        width: 900,
+		maxWidth: 725,
+        maxHeight: 400,
+        minWidth: 725,
+        minHeight: 400,
+
         shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
@@ -903,17 +915,20 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         closable: true,
         modal: true,
         collapsible: true,
+
         items: [ContactOppPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
+			height: 200,
             title: biz_vnc_crm_client.lblOpportunities,
-            id: 'contactOppPanel',
+            id: 'contactOppPanel1',
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'contactOpportunityGrid',
+				height: 170,
                 defaults: {
                     autoRender: true,
-                    autoScroll: true
+					overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_lead',
@@ -951,32 +966,32 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                     }]
                 }, {
                     header: biz_vnc_crm_client.opportunity,
-                    width: 150,
+                    width: 120,
                     dataIndex: 'subjectName',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.customer,
-                    width: 150,
+                    width: 120,
                     dataIndex: 'contactName',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.stage,
-                    width: 150,
+                    width: 120,
                     dataIndex: 'stageName',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.expectedRevenue,
-                    width: 150,
+                    width: 120,
                     dataIndex: 'valuation',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.probability,
-                    width: 110,
+                    width: 75,
                     dataIndex: 'probability',
                     sortable: true
                 }, {
                     header: biz_vnc_crm_client.state,
-                    width: 120,
+                    width: 100,
                     dataIndex: 'leadState',
                     sortable: true
                 }, {
@@ -1014,15 +1029,17 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         }),
         ContactLeadPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
-            id: 'contactLeadPanel',
+            id: 'contactLeadPanel1',
+			height: 200,
             title: biz_vnc_crm_client.lblLeads,
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'contactLeadGrid',
-                defaults: {
+				height: 140,
+				defaults: {
                     autoRender: true,
-                    autoScroll: true
+					overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_lead',
@@ -1061,27 +1078,27 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                     }]
                 }, {
                     text: biz_vnc_crm_client.subject,
-                    width: 150,
+                    width: 140,
                     dataIndex: 'subjectName'
                 }, {
                     text: biz_vnc_crm_client.contactName,
-                    width: 150,
+                    width: 140,
                     dataIndex: 'contactName'
                 }, {
                     text: biz_vnc_crm_client.email,
-                    width: 150,
+                    width: 140,
                     dataIndex: 'email'
                 }, {
                     text: biz_vnc_crm_client.phone,
-                    width: 150,
+                    width: 75,
                     dataIndex: 'phone'
                 }, {
                     text: biz_vnc_crm_client.stage,
-                    width: 110,
+                    width: 75,
                     dataIndex: 'stageName'
                 }, {
                     text: biz_vnc_crm_client.state,
-                    width: 120,
+                    width: 75,
                     dataIndex: 'leadState'
                 }, {
                     sortable: false,
@@ -1798,15 +1815,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
     var smleadTask = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-
-
             selectionchange: function (smleadTask, selections) {}
         }
     });
-
-
-
-
     var json, responsePriority, responseCategory, responseStage, responseChannel, responseState, responseCountry, responseSection, responseUser, responseCompany;
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -2620,7 +2631,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+                height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -2709,6 +2720,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     xtype: 'grid',
                     selModel: leadSMAppt,
                     id: 'leadApptGrid',
+					height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -2758,7 +2770,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+                height: 220,
                 defaults: {
                     autoRender: true,
                     autoScroll: true
@@ -2860,6 +2872,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     xtype: 'grid',
                     selModel: leadSMTask,
                     id: 'leadTaskGrid',
+					height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -2879,7 +2892,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     columns: [{
                         text: biz_vnc_crm_client.subject,
                         sortable: false,
-                        width: 600,
+                        width: 500,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.status,
@@ -2894,7 +2907,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     }, {
                         text: biz_vnc_crm_client.dueDate,
                         sortable: false,
-                        width: 200,
+                        width: 170,
                         dataIndex: 'dueDate',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }],
@@ -2909,7 +2922,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+   				height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -2993,6 +3006,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     xtype: 'grid',
                     selModel: leadSMMail,
                     id: 'leadMailGrid',
+					height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -3012,22 +3026,22 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     columns: [{
                         text: biz_vnc_crm_client.date,
                         sortable: false,
-                        width: 200,
+                        width: 120,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
-                        width: 200,
+                        width: 180,
                         dataIndex: 'from'
                     }, {
                         text: biz_vnc_crm_client.subject,
-                        width: 300,
+                        width: 250,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
-                        text: biz_vnc_crm_client.from,
-                        width: 600,
+                        text: biz_vnc_crm_client.message,
+                        width: 500,
                         sortable: true,
                         dataIndex: 'message'
                     }],
@@ -4397,7 +4411,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 items: [{
                     xtype: 'button',
                     text: biz_vnc_crm_client.btnScheduleLogCall,
-                    width: 250,
+                    width: 200,
                     height: 25,
                     iconCls: 'phone',
                     margin: '3 0 3 0',
@@ -4407,7 +4421,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }, {
                     xtype: 'button',
                     text: biz_vnc_crm_client.btnScheduleMeeting,
-                    width: 250,
+                    width: 200,
                     height: 25,
                     margin: '3 0 3 0',
                     iconCls: 'meeting',
@@ -4427,7 +4441,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             },
             items: [{
                 title: biz_vnc_crm_client.tabOpportunity,
-                height: 175,
+                height: 220,
                 layout: 'column',
                 items: [{
                     columnWidth: .33,
@@ -4610,7 +4624,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }]
             }, {
                 title: biz_vnc_crm_client.tabLead,
-                height: 175,
+                height: 220,
                 layout: 'column',
                 items: [{
                     columnWidth: .33,
@@ -4743,7 +4757,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+				height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -4823,6 +4837,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'grid',
                     selModel: oppSMMail,
                     id: 'oppMailGrid',
+					height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -4842,22 +4857,22 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     columns: [{
                         text: biz_vnc_crm_client.date,
                         sortable: false,
-                        width: 200,
+                        width: 120,
                         dataIndex: 'date',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
-                        width: 200,
+                        width: 180,
                         dataIndex: 'from'
                     }, {
                         text: biz_vnc_crm_client.subject,
-                        width: 375,
+                        width: 250,
                         sortable: true,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.message,
-                        width: 600,
+                        width: 500,
                         sortable: true,
                         dataIndex: 'message'
                     }],
@@ -4872,7 +4887,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+                height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -4962,6 +4977,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'grid',
                     selModel: smAppoint,
                     id: 'oppApptGrid',
+					height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -4981,7 +4997,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     columns: [{
                         text: biz_vnc_crm_client.subject,
                         sortable: false,
-                        width: 400,
+                        width: 500,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.locations,
@@ -5011,7 +5027,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 				disabled: true,
                 layout: 'column',
                 width: '100%',
-                height: 250,
+				height: 220,
                 defaults: {
                     autoRender: true,
                     autoScroll: true
@@ -5119,6 +5135,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'grid',
                     selModel: oppSMTask,
                     id: 'oppTaskGrid',
+					height: 195,
+					
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -5138,7 +5156,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     columns: [{
                         text: biz_vnc_crm_client.subject,
                         sortable: false,
-                        width: 600,
+                        width: 500,
                         dataIndex: 'subject'
                     }, {
                         text: biz_vnc_crm_client.status,
@@ -5153,7 +5171,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     }, {
                         text: biz_vnc_crm_client.dueDate,
                         sortable: false,
-                        width: 200,
+                        width: 170,
                         dataIndex: 'dueDate',
                         renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                     }],
@@ -5165,7 +5183,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
-                height: 175,
+                height: 220,
                 items: [{
                     columnWidth: .50,
                     border: false,
