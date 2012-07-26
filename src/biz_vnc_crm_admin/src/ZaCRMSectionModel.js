@@ -160,7 +160,8 @@ ZaCRMSectionModel.updateSection = function () {
         var instance = this.getInstance();
         var temp1 = obj[ZaCRMadmin.A_sectionSalesTeamIds];
 
-        var temp;
+        var temp = "";
+
         var len = temp1.length;
         for (var i = 0; i < len; i++) {
             if (i == len - 1) {
@@ -203,12 +204,11 @@ ZaCRMSectionModel.addPerson = function () {
 
         var obj = this.parent.addSectionDlg.getObject();
         var instance = this.getInstance();
-        instance = this.getInstance();
         var flag = 0;
 
 
         var test1 = obj[ZaCRMadmin.A_sectionSalesTeamIds];
-        var test;
+        var test = "";
         var len = test1.length;
         for (var i = 0; i < len; i++) {
             if (i == len - 1) {
@@ -258,8 +258,9 @@ ZaCRMSectionModel.addPerson = function () {
 
 ZaCRMSectionModel.addButtonListener = function () {
     var formPage = this.getForm().parent;
-
-
+	var obj = {};
+	obj[ZaCRMadmin.A_selected_user_selection] = "";
+	obj[ZaCRMadmin.A_common_user_selection] = "";
 
     if (!formPage.addSectionDlg) {
         formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "750px", "475px", "Add new section");
@@ -283,7 +284,6 @@ ZaCRMSectionModel.addButtonListener = function () {
     }
     temp = AjxUtil.isEmpty(temp) ? [] : temp;
 
-    var obj = {};
     obj[ZaCRMadmin.A_sectionId] = 0;
     obj[ZaCRMadmin.A_sectionName] = "";
     obj[ZaCRMadmin.A_sectionCode] = "";
@@ -291,6 +291,8 @@ ZaCRMSectionModel.addButtonListener = function () {
     obj[ZaCRMadmin.A_sectionStatus] = true;
     obj[ZaCRMadmin.A_sectionCreatedby] = ZaZimbraAdmin.currentUserName;
     obj[ZaCRMadmin.A_sectionWriteby] = ZaZimbraAdmin.currentUserName;
+    obj[ZaCRMadmin.A_sectionSalesTeamIds] = "";
+
     obj.current = false;
     formPage.addSectionDlg.setObject(obj);
     formPage.addSectionDlg.popup();

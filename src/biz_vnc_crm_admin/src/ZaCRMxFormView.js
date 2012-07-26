@@ -327,7 +327,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Country States List",
+                label: "States List",
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;margin-right:50px;",
                 items: [
@@ -611,7 +611,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "section List",
+                label: "Section List",
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [

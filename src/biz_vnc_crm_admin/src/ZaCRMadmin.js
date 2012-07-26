@@ -437,6 +437,14 @@ ZaCRMadmin.sectionList = {
         id: ZaCRMadmin.A_sectionWritedate,
         type: _STRING_,
         ref: ZaCRMadmin.A_sectionWritedate
+    }, {
+        id: ZaCRMadmin.A_selected_user_selection,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_selected_user_selection
+    }, {
+        id: ZaCRMadmin.A_common_user_selection,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_common_user_selection
     }
 
     ],
@@ -563,6 +571,10 @@ ZaCRMadmin.myXModel = {
         type: _LIST_,
         listItem: ZaCRMadmin.stageList
     }, {
+        id: ZaCRMadmin.A_company_list_cache,
+        ref: ZaCRMadmin.A_company_list_cache,
+        type: _LIST_
+    }, {
         id: ZaCRMadmin.A_country_list_cache,
         ref: ZaCRMadmin.A_country_list_cache,
         type: _LIST_
@@ -589,12 +601,6 @@ ZaCRMadmin.myXModel = {
     }, {
         id: ZaCRMadmin.A_stage_list_cache,
         ref: ZaCRMadmin.A_stage_list_cache,
-        type: _LIST_
-    }, {
-        id: ZaCRMadmin.A_common_user_selection,
-        type: _LIST_
-    }, {
-        id: ZaCRMadmin.A_selected_user_selection,
         type: _LIST_
     }]
 };

@@ -32,14 +32,12 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_sectionName,
                 type: _TEXTFIELD_,
                 label: biz_vnc_crm_admin.HDR_name + ":",
                 labelLocation: _LEFT_,
-                width: 250
+                width: 250,
             }, {
                 ref: ZaCRMadmin.A_sectionCode,
                 type: _TEXTFIELD_,
@@ -98,7 +96,8 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                 enableDisableChecks: []
             },
 
-            /*-------------list start ------------------*/ {
+            /*-------------list start ------------------*/ 
+            {
                 type: _GROUP_,
                 width: "98%",
                 numCols: 1,
@@ -115,9 +114,14 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                         type: _DWT_LIST_,
                         height: "200",
                         width: "98%",
+                        forceUpdate: true,
+                        preserveSelection: false,
+                        multiselect: true,
                         cssClass: "DLTarget",
                         cssStyle: "margin-left: 5px; ",
-                        onSelection: ZaEditSectionXFormDialog.blockedExtSelectionListener
+                        onSelection: ZaEditSectionXFormDialog.blockedExtSelectionListener,
+                        onChange: ZaCRMxFormView.currentFieldChanged,
+                        valueChangeEventSources: [ZaCRMadmin.A_sectionSalesTeamIds]
                     }, {
                         type: _SPACER_,
                         height: "5"
@@ -131,8 +135,10 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                             label: ZaMsg.DLXV_ButtonRemoveAll,
                             width: 120,
                             onActivate: "ZaEditSectionXFormDialog.removeAllExt.call(this)",
-                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableRemoveAllButton, [ZaItem.hasWritePermission, ZaCRMadmin.A_sectionSalesTeamIds]],
-                            enableDisableChangeEventSources: [ZaCRMadmin.A_sectionSalesTeamIds, ZaCRMadmin.A_sectionSalesTeamIds]
+                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableRemoveAllButton],
+                            enableDisableChangeEventSources: [ZaCRMadmin.A_sectionSalesTeamIds],
+                            relevant: "ZaEditSectionXFormDialog.shouldEnableRemoveAllButton.call(this)",
+                            relevantBehavior: _DISABLE_
                         }, {
                             type: _CELLSPACER_
                         }, {
@@ -140,8 +146,10 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                             label: ZaMsg.DLXV_ButtonRemove,
                             width: 120,
                             onActivate: "ZaEditSectionXFormDialog.removeExt.call(this)",
-                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableRemoveButton, [ZaItem.hasWritePermission, ZaCRMadmin.A_sectionSalesTeamIds]],
-                            enableDisableChangeEventSources: [ZaCRMadmin.A_selected_user_selection, ZaCRMadmin.A_sectionSalesTeamIds]
+                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableRemoveButton],
+                            enableDisableChangeEventSources: [ZaCRMadmin.A_selected_user_selection, ZaCRMadmin.A_sectionSalesTeamIds],	
+                            relevant: "ZaEditSectionXFormDialog.shouldEnableRemoveButton.call(this)",
+                            relevantBehavior: _DISABLE_
                         }, {
                             type: _CELLSPACER_
                         }]
@@ -164,8 +172,13 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                         type: _DWT_LIST_,
                         height: "200",
                         width: "98%",
+                        forceUpdate: true,
+                        preserveSelection: false,
+                        multiselect: true,
                         cssClass: "DLSource",
-                        onSelection: ZaEditSectionXFormDialog.commonExtSelectionListener
+                        onSelection: ZaEditSectionXFormDialog.commonExtSelectionListener,
+                        onChange: ZaCRMxFormView.currentFieldChanged,
+                        valueChangeEventSources: [ZaCRMadmin.A_sectionCommonSalesTeamIds]
                     }, {
                         type: _SPACER_,
                         height: "5"
@@ -179,8 +192,10 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                             label: ZaMsg.DLXV_ButtonAddSelected,
                             width: 95,
                             onActivate: "ZaEditSectionXFormDialog.addCommonExt.call(this)",
-                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableAddButton, [ZaItem.hasWritePermission, ZaCRMadmin.A_sectionSalesTeamIds]],
-                            enableDisableChangeEventSources: [ZaCRMadmin.A_common_user_selection, ZaCRMadmin.A_sectionSalesTeamIds]
+                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableAddButton],//A_sectionSalesTeamIds
+                            enableDisableChangeEventSources: [ZaCRMadmin.A_common_user_selection, ZaCRMadmin.A_sectionSalesTeamIds],
+                            relevant: "ZaEditSectionXFormDialog.shouldEnableAddButton.call(this)",
+                            relevantBehavior: _DISABLE_
                         }, {
                             type: _CELLSPACER_
                         }, {
@@ -188,7 +203,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                             label: ZaMsg.DLXV_ButtonAddAll,
                             width: 70,
                             onActivate: "ZaEditSectionXFormDialog.addAllCommonExt.call(this)",
-                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableAddAllButton, [ZaItem.hasWritePermission, ZaCRMadmin.A_sectionSalesTeamIds]],
+                            enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableAddAllButton],
                             enableDisableChangeEventSources: [ZaCRMadmin.A_sectionCommonSalesTeamIds, ZaCRMadmin.A_sectionSalesTeamIds]
                         }
 
@@ -196,7 +211,8 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                     }]
                 }]
             }
-            /*-------------list end ------------------*/]
+            /*-------------list end ------------------*/
+            ]
         }]
     };
     return xFormObject;
