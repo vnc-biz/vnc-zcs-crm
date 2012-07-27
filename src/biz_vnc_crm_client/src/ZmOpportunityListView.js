@@ -33,7 +33,7 @@ ZmOpportunityListView.prototype.getContacts = function (offset, contactList, rec
 
 ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, contactList, rec, result) {
     if (result) {
-        var contactList = [];
+        biz_vnc_crm_client.contactList = [];
         var response = result.getResponse().SearchResponse;
         var responseContactList = response[ZmList.NODE[ZmItem.CONTACT]];
         if (responseContactList) {
@@ -41,15 +41,14 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, conta
             var contarry = [];
 
             for (var i = 0; i < numContacts; i++) {
-                contactList.push(responseContactList[i]);
-
+                biz_vnc_crm_client.contactList.push(responseContactList[i]);
             }
         }
 
         ZmOpportunityListView.createForm(rec, contactList, app);
 
         if (response.more) {
-            this.getContacts(response.offset + 500, contactList);
+            this.getContacts(response.offset + 500, biz_vnc_crm_client.contactList);
         } else {
 
         }
@@ -69,21 +68,19 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
     var oppTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
-
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
     }
-    var temp = "[";
-    for (var i = 0; i < contactList.length; i++) {
-
-        var contact = contactList[i];
-        if (i == contactList.length - 1) {
-            temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.firstName + "\"}]";
+    biz_vnc_crm_client.temp = "[";
+    for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
+        var contact = biz_vnc_crm_client.contactList[i];
+        if (i == biz_vnc_crm_client.contactList.length - 1) {
+            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
         } else {
-            temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.firstName + "\"},";
+            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
         }
     }
 
-	Ext.define('priority', {
+    Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'priorityId',
@@ -564,7 +561,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'contact1',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(temp)
+                                data: jsonParse(biz_vnc_crm_client.temp)
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -574,17 +571,42 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         listeners: {
                             change: function (combo, ewVal, oldVal) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
-                                for (var i = 0; i < contactList.length; i++) {
-                                    if (contactList[i].id == selname) {
-                                        var contactName = contactList[i]._attrs.firstName + " " + contactList[i]._attrs.lastName;
-                                        contactList[i]._attrs.company;
-                                        Ext.getCmp('txtOppMobile').setValue(contactList[i]._attrs.mobilePhone);
+                                for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
+                                    if (biz_vnc_crm_client.contactList[i].id == selname) {
+                                        var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
+
+                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
+                                        var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
+                                        var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
+                                        var country = Ext.getCmp('cmbOppcountry').getStore().findRecord("countryName", workCountry);
+                                        if (state != null)
+                                        {
+                                            Ext.getCmp('cmbOppstate').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbOppstate').setValue(state.data.stateId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbOppstate').setValue();
+                                        }
+                                        if (country != null)
+                                        {
+                                            Ext.getCmp('cmbOppcountry').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbOppcountry').setValue(country.data.countryId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbOppcountry').setValue();
+                                        }
+
+                                        Ext.getCmp('txtOppMobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
                                         Ext.getCmp('txtOppContact').setValue(contactName);
-                                        Ext.getCmp('txtOppZip').setValue(contactList[i]._attrs.homePostalCode);
-                                        Ext.getCmp('txtOppEmail').setValue(contactList[i]._attrs.email);
-                                        Ext.getCmp('txtOppStreet1').setValue(contactList[i]._attrs.homeStreet);
-                                        Ext.getCmp('txtOppCity').setValue(contactList[i]._attrs.homeCity);
-                                        Ext.getCmp('txtOppPhone').setValue(contactList[i]._attrs.mobilePhone2);
+                                        Ext.getCmp('txtOppZip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
+                                        Ext.getCmp('txtOppEmail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
+                                        Ext.getCmp('txtOppStreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
+                                        Ext.getCmp('txtOppCity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
+                                        Ext.getCmp('txtOppPhone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
                                     }
                                 }
 
@@ -726,11 +748,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     layout: 'anchor',
                     border: false,
                     items: [{
-                        xtype: 'textfield',
-                        id: 'txtOppCustomer',
-                        fieldLabel: biz_vnc_crm_client.customer,
-                        anchor: '95%'
-                    }, {
                         xtype: 'textfield',
                         id: 'txtOppStreet1',
                         fieldLabel: biz_vnc_crm_client.street1,
@@ -1530,7 +1547,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     var stateId = Ext.getCmp('cmbOppstate').getValue();
                     var countryId = Ext.getCmp('cmbOppcountry').getValue();
                     var channelId = Ext.getCmp('cmbOppchannel').getValue();
-                    var companyName = Ext.getCmp('cmbOppcompanyName').getValue();
+                    var companyId = Ext.getCmp('cmbOppcompanyName').getValue();
 
                     var status = true;
                     var createBy = appCtxt.getUsername();
@@ -1621,7 +1638,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             phone: phone,
                             leadDescription: leadDescription,
                             valuation: valuation,
-                            companyName: companyName,
+                            companyId: companyId,
                             leadState: leadState,
                             probability: probability,
                             partnerName: partnerName
@@ -1720,6 +1737,11 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('oppAppointment').setDisabled(false);
         Ext.getCmp('oppComm').setDisabled(false);
 
+        Ext.getCmp('cmbOpppartner').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbOpppartner').setValue(rec.get('partnerName'));
+            }
+        });
         Ext.getCmp('cmbOppstage').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbOppstage').setValue(rec.get('stageId'));
@@ -1774,10 +1796,11 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtOppProbability').setValue(rec.get('probability'));
         Ext.getCmp('txtOppEmail').setValue(rec.get('email'));
         Ext.getCmp('txtOppPhone').setValue(rec.get('phone'));
+        Ext.getCmp('txtOppContact').setValue(rec.get('contactName'));
 
         Ext.getCmp('txtOppDetails').setValue(rec.get('leadDescription'));
         Ext.getCmp('txtOppStreet1').setValue(rec.get('street1'));
-        Ext.getCmp('txtOppStreet2').setValue(rec.get('street1'));
+        Ext.getCmp('txtOppStreet2').setValue(rec.get('street2'));
         Ext.getCmp('txtOppCity').setValue(rec.get('city'));
         Ext.getCmp('txtOppZip').setValue(rec.get('zip'));
 

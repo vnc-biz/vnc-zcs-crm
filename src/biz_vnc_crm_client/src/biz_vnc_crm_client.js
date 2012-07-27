@@ -1588,19 +1588,17 @@ biz_vnc_crm_client.handleGetContactsResponse = function (contactList, rec, resul
         if (responseContactList) {
             var numContacts = responseContactList.length;
             var contarry = [];
-
             for (var i = 0; i < numContacts; i++) {
                 biz_vnc_crm_client.contactList.push(responseContactList[i]);
-
             }
         }
         biz_vnc_crm_client.temp = "[";
         for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
             var contact = biz_vnc_crm_client.contactList[i];
             if (i == biz_vnc_crm_client.contactList.length - 1) {
-                biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.firstName + "\"}]";
+                biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
             } else {
-                biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.firstName + "\"},";
+                biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
             }
         }
         if (rec == null) {} else {}
@@ -2469,14 +2467,37 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
-                                        biz_vnc_crm_client.contactList[i]._attrs.company;
+                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
+                                        var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
+                                        var state = Ext.getCmp('cmbstate').getStore().findRecord("stateName", workState);
+                                        var country = Ext.getCmp('cmbcountry').getStore().findRecord("countryName", workCountry);
+                                        if (state != null)
+                                        {
+                                            Ext.getCmp('cmbstate').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbstate').setValue(state.data.stateId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbstate').setValue();
+                                        }
+                                        if (country != null)
+                                        {
+                                            Ext.getCmp('cmbcountry').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbcountry').setValue(country.data.countryId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbcountry').setValue();
+                                        }
 
                                         Ext.getCmp('txtleadmobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
                                         Ext.getCmp('txtleadcontactName').setValue(contactName);
-                                        Ext.getCmp('txtleadzip').setValue(biz_vnc_crm_client.contactList[i]._attrs.homePostalCode);
+                                        Ext.getCmp('txtleadzip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
                                         Ext.getCmp('txtleademail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtleadstreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.homeStreet);
-                                        Ext.getCmp('txtleadcity').setValue(biz_vnc_crm_client.contactList[i]._attrs.homeCity);
+                                        Ext.getCmp('txtleadstreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
+                                        Ext.getCmp('txtleadcity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
                                         Ext.getCmp('txtleadphone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
                                     }
                                 }
@@ -3717,6 +3738,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 Ext.getCmp('txtleadsubjectName').setValue(rec.get('subjectName'));
                 Ext.getCmp('txtleadcontactName').setValue(rec.get('contactName'));
                 Ext.getCmp('txtleadleadDescription').setValue(rec.get('leadDescription'));
+                Ext.getCmp('txtleadreferredby').setValue(rec.get('referredBy'));
                 Ext.getCmp('txtleadworkPhone').setValue(rec.get('workPhone'));
                 Ext.getCmp('txtleadzip').setValue(rec.get('zip'));
                 Ext.getCmp('txtleademail').setValue(rec.get('email'));
@@ -4486,14 +4508,37 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
-                                        biz_vnc_crm_client.contactList[i]._attrs.company;
+                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
+                                        var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
+                                        var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
+                                        var country = Ext.getCmp('cmbOppcountry').getStore().findRecord("countryName", workCountry);
+                                        if (state != null)
+                                        {
+                                            Ext.getCmp('cmbOppstate').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbOppstate').setValue(state.data.stateId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbOppstate').setValue();
+                                        }
+                                        if (country != null)
+                                        {
+                                            Ext.getCmp('cmbOppcountry').getStore().load({
+                                                callback: function () {
+                                                    Ext.getCmp('cmbOppcountry').setValue(country.data.countryId);
+                                                }
+                                            });
+                                        } else {
+                                            Ext.getCmp('cmbOppcountry').setValue();
+                                        }
 
                                         Ext.getCmp('txtOppMobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
                                         Ext.getCmp('txtOppContact').setValue(contactName);
-                                        Ext.getCmp('txtOppZip').setValue(biz_vnc_crm_client.contactList[i]._attrs.homePostalCode);
+                                        Ext.getCmp('txtOppZip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
                                         Ext.getCmp('txtOppEmail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtOppStreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.homeStreet);
-                                        Ext.getCmp('txtOppCity').setValue(biz_vnc_crm_client.contactList[i]._attrs.homeCity);
+                                        Ext.getCmp('txtOppStreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
+                                        Ext.getCmp('txtOppCity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
                                         Ext.getCmp('txtOppPhone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
                                     }
                                 }
@@ -4640,11 +4685,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     layout: 'anchor',
                     border: false,
                     items: [{
-                        xtype: 'textfield',
-                        id: 'txtOppCustomer',
-                        fieldLabel: biz_vnc_crm_client.customer,
-                        anchor: '95%'
-                    }, {
                         xtype: 'textfield',
                         id: 'txtOppStreet1',
                         fieldLabel: biz_vnc_crm_client.street1,
@@ -5831,7 +5871,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                 Ext.getCmp('txtOppDetails').setValue(rec.get('leadDescription'));
                 Ext.getCmp('txtOppStreet1').setValue(rec.get('street1'));
-                Ext.getCmp('txtOppStreet2').setValue(rec.get('street1'));
+                Ext.getCmp('txtOppStreet2').setValue(rec.get('street2'));
                 Ext.getCmp('txtOppCity').setValue(rec.get('city'));
                 Ext.getCmp('txtOppZip').setValue(rec.get('zip'));
 
