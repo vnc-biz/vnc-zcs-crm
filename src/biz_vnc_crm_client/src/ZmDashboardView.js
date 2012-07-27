@@ -10,6 +10,9 @@ ZmDashboardView.dashboard = function (app) {
     var content = AjxTemplate.expand("biz_vnc_crm_client.templates.Simple#MainLead");
     app.setContent(content);
 
+    var toolbar = app.getToolbar();
+    toolbar.setVisibility(false);
+
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
 	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
 	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
