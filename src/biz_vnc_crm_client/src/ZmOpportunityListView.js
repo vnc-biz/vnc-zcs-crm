@@ -39,10 +39,20 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, conta
         if (responseContactList) {
             var numContacts = responseContactList.length;
             var contarry = [];
-
             for (var i = 0; i < numContacts; i++) {
                 biz_vnc_crm_client.contactList.push(responseContactList[i]);
             }
+            biz_vnc_crm_client.temp = "[";
+            for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
+                var contact = biz_vnc_crm_client.contactList[i];
+                if (i == biz_vnc_crm_client.contactList.length - 1) {
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
+                } else {
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
+                }
+            }
+        } else {
+            biz_vnc_crm_client.temp = "[{'value':'','label':''}]";
         }
 
         ZmOpportunityListView.createForm(rec, contactList, app);
@@ -69,15 +79,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
-    }
-    biz_vnc_crm_client.temp = "[";
-    for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
-        var contact = biz_vnc_crm_client.contactList[i];
-        if (i == biz_vnc_crm_client.contactList.length - 1) {
-            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
-        } else {
-            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
-        }
     }
 
     Ext.define('priority', {
@@ -574,7 +575,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
-
                                         var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
                                         var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
                                         var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
@@ -667,6 +667,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         iconCls: 'add_contact',
                         anchor: '17%',
                         handler: function () {
+                            biz_vnc_crm_client.contactFlag = 1;
                             var contact = new ZmContact(null, null, null);
                             var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
                             var contactController = new ZmContactController(contactApp._container, contactApp);
@@ -1421,6 +1422,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 'tabchange': function (tabPanel, tab) {
                     if (tab.id == 'oppAppointment') {
                         if (rec != null) {
+                            Ext.getCmp('oppApptGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1442,6 +1444,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     } else if (tab.id == 'oppTask') {
                         if (rec != null) {
+                            Ext.getCmp('oppTaskGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1490,6 +1493,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
                     } else if (tab.id == 'oppComm') {
                         if (rec != null) {
+                            Ext.getCmp('oppMailGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1595,7 +1599,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
                     var valuation = Ext.getCmp('txtOppExpectedRevenue').getValue();
 
-                    var workPhone = 123;
+                    var workPhone = "";
 
                     if (rec != null) {
                         var leadId = rec.get('leadId');
@@ -1697,7 +1701,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             phone: phone,
                             leadDescription: leadDescription,
                             valuation: valuation,
-                            companyName: companyName,
                             leadState: leadState,
                             probability: probability,
                             partnerName: partnerName

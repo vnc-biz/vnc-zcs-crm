@@ -43,6 +43,17 @@ ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec,
             for (var i = 0; i < numContacts; i++) {
                 biz_vnc_crm_client.contactList.push(responseContactList[i]);
             }
+            biz_vnc_crm_client.temp = "[";
+            for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
+                var contact = biz_vnc_crm_client.contactList[i];
+                if (i == biz_vnc_crm_client.contactList.length - 1) {
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
+                } else {
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
+                }
+            }
+        } else {
+            biz_vnc_crm_client.temp = "[{'value':'','label':''}]";
         }
         ZmLeadListView.createForm(rec, contactList, app);
         if (response.more) {
@@ -75,19 +86,34 @@ ZmLeadListView._mySaveResponseListener = function (result) {
     var email = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.email;
     var workStreet = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workStreet;
     var workCity = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workCity;
+    var company = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.company;
 
-    Ext.getCmp('cmbpartner').getStore().add({
-        'value': set,
-        'label': firstName
-    });
     biz_vnc_crm_client.getContacts(0, [], set);
-    Ext.getCmp('cmbpartner').setValue(set);
-    Ext.getCmp('txtleadmobile').setValue(mobilePhone);
-    Ext.getCmp('txtleadcontactName').setValue(contactName);
-    Ext.getCmp('txtleadzip').setValue(workPostalCode);
-    Ext.getCmp('txtleademail').setValue(email);
-    Ext.getCmp('txtleadstreet1').setValue(workStreet);
-    Ext.getCmp('txtleadcity').setValue(workCity);
+    if(biz_vnc_crm_client.contactFlag == 1){
+        Ext.getCmp('cmbOpppartner').getStore().add({
+            'value': set,
+            'label': company
+        });
+        Ext.getCmp('cmbOpppartner').setValue(set);
+        Ext.getCmp('txtOppMobile').setValue(mobilePhone);
+        Ext.getCmp('txtOppContact').setValue(contactName);
+        Ext.getCmp('txtOppZip').setValue(workPostalCode);
+        Ext.getCmp('txtOppEmail').setValue(email);
+        Ext.getCmp('txtOppStreet1').setValue(workStreet);
+        Ext.getCmp('txtOppCity').setValue(workCity);
+    } else {
+        Ext.getCmp('cmbpartner').getStore().add({
+            'value': set,
+            'label': company
+        });
+        Ext.getCmp('cmbpartner').setValue(set);
+        Ext.getCmp('txtleadmobile').setValue(mobilePhone);
+        Ext.getCmp('txtleadcontactName').setValue(contactName);
+        Ext.getCmp('txtleadzip').setValue(workPostalCode);
+        Ext.getCmp('txtleademail').setValue(email);
+        Ext.getCmp('txtleadstreet1').setValue(workStreet);
+        Ext.getCmp('txtleadcity').setValue(workCity);
+    }
 }
 
 ZmLeadListView._mySaveListener = function (app) {
@@ -111,16 +137,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     if (biz_vnc_crm_client.mailData == "") {
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
     }
-    biz_vnc_crm_client.temp = "[";
-    for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
-        var contact = biz_vnc_crm_client.contactList[i];
-        if (i == biz_vnc_crm_client.contactList.length - 1) {
-            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
-        } else {
-            biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
-        }
-    }
-
     var json, responsePriority, responseCategory, responseStage, responseChannel, responseState, responseCountry, responseSection, responseUser, responseCompany;
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -612,7 +628,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             }
                             var priorityId = Ext.getCmp('cmbpriority').getValue();
                             var nextActionDate = '0000-00-00 00:00:00';
-                            var nextAction = "Null";
+                            var nextAction = "";
                             var status = true;
                             var createBy = appCtxt.getUsername();
                             var createDate = Ext.getCmp('datecreationdate').getSubmitValue();
@@ -1592,6 +1608,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 'tabchange': function (tabPanel, tab) {
                     if (tab.id == 'leadAppointment') {
                         if (rec != null) {
+                            Ext.getCmp('leadApptGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1612,6 +1629,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     } else if (tab.id == 'leadTask') {
                         if (rec != null) {
+                            Ext.getCmp('leadTaskGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1661,6 +1679,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                     } else if (tab.id == 'leadComm') {
                         if (rec != null) {
+                            Ext.getCmp('leadMailGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
                             var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
                             var reqHeader = {
@@ -1742,7 +1761,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }
                     var priorityId = Ext.getCmp('cmbpriority').getValue();
                     var nextActionDate = '0000-00-00 00:00:00';
-                    var nextAction = "Null";
+                    var nextAction = "";
                     var status = true;
                     var createBy = appCtxt.getUsername();
                     var createDate = Ext.getCmp('datecreationdate').getSubmitValue();
