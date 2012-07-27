@@ -154,6 +154,12 @@ ZaCRMSectionModel.editButtonListener = function () {
 }
 
 ZaCRMSectionModel.updateSection = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"section\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editSectionDlg) {
         this.parent.editSectionDlg.popdown();
         var obj = this.parent.editSectionDlg.getObject();
@@ -172,6 +178,11 @@ ZaCRMSectionModel.updateSection = function () {
         }
 
         obj[ZaCRMadmin.A_sectionWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_sectionStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "section",
@@ -256,6 +267,18 @@ ZaCRMSectionModel.addPerson = function () {
 }
 
 ZaCRMSectionModel.addButtonListener = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"section\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
+
     var formPage = this.getForm().parent;
     var obj = {};
     obj[ZaCRMadmin.A_selected_user_selection] = "";

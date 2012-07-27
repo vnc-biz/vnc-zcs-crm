@@ -126,11 +126,22 @@ ZaCRMPriorityModel.editButtonListener = function () {
 }
 
 ZaCRMPriorityModel.updatepriority = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"priority\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editpriorityDlg) {
         this.parent.editpriorityDlg.popdown();
         var obj = this.parent.editpriorityDlg.getObject();
         var instance = this.getInstance();
         obj[ZaCRMadmin.A_priorityWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_priorityStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "priority",
@@ -197,6 +208,18 @@ ZaCRMPriorityModel.addPerson = function () {
 }
 
 ZaCRMPriorityModel.addButtonListener = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"priority\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
+
     var formPage = this.getForm().parent;
     if (!formPage.addpriorityDlg) {
         formPage.addpriorityDlg = new ZaEditPriorityXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new priority");

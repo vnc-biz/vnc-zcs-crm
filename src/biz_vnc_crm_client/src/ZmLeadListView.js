@@ -670,6 +670,18 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     iconCls: 'convert',
                     anchor: '95%',
                     handler: function () {
+                        var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}";
+                        var reqHeader = {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        };
+                        var reqJson = AjxStringUtil.urlEncode(json);
+                        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                        if (response.text == 2){
+                            Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
+                            return;
+                        }
+
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);

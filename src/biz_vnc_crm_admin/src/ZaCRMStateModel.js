@@ -130,12 +130,23 @@ ZaCRMStateModel.editButtonListener = function () {
 }
 
 ZaCRMStateModel.updateState = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"state\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editStateDlg) {
         this.parent.editStateDlg.popdown();
         var obj = this.parent.editStateDlg.getObject();
         var instance = this.getInstance();
 
         obj[ZaCRMadmin.A_stateWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_stateCountryStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "state",
@@ -208,6 +219,17 @@ ZaCRMStateModel.addPerson = function () {
 }
 
 ZaCRMStateModel.addButtonListener_state = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"state\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
 
     var formPage = this.getForm().parent;
     if (!formPage.addStateDlg) {

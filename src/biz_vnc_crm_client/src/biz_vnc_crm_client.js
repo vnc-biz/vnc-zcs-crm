@@ -2352,13 +2352,23 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     iconCls: 'convert',
                     anchor: '95%',
                     handler: function () {
+                        var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}";
+                        var reqHeader = {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        };
+                        var reqJson = AjxStringUtil.urlEncode(json);
+                        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                        if (response.text == 2){
+                            Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
+                            return;
+                        }
+
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
                             Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
-
                         } else {
-
                             var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                             var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
                             var contactName = Ext.getCmp('txtleadcontactName').getValue();
@@ -3586,6 +3596,18 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 iconCls: 'add24',
                 scale: 'medium',
                 handler: function () {
+                    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"lead\"}";
+                    var reqHeader = {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    };
+                    var reqJson = AjxStringUtil.urlEncode(json);
+                    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                    if (response.text == 2){
+                        Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
+                        return;
+                    }
+
                     biz_vnc_crm_client.mailData = "";
                     var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
                     app.setContent(content);
@@ -5781,6 +5803,18 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 iconCls: 'add24',
                 scale: 'medium',
                 handler: function () {
+                    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}";
+                    var reqHeader = {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    };
+                    var reqJson = AjxStringUtil.urlEncode(json);
+                    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                    if (response.text == 2){
+                        Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
+                        return;
+                    }
+
                     biz_vnc_crm_client.mailData = "";
                     var toolbar = app.getToolbar();
                     toolbar.visible = true;

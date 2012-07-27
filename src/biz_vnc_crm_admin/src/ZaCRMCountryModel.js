@@ -122,12 +122,22 @@ ZaCRMCountryModel.editButtonListener = function () {
 }
 
 ZaCRMCountryModel.updateCountry = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"country\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editCountryDlg) {
         this.parent.editCountryDlg.popdown();
         var obj = this.parent.editCountryDlg.getObject();
         var instance = this.getInstance();
-
         obj[ZaCRMadmin.A_countryWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_countryStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "country",
@@ -193,6 +203,18 @@ ZaCRMCountryModel.addPerson = function () {
     }
 }
 ZaCRMCountryModel.addButtonListener = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"country\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
+
     var formPage = this.getForm().parent;
     if (!formPage.addCountryDlg) {
         formPage.addCountryDlg = new ZaEditCountryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new country");

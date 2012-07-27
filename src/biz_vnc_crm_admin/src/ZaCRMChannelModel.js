@@ -131,13 +131,23 @@ ZaCRMChannelModel.editButtonListener = function () {
 }
 
 ZaCRMChannelModel.updatechannel = function () {
-
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"channel\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editchannelDlg) {
         this.parent.editchannelDlg.popdown();
         var obj = this.parent.editchannelDlg.getObject();
         var instance = this.getInstance();
 
         obj[ZaCRMadmin.A_channelWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_channelStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "channel",
@@ -202,6 +212,18 @@ ZaCRMChannelModel.addPerson = function () {
 }
 
 ZaCRMChannelModel.addButtonListener = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"channel\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
+
     var formPage = this.getForm().parent;
     if (!formPage.addchannelDlg) {
         formPage.addchannelDlg = new ZaEditChannelXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new channel");

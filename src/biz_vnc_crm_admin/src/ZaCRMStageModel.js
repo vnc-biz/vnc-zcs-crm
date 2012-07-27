@@ -141,14 +141,25 @@ ZaCRMStageModel.editButtonListener = function () {
     }
 }
 
-ZaCRMStageModel.updateStage = function () {
 
+ZaCRMStageModel.updateStage = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"stage\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     if (this.parent.editStageDlg) {
         this.parent.editStageDlg.popdown();
         var obj = this.parent.editStageDlg.getObject();
 
         var instance = this.getInstance();
         obj[ZaCRMadmin.A_stageWriteby] = ZaZimbraAdmin.currentUserName;
+        if (obj[ZaCRMadmin.A_stageStatus] == true && response.text == 2){
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+            return;
+        }
+
         var j = JSON.stringify({
             action: "UPDATE",
             object: "stage",
@@ -224,6 +235,17 @@ ZaCRMStageModel.addPerson = function () {
 }
 
 ZaCRMStageModel.addButtonListener = function () {
+    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"stage\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+
+    if (response.text == 2){
+        ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
+        return;
+    }
 
     var formPage = this.getForm().parent;
     if (!formPage.addStageDlg) {
