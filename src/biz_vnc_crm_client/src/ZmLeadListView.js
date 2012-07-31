@@ -30,10 +30,8 @@ ZmLeadListView.prototype.getContacts = function (offset, contactList, rec, app) 
     };
     appCtxt.getAppController().sendRequest(searchParams);
 };
-
 ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec, app, result) {
     if (result) {
-
         biz_vnc_crm_client.contactList = [];
         var response = result.getResponse().SearchResponse;
         var responseContactList = response[ZmList.NODE[ZmItem.CONTACT]];
@@ -47,9 +45,9 @@ ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec,
             for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                 var contact = biz_vnc_crm_client.contactList[i];
                 if (i == biz_vnc_crm_client.contactList.length - 1) {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company,"<< Blank >>") + "\"}]";
                 } else {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company,"<< Blank >>") + "\"},";
                 }
             }
         } else {
@@ -61,32 +59,41 @@ ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec,
         } else {}
     }
 };
-
-
-
-
-
 function ZmLeadListView() {}
-
 ZmLeadListView.prototype.constructor = ZmLeadListView;
 ZmLeadListView.prototype.toString = function () {
     return "ZmLeadListView";
 }
-
 ZmLeadListView._myCancelListener = function (app) {
     app.pushView(app.getName());
 }
+
+ZmLeadListView.CheckField = function (field,retValue) {
+    if(field == undefined) {
+        if(retValue){
+            return retValue;
+        }else{
+            return "";
+        }
+    } else {
+        return field;
+    }
+}
+
 ZmLeadListView._mySaveResponseListener = function (result) {
-    var set = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0].id;
-    var firstName = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.firstName;
-    var lastName = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.firstName;
-    var mobilePhone = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.mobilePhone;
+    var set = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0].id);
+    var firstName = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.firstName);
+    var lastName = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.lastName);
+    var mobilePhone = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.mobilePhone);
     var contactName = firstName + " " + lastName;
-    var workPostalCode = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workPostalCode;
-    var email = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.email;
-    var workStreet = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workStreet;
-    var workCity = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workCity;
-    var company = result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.company;
+    var workPostalCode = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workPostalCode);
+    var email = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.email);
+    var workStreet = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workStreet);
+    var workCity = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workCity);
+    var company = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.company,"<< Blank >>");
+    var workState = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workState);
+    var workCountry = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workCountry);
+    var workFax = ZmLeadListView.CheckField(result.getResponse().BatchResponse.CreateContactResponse[0].cn[0]._attrs.workFax);
 
     biz_vnc_crm_client.getContacts(0, [], set);
     if(biz_vnc_crm_client.contactFlag == 1){
@@ -94,6 +101,7 @@ ZmLeadListView._mySaveResponseListener = function (result) {
             'value': set,
             'label': company
         });
+        
         Ext.getCmp('cmbOpppartner').setValue(set);
         Ext.getCmp('txtOppMobile').setValue(mobilePhone);
         Ext.getCmp('txtOppContact').setValue(contactName);
@@ -101,6 +109,28 @@ ZmLeadListView._mySaveResponseListener = function (result) {
         Ext.getCmp('txtOppEmail').setValue(email);
         Ext.getCmp('txtOppStreet1').setValue(workStreet);
         Ext.getCmp('txtOppCity').setValue(workCity);
+        Ext.getCmp('txtOppFax').setValue(workFax);
+
+        var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
+        var country = Ext.getCmp('cmbOppcountry').getStore().findRecord("countryName", workCountry);
+        if (state != null) {
+            Ext.getCmp('cmbOppstate').getStore().load({
+                callback: function () {
+                    Ext.getCmp('cmbOppstate').setValue(state.data.stateId);
+                }
+            });
+        } else {
+            Ext.getCmp('cmbOppstate').setValue();
+        }
+        if (country != null) {
+            Ext.getCmp('cmbOppcountry').getStore().load({
+                callback: function () {
+                    Ext.getCmp('cmbOppcountry').setValue(country.data.countryId);
+                }
+            });
+        } else {
+            Ext.getCmp('cmbOppcountry').setValue();
+        }
     } else {
         Ext.getCmp('cmbpartner').getStore().add({
             'value': set,
@@ -113,6 +143,29 @@ ZmLeadListView._mySaveResponseListener = function (result) {
         Ext.getCmp('txtleademail').setValue(email);
         Ext.getCmp('txtleadstreet1').setValue(workStreet);
         Ext.getCmp('txtleadcity').setValue(workCity);
+        Ext.getCmp('txtleadfax').setValue(workFax);
+
+        var state = Ext.getCmp('cmbstate').getStore().findRecord("stateName", workState);
+        var country = Ext.getCmp('cmbcountry').getStore().findRecord("countryName", workCountry);
+
+        if (state != null) {
+            Ext.getCmp('cmbstate').getStore().load({
+                callback: function () {
+                    Ext.getCmp('cmbstate').setValue(state.data.stateId);
+                }
+            });
+        } else {
+            Ext.getCmp('cmbstate').setValue();
+        }
+        if (country != null) {
+            Ext.getCmp('cmbcountry').getStore().load({
+                callback: function () {
+                    Ext.getCmp('cmbcountry').setValue(country.data.countryId);
+                }
+            });
+        } else {
+            Ext.getCmp('cmbcountry').setValue();
+        }
     }
 }
 
@@ -807,13 +860,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                 var selname = Ext.getCmp('cmbpartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
-                                        var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
-                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
-                                        var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
+                                        var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
+                                        var workState = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workState);
+                                        var workCountry = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCountry);
                                         var state = Ext.getCmp('cmbstate').getStore().findRecord("stateName", workState);
                                         var country = Ext.getCmp('cmbcountry').getStore().findRecord("countryName", workCountry);
-                                        if (state != null)
-                                        {
+                                        if (state != null) {
                                             Ext.getCmp('cmbstate').getStore().load({
                                                 callback: function () {
                                                     Ext.getCmp('cmbstate').setValue(state.data.stateId);
@@ -822,8 +874,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         } else {
                                             Ext.getCmp('cmbstate').setValue();
                                         }
-                                        if (country != null)
-                                        {
+                                        if (country != null) {
                                             Ext.getCmp('cmbcountry').getStore().load({
                                                 callback: function () {
                                                     Ext.getCmp('cmbcountry').setValue(country.data.countryId);
@@ -832,13 +883,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         } else {
                                             Ext.getCmp('cmbcountry').setValue();
                                         }
-                                        Ext.getCmp('txtleadmobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
+                                        Ext.getCmp('txtleadmobile').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone));
                                         Ext.getCmp('txtleadcontactName').setValue(contactName);
-                                        Ext.getCmp('txtleadzip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
-                                        Ext.getCmp('txtleademail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtleadstreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
-                                        Ext.getCmp('txtleadcity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
-                                        Ext.getCmp('txtleadphone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
+                                        Ext.getCmp('txtleadzip').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode));
+                                        Ext.getCmp('txtleademail').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.email));
+                                        Ext.getCmp('txtleadstreet1').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workStreet));
+                                        Ext.getCmp('txtleadcity').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCity));
+                                        Ext.getCmp('txtleadphone').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2));
+                                        Ext.getCmp('txtleadfax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
 
@@ -876,6 +928,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         iconCls: 'add_contact',
                         anchor: '40%',
                         handler: function () {
+                            biz_vnc_crm_client.contactFlag = 0;
                             var contact = new ZmContact(null, null, null);
                             var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
                             var contactController = new ZmContactController(contactApp._container, contactApp);

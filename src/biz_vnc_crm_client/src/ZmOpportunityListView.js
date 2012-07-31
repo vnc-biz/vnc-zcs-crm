@@ -46,9 +46,9 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, conta
             for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                 var contact = biz_vnc_crm_client.contactList[i];
                 if (i == biz_vnc_crm_client.contactList.length - 1) {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company, "<< Blank >>")+ "\"}]";
                 } else {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company, "<< Blank >>")+ "\"},";
                 }
             }
         } else {
@@ -574,13 +574,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
-                                        var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
-                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
-                                        var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
+                                        var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
+                                        var workState = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workState);
+                                        var workCountry = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCountry);
                                         var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
                                         var country = Ext.getCmp('cmbOppcountry').getStore().findRecord("countryName", workCountry);
-                                        if (state != null)
-                                        {
+                                        if (state != null) {
                                             Ext.getCmp('cmbOppstate').getStore().load({
                                                 callback: function () {
                                                     Ext.getCmp('cmbOppstate').setValue(state.data.stateId);
@@ -589,8 +588,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                         } else {
                                             Ext.getCmp('cmbOppstate').setValue();
                                         }
-                                        if (country != null)
-                                        {
+                                        if (country != null) {
                                             Ext.getCmp('cmbOppcountry').getStore().load({
                                                 callback: function () {
                                                     Ext.getCmp('cmbOppcountry').setValue(country.data.countryId);
@@ -599,14 +597,14 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                         } else {
                                             Ext.getCmp('cmbOppcountry').setValue();
                                         }
-
-                                        Ext.getCmp('txtOppMobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
+                                        Ext.getCmp('txtOppMobile').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone));
                                         Ext.getCmp('txtOppContact').setValue(contactName);
-                                        Ext.getCmp('txtOppZip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
-                                        Ext.getCmp('txtOppEmail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtOppStreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
-                                        Ext.getCmp('txtOppCity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
-                                        Ext.getCmp('txtOppPhone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
+                                        Ext.getCmp('txtOppZip').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode));
+                                        Ext.getCmp('txtOppEmail').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.email));
+                                        Ext.getCmp('txtOppStreet1').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workStreet));
+                                        Ext.getCmp('txtOppCity').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCity));
+                                        Ext.getCmp('txtOppPhone').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2));
+                                        Ext.getCmp('txtOppFax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
 

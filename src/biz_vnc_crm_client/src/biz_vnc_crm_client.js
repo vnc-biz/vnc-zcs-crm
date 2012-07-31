@@ -1595,9 +1595,9 @@ biz_vnc_crm_client.handleGetContactsResponse = function (contactList, rec, resul
             for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                 var contact = biz_vnc_crm_client.contactList[i];
                 if (i == biz_vnc_crm_client.contactList.length - 1) {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"}]";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company, "<< Blank >>") + "\"}]";
                 } else {
-                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + contact._attrs.company + "\"},";
+                    biz_vnc_crm_client.temp += "{\"value\":\"" + contact.id + "\",\"label\":\"" + ZmLeadListView.CheckField(contact._attrs.company, "<< Blank >>") + "\"},";
                 }
             }
         } else {
@@ -2465,7 +2465,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 var selname = Ext.getCmp('cmbpartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
-                                        var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
+                                        var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
                                         var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
                                         var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
                                         var state = Ext.getCmp('cmbstate').getStore().findRecord("stateName", workState);
@@ -2491,13 +2491,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                             Ext.getCmp('cmbcountry').setValue();
                                         }
 
-                                        Ext.getCmp('txtleadmobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
+                                        Ext.getCmp('txtleadmobile').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone));
                                         Ext.getCmp('txtleadcontactName').setValue(contactName);
-                                        Ext.getCmp('txtleadzip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
-                                        Ext.getCmp('txtleademail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtleadstreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
-                                        Ext.getCmp('txtleadcity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
-                                        Ext.getCmp('txtleadphone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
+                                        Ext.getCmp('txtleadzip').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode));
+                                        Ext.getCmp('txtleademail').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.email));
+                                        Ext.getCmp('txtleadstreet1').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workStreet));
+                                        Ext.getCmp('txtleadcity').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCity));
+                                        Ext.getCmp('txtleadphone').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2));
+                                        Ext.getCmp('txtleadfax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
 
@@ -2537,6 +2538,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         iconCls: 'add_contact',
                         anchor: '40%',
                         handler: function () {
+                            biz_vnc_crm_client.contactFlag = 0;
                             var contact = new ZmContact(null, null, null);
                             var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
                             var contactController = new ZmContactController(contactApp._container, contactApp);
@@ -4509,7 +4511,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
-                                        var contactName = biz_vnc_crm_client.contactList[i]._attrs.firstName + " " + biz_vnc_crm_client.contactList[i]._attrs.lastName;
+                                        var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
                                         var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
                                         var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
                                         var state = Ext.getCmp('cmbOppstate').getStore().findRecord("stateName", workState);
@@ -4535,13 +4537,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                             Ext.getCmp('cmbOppcountry').setValue();
                                         }
 
-                                        Ext.getCmp('txtOppMobile').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone);
+                                        Ext.getCmp('txtOppMobile').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone));
                                         Ext.getCmp('txtOppContact').setValue(contactName);
-                                        Ext.getCmp('txtOppZip').setValue(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode);
-                                        Ext.getCmp('txtOppEmail').setValue(biz_vnc_crm_client.contactList[i]._attrs.email);
-                                        Ext.getCmp('txtOppStreet1').setValue(biz_vnc_crm_client.contactList[i]._attrs.workStreet);
-                                        Ext.getCmp('txtOppCity').setValue(biz_vnc_crm_client.contactList[i]._attrs.workCity);
-                                        Ext.getCmp('txtOppPhone').setValue(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2);
+                                        Ext.getCmp('txtOppZip').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workPostalCode));
+                                        Ext.getCmp('txtOppEmail').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.email));
+                                        Ext.getCmp('txtOppStreet1').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workStreet));
+                                        Ext.getCmp('txtOppCity').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workCity));
+                                        Ext.getCmp('txtOppPhone').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.mobilePhone2));
+                                        Ext.getCmp('txtOppFax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
 
@@ -4605,6 +4608,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         iconCls: 'add_contact',
                         anchor: '17%',
                         handler: function () {
+                            biz_vnc_crm_client.contactFlag = 1;
                             var contact = new ZmContact(null, null, null);
                             var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
                             var contactController = new ZmContactController(contactApp._container, contactApp);
