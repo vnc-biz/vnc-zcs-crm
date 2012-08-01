@@ -623,6 +623,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                 items: [{
                     xtype: 'button',
+                    id: 'btnConvertToOpp',
+                    disabled: true,
                     text: biz_vnc_crm_client.btnLeadToOpp,
                     width: 250,
                     height: 25,
@@ -745,64 +747,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                            } else {
-                                var leadId = 0;
-                                var j = JSON.stringify({
-                                    action: "ADD",
-                                    object: "lead",
-                                    leadId: leadId,
-                                    subjectName: subjectName,
-                                    stageId: stageId,
-                                    priorityId: priorityId,
-                                    channelId: channelId,
-                                    categoryId: categoryId,
-                                    contactName: contactName,
-                                    email: email,
-                                    street1: street1,
-                                    city: city,
-                                    stateId: stateId,
-                                    countryId: countryId,
-                                    type: type,
-                                    writeDate: writeDate,
-                                    writeBy: writeBy,
-                                    createDate: createDate,
-                                    createBy: createBy,
-                                    status: status,
-                                    nextAction: nextAction,
-                                    nextActionDate: nextActionDate,
-                                    userId: userId,
-                                    referredBy: referredBy,
-                                    dayClose: dayclose,
-                                    dayOpen: dayopen,
-                                    sectionId: sectionId,
-                                    expectedDateClose: expectedDateClose,
-                                    dateClose: dateClose,
-                                    dateOpen: dateOpen,
-                                    zip: zip,
-                                    street2: street2,
-                                    mobile: mobile,
-                                    workPhone: workPhone,
-                                    fax: fax,
-                                    phone: phone,
-                                    leadDescription: leadDescription,
-                                    valuation: valuation,
-                                    companyId: companyId,
-                                    leadState: leadState,
-                                    probability: probability,
-                                    partnerName: partnerName
-                                });
-                                var json = "jsonobj=" + j;
-                                var reqHeader = {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                };
-                                var reqJson = AjxStringUtil.urlEncode(json);
-                                var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                             }
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
-                            biz_vnc_crm_client.initOpportunityGrid(app);
+                            var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
+                            app.setContent(content);
+                            ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
-
-
                     }
                 }]
             }]
@@ -1958,7 +1908,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     tab2.render('LeadForm');
 
     if (rec != null) {
-
+        Ext.getCmp('btnConvertToOpp').enable();
         Ext.getCmp('leadTask').setDisabled(false);
         Ext.getCmp('leadAppointment').setDisabled(false);
         Ext.getCmp('leadComm').setDisabled(false);

@@ -2404,10 +2404,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
-                            biz_vnc_crm_client.initOpportunityGrid(app);
+                            var rec = Ext.getCmp('leadGrid').getSelectionModel().getSelection();
+                            Ext.each(rec, function (item) {
+                                rec = item;
+                            });
+                            var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
+                            app.setContent(content);
+                            ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
-
-
                     }
                 }]
             }]
