@@ -75,9 +75,14 @@ try {
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in Update", e);
 		}
-	}
-
-	else if(actionType.equals("USER")) {
+	} else if(actionType.equals("COUNT")) {
+		try {
+			operationStatus = interfaceHelper.recordCounter();
+			out.println(operationStatus);
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in Counting", e);
+		}
+	} else if(actionType.equals("USER")) {
 		try {
 			String allAccounts = interfaceHelper.getUsers();
 			out.println(allAccounts);

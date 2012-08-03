@@ -529,6 +529,53 @@ ZaCRMadmin.stageList = {
     type: _OBJECT_
 }
 
+// LeadClass List
+ZaCRMadmin.A_leadClass_list_cache = "leadClass_list_cache";
+ZaCRMadmin.A_leadClass = "leadClasses";
+ZaCRMadmin.A_leadClassId = "leadClassId";
+ZaCRMadmin.A_leadClassName = "leadClassName";
+ZaCRMadmin.A_leadClassStatus = "status";
+ZaCRMadmin.A_leadClassCreatedby = "createBy";
+ZaCRMadmin.A_leadClassCreateddate = "createDate";
+ZaCRMadmin.A_leadClassWriteby = "writeBy";
+ZaCRMadmin.A_leadClassWritedate = "writeDate";
+
+ZaCRMadmin.A_leadClassRemoved = "leadClassRemoved";
+
+ZaCRMadmin.leadClassList = {
+    items: [{
+        id: ZaCRMadmin.A_leadClassId,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassId
+    }, {
+        id: ZaCRMadmin.A_leadClassName,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassName
+    }, {
+        id: ZaCRMadmin.A_leadClassStatus,
+        type: _ENUM_,
+        choices: [false, true],
+        defaultValue: true
+    }, {
+        id: ZaCRMadmin.A_leadClassCreatedby,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassCreatedby
+    }, {
+        id: ZaCRMadmin.A_leadClassCreateddate,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassCreateddate
+    }, {
+        id: ZaCRMadmin.A_leadClassWriteby,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassWriteby
+    }, {
+        id: ZaCRMadmin.A_leadClassWritedate,
+        type: _STRING_,
+        ref: ZaCRMadmin.A_leadClassWritedate
+    }],
+    type: _OBJECT_
+}
+
 ZaCRMadmin.myXModel = {
     items: [{
         id: ZaCRMadmin.A_company,
@@ -571,6 +618,11 @@ ZaCRMadmin.myXModel = {
         type: _LIST_,
         listItem: ZaCRMadmin.stageList
     }, {
+        id: ZaCRMadmin.A_leadClass,
+        ref: ZaCRMadmin.A_leadClass,
+        type: _LIST_,
+        listItem: ZaCRMadmin.leadClassList
+    }, {
         id: ZaCRMadmin.A_company_list_cache,
         ref: ZaCRMadmin.A_company_list_cache,
         type: _LIST_
@@ -601,6 +653,10 @@ ZaCRMadmin.myXModel = {
     }, {
         id: ZaCRMadmin.A_stage_list_cache,
         ref: ZaCRMadmin.A_stage_list_cache,
+        type: _LIST_
+    }, {
+        id: ZaCRMadmin.A_leadClass_list_cache,
+        ref: ZaCRMadmin.A_leadClass_list_cache,
         type: _LIST_
     }]
 };

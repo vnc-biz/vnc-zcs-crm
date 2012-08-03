@@ -286,6 +286,17 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }]
     });
 
+    Ext.define('leadClass', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'leadClassId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            type: 'string'
+        }]
+    });
+
 	Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -455,6 +466,34 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     },
                     anchor: '95%'
+                }, {
+                    xtype: 'combo',
+                    mode: 'local',
+                    value: 'leadClass',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    tabIndex: 2,
+                    fieldLabel: biz_vnc_crm_client.leadClass,
+                    id: 'cmbleadClass',
+                    name: 'title',
+                    displayField: 'leadClassName',
+                    valueField: 'leadClassId',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        model: 'leadClass',
+                        proxy: {
+                            type: 'memory',
+                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                        },
+                        autoLoad: true,
+                        actionMethods: {
+                            read: 'POST'
+                        }
+                    }),
+                    listeners: {
+                        change: function (combo, ewVal, oldVal) {}
+                    },
+                    anchor: '95%'
                 }]
             }, {
                 columnWidth: .25,
@@ -547,6 +586,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     },
                     anchor: '95%'
+                }, {
+                    xtype: 'textfield',
+                    id: 'txtleadState',
+                    fieldLabel: biz_vnc_crm_client.leadState,
+                    value: 'New',
+                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -608,12 +653,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         }
                     },
                     anchor: '95%'
-                }, {
-                    xtype: 'textfield',
-                    id: 'txtleadState',
-                    fieldLabel: biz_vnc_crm_client.leadState,
-                    value: 'New',
-                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -667,6 +706,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             }
                             var stageId = Ext.getCmp('cmbstage').getValue();
                             var channelId = Ext.getCmp('cmbchannel').getValue();
+                            var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                             var sectionId = Ext.getCmp('cmbsection').getValue();
                             var categoryId = Ext.getCmp('cmbcategory').getValue();
                             var partnerName = Ext.getCmp('cmbpartner').getValue();
@@ -738,6 +778,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     valuation: valuation,
                                     companyId: companyId,
                                     leadState: leadState,
+                                    leadClassId: leadClassId,
                                     probability: probability,
                                     partnerName: partnerName
                                 });
@@ -1123,7 +1164,16 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
-                    }
+                    },
+                    listeners: {
+                        el:{
+                                dblclick: function(){
+                                    var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
+                                    var mailID = rec.items[0].data.mailId;
+                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                }
+                        }
+                    },
                 }]
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
@@ -1269,6 +1319,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('leadApptGrid').getSelectionModel().selected;
+                                var apptId = rec.items[0].data.appointmentId;
+                                biz_vnc_crm_client.viewApptDetails(apptId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -1481,6 +1540,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('leadTaskGrid').getSelectionModel().selected;
+                                var taskId = rec.items[0].data.taskId;
+                                biz_vnc_crm_client.viewTaskDetails(taskId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -1743,6 +1811,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }
                     var stageId = Ext.getCmp('cmbstage').getValue();
                     var channelId = Ext.getCmp('cmbchannel').getValue();
+                    var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                     var sectionId = Ext.getCmp('cmbsection').getValue();
                     var categoryId = Ext.getCmp('cmbcategory').getValue();
                     var partnerName = Ext.getCmp('cmbpartner').getValue();
@@ -1814,6 +1883,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             valuation: valuation,
                             companyId: companyId,
                             leadState: leadState,
+                            leadClassId: leadClassId,
                             probability: probability,
                             partnerName: partnerName
                         });
@@ -1873,6 +1943,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             valuation: valuation,
                             companyId: companyId,
                             leadState: leadState,
+                            leadClassId: leadClassId,
                             probability: probability,
                             partnerName: partnerName
                         });
@@ -1963,6 +2034,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 Ext.getCmp('cmbcompanyName').setValue(rec.get('companyId'));
             }
         });
+        Ext.getCmp('cmbleadClass').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbleadClass').setValue(rec.get('leadClassId'));
+            }
+        });
+
         Ext.getCmp('txtleadsubjectName').setValue(rec.get('subjectName'));
         Ext.getCmp('txtleadcontactName').setValue(rec.get('contactName'));
         Ext.getCmp('txtleadleadDescription').setValue(rec.get('leadDescription'));

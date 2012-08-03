@@ -4,6 +4,8 @@ import biz.vnc.base.AbstractBean;
 import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.SectionBean;
 import biz.vnc.util.DBUtility;
+import biz.vnc.util.Limits;
+
 import com.google.gson.Gson;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.Domain;
@@ -27,7 +29,6 @@ public class SectionHelper implements InterfaceHelper {
 
 	@Override
 	public int add(AbstractBean ab) {
-
 		SectionBean sectionBean = (SectionBean)ab;
 		String query = "insert into tbl_crm_section values (" + sectionBean.getSectionId() + ",\"" + sectionBean.getSectionName() + "\",\"" + sectionBean.getSectionCode() + "\",\"" + sectionBean.getSectionManagerId() + "\",\"" + sectionBean.getSectionLeaderId() + "\",\"" + sectionBean.getSectionWatcherId() + "\",\"" + sectionBean.getSectionSalesTeamIds() + "\"," + sectionBean.isStatus() + ",\"" + sectionBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + sectionBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
@@ -276,6 +277,16 @@ public class SectionHelper implements InterfaceHelper {
 	@Override
 	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int recordCounter() {
+		// TODO Auto-generated method stub
+		String tableName = "tbl_crm_section";
+		operationStatus = dbu.adminCounter(tableName);
+		if(operationStatus >= Limits.max_limit)
+			return 2;
 		return 0;
 	}
 }

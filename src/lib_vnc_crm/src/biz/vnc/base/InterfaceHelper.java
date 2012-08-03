@@ -28,4 +28,5 @@ public interface InterfaceHelper {
 	public int addTask(String array, String leadId);
 	public String listTask(String leadId);
 	public int deleteTask(String array,String leadId);
+	public int recordCounter();
 }

@@ -103,6 +103,17 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
+    Ext.define('leadClass', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'leadClassId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            type: 'string'
+        }]
+    });
+
     Ext.define('customer', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -341,6 +352,34 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     format: 'Y-m-d H:i:s.0',
                     fieldLabel: biz_vnc_crm_client.nextActionDate,
                     anchor: '95%'
+                }, {
+                    xtype: 'combo',
+                    mode: 'local',
+                    value: 'leadClass',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    tabIndex: 2,
+                    fieldLabel: biz_vnc_crm_client.leadClass,
+                    id: 'cmbOppleadClass',
+                    name: 'title',
+                    displayField: 'leadClassName',
+                    valueField: 'leadClassId',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        model: 'leadClass',
+                        proxy: {
+                            type: 'memory',
+                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                        },
+                        autoLoad: true,
+                        actionMethods: {
+                            read: 'POST'
+                        }
+                    }),
+                    listeners: {
+                        change: function (combo, ewVal, oldVal) {}
+                    },
+                    anchor: '95%'
                 }]
             }, {
                 columnWidth: .25,
@@ -423,6 +462,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     id: 'txtOppNextAction',
                     fieldLabel: biz_vnc_crm_client.nextAction,
                     anchor: '95%'
+                }, {
+                    xtype: 'textfield',
+                    id: 'txtOppState',
+                    fieldLabel: biz_vnc_crm_client.opportunityState,
+                    value: 'New',
+                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -489,12 +534,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }),
                     anchor: '95%'
-                }, {
-                    xtype: 'textfield',
-                    id: 'txtOppState',
-                    fieldLabel: biz_vnc_crm_client.opportunityState,
-                    value: 'New',
-                    disabled: true
                 }]
             }, {
                 columnWidth: .20,
@@ -823,6 +862,11 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         anchor: '95%'
                     }, {
                         xtype: 'textfield',
+                        fieldLabel: biz_vnc_crm_client.workPhone,
+                        id: 'txtOppWorkPhone',
+                        anchor: '95%'
+                    }, {
+                        xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtOppFax',
                         anchor: '95%'
@@ -986,7 +1030,16 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
-                    }
+                    },
+                    listeners: {
+                        el:{
+                            dblclick: function(){
+                                var rec = Ext.getCmp('oppMailGrid').getSelectionModel().selected;
+                                var mailID = rec.items[0].data.mailId;
+                                ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                            }
+                        }
+                    },
                 }]
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
@@ -1134,6 +1187,15 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('oppApptGrid').getSelectionModel().selected;
+                                var apptId = rec.items[0].data.appointmentId;
+                                biz_vnc_crm_client.viewApptDetails(apptId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -1338,6 +1400,15 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('oppTaskGrid').getSelectionModel().selected;
+                                var taskId = rec.items[0].data.taskId;
+                                biz_vnc_crm_client.viewTaskDetails(taskId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -1539,6 +1610,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     var stateId = Ext.getCmp('cmbOppstate').getValue();
                     var countryId = Ext.getCmp('cmbOppcountry').getValue();
                     var channelId = Ext.getCmp('cmbOppchannel').getValue();
+                    var leadClassId = Ext.getCmp('cmbOppleadClass').getValue();
                     var companyId = Ext.getCmp('cmbOppcompanyName').getValue();
 
                     var status = true;
@@ -1584,10 +1656,8 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     var leadState = Ext.getCmp('txtOppState').getValue();
                     var priorityId = Ext.getCmp('cmbOpppriority').getValue();
                     var type = 1;
-
                     var valuation = Ext.getCmp('txtOppExpectedRevenue').getValue();
-
-                    var workPhone = "";
+                    var workPhone = Ext.getCmp('txtOppWorkPhone').getValue();
 
                     if (rec != null) {
                         var leadId = rec.get('leadId');
@@ -1632,6 +1702,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             valuation: valuation,
                             companyId: companyId,
                             leadState: leadState,
+                            leadClassId: leadClassId,
                             probability: probability,
                             partnerName: partnerName
                         });
@@ -1689,7 +1760,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             phone: phone,
                             leadDescription: leadDescription,
                             valuation: valuation,
+                            companyId: companyId,
                             leadState: leadState,
+                            leadClassId: leadClassId,
                             probability: probability,
                             partnerName: partnerName
                         });
@@ -1774,10 +1847,14 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 Ext.getCmp('cmbOppcompanyName').setValue(rec.get('companyId'));
             }
         });
-
         Ext.getCmp('cmbOppsalesman').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbOppsalesman').setValue(rec.get('userId'));
+            }
+        });
+        Ext.getCmp('cmbOppleadClass').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbOppleadClass').setValue(rec.get('leadClassId'));
             }
         });
 
@@ -1794,7 +1871,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtOppStreet2').setValue(rec.get('street2'));
         Ext.getCmp('txtOppCity').setValue(rec.get('city'));
         Ext.getCmp('txtOppZip').setValue(rec.get('zip'));
-
+        Ext.getCmp('txtOppWorkPhone').setValue(rec.get('workPhone'));
         Ext.getCmp('txtOppMobile').setValue(rec.get('mobile'));
         Ext.getCmp('txtOppFax').setValue(rec.get('fax'));
         Ext.getCmp('txtOppDaysToOpen').setValue(rec.get('dayOpen'));

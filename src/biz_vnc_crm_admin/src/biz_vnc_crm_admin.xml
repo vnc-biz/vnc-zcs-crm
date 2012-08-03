@@ -27,5 +27,8 @@
 	<include>ZaCRMadminStageListView.js</include>
 	<include>ZaEditStageXFormDialog.js</include>
 	<include>ZaCRMStageModel.js</include>
+	<include>ZaCRMadminLeadClassListView.js</include>
+	<include>ZaEditLeadClassXFormDialog.js</include>
+	<include>ZaCRMLeadClassModel.js</include>
 	<include>json-minified.js</include>
 </zimlet>

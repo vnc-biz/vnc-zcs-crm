@@ -434,6 +434,14 @@ ZmDashboardView.dashboard = function (app) {
             name: 'stateId',
             mapping: 'stateBean.stateId',
             type: 'int'
+        },  {
+            name: 'leadClassName',
+            mapping: 'leadClassBean.leadClassName',
+            type: 'string'
+        }, {
+            name: 'leadClassId',
+            mapping: 'leadClassBean.leadClassId',
+            type: 'int'
         }, {
             name: 'countryName',
             mapping: 'countryBean.countryName',
@@ -505,8 +513,7 @@ ZmDashboardView.dashboard = function (app) {
         }, {
             name: 'userId',
             type: 'string'
-        }, //userId
-        {
+        }, {
             name: 'priorityId',
             mapping: 'priorityBean.priorityId',
             type: 'int'

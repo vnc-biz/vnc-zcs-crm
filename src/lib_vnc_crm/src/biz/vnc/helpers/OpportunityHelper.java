@@ -7,11 +7,14 @@ import biz.vnc.beans.ChannelBean;
 import biz.vnc.beans.CompanyBean;
 import biz.vnc.beans.CountryBean;
 import biz.vnc.beans.LeadBean;
+import biz.vnc.beans.LeadClassBean;
 import biz.vnc.beans.PriorityBean;
 import biz.vnc.beans.SectionBean;
 import biz.vnc.beans.StageBean;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
+import biz.vnc.util.Limits;
+
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +38,7 @@ public class OpportunityHelper implements InterfaceHelper {
 	public int add(AbstractBean ab) {
 		// TODO Auto-generated method stub
 		LeadBean leadBean = (LeadBean)ab;
-		String query = "insert into tbl_crm_lead values (" + leadBean.getLeadId() + ",\"" + leadBean.getSubjectName() + "\",\"" + leadBean.getLeadDescription() + "\",\"" + leadBean.getContactName() + "\"," + leadBean.getCompanyId() + ",\"" + leadBean.getValuation() + "\",'" + leadBean.getLeadState() +"','" + leadBean.getPartnerName() + "','" + leadBean.getPhone() + "','" + leadBean.getFax() + "','" + leadBean.getEmail() + "','" + leadBean.getWorkPhone() + "','" + leadBean.getMobile() + "','" + leadBean.getStreet1() + "','" + leadBean.getStreet2() + "','" + leadBean.getCity() + "','" + leadBean.getZip() + "'," + leadBean.getStateId() + "," + leadBean.getCountryId() + "," + leadBean.getType() + ",'" + leadBean.getDateOpen() + "','" + leadBean.getDateClose() + "','" + leadBean.getExpectedDateClose() + "'," + leadBean.getStageId() + "," + leadBean.getProbability() + "," + leadBean.getChannelId() + "," + leadBean.getSectionId() + "," + leadBean.getCategoryId() + "," + leadBean.getDayClose() + "," + leadBean.getDayOpen() + ",'" + leadBean.getReferredBy() + "','" + leadBean.getUserId() + "'," + leadBean.getPriorityId() + ",'" + leadBean.getNextActionDate() + "','" + leadBean.getNextAction() + "'," + leadBean.isStatus() + ",'" + leadBean.getCreateBy() + "','" + new Timestamp(System.currentTimeMillis()) + "','" + leadBean.getWriteBy() + "','" + leadBean.getWriteDate()+ "');" ;
+		String query = "insert into tbl_crm_lead values (" + leadBean.getLeadId() + ",\"" + leadBean.getSubjectName() + "\",\"" + leadBean.getLeadDescription() + "\",\"" + leadBean.getContactName() + "\"," + leadBean.getCompanyId() + ",\"" + leadBean.getValuation() + "\",'" + leadBean.getLeadState() + "'," + leadBean.getLeadClassId() + ",'" + leadBean.getPartnerName() + "','" + leadBean.getPhone() + "','" + leadBean.getFax() + "','" + leadBean.getEmail() + "','" + leadBean.getWorkPhone() + "','" + leadBean.getMobile() + "','" + leadBean.getStreet1() + "','" + leadBean.getStreet2() + "','" + leadBean.getCity() + "','" + leadBean.getZip() + "'," + leadBean.getStateId() + "," + leadBean.getCountryId() + "," + leadBean.getType() + ",'" + leadBean.getDateOpen() + "','" + leadBean.getDateClose() + "','" + leadBean.getExpectedDateClose() + "'," + leadBean.getStageId() + "," + leadBean.getProbability() + "," + leadBean.getChannelId() + "," + leadBean.getSectionId() + "," + leadBean.getCategoryId() + "," + leadBean.getDayClose() + "," + leadBean.getDayOpen() + ",'" + leadBean.getReferredBy() + "','" + leadBean.getUserId() + "'," + leadBean.getPriorityId() + ",'" + leadBean.getNextActionDate() + "','" + leadBean.getNextAction() + "'," + leadBean.isStatus() + ",'" + leadBean.getCreateBy() + "','" + new Timestamp(System.currentTimeMillis()) + "','" + leadBean.getWriteBy() + "','" + leadBean.getWriteDate()+ "');" ;
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
@@ -44,7 +47,7 @@ public class OpportunityHelper implements InterfaceHelper {
 	public int update(AbstractBean ab) {
 		// TODO Auto-generated method stub
 		LeadBean leadBean = (LeadBean)ab;
-		String query = "update tbl_crm_lead set subjectName = \"" + leadBean.getSubjectName() + "\", leadDescription='" + leadBean.getLeadDescription() + "', contactName = '" + leadBean.getContactName() + "', companyId = " + leadBean.getCompanyId() + ", valuation = '" + leadBean.getValuation() + "', leadState = '" +leadBean.getLeadState() + "', partnerName = '" + leadBean.getPartnerName() + "', phone = '" + leadBean.getPhone() + "', fax = '" + leadBean.getFax() + "', email = '" + leadBean.getEmail() + "', workPhone = '" + leadBean.getWorkPhone() + "', mobile = '" + leadBean.getMobile() + "', street1 = '" + leadBean.getStreet1() + "', street2 = '" + leadBean.getStreet2() + "', city = '" + leadBean.getCity() + "', zip = '" + leadBean.getZip() + "', stateId = " + leadBean.getStateId() + ", countryId = " + leadBean.getCountryId() + ", type = '" + leadBean.getType() + "', dateOpen = '" + leadBean.getDateOpen() + "', dateClose = '" + leadBean.getDateClose() + "', expectedDateClose = '" + leadBean.getExpectedDateClose() + "', stageId = " + leadBean.getStageId() + ", probability = '" + leadBean.getProbability() +  "', channelId = " + leadBean.getChannelId() + ", sectionId = " + leadBean.getSectionId() + ", categoryId = " + leadBean.getCategoryId() + ", dayClose = " + leadBean.getDayClose() + ",dayOpen = " + leadBean.getDayOpen() + ", referredBy = '" + leadBean.getReferredBy() + "', userId = '" + leadBean.getUserId() + "', priorityId = " + leadBean.getPriorityId() + ", nextActionDate = '" + leadBean.getNextActionDate() + "', nextAction = '" + leadBean.getNextAction() + "', writeBy = \"" + leadBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where leadId = " + leadBean.getLeadId() + ";" ;
+		String query = "update tbl_crm_lead set subjectName = \"" + leadBean.getSubjectName() + "\", leadDescription='" + leadBean.getLeadDescription() + "', contactName = '" + leadBean.getContactName() + "', companyId = " + leadBean.getCompanyId() + ", valuation = '" + leadBean.getValuation() + "', leadState = '" +leadBean.getLeadState() + "', leadClassId = " + leadBean.getLeadClassId() + " , partnerName = '" + leadBean.getPartnerName() + "', phone = '" + leadBean.getPhone() + "', fax = '" + leadBean.getFax() + "', email = '" + leadBean.getEmail() + "', workPhone = '" + leadBean.getWorkPhone() + "', mobile = '" + leadBean.getMobile() + "', street1 = '" + leadBean.getStreet1() + "', street2 = '" + leadBean.getStreet2() + "', city = '" + leadBean.getCity() + "', zip = '" + leadBean.getZip() + "', stateId = " + leadBean.getStateId() + ", countryId = " + leadBean.getCountryId() + ", type = '" + leadBean.getType() + "', dateOpen = '" + leadBean.getDateOpen() + "', dateClose = '" + leadBean.getDateClose() + "', expectedDateClose = '" + leadBean.getExpectedDateClose() + "', stageId = " + leadBean.getStageId() + ", probability = '" + leadBean.getProbability() +  "', channelId = " + leadBean.getChannelId() + ", sectionId = " + leadBean.getSectionId() + ", categoryId = " + leadBean.getCategoryId() + ", dayClose = " + leadBean.getDayClose() + ",dayOpen = " + leadBean.getDayOpen() + ", referredBy = '" + leadBean.getReferredBy() + "', userId = '" + leadBean.getUserId() + "', priorityId = " + leadBean.getPriorityId() + ", nextActionDate = '" + leadBean.getNextActionDate() + "', nextAction = '" + leadBean.getNextAction() + "', writeBy = \"" + leadBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where leadId = " + leadBean.getLeadId() + ";" ;
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
@@ -87,6 +90,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
 		CompanyHelper companyHelper = new CompanyHelper();
+		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
 			while(rs.next()) {
 				leadBean = new LeadBean();
@@ -97,6 +101,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				leadBean.setCompanyBean((CompanyBean)(companyHelper.getRecordById(rs.getString("companyId"))));
 				leadBean.setValuation(rs.getString("valuation"));
 				leadBean.setLeadState(rs.getString("leadState"));
+				leadBean.setLeadClassBean((LeadClassBean) (leadClassHelper.getRecordById(rs.getString("leadClassId"))));
 				leadBean.setPartnerName(rs.getString("partnerName"));
 				leadBean.setPhone(rs.getString("phone"));
 				leadBean.setFax(rs.getString("fax"));
@@ -197,6 +202,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
 		CompanyHelper companyHelper = new CompanyHelper();
+		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
 			while(rs.next()) {
 				leadBean = new LeadBean();
@@ -207,6 +213,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				leadBean.setCompanyBean((CompanyBean)(companyHelper.getRecordById(rs.getString("companyId"))));
 				leadBean.setValuation(rs.getString("valuation"));
 				leadBean.setLeadState(rs.getString("leadState"));
+				leadBean.setLeadClassBean((LeadClassBean)(leadClassHelper.getRecordById(rs.getString("leadClassId"))));
 				leadBean.setPartnerName(rs.getString("partnerName"));
 				leadBean.setPhone(rs.getString("phone"));
 				leadBean.setFax(rs.getString("fax"));
@@ -276,6 +283,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
 		CompanyHelper companyHelper = new CompanyHelper();
+		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
 			while(rs.next()) {
 				leadBean = new LeadBean();
@@ -286,6 +294,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				leadBean.setCompanyBean((CompanyBean)(companyHelper.getRecordById(rs.getString("companyId"))));
 				leadBean.setValuation(rs.getString("valuation"));
 				leadBean.setLeadState(rs.getString("leadState"));
+				leadBean.setLeadClassBean((LeadClassBean)(leadClassHelper.getRecordById(rs.getString("leadClassId"))));
 				leadBean.setPartnerName(rs.getString("partnerName"));
 				leadBean.setPhone(rs.getString("phone"));
 				leadBean.setFax(rs.getString("fax"));
@@ -464,6 +473,16 @@ public class OpportunityHelper implements InterfaceHelper {
 		String query = "delete from tbl_crm_lead_task where leadId = " + leadId + " and taskId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
+	}
+
+	@Override
+	public int recordCounter() {
+		// TODO Auto-generated method stub
+		String tableName = "tbl_crm_lead";
+		operationStatus = dbu.clientCounter(tableName, 1);
+		if(operationStatus >= Limits.max_limit)
+			return 2;
+		return 0;
 	}
 
 }

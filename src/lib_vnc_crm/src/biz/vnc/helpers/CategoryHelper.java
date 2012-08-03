@@ -4,6 +4,8 @@ import biz.vnc.base.AbstractBean;
 import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.CategoryBean;
 import biz.vnc.util.DBUtility;
+import biz.vnc.util.Limits;
+
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +26,6 @@ public class CategoryHelper implements InterfaceHelper {
 
 	@Override
 	public int add(AbstractBean ab) {
-
 		CategoryBean categoryBean = (CategoryBean)ab;
 		String query = "insert into tbl_crm_category values (" + categoryBean.getCategoryId() + ",\"" + categoryBean.getCategoryName() + "\"," + categoryBean.getSectionId() + "," + categoryBean.isStatus() + ",\"" + categoryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + categoryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
@@ -241,6 +242,16 @@ public class CategoryHelper implements InterfaceHelper {
 	@Override
 	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int recordCounter() {
+		// TODO Auto-generated method stub
+		String tableName = "tbl_crm_category";
+		operationStatus = dbu.adminCounter(tableName);
+		if(operationStatus >= Limits.max_limit)
+			return 2;
 		return 0;
 	}
 }

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBUtility {
@@ -86,5 +87,35 @@ public class DBUtility {
 			System.out.println("Selection Exception: " + e);
 		}
 		return null;
+	}
+
+	public int adminCounter(String tableName) {
+		try {
+			Statement statement = connection.createStatement();
+			String query = "select count(*) from " + tableName + " where status = true;";
+			ResultSet rs = statement.executeQuery(query);
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int clientCounter(String tableName, int type) {
+		try {
+			Statement statement = connection.createStatement();
+			String query = "select count(*) from " + tableName + " where status = true and type = " + type + ";";
+			ResultSet rs = statement.executeQuery(query);
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

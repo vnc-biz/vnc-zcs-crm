@@ -36,6 +36,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 	biz_vnc_crm_client.responseCountry = "";
 	biz_vnc_crm_client.responseCompany = "";
 	biz_vnc_crm_client.responseSection = "";
+	biz_vnc_crm_client.responseLeadClass = "";
 	biz_vnc_crm_client.responseUser = "";
 
 	var json, reqJson;
@@ -43,11 +44,11 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
         "Content-Type": "application/x-www-form-urlencoded"
     };
 
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
+
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -74,6 +75,10 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 	json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"leadClass\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    biz_vnc_crm_client.responseLeadClass = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
 	json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
@@ -331,6 +336,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         }, {
             name: 'stateId',
             mapping: 'stateBean.stateId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            mapping: 'leadClassBean.leadClassName',
+            type: 'string'
+        }, {
+            name: 'leadClassId',
+            mapping: 'leadClassBean.leadClassId',
             type: 'int'
         }, {
             name: 'countryName',
@@ -850,6 +863,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         }, {
             name: 'stateId',
             mapping: 'stateBean.stateId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            mapping: 'leadClassBean.leadClassName',
+            type: 'string'
+        }, {
+            name: 'leadClassId',
+            mapping: 'leadClassBean.leadClassId',
             type: 'int'
         }, {
             name: 'countryName',
@@ -1673,6 +1694,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             name: 'leadState',
             type: 'string'
         }, {
+            name: 'leadClassName',
+            mapping: 'leadClassBean.leadClassName',
+            type: 'string'
+        }, {
+            name: 'leadClassId',
+            mapping: 'leadClassBean.leadClassId',
+            type: 'int'
+        }, {
             name: 'phone',
             type: 'string'
         }, {
@@ -1963,6 +1992,17 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
+    Ext.define('leadClass', {
+        extend: 'Ext.data.Model',
+            fields: [{
+                name: 'leadClassId',
+                type: 'int'
+            }, {
+                name: 'leadClassName',
+                type: 'string'
+        }]
+    });
+
 	Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -2081,7 +2121,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 }, {
                     xtype: 'combo',
                     mode: 'local',
-                    value: 'mrs',
+                    value: 'section',
                     triggerAction: 'all',
                     forceSelection: true,
                     tabIndex: 2,
@@ -2096,6 +2136,34 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         proxy: {
                             type: 'memory',
                             data: jsonParse(biz_vnc_crm_client.responseSection.text)
+                        },
+                        autoLoad: true,
+                        actionMethods: {
+                            read: 'POST'
+                        }
+                    }),
+                    listeners: {
+                        change: function (combo, ewVal, oldVal) {}
+                    },
+                    anchor: '95%'
+                }, {
+                    xtype: 'combo',
+                    mode: 'local',
+                    value: 'leadClass',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    tabIndex: 2,
+                    fieldLabel: biz_vnc_crm_client.leadClass,
+                    id: 'cmbleadClass',
+                    name: 'title',
+                    displayField: 'leadClassName',
+                    valueField: 'leadClassId',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        model: 'leadClass',
+                        proxy: {
+                            type: 'memory',
+                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2200,6 +2268,12 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         }
                     },
                     anchor: '95%'
+                }, {
+                    xtype: 'textfield',
+                    id: 'txtleadState',
+                    fieldLabel: biz_vnc_crm_client.leadState,
+                    value: 'New',
+                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -2261,12 +2335,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         }
                     },
                     anchor: '95%'
-                }, {
-                    xtype: 'textfield',
-                    id: 'txtleadState',
-                    fieldLabel: biz_vnc_crm_client.leadState,
-                    value: 'New12345',
-                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -2322,6 +2390,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             }
                             var stageId = Ext.getCmp('cmbstage').getValue();
                             var channelId = Ext.getCmp('cmbchannel').getValue();
+                            var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                             var sectionId = Ext.getCmp('cmbsection').getValue();
                             var categoryId = Ext.getCmp('cmbcategory').getValue();
                             var partnerName = Ext.getCmp('cmbpartner').getValue();
@@ -2393,6 +2462,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 valuation: valuation,
                                 companyId: companyId,
                                 leadState: leadState,
+                                leadClassId: leadClassId,
                                 probability: probability,
                                 partnerName: partnerName
                             });
@@ -2789,6 +2859,15 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('leadApptGrid').getSelectionModel().selected;
+                                var apptId = rec.items[0].data.appointmentId;
+                                biz_vnc_crm_client.viewApptDetails(apptId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -2983,6 +3062,15 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('leadTaskGrid').getSelectionModel().selected;
+                                var taskId = rec.items[0].data.taskId;
+                                biz_vnc_crm_client.viewTaskDetails(taskId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -3117,6 +3205,15 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el:{
+                                dblclick: function(){
+                                    var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
+                                    var mailID = rec.items[0].data.mailId;
+                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                }
+                        }
                     }
                 }]
             }, {
@@ -3371,6 +3468,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     }
                     var stageId = Ext.getCmp('cmbstage').getValue();
                     var channelId = Ext.getCmp('cmbchannel').getValue();
+                    var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                     var sectionId = Ext.getCmp('cmbsection').getValue();
                     var categoryId = Ext.getCmp('cmbcategory').getValue();
                     var partnerName = Ext.getCmp('cmbpartner').getValue();
@@ -3442,6 +3540,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         valuation: valuation,
                         companyId: companyId,
                         leadState: leadState,
+                        leadClassId: leadClassId,
                         probability: probability,
                         partnerName: partnerName
                     });
@@ -3609,6 +3708,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 width: 160,
                 dataIndex: 'subjectName'
             }, {
+                text: biz_vnc_crm_client.leadClass,
+                width: 160,
+                dataIndex: 'leadClassName'
+            }, {
                 text: biz_vnc_crm_client.contactName,
                 width: 160,
                 dataIndex: 'contactName'
@@ -3734,6 +3837,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         Ext.getCmp('cmbcompanyName').setValue(rec.get('companyId'));
                     }
                 });
+                Ext.getCmp('cmbleadClass').getStore().load({
+                    callback: function () {
+                        Ext.getCmp('cmbleadClass').setValue(rec.get('leadClassId'));
+                    }
+                });
                 Ext.getCmp('txtleadsubjectName').setValue(rec.get('subjectName'));
                 Ext.getCmp('txtleadcontactName').setValue(rec.get('contactName'));
                 Ext.getCmp('txtleadleadDescription').setValue(rec.get('leadDescription'));
@@ -3833,6 +3941,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }, {
             name: 'leadState',
             type: 'string'
+        }, {
+            name: 'leadClassName',
+            mapping: 'leadClassBean.leadClassName',
+            type: 'string'
+        }, {
+            name: 'leadClassId',
+            mapping: 'leadClassBean.leadClassId',
+            type: 'int'
         }, {
             name: 'phone',
             type: 'string'
@@ -4003,6 +4119,17 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
+    Ext.define('section', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'sectionId',
+            type: 'int'
+        }, {
+            name: 'sectionName',
+            type: 'string'
+        }]
+    });
+	
 	Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -4274,6 +4401,34 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     format: 'Y-m-d H:i:s.0',
                     fieldLabel: biz_vnc_crm_client.nextActionDate,
                     anchor: '95%'
+                }, {
+                    xtype: 'combo',
+                    mode: 'local',
+                    value: 'leadClass',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    tabIndex: 2,
+                    fieldLabel: biz_vnc_crm_client.leadClass,
+                    id: 'cmbOppleadClass',
+                    name: 'title',
+                    displayField: 'leadClassName',
+                    valueField: 'leadClassId',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        model: 'leadClass',
+                        proxy: {
+                            type: 'memory',
+                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                        },
+                        autoLoad: true,
+                        actionMethods: {
+                            read: 'POST'
+                        }
+                    }),
+                    listeners: {
+                        change: function (combo, ewVal, oldVal) {}
+                    },
+                    anchor: '95%'
                 }]
             }, {
                 columnWidth: .25,
@@ -4357,6 +4512,12 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     id: 'txtOppNextAction',
                     fieldLabel: biz_vnc_crm_client.nextAction,
                     anchor: '95%'
+                }, {
+                    xtype: 'textfield',
+                    id: 'txtOppState',
+                    fieldLabel: biz_vnc_crm_client.opportunityState,
+                    value: 'New',
+                    disabled: true
                 }]
             }, {
                 columnWidth: .25,
@@ -4423,12 +4584,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         }
                     }),
                     anchor: '95%'
-                }, {
-                    xtype: 'textfield',
-                    id: 'txtOppState',
-                    fieldLabel: biz_vnc_crm_client.opportunityState,
-                    value: 'New123',
-                    disabled: true
                 }]
             }, {
                 columnWidth: .20,
@@ -4697,6 +4852,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         id: 'txtOppZip',
                         fieldLabel: 'Zip',
                         anchor: '95%'
+                    }, {
+                        xtype: 'textfield',
+                        fieldLabel: biz_vnc_crm_client.workPhone,
+                        id: 'txtOppWorkPhone',
+                        anchor: '95%'
                     }]
 
                 }, {
@@ -4918,7 +5078,16 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
-                    }
+                    },
+                    listeners: {
+                        el:{
+                                dblclick: function(){
+                                    var rec = Ext.getCmp('oppMailGrid').getSelectionModel().selected;
+                                    var mailID = rec.items[0].data.mailId;
+                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                }
+                        }
+                    },
                 }]
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
@@ -5058,6 +5227,15 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('oppApptGrid').getSelectionModel().selected;
+                                var apptId = rec.items[0].data.appointmentId;
+                                biz_vnc_crm_client.viewApptDetails(apptId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -5261,6 +5439,15 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     title: null,
                     viewConfig: {
                         stripeRows: true
+                    },
+                    listeners: {
+                        el: {
+                            dblclick: function(){
+                                var rec = Ext.getCmp('oppTaskGrid').getSelectionModel().selected;
+                                var taskId = rec.items[0].data.taskId;
+                                biz_vnc_crm_client.viewTaskDetails(taskId);
+                            }
+                        }
                     }
                 }]
             }, {
@@ -5458,6 +5645,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                     var countryId = Ext.getCmp('cmbOppcountry').getValue();
                     var channelId = Ext.getCmp('cmbOppchannel').getValue();
+                    var leadClassId = Ext.getCmp('cmbOppleadClass').getValue();
                     var companyId = Ext.getCmp('cmbOppcompanyName').getValue();
 
                     var status = true;
@@ -5506,7 +5694,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                     var valuation = Ext.getCmp('txtOppExpectedRevenue').getValue();
 
-                    var workPhone = "";
+                    var workPhone = Ext.getCmp('txtOppWorkPhone').getValue();
                     var leadId = biz_vnc_crm_client.leadId;
                     var j = JSON.stringify({
                         action: "UPDATE",
@@ -5549,6 +5737,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         valuation: valuation,
                         companyId: companyId,
                         leadState: leadState,
+                        leadClassId: leadClassId,
                         probability: probability,
                         partnerName: partnerName
                     });
@@ -5718,6 +5907,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 dataIndex: 'subjectName',
                 sortable: true
             }, {
+                header: biz_vnc_crm_client.leadClass,
+                width: 150,
+                dataIndex: 'leadClassName',
+                sortable: true
+            }, {
                 header: biz_vnc_crm_client.customer,
                 width: 150,
                 dataIndex: 'contactName',
@@ -5855,6 +6049,12 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         Ext.getCmp('cmbOppsalesman').setValue(rec.get('userId'));
                     }
                 });
+                Ext.getCmp('cmbOppleadClass').getStore().load({
+                    callback: function () {
+                        Ext.getCmp('cmbOppleadClass').setValue(rec.get('leadClassId'));
+                    }
+                });
+
                 Ext.getCmp('txtOppContact').setValue(rec.get('contactName'));
                 Ext.getCmp('txtOppOpportunity').setValue(rec.get('subjectName'));
                 Ext.getCmp('txtOppExpectedRevenue').setValue(rec.get('valuation'));
@@ -5869,6 +6069,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 Ext.getCmp('txtOppCity').setValue(rec.get('city'));
                 Ext.getCmp('txtOppZip').setValue(rec.get('zip'));
 
+                Ext.getCmp('txtOppWorkPhone').setValue(rec.get('workPhone'));
                 Ext.getCmp('txtOppMobile').setValue(rec.get('mobile'));
                 Ext.getCmp('txtOppFax').setValue(rec.get('fax'));
                 Ext.getCmp('txtOppDaysToOpen').setValue(rec.get('dayOpen'));
@@ -6145,4 +6346,291 @@ biz_vnc_crm_client_HandlerObject.prototype._eventTreeViewSelected = function (ap
             ZmReportView.createForm(app);
         }
     }
+};
+
+biz_vnc_crm_client.isDefine = function(field) {
+    if(field) {
+        return field;
+    } else {
+        return "---";
+    }
+}
+
+biz_vnc_crm_client.viewApptDetails = function(apptId){
+    var soapDoc = AjxSoapDoc.create("GetMsgRequest", "urn:zimbraMail");
+    var action = soapDoc.set("m");
+    action.setAttribute("id", apptId);
+    action.setAttribute("html", 1);
+    action.setAttribute("needExp", 1);
+    var bc = appCtxt.getAppController().sendRequest({
+        soapDoc: soapDoc,
+        asyncMode: false
+    });
+    var msgResp = bc.GetMsgResponse;
+    console.log(msgResp);
+    var ans = msgResp.m[0].inv[0].comp[0];
+
+    var attend = msgResp.m[0].inv[0].comp[0].at;
+    var attendees = [];
+    if(attend) {
+        for (var j=0;j<attend.length ;j++ )
+        {    
+            attendees.push(attend[j].a);
+        }
+    }
+    if(attendees.length < 1)
+        attendees.push("---");
+
+    var subject = biz_vnc_crm_client.isDefine(ans.name);
+    var id = ans.apptId;
+    var apptLocation = biz_vnc_crm_client.isDefine(ans.loc);
+    var fragment = biz_vnc_crm_client.isDefine(ans.fr);
+    if(ans.s[0]) {
+        if (ans.s[0].u) {
+            var startDate = new Date(ans.s[0].u);
+        } else {
+            var startDate = ans.s[0].d;
+        }
+    }
+    if(ans.e[0]) {
+        if (ans.e[0].u) {
+            var endDate = new Date(ans.e[0].u);
+        } else {
+            var endDate = ans.e[0].d;
+        }
+    }
+    var displayFreeBusy = biz_vnc_crm_client.isDefine(ans.fba);
+    var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
+                                                
+    var leadApptDetailsWindow = Ext.create('widget.window', {
+        height: 300,
+        width: 600,
+        title: "Appointment",
+        shrinkWrap: true,
+        titleCollapse: true,
+        toFrontOnShow: true,
+        closable: true,
+        collapsible: true,
+        modal: true,
+        layout: 'fit',
+        items: [ApptPanel = Ext.create('Ext.form.Panel', {
+            title: subject,
+            width: 400,
+            bodyPadding: 10,
+
+             items: [{
+                layout: 'column',
+                border: false,
+                defaults: {
+                    anchor: '100%',
+                    background: '#DADADA'
+                },
+                items: [{
+                    columnWidth: .3,
+                    border: false,
+                    layout: 'vbox',
+                    items: [{
+                        xtype: 'label',
+                        text: 'Organizer : ',
+                        forId: 'lblApptDetailsOrganizerLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Location : ',
+                        forId: 'lblApptDetailsLocationLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Start Date : ',
+                        forId: 'lblApptDetailsStartDateLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'End Date : ',
+                        forId: 'lblApptDetailsEndDateLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'FreeBusy : ',
+                        forId: 'lblApptDetailsFreeBusyLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Attendees : ',
+                        forId: 'lblApptDetailsAttendeesLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Description : ',
+                        forId: 'lblApptDetailsFragmentLabel',
+                        anchor: '100%'
+                    }]
+                }, {
+                    columnWidth: .7,
+                    border: false,
+                    layout: 'vbox',
+                    items: [{
+                        xtype: 'label',
+                        text: organizer,
+                        forId: 'lblApptDetailsOrganizerValue',
+                        anchor: '100%'
+                    }, {
+                        xtype: 'label',
+                        text: apptLocation,
+                        forId: 'lblApptDetailsLocationValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: startDate,
+                        forId: 'lblApptDetailsStartDateValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: endDate,
+                        forId: 'lblApptDetailsEndDateValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: displayFreeBusy,
+                        forId: 'lblApptDetailsFreeBusyValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: attendees,
+                        forId: 'lblApptDetailsAttendeesValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: fragment,
+                        forId: 'lblApptDetailsFragmentValue',
+                        anchor: '100%'
+                    }]
+                }]
+             }]
+        })],
+        renderTo: Ext.getBody()
+    });
+    leadApptDetailsWindow.show();
+};
+
+biz_vnc_crm_client.viewTaskDetails = function(taskId){
+    var soapDoc = AjxSoapDoc.create("GetMsgRequest", "urn:zimbraMail");
+    var action = soapDoc.set("m");
+    action.setAttribute("id", taskId);
+    action.setAttribute("html", 1);
+    action.setAttribute("needExp", 1);
+    var bc = appCtxt.getAppController().sendRequest({
+        soapDoc: soapDoc,
+        asyncMode: false
+    });
+    var msgResp = bc.GetMsgResponse;
+    console.log(msgResp);
+    var ans = msgResp.m[0].inv[0].comp[0];
+    var subject = biz_vnc_crm_client.isDefine(ans.name);
+    var taskLocation = biz_vnc_crm_client.isDefine(ans.loc);
+    var fragment = biz_vnc_crm_client.isDefine(ans.desc[0]._content);
+
+    var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
+    var status = biz_vnc_crm_client.isDefine(ans.status);
+    var percentComplete = biz_vnc_crm_client.isDefine(ans.percentComplete);
+    var priority = biz_vnc_crm_client.isDefine(ans.priority);
+
+    var leadTaskDetailsWindow = Ext.create('widget.window', {
+        height: 300,
+        width: 600,
+        title: "Appointment",
+        shrinkWrap: true,
+        titleCollapse: true,
+        toFrontOnShow: true,
+        closable: true,
+        collapsible: true,
+        modal: true,
+        layout: 'fit',
+        items: [TaskPanel = Ext.create('Ext.form.Panel', {
+            title: subject,
+            width: 400,
+            bodyPadding: 10,
+            items: [{
+                layout: 'column',
+                border: false,
+                defaults: {
+                    anchor: '100%',
+                    background: '#DADADA'
+                },
+                items: [{
+                    columnWidth: .3,
+                    border: false,
+                    layout: 'vbox',
+                    items: [{
+                        xtype: 'label',
+                        text: 'Organizer : ',
+                        forId: 'lblTaskDetailsOrganizerLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Location : ',
+                        forId: 'lblTaskDetailsLocationLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Description : ',
+                        forId: 'lblTaskDetailsFragmentLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Status : ',
+                        forId: 'lblTaskDetailsStatusLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Percent Complete : ',
+                        forId: 'lblTaskDetailsPercentCompleteLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: 'Priority : ',
+                        forId: 'lblTaskDetailsPriorityLabel',
+                        anchor: '100%'
+                    }]
+                }, {
+                    columnWidth: .7,
+                    border: false,
+                    layout: 'vbox',
+                    items: [{
+                        xtype: 'label',
+                        text: organizer,
+                        forId: 'lblTaskDetailsOrganizerValue',
+                        anchor: '100%'
+                    }, {
+                        xtype: 'label',
+                        text: taskLocation,
+                        forId: 'lblTaskDetailsLocationValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: fragment,
+                        forId: 'lblTaskDetailsFragmentValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: status,
+                        forId: 'lblTaskDetailsStatusValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: percentComplete,
+                        forId: 'lblTaskDetailsPercentCompleteValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: priority,
+                        forId: 'lblTaskDetailsPriorityValue',
+                        anchor: '100%'
+                    }]
+                }]
+             }]
+        })],
+        renderTo: Ext.getBody()
+    });
+    leadTaskDetailsWindow.show();
 };

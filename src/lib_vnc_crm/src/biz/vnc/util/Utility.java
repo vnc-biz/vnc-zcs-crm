@@ -5,6 +5,7 @@ import biz.vnc.helpers.CategoryHelper;
 import biz.vnc.helpers.ChannelHelper;
 import biz.vnc.helpers.CompanyHelper;
 import biz.vnc.helpers.CountryHelper;
+import biz.vnc.helpers.LeadClassHelper;
 import biz.vnc.helpers.LeadHelper;
 import biz.vnc.helpers.OpportunityHelper;
 import biz.vnc.helpers.PriorityHelper;
@@ -39,6 +40,8 @@ public class Utility {
 			return new LeadHelper();
 		} else if(objType.equals("opp")) {
 			return new OpportunityHelper();
+		} else if(objType.equals("leadClass")) {
+			return new LeadClassHelper();
 		}
 		return null;
 	}

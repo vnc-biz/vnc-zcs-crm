@@ -4,6 +4,8 @@ import biz.vnc.base.AbstractBean;
 import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
+import biz.vnc.util.Limits;
+
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -243,6 +245,16 @@ public class StateHelper implements InterfaceHelper {
 	@Override
 	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int recordCounter() {
+		// TODO Auto-generated method stub
+		String tableName = "tbl_crm_state";
+		operationStatus = dbu.adminCounter(tableName);
+		if(operationStatus >= Limits.max_limit)
+			return 2;
 		return 0;
 	}
 }

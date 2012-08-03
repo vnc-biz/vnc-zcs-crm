@@ -4,6 +4,8 @@ import biz.vnc.base.AbstractBean;
 import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.CountryBean;
 import biz.vnc.util.DBUtility;
+import biz.vnc.util.Limits;
+
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +27,6 @@ public class CountryHelper implements InterfaceHelper {
 
 	@Override
 	public int add(AbstractBean ab) {
-
 		CountryBean countryBean = (CountryBean)ab;
 		String query = "insert into tbl_crm_country values (" + countryBean.getCountryId() + ",\"" + countryBean.getCountryName() + "\",\"" + countryBean.getCountryCode() + "\"," + countryBean.isStatus() + ",\"" + countryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + countryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
 		operationStatus = dbu.insert(query);
@@ -258,6 +259,16 @@ public class CountryHelper implements InterfaceHelper {
 	@Override
 	public int deleteTask(String array, String leadId) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int recordCounter() {
+		// TODO Auto-generated method stub
+		String tableName = "tbl_crm_country";
+		operationStatus = dbu.adminCounter(tableName);
+		if(operationStatus >= Limits.max_limit)
+			return 2;
 		return 0;
 	}
 

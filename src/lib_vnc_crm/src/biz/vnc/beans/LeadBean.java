@@ -10,7 +10,7 @@ public class LeadBean extends AbstractBean {
 	        dayClose, dayOpen, referredBy, userId, expectedDateClose,
 	        nextActionDate, nextAction, stageProbability, countryId, stateId,
 	        categoryId, stageId, channelId, sectionId, priorityId, companyId,
-	        probability;
+	        probability, leadClassId;
 	private CountryBean countryBean;
 	private StateBean stateBean;
 	private SectionBean sectionBean;
@@ -19,6 +19,7 @@ public class LeadBean extends AbstractBean {
 	private PriorityBean priorityBean;
 	private StageBean stageBean;
 	private CompanyBean companyBean;
+	private LeadClassBean leadClassBean;
 
 	public String getCountryId() {
 		return countryId;
@@ -386,4 +387,19 @@ public class LeadBean extends AbstractBean {
 		return probability;
 	}
 
+	public void setLeadClassBean(LeadClassBean leadClassBean) {
+		this.leadClassBean = leadClassBean;
+	}
+
+	public LeadClassBean getLeadClassBean() {
+		return leadClassBean;
+	}
+
+	public void setLeadClassId(String leadClassId) {
+		this.leadClassId = leadClassId;
+	}
+
+	public String getLeadClassId() {
+		return leadClassId;
+	}
 }

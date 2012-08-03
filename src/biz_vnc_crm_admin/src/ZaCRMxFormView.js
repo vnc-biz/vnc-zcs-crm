@@ -97,6 +97,11 @@ ZaCRMxFormView.prototype.setObject = function (entry) {
     response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     this._containedObject[ZaCRMadmin.A_stage] = jsonParse(response.text);
 
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"leadClass\"}";
+    reqJson = AjxStringUtil.urlEncode(json);
+    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    this._containedObject[ZaCRMadmin.A_leadClass] = jsonParse(response.text);
+
     if (entry.attrs) {
         for (var a in entry.attrs) {
             var modelItem = this._localXForm.getModel().getItem(a);
@@ -167,6 +172,9 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
         }, {
             value: 8,
             label: biz_vnc_crm_admin.TBB_stage
+        }, {
+            value: 9,
+            label: biz_vnc_crm_admin.TBB_leadClass
         }]
     }, {
         type: _SWITCH_,
@@ -185,7 +193,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Company List",
+                label: biz_vnc_crm_admin.LBL_company_list,
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -256,7 +264,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Country List",
+                label: biz_vnc_crm_admin.LBL_country_list,
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -327,7 +335,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "States List",
+                label: biz_vnc_crm_admin.LBL_state_list,
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;margin-right:50px;",
                 items: [
@@ -398,7 +406,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Channel List",
+                label: biz_vnc_crm_admin.LBL_channel_list,
                 // cssStyle apply for channel list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -407,7 +415,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                     ref: ZaCRMadmin.A_channel,
                     type: _DWT_LIST_,
                     height: "300px",
-                    width: "1300",
+                    width: "1200",
                     forceUpdate: true,
                     preserveSelection: false,
                     multiselect: true,
@@ -469,7 +477,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Priority List",
+                label: biz_vnc_crm_admin.LBL_priority_list,
                 // cssStyle apply for priority list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -478,7 +486,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                     ref: ZaCRMadmin.A_priority,
                     type: _DWT_LIST_,
                     height: "300px",
-                    width: "1300",
+                    width: "1200",
                     forceUpdate: true,
                     preserveSelection: false,
                     multiselect: true,
@@ -540,7 +548,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Category List",
+                label: biz_vnc_crm_admin.LBL_category_list,
                 // cssStyle apply for category list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -611,7 +619,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Section List",
+                label: biz_vnc_crm_admin.LBL_section_list,
                 // cssStyle apply for country list box
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [
@@ -682,7 +690,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 width: "100%",
                 numCols: 1,
                 colSizes: ["auto"],
-                label: "Stage List",
+                label: biz_vnc_crm_admin.LBL_stage_list,
                 cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
                 items: [{
                     ref: ZaCRMadmin.A_stage,
@@ -731,6 +739,77 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                         label: biz_vnc_crm_admin.BTN_Add,
                         width: "100px",
                         onActivate: "ZaCRMStageModel.addButtonListener.call(this);"
+                    }]
+                }]
+            }]
+        }, {
+            type: _ZATABCASE_,
+            id: "crm_leadClass",
+            ref: ZaModel.currentTab,
+            relevant: "instance[ZaModel.currentTab] == 9",
+            numCols: 1,
+            colSizes: ["800px"],
+            caseKey: newTab++,
+            items: [{
+                type: _ZA_TOP_GROUPER_,
+                id: "crm_leadClass_group",
+                width: "100%",
+                numCols: 1,
+                colSizes: ["auto"],
+                label: biz_vnc_crm_admin.LBL_leadClass_list,
+                // cssStyle apply for channel list box
+                cssStyle: "margin-top:10px;margin-bottom:10px;padding-bottom:0px;margin-left:10px;margin-right:10px;",
+                items: [
+                //for main box of header list
+                {
+                    ref: ZaCRMadmin.A_leadClass,
+                    type: _DWT_LIST_,
+                    height: "300px",
+                    width: "1200",
+                    forceUpdate: true,
+                    preserveSelection: false,
+                    multiselect: true,
+                    cssClass: "DLSource",
+                    headerList: headerList_leadClass,
+                    widgetClass: ZaCRMadminLeadClassListView,
+                    onSelection: ZaCRMLeadClassModel.leadClassSelectionListener,
+                    onChange: ZaCRMxFormView.currentFieldChanged,
+                    valueChangeEventSources: [ZaCRMadmin.A_leadClass]
+                },
+                //That for button
+                {
+                    type: _GROUP_,
+                    numCols: 5,
+                    colSizes: ["100px", "auto", "100px", "auto", "100px"],
+                    width: "350px",
+                    cssStyle: "margin-bottom:10px;padding-bottom:0px;margin-top:10px;margin-left:0px;margin-right:0px;",
+                    items: [{
+                        type: _DWT_BUTTON_,
+                        label: biz_vnc_crm_admin.BTN_Delete,
+                        width: "100px",
+                        onActivate: "ZaCRMLeadClassModel.deleteButtonListener.call(this);",
+                        enableDisableChangeEventSources: [ZaCRMadmin.A_leadClass_list_cache],
+                        enableDisableChecks: [ZaCRMLeadClassModel.isDeleteLeadClassEnabled],
+                        relevant: "ZaCRMLeadClassModel.isDeleteLeadClassEnabled.call(this)",
+                        relevantBehavior: _DISABLE_
+                    }, {
+                        type: _CELLSPACER_
+                    }, {
+                        type: _DWT_BUTTON_,
+                        label: biz_vnc_crm_admin.BTN_Edit,
+                        width: "100px",
+                        onActivate: "ZaCRMLeadClassModel.editButtonListener.call(this);",
+                        enableDisableChangeEventSources: [ZaCRMadmin.A_leadClass_list_cache],
+                        enableDisableChecks: [ZaCRMLeadClassModel.isEditLeadClassEnabled],
+                        relevant: "ZaCRMLeadClassModel.isEditLeadClassEnabled.call(this)",
+                        relevantBehavior: _DISABLE_
+                    }, {
+                        type: _CELLSPACER_
+                    }, {
+                        type: _DWT_BUTTON_,
+                        label: biz_vnc_crm_admin.BTN_Add,
+                        width: "100px",
+                        onActivate: "ZaCRMLeadClassModel.addButtonListener.call(this);"
                     }]
                 }]
             }]
