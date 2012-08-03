@@ -108,6 +108,7 @@ contactName varchar(64),
 companyId Integer REFERENCES tbl_crm_company(companyId),
 valuation varchar(64),
 leadState varchar(64),
+leadClassId Integer,
 partnerName varchar(255),
 phone varchar(16),
 fax varchar(16),
@@ -156,4 +157,15 @@ taskId varchar(255)
 CREATE TABLE IF NOT EXISTS tbl_crm_lead_calendar (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
 appointmentId varchar(255) 
+);
+
+
+CREATE TABLE IF NOT EXISTS tbl_crm_leadClass (
+leadClassId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
+leadClassName varchar(64) NOT NULL,
+status Boolean,
+createBy varchar(255),
+createDate timestamp default 0,
+writeBy varchar(255),
+writeDate timestamp default 0
 );
