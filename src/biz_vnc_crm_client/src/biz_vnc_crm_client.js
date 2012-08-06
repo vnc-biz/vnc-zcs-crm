@@ -6390,6 +6390,10 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
             var startDate = new Date(ans.s[0].u);
         } else {
             var startDate = ans.s[0].d;
+            var year = startDate.substring(0,4);
+            var month = startDate.substring(4,6);
+            var day = startDate.substring(6,8);
+            startDate = month + "/" + day + "/" + year;
         }
     }
     if(ans.e[0]) {
@@ -6397,6 +6401,10 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
             var endDate = new Date(ans.e[0].u);
         } else {
             var endDate = ans.e[0].d;
+            var year = endDate.substring(0,4);
+            var month = endDate.substring(4,6);
+            var day = endDate.substring(6,8);
+            endDate = month + "/" + day + "/" + year;
         }
     }
     var displayFreeBusy = biz_vnc_crm_client.isDefine(ans.fba);
@@ -6405,7 +6413,7 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
     var leadApptDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
-        title: "Appointment",
+        title: biz_vnc_crm_client.windowApptDetails,
         shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
@@ -6431,37 +6439,37 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
                     layout: 'vbox',
                     items: [{
                         xtype: 'label',
-                        text: 'Organizer : ',
+                        text: biz_vnc_crm_client.windowOrganizer,
                         forId: 'lblApptDetailsOrganizerLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Location : ',
+                        text: biz_vnc_crm_client.windowLocation,
                         forId: 'lblApptDetailsLocationLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Start Date : ',
+                        text: biz_vnc_crm_client.windowStartDate,
                         forId: 'lblApptDetailsStartDateLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'End Date : ',
+                        text: biz_vnc_crm_client.windowEndDate,
                         forId: 'lblApptDetailsEndDateLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'FreeBusy : ',
+                        text: biz_vnc_crm_client.windowFreeBusy,
                         forId: 'lblApptDetailsFreeBusyLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Attendees : ',
+                        text: biz_vnc_crm_client.windowAttendees,
                         forId: 'lblApptDetailsAttendeesLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Description : ',
+                        text: biz_vnc_crm_client.windowDescription,
                         forId: 'lblApptDetailsFragmentLabel',
                         anchor: '100%'
                     }]
@@ -6534,11 +6542,10 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     var status = biz_vnc_crm_client.isDefine(ans.status);
     var percentComplete = biz_vnc_crm_client.isDefine(ans.percentComplete);
     var priority = biz_vnc_crm_client.isDefine(ans.priority);
-
     var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
-        title: "Appointment",
+        title: biz_vnc_crm_client.windowApptDetails,
         shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
@@ -6563,32 +6570,32 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                     layout: 'vbox',
                     items: [{
                         xtype: 'label',
-                        text: 'Organizer : ',
+                        text: biz_vnc_crm_client.windowOrganizer,
                         forId: 'lblTaskDetailsOrganizerLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Location : ',
+                        text: biz_vnc_crm_client.windowLocation,
                         forId: 'lblTaskDetailsLocationLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Description : ',
+                        text: biz_vnc_crm_client.windowDescription,
                         forId: 'lblTaskDetailsFragmentLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Status : ',
+                        text: biz_vnc_crm_client.windowStatus,
                         forId: 'lblTaskDetailsStatusLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Percent Complete : ',
+                        text: biz_vnc_crm_client.windowPercentComplete,
                         forId: 'lblTaskDetailsPercentCompleteLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: 'Priority : ',
+                        text: biz_vnc_crm_client.windowPriority,
                         forId: 'lblTaskDetailsPriorityLabel',
                         anchor: '100%'
                     }]
