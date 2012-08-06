@@ -5775,8 +5775,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         tbar: [{
             xtype: 'buttongroup',
             items: [{
-
-                tooltip: 'Create new lead.',
+                tooltip: 'Create new opportunity.',
                 id: 'btnCreateOpportunity',
                 text: biz_vnc_crm_client.btnCreate,
                 iconCls: 'add24',
