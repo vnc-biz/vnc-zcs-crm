@@ -134,7 +134,7 @@ h2
 
 h3
 {
-	font-weight:400!important;
+	font-weight:400;
 }
 
 .company
@@ -149,7 +149,7 @@ h3
 
 .company h3
 {
-	font-weight:700!important;
+	font-weight:700;
 }
 
 .company .up
