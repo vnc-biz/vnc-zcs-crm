@@ -2,7 +2,7 @@ function ZaCRM_Panel() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
 /*
-	Adding node to tree in Admin UI
+    Adding node to tree in Admin UI
 */
 ZaCRM_Panel.backupOvTreeModifier = function (tree) {
     if (ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.BACKUP_VIEW] || ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.CARTE_BLANCHE_UI]) {
@@ -41,5 +41,5 @@ ZaOverviewPanelController.crm_adminTreeListener = function (ev) {
 
 }
 if (ZaOverviewPanelController.treeModifiers) {
-	ZaOverviewPanelController.treeModifiers.push(ZaCRM_Panel.backupOvTreeModifier);
+    ZaOverviewPanelController.treeModifiers.push(ZaCRM_Panel.backupOvTreeModifier);
 }

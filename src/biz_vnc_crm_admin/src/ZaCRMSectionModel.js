@@ -206,7 +206,6 @@ ZaCRMSectionModel.addPerson = function () {
         var instance = this.getInstance();
         var flag = 0;
 
-
         var test1 = obj[ZaCRMadmin.A_sectionSalesTeamIds];
         var test = "";
         var len = test1.length;
@@ -258,9 +257,9 @@ ZaCRMSectionModel.addPerson = function () {
 
 ZaCRMSectionModel.addButtonListener = function () {
     var formPage = this.getForm().parent;
-	var obj = {};
-	obj[ZaCRMadmin.A_selected_user_selection] = "";
-	obj[ZaCRMadmin.A_common_user_selection] = "";
+    var obj = {};
+    obj[ZaCRMadmin.A_selected_user_selection] = "";
+    obj[ZaCRMadmin.A_common_user_selection] = "";
 
     if (!formPage.addSectionDlg) {
         formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "750px", "475px", "Add new section");

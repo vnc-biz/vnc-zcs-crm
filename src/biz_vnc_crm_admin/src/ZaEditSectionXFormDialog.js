@@ -147,7 +147,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                             width: 120,
                             onActivate: "ZaEditSectionXFormDialog.removeExt.call(this)",
                             enableDisableChecks: [ZaEditSectionXFormDialog.shouldEnableRemoveButton],
-                            enableDisableChangeEventSources: [ZaCRMadmin.A_selected_user_selection, ZaCRMadmin.A_sectionSalesTeamIds],	
+                            enableDisableChangeEventSources: [ZaCRMadmin.A_selected_user_selection, ZaCRMadmin.A_sectionSalesTeamIds],
                             relevant: "ZaEditSectionXFormDialog.shouldEnableRemoveButton.call(this)",
                             relevantBehavior: _DISABLE_
                         }, {

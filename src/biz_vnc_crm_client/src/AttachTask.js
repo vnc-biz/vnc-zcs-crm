@@ -28,7 +28,7 @@ AttachTask.prototype.showMe = function () {
 /**
  * Resets the query.
  * 
- * @param	{string}	newQuery		the new query
+ * @param    {string}    newQuery        the new query
  */
 AttachTask.prototype._resetQuery = function (newQuery) {
     if (this._currentQuery == undefined) {
@@ -44,8 +44,8 @@ AttachTask.prototype._resetQuery = function (newQuery) {
 /**
  * Gets the "from folder id" query.
  * 
- * @param	{string}		folderId
- * @return	{string}	the query
+ * @param    {string}        folderId
+ * @return    {string}    the query
  */
 AttachTask.prototype._getQueryFromFolder = function (folderId) {
     return this._resetQuery('inid:"' + folderId + '"');
@@ -113,7 +113,7 @@ AttachTask.prototype.searchFolder = function (params) {
 /**
  * Handles the search folder response.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachTask.prototype.handleSearchResponse = function (params) {
     var response = params.response;
@@ -129,7 +129,7 @@ AttachTask.prototype.handleSearchResponse = function (params) {
 /**
  * Processes the search folder doc response.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachTask.prototype.processDocsResponse = function (params) {
     var tasks = params.searchResponse.task;
@@ -147,7 +147,7 @@ AttachTask.prototype.processDocsResponse = function (params) {
 /**
  * Shows the search folder result content.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachTask.prototype.showResultContents = function (params) {
     var items = params.items;
@@ -165,7 +165,7 @@ AttachTask.prototype.showResultContents = function (params) {
 /**
  * Handles the view keys events.
  * 
- * @param	{DwtKeyEvent}	ev
+ * @param    {DwtKeyEvent}    ev
  */
 
 AttachTask.prototype.gotAttachments = function () {
@@ -212,10 +212,10 @@ AttachTask.prototype._setOverview = function (params) {
             overviewClass: "AttachTasksTabBox",
             headerClass: "DwtTreeItem",
             noTooltips: true,
-            treeIds: params.treeIds		
+            treeIds: params.treeIds        
         };
-		ovParams.omit = {};
-		ovParams.omit[ZmFolder.ID_TRASH] = true;
+        ovParams.omit = {};
+        ovParams.omit[ZmFolder.ID_TRASH] = true;
         overview = opc.createOverview(ovParams);
         overview.set(params.treeIds,ovParams.omit);
 
@@ -231,7 +231,7 @@ AttachTask.prototype._setOverview = function (params) {
 
 AttachTask.prototype._treeListener = function (ev) {
     var item = this.treeView.getSelected();
-	var query = this._getQueryFromFolder(item.id);
+    var query = this._getQueryFromFolder(item.id);
     this.executeQuery(query);
 };
 
@@ -271,7 +271,7 @@ AttachTask.prototype.executeQuery = function (query, forward) {
  * @class
  * The attach mail controller.
  * 
- * @extends		ZmListController
+ * @extends        ZmListController
  */
 ZmAttachTasksController = function (container, app) {
     if (arguments.length == 0) {
@@ -291,7 +291,7 @@ ZmAttachTasksController.prototype._resetToolbarOperations = function () {
  * @class
  * The attach mail list view.
  * 
- * @extends		ZmListView
+ * @extends        ZmListView
  */
 ZmAttachTasksListView = function (params) {
     ZmListView.call(this, params);
@@ -306,23 +306,23 @@ ZmAttachTasksListView.prototype._getDivClass = function (base, item, params) {
 };
 
 ZmAttachTasksListView.prototype._getCellContents = function (htmlArr, idx, item, field, colIdx, params) {
-	var subject = item.name;
+    var subject = item.name;
     if (!subject) {
         subject = "";
     }
     var dueDate = "";
     if (item.endDate != "" && item.endDate != null) {
-		dueDate = AjxDateFormat.format("dd/MM/yyyy", new Date(item.endDate));
+        dueDate = AjxDateFormat.format("dd/MM/yyyy", new Date(item.endDate));
     }
-	var status ="";
-	if(item.status != ""){
-		status=ZmCalItem.getLabelForStatus(item.status);
-	}
+    var status ="";
+    if(item.status != ""){
+        status=ZmCalItem.getLabelForStatus(item.status);
+    }
 
-	var percentComplete ="";
-	if(item.percentComplete = ""){
-		percentComplete=item.percentComplete;
-	}
+    var percentComplete ="";
+    if(item.percentComplete = ""){
+        percentComplete=item.percentComplete;
+    }
     var attachCell = item.loc;
     htmlArr[idx++] = "<DIV style=\"height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;\">";
     htmlArr[idx++] = "<TABLE width=100%><tr> ";

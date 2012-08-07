@@ -80,7 +80,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
     if (biz_vnc_crm_client.mailData == "") {
         biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
     }
-
     Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -92,7 +91,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('section', {
+    Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'sectionId',
@@ -139,7 +138,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         ]
     });
 
-	Ext.define('category', {
+    Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -150,7 +149,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('company', {
+    Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -182,7 +181,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         ]
     });
 
-	Ext.define('channel', {
+    Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -193,7 +192,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('state', {
+    Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -204,7 +203,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('country', {
+    Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -215,7 +214,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('contact1', {
+    Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -236,7 +235,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-	Ext.define('mail', {
+    Ext.define('mail', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'mailId',
@@ -436,18 +435,18 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 Ext.getCmp('dateOppClosed').setValue('');
                             }
-							if (Ext.getCmp('dateOppOpened').getValue() != null) {
-								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
-								Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
-							} else { 
-								Ext.getCmp('txtOppDaysToOpen').setValue(0);
-							}
+                            if (Ext.getCmp('dateOppOpened').getValue() != null) {
+                                var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+                                Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
+                            } else { 
+                                Ext.getCmp('txtOppDaysToOpen').setValue(0);
+                            }
                             if (Ext.getCmp('dateOppClosed').getValue() != null) {
-								var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+                                var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
                             } else { 
-								Ext.getCmp('txtOppDaysToClose').setValue(0);
-							}
+                                Ext.getCmp('txtOppDaysToClose').setValue(0);
+                            }
                         }
                     },
                     anchor: '95%'
@@ -576,7 +575,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             items: [{
                 title: biz_vnc_crm_client.tabOpportunity,
                 layout: 'column',
-				height: 250,
+                height: 250,
                 items: [{
                     columnWidth: .33,
                     border: false,
@@ -773,7 +772,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabLead,
                 layout: 'column',
-				height: 250,
+                height: 250,
                 items: [{
                     columnWidth: .33,
                     layout: 'anchor',
@@ -899,7 +898,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabComm_History,
                 id: 'oppComm',
-				height: 250,
+                height: 250,
                 layout: 'column',
                 disabled: true,
                 width: '100%',
@@ -988,7 +987,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: sm,
                     id: 'oppMailGrid',
-					height: 215,
+                    height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1145,7 +1144,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     xtype: 'grid',
                     selModel: smAppoint,
                     id: 'oppApptGrid',
-					height: 215,
+                    height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1201,7 +1200,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabTask,
                 id: 'oppTask',
-				layout: 'column',
+                layout: 'column',
                 disabled: true,
                 width: '100%',
                 height: 250,
@@ -1305,60 +1304,60 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
-							if (rec != null) {
-								var leadId = rec.get('leadId');
-								var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
-								var reqHeader = {
-									"Content-Type": "application/x-www-form-urlencoded"
-								};
-								var reqJson = AjxStringUtil.urlEncode(json);
-								var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            if (rec != null) {
+                                var leadId = rec.get('leadId');
+                                var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+                                var reqHeader = {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                };
+                                var reqJson = AjxStringUtil.urlEncode(json);
+                                var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-								var newtaskArray = (responseTaskList.text).split(",");
+                                var newtaskArray = (responseTaskList.text).split(",");
 
-								var allTask = appCtxt.getTaskManager()._rawTasks;
+                                var allTask = appCtxt.getTaskManager()._rawTasks;
 
-								var taskArray = [];
-								if (newtaskArray != null) {
+                                var taskArray = [];
+                                if (newtaskArray != null) {
 
-									var k = 0;
-									for (var i = 0; i < allTask.length; i++) {
-										for (var j = 0; j < newtaskArray.length; j++) {
-											if (allTask[i].invId == newtaskArray[j]) {
-												taskArray[k++] = newtaskArray[j];
-											}
-										}
-									}
-								}
-								if (taskArray.length <= 0) {
-									oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-								} else {
-									oppTaskListData = "[";
-									var flag = 0;
-									for (var i = 0; i < allTask.length; i++) {
-										var temp = allTask[i];
-										for (var j = 0; j < taskArray.length; j++) {
-											if (temp.invId == taskArray[j]) {
-												if (flag == taskArray.length - 1) {
-													oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-												} else {
-													oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-													flag++;
-												}
-											}
-										}
-									}
-								}
-								Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
-								Ext.getCmp('oppTaskGrid').getView().refresh();
-							}						
-						}
+                                    var k = 0;
+                                    for (var i = 0; i < allTask.length; i++) {
+                                        for (var j = 0; j < newtaskArray.length; j++) {
+                                            if (allTask[i].invId == newtaskArray[j]) {
+                                                taskArray[k++] = newtaskArray[j];
+                                            }
+                                        }
+                                    }
+                                }
+                                if (taskArray.length <= 0) {
+                                    oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+                                } else {
+                                    oppTaskListData = "[";
+                                    var flag = 0;
+                                    for (var i = 0; i < allTask.length; i++) {
+                                        var temp = allTask[i];
+                                        for (var j = 0; j < taskArray.length; j++) {
+                                            if (temp.invId == taskArray[j]) {
+                                                if (flag == taskArray.length - 1) {
+                                                    oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                                } else {
+                                                    oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                    flag++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
+                                Ext.getCmp('oppTaskGrid').getView().refresh();
+                            }                        
+                        }
                     }]
                 }, {
                     xtype: 'grid',
                     selModel: oppSMTask,
                     id: 'oppTaskGrid',
-					height: 215,
+                    height: 215,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -1414,7 +1413,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }, {
                 title: biz_vnc_crm_client.tabExtraInfo,
                 layout: 'column',
-				height: 250,
+                height: 250,
                 items: [{
                     columnWidth: .50,
                     border: false,

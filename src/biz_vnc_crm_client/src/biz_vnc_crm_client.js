@@ -28,19 +28,19 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.apptData = "";
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
 
-	biz_vnc_crm_client.responsePriority = "";
-	biz_vnc_crm_client.responseCategory = "";
-	biz_vnc_crm_client.responseStage = "";
-	biz_vnc_crm_client.responseChannel = "";
-	biz_vnc_crm_client.responseState = "";
-	biz_vnc_crm_client.responseCountry = "";
-	biz_vnc_crm_client.responseCompany = "";
-	biz_vnc_crm_client.responseSection = "";
-	biz_vnc_crm_client.responseLeadClass = "";
-	biz_vnc_crm_client.responseUser = "";
+    biz_vnc_crm_client.responsePriority = "";
+    biz_vnc_crm_client.responseCategory = "";
+    biz_vnc_crm_client.responseStage = "";
+    biz_vnc_crm_client.responseChannel = "";
+    biz_vnc_crm_client.responseState = "";
+    biz_vnc_crm_client.responseCountry = "";
+    biz_vnc_crm_client.responseCompany = "";
+    biz_vnc_crm_client.responseSection = "";
+    biz_vnc_crm_client.responseLeadClass = "";
+    biz_vnc_crm_client.responseUser = "";
 
-	var json, reqJson;
-	var reqHeader = {
+    var json, reqJson;
+    var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
 
@@ -52,19 +52,19 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
+    
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -72,7 +72,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-	json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -80,7 +80,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseLeadClass = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-	json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
+    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -90,7 +90,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 // Intializing the toolbar for putting zimbraCRM button in the toolbar
 
 biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, toolbar, controller, view) {
-	if (view == "CNS") {
+    if (view == "CNS") {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
             menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
@@ -250,10 +250,10 @@ biz_vnc_crm_client_HandlerObject.prototype._getTooltipBGHtml = function () {
 
 biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controller, app) {
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
-	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
-	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+    Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+    Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-	// ------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------
 
     var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
     var reqHeader = {
@@ -449,11 +449,11 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
     });
     var MailOppPanel, MailLeadPanel;
     var mailOppGridWindow = Ext.create('widget.window', {
-   		maxWidth: 850,
+           maxWidth: 850,
         maxHeight: 420,
         minWidth: 850,
         minHeight: 420,
-		shrinkWrap: true,
+        shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,
         title: null,
@@ -462,21 +462,21 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         collapsible: true,
         items: [MailOppPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
-			height: 200,
+            height: 200,
             title: biz_vnc_crm_client.lblMyOpportunities,
             id: 'mailOppPanel1',
-			defaults: {
+            defaults: {
                     autoRender: true
             },
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
-				width: '100%',
-				height: 170,
+                width: '100%',
+                height: 170,
                 id: 'contactOpportunityGrid',
                 defaults: {
                     autoRender: true,
-					overflowY: 'auto'
+                    overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_mailLead',
@@ -617,17 +617,17 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
         MailLeadPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
             id: 'mailLeadPanel1',
-			height: 200,
+            height: 200,
             title: biz_vnc_crm_client.lblMyLeads,
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'mailLeadGrid',
-				height: 160,
-				width: '100%',
+                height: 160,
+                width: '100%',
                 defaults: {
                     autoRender: true,
-					overflowY: 'auto'
+                    overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_mailLead',
@@ -769,8 +769,8 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
 
 biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (controller, app) {
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
-	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
-	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+    Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+    Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
     var count = appCtxt.getCurrentController().getSelection().length;
     var record;
@@ -976,7 +976,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
     });
     var ContactOppPanel, ContactLeadPanel;
     var contactOppGridWindow = Ext.create('widget.window', {
-		maxWidth: 725,
+        maxWidth: 725,
         maxHeight: 400,
         minWidth: 725,
         minHeight: 400,
@@ -991,17 +991,17 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
 
         items: [ContactOppPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
-			height: 200,
+            height: 200,
             title: biz_vnc_crm_client.lblOpportunities,
             id: 'contactOppPanel1',
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'contactOpportunityGrid',
-				height: 170,
+                height: 170,
                 defaults: {
                     autoRender: true,
-					overflowY: 'auto'
+                    overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_lead',
@@ -1103,16 +1103,16 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         ContactLeadPanel = Ext.create('Ext.form.Panel', {
             width: '100%',
             id: 'contactLeadPanel1',
-			height: 200,
+            height: 200,
             title: biz_vnc_crm_client.lblLeads,
             bodyBorder: true,
             items: [{
                 xtype: 'grid',
                 id: 'contactLeadGrid',
-				height: 140,
-				defaults: {
+                height: 140,
+                defaults: {
                     autoRender: true,
-					overflowY: 'auto'
+                    overflowY: 'auto'
                 },
                 store: Ext.create('Ext.data.Store', {
                     model: 'model_lead',
@@ -1301,14 +1301,14 @@ biz_vnc_crm_client.okTaskAttach = function () {
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
-	var reqJson = AjxStringUtil.urlEncode(json);
+    var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	if (response.text == 1) {
-		Ext.example.msg('', biz_vnc_crm_client.msgTaskAttach);
-	} else {
-		Ext.example.msg('', biz_vnc_crm_client.msgTaskNotAttach);
-	}
-	var query = "";
+    if (response.text == 1) {
+        Ext.example.msg('', biz_vnc_crm_client.msgTaskAttach);
+    } else {
+        Ext.example.msg('', biz_vnc_crm_client.msgTaskNotAttach);
+    }
+    var query = "";
     var folderAry = appCtxt.getTaskManager().getCheckedCalendarFolderIds(true);
     for (var i in folderAry) {
         if (folderAry.length - 1 != i) {
@@ -1334,7 +1334,7 @@ biz_vnc_crm_client.okTaskAttach = function () {
             var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
             var newtaskArray = (responseTaskList.text).split(",");
             var allTask = searchResponse.getArray();
-			var taskArray = [];
+            var taskArray = [];
             if (newtaskArray != null) {
                 for (var i = 0; i < allTask.length; i++) {
                     for (var j = 0; j < newtaskArray.length; j++) {
@@ -1522,11 +1522,11 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	if (response.text == 1) {
-		Ext.example.msg('', biz_vnc_crm_client.msgApptAttach);
-	} else {
-		Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
-	}
+    if (response.text == 1) {
+        Ext.example.msg('', biz_vnc_crm_client.msgApptAttach);
+    } else {
+        Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
+    }
     if (1 == response.text) {
         this.attachApptDialog.popdown();
         if (biz_vnc_crm_client.flag == 0) {
@@ -1644,8 +1644,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     toolbar.setVisibility(true);
     biz_vnc_crm_client._flag = 0;
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
-	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
-	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+    Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+    Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -1912,7 +1912,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('category', {
+    Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -1923,7 +1923,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('stage', {
+    Ext.define('stage', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stageId',
@@ -1937,7 +1937,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('channel', {
+    Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -1948,7 +1948,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('state', {
+    Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -1959,7 +1959,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('country', {
+    Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -1970,7 +1970,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	Ext.define('company', {
+    Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -1994,16 +1994,16 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
     Ext.define('leadClass', {
         extend: 'Ext.data.Model',
-            fields: [{
-                name: 'leadClassId',
-                type: 'int'
-            }, {
-                name: 'leadClassName',
-                type: 'string'
+        fields: [{
+            name: 'leadClassId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            type: 'string'
         }]
     });
 
-	Ext.define('user', {
+    Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -2014,7 +2014,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
-	function onEnter(elem, e) {
+    function onEnter(elem, e) {
         if (e.getKey() === e.ENTER) {}
     }
 
@@ -2253,18 +2253,18 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 Ext.getCmp('dateclosed').setValue('');
                             }
-							if (Ext.getCmp('dateopened').getValue() != null) {
-								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
-								Ext.getCmp('txtleadday2open').setValue(dayopen);
-							} else { 
-								Ext.getCmp('txtleadday2open').setValue(0);
-							}
+                            if (Ext.getCmp('dateopened').getValue() != null) {
+                                var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+                                Ext.getCmp('txtleadday2open').setValue(dayopen);
+                            } else { 
+                                Ext.getCmp('txtleadday2open').setValue(0);
+                            }
                             if (Ext.getCmp('dateclosed').getValue() != null) {
-								var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
+                                var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtleadday2close').setValue(dayclose);
                             } else { 
-								Ext.getCmp('txtleadday2close').setValue(0);
-							}
+                                Ext.getCmp('txtleadday2close').setValue(0);
+                            }
                         }
                     },
                     anchor: '95%'
@@ -2725,7 +2725,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
                 id: 'leadAppointment',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 220,
@@ -2748,7 +2748,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
                             function showResult(btn) {
                                 if (btn == "yes") {
-									var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
+                                    var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
 
@@ -2817,7 +2817,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     xtype: 'grid',
                     selModel: leadSMAppt,
                     id: 'leadApptGrid',
-					height: 195,
+                    height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -2873,7 +2873,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabTask,
                 id: 'leadTask',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 220,
@@ -2973,54 +2973,54 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
-							var leadId = biz_vnc_crm_client.leadId;
-							var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-							var reqHeader = {
-								"Content-Type": "application/x-www-form-urlencoded"
-							};
-							var reqJson = AjxStringUtil.urlEncode(json);
-							var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-							var newtaskArray = (responseTaskList.text).split(",");
-							var allTask = appCtxt.getTaskManager()._rawTasks;
-							var taskArray = [];
-							if (newtaskArray != null) {
-								var k = 0;
-								for (var i = 0; i < allTask.length; i++) {
-									for (var j = 0; j < newtaskArray.length; j++) {
-										if (allTask[i].invId == newtaskArray[j]) {
-											taskArray[k++] = newtaskArray[j];
-										}
-									}
-								}
-							}
-							if (taskArray.length <= 0) {
-								leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-							} else {
-								leadTaskListData = "[";
-								var flag = 0;
-								for (var i = 0; i < allTask.length; i++) {
-									var temp = allTask[i];
-									for (var j = 0; j < taskArray.length; j++) {
-										if (temp.invId == taskArray[j]) {
-											if (flag == taskArray.length - 1) {
-												leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-											} else {
-												leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-												flag++;
-											}
-										}
-									}
-								}
-							}
-							Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
-							Ext.getCmp('leadTaskGrid').getView().refresh();
-						}
+                            var leadId = biz_vnc_crm_client.leadId;
+                            var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+                            var reqHeader = {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            };
+                            var reqJson = AjxStringUtil.urlEncode(json);
+                            var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            var newtaskArray = (responseTaskList.text).split(",");
+                            var allTask = appCtxt.getTaskManager()._rawTasks;
+                            var taskArray = [];
+                            if (newtaskArray != null) {
+                                var k = 0;
+                                for (var i = 0; i < allTask.length; i++) {
+                                    for (var j = 0; j < newtaskArray.length; j++) {
+                                        if (allTask[i].invId == newtaskArray[j]) {
+                                            taskArray[k++] = newtaskArray[j];
+                                        }
+                                    }
+                                }
+                            }
+                            if (taskArray.length <= 0) {
+                                leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+                            } else {
+                                leadTaskListData = "[";
+                                var flag = 0;
+                                for (var i = 0; i < allTask.length; i++) {
+                                    var temp = allTask[i];
+                                    for (var j = 0; j < taskArray.length; j++) {
+                                        if (temp.invId == taskArray[j]) {
+                                            if (flag == taskArray.length - 1) {
+                                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                            } else {
+                                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                flag++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
+                            Ext.getCmp('leadTaskGrid').getView().refresh();
+                        }
                     }]
                 }, {
                     xtype: 'grid',
                     selModel: leadSMTask,
                     id: 'leadTaskGrid',
-					height: 195,
+                    height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -3076,10 +3076,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabComm_History,
                 id: 'leadComm',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
-   				height: 220,
+                   height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -3163,7 +3163,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     xtype: 'grid',
                     selModel: leadSMMail,
                     id: 'leadMailGrid',
-					height: 195,
+                    height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -3780,11 +3780,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             Ext.getCmp('btnleadsave').enable();
             Ext.getCmp('btnConvertToOpp').enable();
             Ext.getCmp('btnLeadAddContact').enable();
-			Ext.getCmp('leadTask').setDisabled(false);
-			Ext.getCmp('leadAppointment').setDisabled(false);
-			Ext.getCmp('leadComm').setDisabled(false);
+            Ext.getCmp('leadTask').setDisabled(false);
+            Ext.getCmp('leadAppointment').setDisabled(false);
+            Ext.getCmp('leadComm').setDisabled(false);
             var rec = selectedRecord[0];
-			Ext.getCmp('leadTabPanel').setActiveTab(0);
+            Ext.getCmp('leadTabPanel').setActiveTab(0);
             if (rec != null) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
                 Ext.getCmp('cmbpartner').getStore().load({
@@ -3865,9 +3865,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             Ext.getCmp('btnleadsave').disable();
             Ext.getCmp('btnConvertToOpp').disable();
             Ext.getCmp('btnLeadAddContact').disable();
-			Ext.getCmp('leadTask').setDisabled(true);
-			Ext.getCmp('leadAppointment').setDisabled(true);
-			Ext.getCmp('leadComm').setDisabled(true);
+            Ext.getCmp('leadTask').setDisabled(true);
+            Ext.getCmp('leadAppointment').setDisabled(true);
+            Ext.getCmp('leadComm').setDisabled(true);
         }
     });
 };
@@ -3893,8 +3893,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     });
     Ext.Loader.setPath('Ext.ux', '../ux');
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.tip.QuickTipManager']);
-	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
-	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+    Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+    Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
 
     var toolbar = app.getToolbar();
@@ -4107,8 +4107,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }
         }
     });
-	
-	Ext.define('priority', {
+    
+    Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'priorityId',
@@ -4129,8 +4129,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-	
-	Ext.define('section', {
+    
+    Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'sectionId',
@@ -4166,7 +4166,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         ]
     });
 
-	Ext.define('category', {
+    Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'categoryId',
@@ -4177,7 +4177,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-	Ext.define('company', {
+    Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'companyId',
@@ -4209,7 +4209,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         ]
     });
 
-	Ext.define('channel', {
+    Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'channelId',
@@ -4220,7 +4220,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-	Ext.define('state', {
+    Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'stateId',
@@ -4231,7 +4231,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-	Ext.define('country', {
+    Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'countryId',
@@ -4242,7 +4242,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-	Ext.define('contact1', {
+    Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -4253,7 +4253,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }]
     });
 
-	Ext.define('user', {
+    Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'value',
@@ -4270,7 +4270,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }
     });
 
-	var smappoint = Ext.create('Ext.selection.CheckboxModel', {
+    var smappoint = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {}
         }
@@ -4486,18 +4486,18 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 Ext.getCmp('dateOppClosed').setValue('');
                             }
-							if (Ext.getCmp('dateOppOpened').getValue() != null) {
-								var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
-								Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
-							} else { 
-								Ext.getCmp('txtOppDaysToOpen').setValue(0);
-							}
+                            if (Ext.getCmp('dateOppOpened').getValue() != null) {
+                                var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+                                Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
+                            } else { 
+                                Ext.getCmp('txtOppDaysToOpen').setValue(0);
+                            }
                             if (Ext.getCmp('dateOppClosed').getValue() != null) {
-								var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
+                                var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
                             } else { 
-								Ext.getCmp('txtOppDaysToClose').setValue(0);
-							}
+                                Ext.getCmp('txtOppDaysToClose').setValue(0);
+                            }
                         }
                     },
                     anchor: '95%'
@@ -4953,10 +4953,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabComm_History,
                 id: 'oppComm',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
-				height: 220,
+                height: 220,
                 dockedItems: [{
                     xtype: 'toolbar',
                     items: [{
@@ -5036,7 +5036,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'grid',
                     selModel: oppSMMail,
                     id: 'oppMailGrid',
-					height: 195,
+                    height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -5092,7 +5092,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
                 id: 'oppAppointment',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
                 height: 220,
@@ -5185,7 +5185,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'grid',
                     selModel: smAppoint,
                     id: 'oppApptGrid',
-					height: 195,
+                    height: 195,
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -5241,10 +5241,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }, {
                 title: biz_vnc_crm_client.tabTask,
                 id: 'oppTask',
-				disabled: true,
+                disabled: true,
                 layout: 'column',
                 width: '100%',
-				height: 220,
+                height: 220,
                 defaults: {
                     autoRender: true,
                     autoScroll: true
@@ -5347,57 +5347,57 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',
                         handler: function () {
-							var leadId = biz_vnc_crm_client.leadId;
-							var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
-							var reqHeader = {
-								"Content-Type": "application/x-www-form-urlencoded"
-							};
-							var reqJson = AjxStringUtil.urlEncode(json);
-							var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-							var newtaskArray = (responseTaskList.text).split(",");
-							var allTask = appCtxt.getTaskManager()._rawTasks;
-							var taskArray = [];
-							if (newtaskArray != null) {
+                            var leadId = biz_vnc_crm_client.leadId;
+                            var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+                            var reqHeader = {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            };
+                            var reqJson = AjxStringUtil.urlEncode(json);
+                            var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            var newtaskArray = (responseTaskList.text).split(",");
+                            var allTask = appCtxt.getTaskManager()._rawTasks;
+                            var taskArray = [];
+                            if (newtaskArray != null) {
 
-								var k = 0;
-								for (var i = 0; i < allTask.length; i++) {
-									for (var j = 0; j < newtaskArray.length; j++) {
-										if (allTask[i].invId == newtaskArray[j]) {
-											taskArray[k++] = newtaskArray[j];
-										}
-									}
-								}
-							}
-							if (taskArray.length <= 0) {
-								oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-							} else {
-								oppTaskListData = "[";
-								var flag = 0;
-								for (var i = 0; i < allTask.length; i++) {
-									var temp = allTask[i];
-									for (var j = 0; j < taskArray.length; j++) {
-										if (temp.invId == taskArray[j]) {
-											if (flag == taskArray.length - 1) {
-												oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-											} else {
-												oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-												flag++;
-											}
-										}
-									}
-								}
-							}
-							Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
-							Ext.getCmp('oppTaskGrid').getView().refresh();
-					
-						}
+                                var k = 0;
+                                for (var i = 0; i < allTask.length; i++) {
+                                    for (var j = 0; j < newtaskArray.length; j++) {
+                                        if (allTask[i].invId == newtaskArray[j]) {
+                                            taskArray[k++] = newtaskArray[j];
+                                        }
+                                    }
+                                }
+                            }
+                            if (taskArray.length <= 0) {
+                                oppTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
+                            } else {
+                                oppTaskListData = "[";
+                                var flag = 0;
+                                for (var i = 0; i < allTask.length; i++) {
+                                    var temp = allTask[i];
+                                    for (var j = 0; j < taskArray.length; j++) {
+                                        if (temp.invId == taskArray[j]) {
+                                            if (flag == taskArray.length - 1) {
+                                                oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
+                                            } else {
+                                                oppTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
+                                                flag++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
+                            Ext.getCmp('oppTaskGrid').getView().refresh();
+                    
+                        }
                     }]
                 }, {
                     xtype: 'grid',
                     selModel: oppSMTask,
                     id: 'oppTaskGrid',
-					height: 195,
-					
+                    height: 195,
+                    
                     defaults: {
                         autoRender: true,
                         autoScroll: true
@@ -5748,7 +5748,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var reqJson = AjxStringUtil.urlEncode(json);
                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                     if (response.text == 1) {
-	     				Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                         biz_vnc_crm_client.initOpportunityGrid(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
@@ -5899,7 +5899,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 header: biz_vnc_crm_client.creationDate,
                 width: 120,
                 dataIndex: 'createDate',
-			    sortable: true
+                sortable: true
             }, {
                 header: biz_vnc_crm_client.opportunity,
                 width: 150,
@@ -5989,15 +5989,15 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             Ext.getCmp('footerOppPanel').show();
             Ext.getCmp('btnOppsave').enable();
             Ext.getCmp('btnOppAddContact').enable();
-			Ext.getCmp('oppTask').setDisabled(false);
-		    Ext.getCmp('oppAppointment').setDisabled(false);
-	        Ext.getCmp('oppComm').setDisabled(false);
+            Ext.getCmp('oppTask').setDisabled(false);
+            Ext.getCmp('oppAppointment').setDisabled(false);
+            Ext.getCmp('oppComm').setDisabled(false);
             Ext.getCmp('oppTabPanel').setActiveTab(0);
-			var rec = selectedRecord[0];
+            var rec = selectedRecord[0];
             if (rec != null) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
 
-				Ext.getCmp('cmbOpppartner').getStore().load({
+                Ext.getCmp('cmbOpppartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbOpppartner').setValue(rec.get('partnerName'));
                     }
@@ -6088,9 +6088,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             Ext.getCmp('footerOppPanel').hide();
             Ext.getCmp('btnOppsave').disable();
             Ext.getCmp('btnOppAddContact').disable();
-			Ext.getCmp('oppTask').setDisabled(true);
-		    Ext.getCmp('oppAppointment').setDisabled(true);
-	        Ext.getCmp('oppComm').setDisabled(true);
+            Ext.getCmp('oppTask').setDisabled(true);
+            Ext.getCmp('oppAppointment').setDisabled(true);
+            Ext.getCmp('oppComm').setDisabled(true);
         }
     });
 
@@ -6143,8 +6143,8 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
         soapDoc: soapDoc,
         asyncMode: false
     });
-	var msgResp = bc.BatchResponse.GetMsgResponse;
-	var respLen = msgResp.length;
+    var msgResp = bc.BatchResponse.GetMsgResponse;
+    var respLen = msgResp.length;
     for (var i = 0; i < respLen; i++) {
         var resp = msgResp[i].m[0].inv[0].comp[0];
         if (i == respLen - 1) {
@@ -6158,8 +6158,8 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
 /**
  * This method gets called by the Zimlet framework each time the application is opened or closed.
  *  
- * @param	{String}	appName		the application name
- * @param	{Boolean}	active		if <code>true</code>, the application status is open; otherwise, <code>false</code>
+ * @param    {String}    appName        the application name
+ * @param    {Boolean}    active        if <code>true</code>, the application status is open; otherwise, <code>false</code>
  */
 
 biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active) {
@@ -6188,7 +6188,7 @@ biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active
 /**
  * This method gets called by the Zimlet framework when the application is opened for the first time.
  *  
- * @param	{String}	appName		the application name		
+ * @param    {String}    appName        the application name        
  */
 biz_vnc_crm_client_HandlerObject.prototype.appLaunch = function (appName) {
     switch (appName) {
@@ -6196,7 +6196,7 @@ biz_vnc_crm_client_HandlerObject.prototype.appLaunch = function (appName) {
         {
             var app = appCtxt.getApp(this._tabAppName);
             biz_vnc_crm_client_HandlerObject.prototype.settoolbar(app);
-	        ZmDashboardView.dashboard(app);
+            ZmDashboardView.dashboard(app);
             break;
         }
     }

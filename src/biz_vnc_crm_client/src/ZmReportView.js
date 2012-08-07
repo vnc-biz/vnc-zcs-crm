@@ -18,7 +18,7 @@ ZmReportView.createForm = function (app) {
     });
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*', 'Ext.EventManager', 'Ext.ux.grid.Printer']);
 
-    // -------------data load-----------------------------------------------------------------	
+    // -------------data load-----------------------------------------------------------------    
 
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
@@ -541,7 +541,7 @@ ZmReportView.createForm = function (app) {
         tbar: [{
             text: biz_vnc_crm_client.btnSaveChart,
             handler: function () {
-				Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
+                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
                     if (choice == 'yes') {
                         leadStageChart.save({
                             type: 'image/png'
@@ -723,7 +723,7 @@ ZmReportView.createForm = function (app) {
     var len = jsonParse(responseOpportunity.text).length;
     var allyear = [];
     for (var i = 0; i < len; i++) {
-		date = (jsonParse(responseOpportunity.text))[i].createDate;
+        date = (jsonParse(responseOpportunity.text))[i].createDate;
         date = date.split(" ");
         allyear.push(new Date(date[0]).getFullYear());
     }
@@ -734,9 +734,9 @@ ZmReportView.createForm = function (app) {
     for (var i = 0; i < year.length; i++) {
         val[i] = 0;
         for (var j = 0; j < len; j++) {
-			date = item[j].createDate;
-			date = date.split(" ");
-			yr = new Date(date[0]).getFullYear();
+            date = item[j].createDate;
+            date = date.split(" ");
+            yr = new Date(date[0]).getFullYear();
             if (year[i] == yr) {
                 val[i] += parseInt(item[j].valuation);
             }
@@ -1246,7 +1246,7 @@ ZmReportView.createForm = function (app) {
         }]
     });
 
-	var oppChart = Ext.create('Ext.chart.Chart', {
+    var oppChart = Ext.create('Ext.chart.Chart', {
         id: 'chartCmp12',
         xtype: 'chart',
         style: 'background:#fff',

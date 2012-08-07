@@ -14,8 +14,8 @@ ZmDashboardView.dashboard = function (app) {
     toolbar.setVisibility(false);
 
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
-	Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
-	Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+    Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
+    Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
     // pie chart start--------------------------------------------------------------------------------------------
     var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
@@ -102,38 +102,37 @@ ZmDashboardView.dashboard = function (app) {
         }]
     });
 
-
     var leadChartPanel = Ext.create('widget.panel', {
-			width: 450,
-			height: 300,
-			x: 920,
-			y: 320,
-			title: biz_vnc_crm_client.lblNumberofleadsbystate,
-			renderTo: Ext.getBody(),
-			layout: 'fit',
-			tbar: [{
-				text: biz_vnc_crm_client.btnSaveChart,
-				handler: function() {
-					Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-						if (choice == 'yes'){
-							leadChart.save({
-								type: 'image/png'
-							});
-						}
-					});
-				}
-			},{
-				enableToggle: true,
-				pressed: false,
-				text: biz_vnc_crm_client.btnDonut,
-				toggleHandler: function(btn, pressed) {
-					var chart = Ext.getCmp('chartCmp');
-					chart.series.first().donut = pressed ? 35 : false;
-					chart.refresh();
-				}
-			}],
-			items: leadChart
-		});
+            width: 450,
+            height: 300,
+            x: 920,
+            y: 320,
+            title: biz_vnc_crm_client.lblNumberofleadsbystate,
+            renderTo: Ext.getBody(),
+            layout: 'fit',
+            tbar: [{
+                text: biz_vnc_crm_client.btnSaveChart,
+                handler: function() {
+                    Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
+                        if (choice == 'yes'){
+                            leadChart.save({
+                                type: 'image/png'
+                            });
+                        }
+                    });
+                }
+            },{
+                enableToggle: true,
+                pressed: false,
+                text: biz_vnc_crm_client.btnDonut,
+                toggleHandler: function(btn, pressed) {
+                    var chart = Ext.getCmp('chartCmp');
+                    chart.series.first().donut = pressed ? 35 : false;
+                    chart.refresh();
+                }
+            }],
+            items: leadChart
+        });
 
     // pie chart end--------------------------------------------------------------------------------------------
 
@@ -185,8 +184,8 @@ ZmDashboardView.dashboard = function (app) {
     });
     var date;
     var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
-    
-	for (var i = 0; i < oppData.length; i++) {
+
+    for (var i = 0; i < oppData.length; i++) {
         date = oppData[i].createDate;
         date = date.split(" ");
         if (new Date(date[0]).getMonth() == 0) {
@@ -315,13 +314,6 @@ ZmDashboardView.dashboard = function (app) {
         }]
     });
 
-
-
-
-
-
-
-
     var oppChartPanel = Ext.create('widget.panel', {
         width: 450,
         height: 300,
@@ -345,10 +337,7 @@ ZmDashboardView.dashboard = function (app) {
 
     });
 
-
-
     ////////////////////----------------- opp chart end -----------------------------
-
 
     var idArray = [];
     var str = "'" + "In Progress" + "'";
@@ -628,7 +617,7 @@ ZmDashboardView.dashboard = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-						Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
+                        Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
@@ -749,7 +738,7 @@ ZmDashboardView.dashboard = function (app) {
                     tooltip: biz_vnc_crm_client.btnDelete,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
-						Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
+                        Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();

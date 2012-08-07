@@ -29,7 +29,7 @@ AttachMailTabView1.prototype.showMe = function () {
 /**
  * Resets the query.
  * 
- * @param	{string}	newQuery		the new query
+ * @param    {string}    newQuery        the new query
  */
 AttachMailTabView1.prototype._resetQuery = function (newQuery) {
     if (this._currentQuery == undefined) {
@@ -45,8 +45,8 @@ AttachMailTabView1.prototype._resetQuery = function (newQuery) {
 /**
  * Gets the "from folder id" query.
  * 
- * @param	{string}		folderId
- * @return	{string}	the query
+ * @param    {string}        folderId
+ * @return    {string}    the query
  */
 AttachMailTabView1.prototype._getQueryFromFolder = function (folderId) {
     return this._resetQuery('inid:"' + folderId + '"');
@@ -111,7 +111,7 @@ AttachMailTabView1.prototype.searchFolder = function (params) {
 /**
  * Handles the search folder response.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachMailTabView1.prototype.handleSearchResponse = function (params) {
     var response = params.response;
@@ -127,7 +127,7 @@ AttachMailTabView1.prototype.handleSearchResponse = function (params) {
 /**
  * Processes the search folder doc response.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachMailTabView1.prototype.processDocsResponse = function (params) {
     var msgs = params.searchResponse.m;
@@ -145,7 +145,7 @@ AttachMailTabView1.prototype.processDocsResponse = function (params) {
 /**
  * Shows the search folder result content.
  * 
- * @param	{hash}	params		a hash of parameters
+ * @param    {hash}    params        a hash of parameters
  */
 AttachMailTabView1.prototype.showResultContents = function (params) {
     var items = params.items;
@@ -162,7 +162,7 @@ AttachMailTabView1.prototype.showResultContents = function (params) {
 /**
  * Handles the view keys events.
  * 
- * @param	{DwtKeyEvent}	ev
+ * @param    {DwtKeyEvent}    ev
  */
 
 AttachMailTabView1.prototype.gotAttachments = function () {
@@ -217,10 +217,10 @@ AttachMailTabView1.prototype._setOverview = function (params) {
             noTooltips: true,
             treeIds: params.treeIds
         };
-		ovParams.omit = {};
-		ovParams.omit[ZmFolder.ID_TRASH] = true;
-		ovParams.omit[ZmFolder.ID_SPAM] = true;
-		ovParams.omit[ZmFolder.ID_DRAFTS] = true;
+        ovParams.omit = {};
+        ovParams.omit[ZmFolder.ID_TRASH] = true;
+        ovParams.omit[ZmFolder.ID_SPAM] = true;
+        ovParams.omit[ZmFolder.ID_DRAFTS] = true;
         overview = opc.createOverview(ovParams);
         overview.set(params.treeIds,ovParams.omit);
 
@@ -277,7 +277,7 @@ AttachMailTabView1.prototype.executeQuery = function (query, forward) {
  * @class
  * The attach mail controller.
  * 
- * @extends		ZmListController
+ * @extends        ZmListController
  */
 ZmAttachMailController = function (container, app) {
     if (arguments.length == 0) {
@@ -297,7 +297,7 @@ ZmAttachMailController.prototype._resetToolbarOperations = function () {
  * @class
  * The attach mail list view.
  * 
- * @extends		ZmListView
+ * @extends        ZmListView
  */
 ZmAttachMailListView = function (params) {
     ZmListView.call(this, params);
