@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -42,7 +64,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		operationStatus = dbu.insert(query);
 		return operationStatus;
 	}
-
+	
 	@Override
 	public int update(AbstractBean ab) {
 		// TODO Auto-generated method stub
@@ -89,10 +111,10 @@ public class OpportunityHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();
+		CompanyHelper companyHelper = new CompanyHelper();	
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -138,7 +160,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -158,12 +180,12 @@ public class OpportunityHelper implements InterfaceHelper {
 	@Override
 	public AbstractBean toBean(String jsonString) {
 		// TODO Auto-generated method stub
-		try {
+		try{
 			LeadBean leadBean  = new LeadBean();
-
+			
 			leadBean = gson.fromJson(jsonString, LeadBean.class);
 			return leadBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -201,10 +223,10 @@ public class OpportunityHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();
+		CompanyHelper companyHelper = new CompanyHelper();	
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -250,7 +272,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -282,10 +304,10 @@ public class OpportunityHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();
+		CompanyHelper companyHelper = new CompanyHelper();	
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -331,7 +353,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -356,7 +378,7 @@ public class OpportunityHelper implements InterfaceHelper {
 	public int addHistory(String array, String leadId) {
 		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str) {
+		for(String messageId : str){
 			String query = "insert into tbl_crm_lead_mailHistory values ('" + leadId +"','" + messageId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -371,11 +393,11 @@ public class OpportunityHelper implements InterfaceHelper {
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				str = rs.getString("messageId");
-				if(msgArray == null) {
+				if(msgArray == null){
 					msgArray = str;
-				} else
+				}else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
@@ -397,7 +419,7 @@ public class OpportunityHelper implements InterfaceHelper {
 	public int addAppointment(String array, String leadId) {
 		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str) {
+		for(String messageId : str){
 			String query = "insert into tbl_crm_lead_calendar values ('" + leadId +"','" + messageId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -412,11 +434,11 @@ public class OpportunityHelper implements InterfaceHelper {
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				str = rs.getString("appointmentId");
-				if(msgArray == null) {
+				if(msgArray == null){
 					msgArray = str;
-				} else
+				}else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
@@ -438,7 +460,7 @@ public class OpportunityHelper implements InterfaceHelper {
 	public int addTask(String array, String leadId) {
 		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str) {
+		for(String messageId : str){
 			String query = "insert into tbl_crm_lead_task values ('" + leadId +"','" + messageId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -453,11 +475,11 @@ public class OpportunityHelper implements InterfaceHelper {
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				str = rs.getString("taskId");
-				if(msgArray == null) {
+				if(msgArray == null){
 					msgArray = str;
-				} else
+				}else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {

@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import java.sql.ResultSet;
@@ -14,12 +36,12 @@ import biz.vnc.beans.LeadClassBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 
-public class LeadClassHelper  implements InterfaceHelper {
-
+public class LeadClassHelper  implements InterfaceHelper{
+	
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
-
+	
 	@Override
 	public String listClientView() {
 		// TODO Auto-generated method stub
@@ -60,11 +82,11 @@ public class LeadClassHelper  implements InterfaceHelper {
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
-
+	
 	private LeadClassBean getRecordFromResultSet(ResultSet rs) {
 		LeadClassBean leadClassBean = new LeadClassBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				leadClassBean.setLeadClassId(rs.getInt("leadClassId"));
 				leadClassBean.setLeadClassName(rs.getString("leadClassName"));
 				leadClassBean.setStatus(rs.getBoolean("status"));
@@ -95,8 +117,8 @@ public class LeadClassHelper  implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		LeadClassBean leadClassBean = null;
 		try {
-			while(rs.next()) {
-				leadClassBean = new LeadClassBean();
+			while(rs.next()){
+				leadClassBean = new LeadClassBean(); 
 				leadClassBean.setLeadClassId(rs.getInt("leadClassId"));
 				leadClassBean.setLeadClassName(rs.getString("leadClassName"));
 				leadClassBean.setStatus(rs.getBoolean("status"));
@@ -104,11 +126,11 @@ public class LeadClassHelper  implements InterfaceHelper {
 				leadClassBean.setCreateDate(rs.getString("createDate"));
 				leadClassBean.setWriteBy(rs.getString("writeBy"));
 				leadClassBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(leadClassBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -132,11 +154,11 @@ public class LeadClassHelper  implements InterfaceHelper {
 	@Override
 	public AbstractBean toBean(String jsonString) {
 		// TODO Auto-generated method stub
-		try {
+		try{
 			LeadClassBean leadClassBean = new LeadClassBean();
 			leadClassBean = gson.fromJson(jsonString, LeadClassBean.class);
 			return leadClassBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -162,8 +184,8 @@ public class LeadClassHelper  implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		LeadClassBean leadClassBean = null;
 		try {
-			while(rs.next()) {
-				leadClassBean = new LeadClassBean();
+			while(rs.next()){
+				leadClassBean = new LeadClassBean(); 
 				leadClassBean.setLeadClassId(rs.getInt("leadClassId"));
 				leadClassBean.setLeadClassName(rs.getString("leadClassName"));
 				leadClassBean.setStatus(rs.getBoolean("status"));
@@ -171,11 +193,11 @@ public class LeadClassHelper  implements InterfaceHelper {
 				leadClassBean.setCreateDate(rs.getString("createDate"));
 				leadClassBean.setWriteBy(rs.getString("writeBy"));
 				leadClassBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(leadClassBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

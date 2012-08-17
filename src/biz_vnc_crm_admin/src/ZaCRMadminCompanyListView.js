@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 var headerList_comp = new Array();
 headerList_comp[0] = new ZaListHeaderItem(ZaCRMadmin.A_companyId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_companyId, true, true);
 headerList_comp[1] = new ZaListHeaderItem(ZaCRMadmin.A_companyName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_companyName, true, true);

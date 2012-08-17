@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -23,7 +45,7 @@ public class StageHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
+	
 	@Override
 	public int add(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
@@ -53,7 +75,7 @@ public class StageHelper implements InterfaceHelper {
 	private StageBean getRecordFromResultSet(ResultSet rs) {
 		StageBean stageBean = new StageBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -81,8 +103,8 @@ public class StageHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StageBean stageBean = null;
 		try {
-			while(rs.next()) {
-				stageBean = new StageBean();
+			while(rs.next()){
+				stageBean = new StageBean(); 
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -96,11 +118,11 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setCreateDate(rs.getString("createDate"));
 				stageBean.setWriteBy(rs.getString("writeBy"));
 				stageBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -128,12 +150,12 @@ public class StageHelper implements InterfaceHelper {
 
 	@Override
 	public StageBean toBean(String jsonString) {
-
-		try {
+		
+		try{
 			StageBean stageBean  = new StageBean ();
 			stageBean = gson.fromJson(jsonString, StageBean.class);
 			return stageBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -162,8 +184,8 @@ public class StageHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StageBean stageBean = null;
 		try {
-			while(rs.next()) {
-				stageBean = new StageBean();
+			while(rs.next()){
+				stageBean = new StageBean(); 
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -177,11 +199,11 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setCreateDate(rs.getString("createDate"));
 				stageBean.setWriteBy(rs.getString("writeBy"));
 				stageBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -243,7 +265,7 @@ public class StageHelper implements InterfaceHelper {
 		return null;
 	}
 
-	@Override
+@Override
 	public int addTask(String array, String leadId) {
 		// TODO Auto-generated method stub
 		return 0;

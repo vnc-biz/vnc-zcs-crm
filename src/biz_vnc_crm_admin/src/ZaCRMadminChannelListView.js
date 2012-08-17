@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 var headerList_channel = new Array();
 headerList_channel[0] = new ZaListHeaderItem(ZaCRMadmin.A_channelId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_channelId, true, true);
 headerList_channel[1] = new ZaListHeaderItem(ZaCRMadmin.A_channelName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_channelName, true, true);
@@ -6,8 +28,6 @@ headerList_channel[3] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreatedby, biz_
 headerList_channel[4] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_channelcreateddate, true, true);
 headerList_channel[5] = new ZaListHeaderItem(ZaCRMadmin.A_channelWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_channelWriteby, true, true);
 headerList_channel[6] = new ZaListHeaderItem(ZaCRMadmin.A_channelWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_channelWritedate, true, true);
-
-
 
 function ZaCRMadminChannelListView(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_channel);

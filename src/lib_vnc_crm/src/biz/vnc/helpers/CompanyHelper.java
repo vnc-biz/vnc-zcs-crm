@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -14,11 +36,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyHelper implements InterfaceHelper {
-
+		
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
-
+	
 	@Override
 	public String listClientView() {
 		// TODO Auto-generated method stub
@@ -63,7 +85,7 @@ public class CompanyHelper implements InterfaceHelper {
 	private CompanyBean getRecordFromResultSet(ResultSet rs) {
 		CompanyBean companyBean = new CompanyBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				companyBean.setCompanyId(rs.getInt("companyId"));
 				companyBean.setCompanyName(rs.getString("companyName"));
 				companyBean.setCompanyAddress(rs.getString("companyAddress"));
@@ -81,7 +103,7 @@ public class CompanyHelper implements InterfaceHelper {
 		}
 		return companyBean;
 	}
-
+	
 	@Override
 	public int deleteByIds(String arrayIds, String user) {
 		// TODO Auto-generated method stub
@@ -98,8 +120,8 @@ public class CompanyHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CompanyBean companyBean = null;
 		try {
-			while(rs.next()) {
-				companyBean = new CompanyBean();
+			while(rs.next()){
+				companyBean = new CompanyBean(); 
 				companyBean.setCompanyId(rs.getInt("companyId"));
 				companyBean.setCompanyName(rs.getString("companyName"));
 				companyBean.setCompanyAddress(rs.getString("companyAddress"));
@@ -111,11 +133,11 @@ public class CompanyHelper implements InterfaceHelper {
 				companyBean.setCreateDate(rs.getString("createDate"));
 				companyBean.setWriteBy(rs.getString("writeBy"));
 				companyBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(companyBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -139,12 +161,12 @@ public class CompanyHelper implements InterfaceHelper {
 	@Override
 	public AbstractBean toBean(String jsonString) {
 		// TODO Auto-generated method stub
-		try {
+		try{
 			CompanyBean companyBean  = new CompanyBean ();
-
+			
 			companyBean = gson.fromJson(jsonString, CompanyBean.class);
 			return companyBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -172,8 +194,8 @@ public class CompanyHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CompanyBean companyBean = null;
 		try {
-			while(rs.next()) {
-				companyBean = new CompanyBean();
+			while(rs.next()){
+				companyBean = new CompanyBean(); 
 				companyBean.setCompanyId(rs.getInt("companyId"));
 				companyBean.setCompanyName(rs.getString("companyName"));
 				companyBean.setCompanyAddress(rs.getString("companyAddress"));
@@ -185,11 +207,11 @@ public class CompanyHelper implements InterfaceHelper {
 				companyBean.setCreateDate(rs.getString("createDate"));
 				companyBean.setWriteBy(rs.getString("writeBy"));
 				companyBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(companyBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

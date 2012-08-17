@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -24,7 +46,7 @@ public class ChannelHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
+	
 	@Override
 	public int add(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
@@ -54,7 +76,7 @@ public class ChannelHelper implements InterfaceHelper {
 	private ChannelBean getRecordFromResultSet(ResultSet rs) {
 		ChannelBean channelBean = new ChannelBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -76,8 +98,8 @@ public class ChannelHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		ChannelBean channelBean = null;
 		try {
-			while(rs.next()) {
-				channelBean = new ChannelBean();
+			while(rs.next()){
+				channelBean = new ChannelBean(); 
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -85,11 +107,11 @@ public class ChannelHelper implements InterfaceHelper {
 				channelBean.setCreateDate(rs.getString("createDate"));
 				channelBean.setWriteBy(rs.getString("writeBy"));
 				channelBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -118,12 +140,12 @@ public class ChannelHelper implements InterfaceHelper {
 
 	@Override
 	public ChannelBean toBean(String jsonString) {
-
-		try {
+		
+		try{
 			ChannelBean channelBean = new ChannelBean();
 			channelBean = gson.fromJson(jsonString, ChannelBean.class);
 			return channelBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -150,8 +172,8 @@ public class ChannelHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		ChannelBean channelBean = null;
 		try {
-			while(rs.next()) {
-				channelBean = new ChannelBean();
+			while(rs.next()){
+				channelBean = new ChannelBean(); 
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -159,11 +181,11 @@ public class ChannelHelper implements InterfaceHelper {
 				channelBean.setCreateDate(rs.getString("createDate"));
 				channelBean.setWriteBy(rs.getString("writeBy"));
 				channelBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

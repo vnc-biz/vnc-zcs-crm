@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -17,7 +39,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SectionHelper implements InterfaceHelper {
+public class SectionHelper implements InterfaceHelper{
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
@@ -52,9 +74,9 @@ public class SectionHelper implements InterfaceHelper {
 	}
 	private SectionBean getRecordFromResultSet(ResultSet rs) {
 		SectionBean sectionBean = new SectionBean();
-		sectionBean = new SectionBean();
+		sectionBean = new SectionBean(); 
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				sectionBean.setSectionId(rs.getInt("sectionId"));
 				sectionBean.setSectionName(rs.getString("sectionName"));
 				sectionBean.setSectionCode(rs.getString("sectionCode"));
@@ -81,8 +103,8 @@ public class SectionHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		SectionBean sectionBean = null;
 		try {
-			while(rs.next()) {
-				sectionBean = new SectionBean();
+			while(rs.next()){
+				sectionBean = new SectionBean(); 
 				sectionBean.setSectionId(rs.getInt("sectionId"));
 				sectionBean.setSectionName(rs.getString("sectionName"));
 				sectionBean.setSectionCode(rs.getString("sectionCode"));
@@ -95,16 +117,16 @@ public class SectionHelper implements InterfaceHelper {
 				sectionBean.setCreateDate(rs.getString("createDate"));
 				sectionBean.setWriteBy(rs.getString("writeBy"));
 				sectionBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(sectionBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
 
-
+	
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
 		String query = "update tbl_crm_section set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where sectionId IN (" + arrayIds + ");" ;
@@ -128,11 +150,11 @@ public class SectionHelper implements InterfaceHelper {
 
 	@Override
 	public AbstractBean toBean(String jsonString) {
-		try {
+		try{
 			SectionBean sectionBean  = new SectionBean ();
 			sectionBean = gson.fromJson(jsonString, SectionBean.class);
 			return sectionBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -143,28 +165,28 @@ public class SectionHelper implements InterfaceHelper {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public String getUsers () {
-		try {
-			int cnt = 1;
-			String rec = "";
-			List<String> listOfAccounts = new ArrayList<String>();
-			SoapProvisioning soap = null;
-			Options options=new Options();
-			options.setLocalConfigAuth(true);
-			soap = new SoapProvisioning(options);
-			for(int i=0; i<soap.getAllDomains().size(); i++) {
-				Domain singleD = soap.getAllDomains().get(i);
-				for(int j=0; j<singleD.getAllAccounts().size(); j++) {
-					Account ac = (Account) soap.getAllAccounts(singleD).get(j);
-					rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
-					listOfAccounts.add(rec);
-					cnt++;
-				}
-			}
-			return listOfAccounts.toString();
-		} catch(Exception e) {
+	public String getUsers (){
+		try{
+		int cnt = 1;
+		String rec = "";
+		List<String> listOfAccounts = new ArrayList<String>();
+		SoapProvisioning soap = null;
+		Options options=new Options();
+	    options.setLocalConfigAuth(true);
+	    soap = new SoapProvisioning(options);
+	    for(int i=0;i<soap.getAllDomains().size();i++){
+	      	Domain singleD = soap.getAllDomains().get(i);
+	      	for(int j=0;j<singleD.getAllAccounts().size();j++){
+	      		Account ac = (Account) soap.getAllAccounts(singleD).get(j);
+	      		rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
+	      		listOfAccounts.add(rec);
+	      		cnt++;
+	      	}
+	    }
+	    return listOfAccounts.toString();
+		}catch(Exception e){			
 			e.printStackTrace();
 		}
 		return null;
@@ -178,8 +200,8 @@ public class SectionHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		SectionBean sectionBean = null;
 		try {
-			while(rs.next()) {
-				sectionBean = new SectionBean();
+			while(rs.next()){
+				sectionBean = new SectionBean(); 
 				sectionBean.setSectionId(rs.getInt("sectionId"));
 				sectionBean.setSectionName(rs.getString("sectionName"));
 				sectionBean.setSectionCode(rs.getString("sectionCode"));
@@ -192,11 +214,11 @@ public class SectionHelper implements InterfaceHelper {
 				sectionBean.setCreateDate(rs.getString("createDate"));
 				sectionBean.setWriteBy(rs.getString("writeBy"));
 				sectionBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(sectionBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

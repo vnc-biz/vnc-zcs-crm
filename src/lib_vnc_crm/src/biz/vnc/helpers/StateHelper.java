@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -46,12 +68,12 @@ public class StateHelper implements InterfaceHelper {
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
-
+	
 	private StateBean getRecordFromResultSet(ResultSet rs) {
 		StateBean stateBean = new StateBean();
-		stateBean = new StateBean();
+		stateBean = new StateBean(); 
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
 				stateBean.setStateCode(rs.getString("stateCode"));
@@ -74,9 +96,9 @@ public class StateHelper implements InterfaceHelper {
 		String query = "select stateId, stateName, stateCode, c.countryName, s.status, s.createBy, s.createDate, s.writeBy, s.writeDate from tbl_crm_state s join tbl_crm_country c where s.countryId = c.countryId;" ;
 		ResultSet rs = dbu.select(query);
 		StateBean stateBean = null;
-
+			
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				stateBean = new StateBean();
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
@@ -87,16 +109,16 @@ public class StateHelper implements InterfaceHelper {
 				stateBean.setCreateDate(rs.getString("createDate"));
 				stateBean.setWriteBy(rs.getString("writeBy"));
 				stateBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(stateBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
 
-
+	
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
 		String query = "update tbl_crm_state set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where stateId IN (" + arrayIds + ");" ;
@@ -120,11 +142,11 @@ public class StateHelper implements InterfaceHelper {
 
 	@Override
 	public StateBean toBean(String jsonString) {
-		try {
+		try{
 			StateBean stateBean  = new StateBean ();
 			stateBean = gson.fromJson(jsonString, StateBean.class);
 			return stateBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -150,7 +172,7 @@ public class StateHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StateBean stateBean = null;
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				stateBean = new StateBean();
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
@@ -164,7 +186,7 @@ public class StateHelper implements InterfaceHelper {
 				retValue.add(stateBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

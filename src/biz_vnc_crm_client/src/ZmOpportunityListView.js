@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 ZmOpportunityListView.prototype.getContacts = function (offset, contactList, rec, app) {
     contactBook = "Contacts";
     if (contactBook == null) {
@@ -298,19 +320,39 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-    var smAppoint = Ext.create('Ext.selection.CheckboxModel', {
+  var oppSMMail = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+                if(selections.length>0) {
+                    Ext.getCmp('btnMailDelete').enable();
+                } else {
+                    Ext.getCmp('btnMailDelete').disable();
+                }
+            }
         }
     });
-    var sm = Ext.create('Ext.selection.CheckboxModel', {
+
+	var oppSMAppt = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+                if(selections.length>0) {
+                    Ext.getCmp('btnApptDelete').enable();
+                } else {
+                    Ext.getCmp('btnApptDelete').disable();
+                }
+            }
         }
     });
+
     var oppSMTask = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+                if(selections.length>0) {
+                    Ext.getCmp('btnTaskDelete').enable();
+                } else {
+                    Ext.getCmp('btnTaskDelete').disable();
+                }
+            }
         }
     });
 
@@ -538,7 +580,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 columnWidth: .20,
                 border: false,
                 layout: 'anchor',
-                items: [{
+                items: [/*{
 
                     xtype: 'button',
                     text: biz_vnc_crm_client.btnScheduleLogCall,
@@ -561,7 +603,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     handler: function () {
                         AjxDispatcher.run("GetCalController").newAppointment(null, null, null, null);
                     }
-                }]
+                }*/]
             }]
         }, {
             xtype: 'tabpanel',
@@ -914,8 +956,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
+						id: 'btnMailDelete',
+                        disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
-                        itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
@@ -985,7 +1028,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }]
                 }, {
                     xtype: 'grid',
-                    selModel: sm,
+                    selModel: oppSMMail,
                     id: 'oppMailGrid',
                     height: 215,
                     defaults: {
@@ -1059,8 +1102,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
+						id: 'btnApptDelete',
+                        disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
-                        itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
@@ -1142,7 +1186,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     }]
                 }, {
                     xtype: 'grid',
-                    selModel: smAppoint,
+                    selModel: oppSMAppt,
                     id: 'oppApptGrid',
                     height: 215,
                     defaults: {
@@ -1216,8 +1260,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
+						id: 'btnTaskDelete',
+                        disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
-                        itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 

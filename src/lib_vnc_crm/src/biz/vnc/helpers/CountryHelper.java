@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -18,7 +40,7 @@ public class CountryHelper implements InterfaceHelper {
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
-
+	
 	@Override
 	public String listView() {
 		String strOfAllRecords = gson.toJson(getAllRecords());
@@ -54,7 +76,7 @@ public class CountryHelper implements InterfaceHelper {
 	private CountryBean getRecordFromResultSet(ResultSet rs) {
 		CountryBean countryBean = new CountryBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -77,8 +99,8 @@ public class CountryHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CountryBean countryBean = null;
 		try {
-			while(rs.next()) {
-				countryBean = new CountryBean();
+			while(rs.next()){
+				countryBean = new CountryBean(); 
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -87,11 +109,11 @@ public class CountryHelper implements InterfaceHelper {
 				countryBean.setCreateDate(rs.getString("createDate"));
 				countryBean.setWriteBy(rs.getString("writeBy"));
 				countryBean.setWriteDate(rs.getString("writeDate"));
-
+				
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -120,17 +142,17 @@ public class CountryHelper implements InterfaceHelper {
 
 	@Override
 	public CountryBean toBean(String jsonString) {
-
-		try {
+		
+		try{
 			CountryBean countryBean  = new CountryBean ();
 			countryBean = gson.fromJson(jsonString, CountryBean.class);
 			return countryBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
 	}
-
+	
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		retValue.add(ab);
@@ -153,8 +175,8 @@ public class CountryHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CountryBean countryBean = null;
 		try {
-			while(rs.next()) {
-				countryBean = new CountryBean();
+			while(rs.next()){
+				countryBean = new CountryBean(); 
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -166,7 +188,7 @@ public class CountryHelper implements InterfaceHelper {
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -271,5 +293,5 @@ public class CountryHelper implements InterfaceHelper {
 			return 2;
 		return 0;
 	}
-
+	
 }

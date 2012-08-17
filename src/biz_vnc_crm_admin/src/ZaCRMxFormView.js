@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 function ZaCRMxFormView(parent) {
     ZaTabView.call(this, {
         parent: parent,
@@ -175,6 +197,9 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
         }, {
             value: 9,
             label: biz_vnc_crm_admin.TBB_leadClass
+        }, {
+            value: 10,
+            label: biz_vnc_crm_admin.TBB_aboutUs
         }]
     }, {
         type: _SWITCH_,
@@ -813,6 +838,24 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                     }]
                 }]
             }]
+        }, {
+            type: _ZATABCASE_,
+            id: "crm_aboutUs",
+            ref: ZaModel.currentTab,
+            relevant: "instance[ZaModel.currentTab] == 10",
+            numCols: 1,
+            colSizes: ["800px"],
+            caseKey: newTab++,
+			cssStyle: "padding: 20px;",	
+			items:[{
+				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl1, labelLocation:_LEFT_, cssStyle:"font-size:30pt;font-weight: bold;text-align: center;"
+			}, {
+				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl2, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+			}, {
+				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl3, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+			}, {
+				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl4, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+			}]
         }]
     }];
 }

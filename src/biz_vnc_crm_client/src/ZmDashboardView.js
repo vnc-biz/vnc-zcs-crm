@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 function ZmDashboardView() {}
 ZmDashboardView.prototype.constructor = ZmDashboardView;
 
@@ -628,8 +650,18 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+				
+				var idArray = [];
+				var str = "'" + "In Progress" + "'";
+				idArray.push(str);
+
+				var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+    			
+                                var reqJson = AjxStringUtil.urlEncode(json);
+				var oppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                biz_vnc_crm_client.initOpportunityGrid(app);
+                               	Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
+				Ext.getCmp('opportunityGrid').getView().refresh();
                             }
                         };
                     }
@@ -749,8 +781,18 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                biz_vnc_crm_client.initLeadGrid(app);
+				var idArray = [];
+				var str = "'" + "In Progress" + "'";
+				idArray.push(str);
+
+				var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+				var reqJson = AjxStringUtil.urlEncode(json1);
+				var leadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                
+				Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+				Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
+                                Ext.getCmp('leadGrid').getView().refresh();
+                              //  biz_vnc_crm_client.initLeadGrid(app);
                             }
 
                         };

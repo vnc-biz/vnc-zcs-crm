@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
 package biz.vnc.helpers;
 
 import biz.vnc.base.AbstractBean;
@@ -24,7 +46,7 @@ public class PriorityHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-
+	
 	@Override
 	public int add(AbstractBean ab) {
 		PriorityBean priorityBean = (PriorityBean)ab;
@@ -54,7 +76,7 @@ public class PriorityHelper implements InterfaceHelper {
 	private PriorityBean getRecordFromResultSet(ResultSet rs) {
 		PriorityBean priorityBean = new PriorityBean();
 		try {
-			while(rs.next()) {
+			while(rs.next()){
 				priorityBean.setPriorityId(rs.getInt("priorityId"));
 				priorityBean.setPriorityName(rs.getString("priorityName"));
 				priorityBean.setPriorityCode(rs.getString("priorityCode"));
@@ -77,8 +99,8 @@ public class PriorityHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		PriorityBean priorityBean = null;
 		try {
-			while(rs.next()) {
-				priorityBean = new PriorityBean();
+			while(rs.next()){
+				priorityBean = new PriorityBean(); 
 				priorityBean.setPriorityId(rs.getInt("priorityId"));
 				priorityBean.setPriorityName(rs.getString("priorityName"));
 				priorityBean.setPriorityCode(rs.getString("priorityCode"));
@@ -90,7 +112,7 @@ public class PriorityHelper implements InterfaceHelper {
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -119,12 +141,12 @@ public class PriorityHelper implements InterfaceHelper {
 
 	@Override
 	public PriorityBean toBean(String jsonString) {
-
-		try {
+		
+		try{
 			PriorityBean priorityBean = new PriorityBean();
 			priorityBean = gson.fromJson(jsonString, PriorityBean.class);
 			return priorityBean;
-		} catch(Exception e) {
+		}catch(Exception e){
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -153,8 +175,8 @@ public class PriorityHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		PriorityBean priorityBean = null;
 		try {
-			while(rs.next()) {
-				priorityBean = new PriorityBean();
+			while(rs.next()){
+				priorityBean = new PriorityBean(); 
 				priorityBean.setPriorityId(rs.getInt("priorityId"));
 				priorityBean.setPriorityName(rs.getString("priorityName"));
 				priorityBean.setPriorityCode(rs.getString("priorityCode"));
@@ -166,7 +188,7 @@ public class PriorityHelper implements InterfaceHelper {
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 		return retValue;
 	}

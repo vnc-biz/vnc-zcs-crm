@@ -1,10 +1,32 @@
-drop database test_zimbra;
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
 
-create database test_zimbra;
+DROP DATABASE test_zimbra;
 
-use test_zimbra;
+CREATE DATABASE test_zimbra;
 
-CREATE TABLE tbl_crm_company (
+USE test_zimbra;
+
+CREATE TABLE IF NOT EXISTS tbl_crm_company (
 companyId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 companyName varchar(256) NOT NULL,
 companyAddress varchar(256),
@@ -18,7 +40,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_country (
+CREATE TABLE IF NOT EXISTS tbl_crm_country (
 countryId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 countryName varchar(256) NOT NULL,
 countryCode varchar(256) NOT NULL,
@@ -29,7 +51,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_state (
+CREATE TABLE IF NOT EXISTS tbl_crm_state (
 stateId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 stateName varchar(256) NOT NULL,
 stateCode varchar(256) NOT NULL,
@@ -41,7 +63,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_stage (
+CREATE TABLE IF NOT EXISTS tbl_crm_stage (
 stageId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 stageName varchar(64) NOT NULL,
 stageSequence Integer,
@@ -57,7 +79,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_channel (
+CREATE TABLE IF NOT EXISTS tbl_crm_channel (
 channelId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 channelName varchar(64) NOT NULL,
 status Boolean,
@@ -67,7 +89,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_section (
+CREATE TABLE IF NOT EXISTS tbl_crm_section (
 sectionId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 sectionName varchar(64) NOT NULL,
 sectionCode varchar(64),
@@ -82,7 +104,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_category (
+CREATE TABLE IF NOT EXISTS tbl_crm_category (
 categoryId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 categoryName varchar(64) NOT NULL,
 sectionId Integer REFERENCES tbl_crm_section (sectionId),
@@ -93,7 +115,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_priority (
+CREATE TABLE IF NOT EXISTS tbl_crm_priority (
 priorityId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 priorityName varchar(64) NOT NULL,
 priorityCode varchar(16) NOT NULL,
@@ -104,7 +126,7 @@ writeBy varchar(255),
 writeDate timestamp default 0
 );
 
-CREATE TABLE tbl_crm_lead (
+CREATE TABLE IF NOT EXISTS tbl_crm_lead (
 leadId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 subjectName varchar(128),
 leadDescription Text,
@@ -112,6 +134,7 @@ contactName varchar(64),
 companyId Integer REFERENCES tbl_crm_company(companyId),
 valuation varchar(64),
 leadState varchar(64),
+leadClassId Integer REFERENCES tbl_crm_leadClass(leadClassId),
 partnerName varchar(255),
 phone varchar(16),
 fax varchar(16),
@@ -147,18 +170,28 @@ writeBy varchar(255),
 writeDate timestamp NULL
 );
 
-
-CREATE TABLE tbl_crm_lead_mailHistory (
+CREATE TABLE IF NOT EXISTS tbl_crm_lead_mailHistory (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
 messageId varchar(255) 
 );
 
-CREATE TABLE tbl_crm_lead_task (
+CREATE TABLE IF NOT EXISTS tbl_crm_lead_task (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
 taskId varchar(255) 
 );
 
-CREATE TABLE tbl_crm_lead_calendar (
+CREATE TABLE IF NOT EXISTS tbl_crm_lead_calendar (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
 appointmentId varchar(255) 
+);
+
+
+CREATE TABLE IF NOT EXISTS tbl_crm_leadClass (
+leadClassId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
+leadClassName varchar(64) NOT NULL,
+status Boolean,
+createBy varchar(255),
+createDate timestamp default 0,
+writeBy varchar(255),
+writeDate timestamp default 0
 );

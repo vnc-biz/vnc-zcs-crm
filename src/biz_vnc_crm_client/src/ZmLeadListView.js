@@ -1,3 +1,25 @@
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
+#    (<http://www.vnc.biz>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+*/
+
 ZmLeadListView.prototype.getContacts = function (offset, contactList, rec, app) {
     contactBook = "Contacts";
     if (contactBook == null) {
@@ -365,9 +387,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-    var sm = Ext.create('Ext.selection.CheckboxModel', {
+    var leadSMMail = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+				if(selections.length>0) {
+                    Ext.getCmp('btnMailDelete').enable();
+       	        } else {
+           	        Ext.getCmp('btnMailDelete').disable();
+               	}
+			}	
         }
     });
 
@@ -396,13 +424,25 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
     var leadSMAppt = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+				if(selections.length>0) {
+                    Ext.getCmp('btnApptDelete').enable();
+                } else {
+                    Ext.getCmp('btnApptDelete').disable();
+                }
+			}
         }
     });
 
     var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
-            selectionchange: function (sm, selections) {}
+            selectionchange: function (sm, selections) {
+				if(selections.length>0) {
+					Ext.getCmp('btnTaskDelete').enable();
+				} else {
+					Ext.getCmp('btnTaskDelete').disable();
+				}
+			}
         }
     });
 
@@ -1059,6 +1099,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }, {
                         iconCls: 'cancel',
                         text: biz_vnc_crm_client.btnDelete,
+						id: 'btnMailDelete',
+                        disabled: true,
                         itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
@@ -1130,7 +1172,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }]
                 }, {
                     xtype: 'grid',
-                    selModel: sm,
+                    selModel: leadSMMail,
                     id: 'leadMailGrid',
                     height: 215,
                     defaults: {
@@ -1205,7 +1247,9 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }, {
                         iconCls: 'cancel',
                         text: biz_vnc_crm_client.btnDelete,
-                        itemId: 'delete',
+                        id: 'btnApptDelete',
+                        disabled: true,
+						itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
@@ -1364,7 +1408,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }, {
                         iconCls: 'cancel',
                         text: biz_vnc_crm_client.btnDelete,
-                        itemId: 'delete',
+						id: 'btnTaskDelete',
+						disabled: true,
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
