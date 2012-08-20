@@ -61,7 +61,6 @@ ZaCRMadminStageListView.prototype._createItemHtml = function (item) {
     if (this._headerList) {
         var cnt = this._headerList.length;
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stageId];
         html[idx++] = "</td>";
@@ -85,8 +84,6 @@ ZaCRMadminStageListView.prototype._createItemHtml = function (item) {
         html[idx++] = "<td align=left height=20px width=" + this._headerList[4]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stageState];
         html[idx++] = "</td>";
-
-
 
         html[idx++] = "<td align=left height=20px width=" + this._headerList[5]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stageProbability];
@@ -120,17 +117,13 @@ ZaCRMadminStageListView.prototype._createItemHtml = function (item) {
         html[idx++] = item[ZaCRMadmin.A_stageCreateddate];
         html[idx++] = "</td>";
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[11]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stageWriteby];
         html[idx++] = "</td>";
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[12]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stageWritedate];
         html[idx++] = "</td>";
-
-
     } else {
         html[idx++] = "<td width=100%>";
         html[idx++] = AjxStringUtil.htmlEncode(item);

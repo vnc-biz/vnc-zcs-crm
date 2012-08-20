@@ -37,8 +37,6 @@ ZaEditChannelXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_channelName,
                 type: _TEXTFIELD_,

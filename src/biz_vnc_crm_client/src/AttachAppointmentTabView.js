@@ -205,6 +205,7 @@ AttachAppointmentTabView.prototype.getSelectedRecords = function () {
         return null;
     }
 }
+
 AttachAppointmentTabView.prototype.getSelectedCounts = function () {
     if (this.searchResult) {
         return this.searchResult.getSelectionCount();

@@ -90,6 +90,7 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, conta
 function ZmOpportunityListView() {}
 
 ZmOpportunityListView.prototype.constructor = ZmOpportunityListView;
+
 ZmOpportunityListView.prototype.toString = function () {
     return "ZmOpportunityListView";
 };
@@ -112,7 +113,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('section', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -123,7 +123,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('leadClass', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -134,7 +133,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('customer', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -159,7 +157,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
         ]
     });
-
     Ext.define('category', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -170,7 +167,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('company', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -202,7 +198,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
         ]
     });
-
     Ext.define('channel', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -213,7 +208,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('state', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -224,7 +218,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('country', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -235,7 +228,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('contact1', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -256,7 +248,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }]
     });
-
     Ext.define('mail', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -320,7 +311,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-  var oppSMMail = Ext.create('Ext.selection.CheckboxModel', {
+    var oppSMMail = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
                 if(selections.length>0) {
@@ -332,7 +323,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }
     });
 
-	var oppSMAppt = Ext.create('Ext.selection.CheckboxModel', {
+    var oppSMAppt = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
                 if(selections.length>0) {
@@ -368,7 +359,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         defaults: {
             anchor: '100%'
         },
-
         items: [{
             layout: 'column',
             border: false,
@@ -580,30 +570,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 columnWidth: .20,
                 border: false,
                 layout: 'anchor',
-                items: [/*{
-
-                    xtype: 'button',
-                    text: biz_vnc_crm_client.btnScheduleLogCall,
-                    width: 250,
-                    height: 25,
-                    iconCls: 'phone',
-                    margin: '3 0 3 0',
-                    handler: function () {
-                        AjxDispatcher.run("GetCalController").newAppointment(null, null, null, null);
-
-
-                    }
-                }, {
-                    xtype: 'button',
-                    text: biz_vnc_crm_client.btnScheduleMeeting,
-                    width: 250,
-                    height: 25,
-                    margin: '3 0 3 0',
-                    iconCls: 'meeting',
-                    handler: function () {
-                        AjxDispatcher.run("GetCalController").newAppointment(null, null, null, null);
-                    }
-                }*/]
+                items: []
             }]
         }, {
             xtype: 'tabpanel',
@@ -687,7 +654,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             }
                         },
                         anchor: '100%'
-
                     }, {
                         xtype: 'combo',
                         mode: 'local',
@@ -728,7 +694,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         fieldLabel: biz_vnc_crm_client.phone,
                         anchor: '100%'
                     }]
-
                 }, {
                     columnWidth: .10,
                     border: false,
@@ -891,7 +856,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }),
                         anchor: '95%'
                     }]
-
                 }, {
                     columnWidth: .33,
                     border: false,
@@ -956,7 +920,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-						id: 'btnMailDelete',
+                        id: 'btnMailDelete',
                         disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
                         handler: function () {
@@ -1102,7 +1066,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-						id: 'btnApptDelete',
+                        id: 'btnApptDelete',
                         disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
                         handler: function () {
@@ -1115,7 +1079,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                     Ext.each(rec1, function (item) {
                                         idArray.push("'" + item.data.appointmentId + "'");
                                     });
-
 
                                     var leadId = rec.get('leadId')
                                     var json = "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
@@ -1260,7 +1223,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         }
                     }, {
                         iconCls: 'cancel',
-						id: 'btnTaskDelete',
+                        id: 'btnTaskDelete',
                         disabled: true,
                         text: biz_vnc_crm_client.btnDelete,
                         handler: function () {
@@ -1395,7 +1358,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                 }
                                 Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                                 Ext.getCmp('oppTaskGrid').getView().refresh();
-                            }                        
+                            }
                         }
                     }]
                 }, {
@@ -1593,7 +1556,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                             Ext.getCmp('oppTaskGrid').getView().refresh();
                         }
-
                     } else if (tab.id == 'oppComm') {
                         if (rec != null) {
                             Ext.getCmp('oppMailGrid').getStore().removeAll();
@@ -1627,12 +1589,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             height: 25,
             iconCls: 'save',
             handler: function () {
-
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
                     Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
-
                 } else {
                     var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
                     var stageId = Ext.getCmp('cmbOppstage').getValue();
@@ -1909,7 +1869,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtOppEmail').setValue(rec.get('email'));
         Ext.getCmp('txtOppPhone').setValue(rec.get('phone'));
         Ext.getCmp('txtOppContact').setValue(rec.get('contactName'));
-
         Ext.getCmp('txtOppDetails').setValue(rec.get('leadDescription'));
         Ext.getCmp('txtOppStreet1').setValue(rec.get('street1'));
         Ext.getCmp('txtOppStreet2').setValue(rec.get('street2'));
@@ -1920,12 +1879,10 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtOppFax').setValue(rec.get('fax'));
         Ext.getCmp('txtOppDaysToOpen').setValue(rec.get('dayOpen'));
         Ext.getCmp('txtOppDaysToClose').setValue(rec.get('dayClose'));
-
         Ext.getCmp('txtOppReferredBy').setValue(rec.get('referredBy'));
         Ext.getCmp('dateOppExpectedClosing').setValue(rec.get('expectedDateClose'));
         Ext.getCmp('dateOppOpened').setValue(rec.get('dateOpen'));
         Ext.getCmp('dateOppClosed').setValue(rec.get('dateClose'));
-
         Ext.getCmp('dateOppCreationdate').setValue(rec.get('createDate'));
         Ext.getCmp('dateOppUpdateDate').setValue(rec.get('writeDate'));
         Ext.getCmp('dateOppNextActionDate').setValue(rec.get('nextActionDate'));

@@ -37,9 +37,11 @@ ZaCRMSectionModel.prototype.constructor = ZaCRMSectionModel;
 ZaCRMSectionModel.prototype.toString = function () {
     return "ZaCRMadminListView";
 }
+
 ZaCRMSectionModel.isEditSectionEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_section_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_section_list_cache).length == 1);
 }
+
 ZaCRMSectionModel.isDeleteSectionEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_section_list_cache)));
 }
@@ -100,7 +102,6 @@ ZaCRMSectionModel.deleteButtonListener = function () {
 }
 
 ZaCRMSectionModel.prototype.doDelete = function (idArray) {
-
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
     var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"section\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -125,9 +126,9 @@ ZaCRMSectionModel.closeButtonListener = function () {
     this.refresh();
 
 }
+
 ZaCRMSectionModel.editButtonListener = function () {
     var instance = this.getInstance();
-
     if (instance.section_list_cache && instance.section_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editSectionDlg) {
@@ -153,7 +154,6 @@ ZaCRMSectionModel.editButtonListener = function () {
             commonuser.push(id);
         }
         commonuser = AjxUtil.isEmpty(commonuser) ? [] : commonuser;
-
 
         var obj = {};
 

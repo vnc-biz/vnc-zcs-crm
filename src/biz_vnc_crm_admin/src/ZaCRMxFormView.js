@@ -34,12 +34,10 @@ ZaCRMxFormView.prototype = new ZaTabView;
 ZaCRMxFormView.prototype.constructor = ZaCRMxFormView;
 
 ZaCRMxFormView.prototype.toString = function () {
-
     return "ZaCRMadminListView";
-
 }
-ZaCRMxFormView.prototype.getTitle = function () {
 
+ZaCRMxFormView.prototype.getTitle = function () {
     return biz_vnc_crm_admin.CRM_view_title
 }
 
@@ -49,18 +47,13 @@ ZaCRMxFormView.prototype.getTabIcon = function () {
 
 ZaCRMxFormView.prototype.getTabTitle = function () {
     return biz_vnc_crm_admin.CRM_tab_title
-
 }
 
 ZaTabView.XFormModifiers["ZaCRMxFormView"] = new Array();
 
-
 ZaCRMxFormView.prototype.TAB_INDEX = 0;
 ZaCRMxFormView.prototype.lastid = 0;
 ZaCRMxFormView.prototype.setObject = function (entry) {
-
-
-
     this.entry = entry;
 
     this._containedObject = {
@@ -162,7 +155,6 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
     var _tab1 = 1;
     var _tab2 = 2;
     var newTab = ++this.TAB_INDEX;
-
 
     xFormObject.items = [{
         type: _TAB_BAR_,
@@ -846,16 +838,16 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
             numCols: 1,
             colSizes: ["800px"],
             caseKey: newTab++,
-			cssStyle: "padding: 20px;",	
-			items:[{
-				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl1, labelLocation:_LEFT_, cssStyle:"font-size:30pt;font-weight: bold;text-align: center;"
-			}, {
-				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl2, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
-			}, {
-				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl3, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
-			}, {
-				type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl4, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
-			}]
+            cssStyle: "padding: 20px;",
+            items:[{
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl1, labelLocation:_LEFT_, cssStyle:"font-size:30pt;font-weight: bold;text-align: center;"
+            }, {
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl2, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+            }, {
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl3, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+            }, {
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl4, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+            }]
         }]
     }];
 }

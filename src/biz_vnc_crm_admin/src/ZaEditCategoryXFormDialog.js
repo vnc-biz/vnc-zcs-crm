@@ -34,7 +34,6 @@ ZaEditCategoryXFormDialog.prototype = new ZaXDialog;
 ZaEditCategoryXFormDialog.prototype.constructor = ZaEditCategoryXFormDialog;
 
 ZaEditCategoryXFormDialog.prototype.getMyXForm = function () {
-
     var json, reqHeader, reqJson, response;
 
     json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
@@ -67,8 +66,6 @@ ZaEditCategoryXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_categoryName,
                 type: _TEXTFIELD_,

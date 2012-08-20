@@ -45,7 +45,6 @@ ZaEditStateXFormDialog.prototype.getMyXForm = function () {
 
     this._containedObject[ZaCRMadmin.A_country] = jsonParse(response.text);
 
-
     var len = this._containedObject[ZaCRMadmin.A_country].length;
     var temp = "[";
 
@@ -67,8 +66,6 @@ ZaEditStateXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_stateName,
                 type: _TEXTFIELD_,

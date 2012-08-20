@@ -28,7 +28,6 @@ AttachMailTabView1 = function (parent, zimlet, className) {
 AttachMailTabView1.prototype = new DwtTabViewPage;
 AttachMailTabView1.prototype.constructor = AttachMailTabView1;
 
-
 AttachMailTabView1.prototype.toString = function () {
     return "AttachMailTabView1";
 };

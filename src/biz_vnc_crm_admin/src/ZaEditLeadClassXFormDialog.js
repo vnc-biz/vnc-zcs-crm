@@ -37,8 +37,6 @@ ZaEditLeadClassXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_leadClassName,
                 type: _TEXTFIELD_,

@@ -41,6 +41,7 @@ ZaCRMStageModel.prototype.toString = function () {
 ZaCRMStageModel.isEditStageEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_stage_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_stage_list_cache).length == 1);
 }
+
 ZaCRMStageModel.isDeleteStageEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_stage_list_cache)));
 }
@@ -118,6 +119,7 @@ ZaCRMStageModel.prototype.doDelete = function (idArray) {
     this.getForm().refresh();
 
 }
+
 ZaCRMStageModel.closeButtonListener = function () {
     this.parent.editStageDlg.popdown();
     this.getInstance()[ZaCRMadmin.A_stage_list_cache] = new Array();
@@ -126,6 +128,7 @@ ZaCRMStageModel.closeButtonListener = function () {
     this.refresh();
 
 }
+
 ZaCRMStageModel.editButtonListener = function () {
     var instance = this.getInstance();
 
@@ -162,7 +165,6 @@ ZaCRMStageModel.editButtonListener = function () {
         formPage.editStageDlg.popup();
     }
 }
-
 
 ZaCRMStageModel.updateStage = function () {
     var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"stage\"}";

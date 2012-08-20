@@ -101,10 +101,9 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
                     if (isFinished) break;
                 }
             }
-			Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
+            Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
             Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
             Ext.getCmp('leadTaskGrid').getView().refresh();
-				
         } else if (biz_vnc_crm_client.flag == 1) {
             var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + this.leadId + "\"}";
             var reqHeader = {
@@ -147,7 +146,7 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
                     if (isFinished) break;
                 }
             }
-			Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
+            Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
             Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
             Ext.getCmp('oppTaskGrid').getView().refresh();
         }

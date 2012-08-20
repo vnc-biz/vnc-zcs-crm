@@ -81,7 +81,6 @@ ZaCRMadminCountryStateListView.prototype._createItemHtml = function (item) {
         }
         html[idx++] = "</td>";
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[5]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stateCreatedby];
         html[idx++] = "</td>";
@@ -97,9 +96,6 @@ ZaCRMadminCountryStateListView.prototype._createItemHtml = function (item) {
         html[idx++] = "<td align=left height=20px width=" + this._headerList[8]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_stateWritedate];
         html[idx++] = "</td>";
-
-
-
     } else {
         html[idx++] = "<td width=100%>";
         html[idx++] = AjxStringUtil.htmlEncode(item);

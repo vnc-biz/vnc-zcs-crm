@@ -34,7 +34,6 @@ ZaEditSectionXFormDialog.prototype = new ZaXDialog;
 ZaEditSectionXFormDialog.prototype.constructor = ZaEditSectionXFormDialog;
 
 ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
-
     var json, reqHeader, reqJson, response;
 
     json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
@@ -45,8 +44,6 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
     response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     ZaEditSectionXFormDialog.humtum = [];
     var chkListJson = eval(response.text);
-
-
 
     ZaEditSectionXFormDialog.userChoices = chkListJson;
     var xFormObject = {
@@ -240,7 +237,6 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
     return xFormObject;
 }
 
-
 ZaEditSectionXFormDialog.blockedExtSelectionListener = function () {
     var arr = this.widget.getSelection();
     if (arr && arr.length) {
@@ -250,11 +246,13 @@ ZaEditSectionXFormDialog.blockedExtSelectionListener = function () {
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_selected_user_selection, null);
     }
 }
+
 ZaEditSectionXFormDialog.removeAllExt = function () {
     this.setInstanceValue([], ZaCRMadmin.A_sectionSalesTeamIds);
     this.setInstanceValue([], ZaCRMadmin.A_selected_user_selection);
     this.getForm().parent.setDirty(true);
 }
+
 ZaEditSectionXFormDialog.shouldEnableRemoveAllButton = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_sectionSalesTeamIds)));
 }
@@ -270,6 +268,7 @@ ZaEditSectionXFormDialog.shouldEnableAddButton = function () {
 ZaEditSectionXFormDialog.shouldEnableAddAllButton = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_sectionCommonSalesTeamIds)));
 }
+
 ZaEditSectionXFormDialog.removeExt = function () {
     var blockedExtArray = this.getInstanceValue(ZaCRMadmin.A_sectionSalesTeamIds);
     var selectedExtArray = this.getInstanceValue(ZaCRMadmin.A_selected_user_selection);
@@ -287,6 +286,7 @@ ZaEditSectionXFormDialog.commonExtSelectionListener = function () {
         this.getModel().setInstanceValue(this.getInstance(), ZaCRMadmin.A_common_user_selection, null);
     }
 }
+
 ZaEditSectionXFormDialog.addCommonExt = function () {
     var commonExtArr = this.getInstanceValue(ZaCRMadmin.A_sectionSalesTeamIds);
     var newExtArr = this.getInstanceValue(ZaCRMadmin.A_common_user_selection);
@@ -295,6 +295,7 @@ ZaEditSectionXFormDialog.addCommonExt = function () {
     this.setInstanceValue(AjxUtil.mergeArrays(commonExtArr, newExtArr), ZaCRMadmin.A_sectionSalesTeamIds);
     this.getForm().parent.setDirty(true);
 }
+
 ZaEditSectionXFormDialog.addAllCommonExt = function () {
     var commonExtArr = this.getInstanceValue(ZaCRMadmin.A_sectionSalesTeamIds);
     var newExtArr = this.getInstanceValue(ZaCRMadmin.A_sectionCommonSalesTeamIds);

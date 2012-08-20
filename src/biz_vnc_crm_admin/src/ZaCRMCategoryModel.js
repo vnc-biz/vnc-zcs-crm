@@ -41,6 +41,7 @@ ZaCRMCategoryModel.prototype.toString = function () {
 ZaCRMCategoryModel.isEditCategoryEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_category_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_category_list_cache).length == 1);
 }
+
 ZaCRMCategoryModel.isDeleteCategoryEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_category_list_cache)));
 }
@@ -55,6 +56,7 @@ ZaCRMCategoryModel.display = function () {
     response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
     return (jsonParse(response.text));
 }
+
 ZaCRMCategoryModel.categorySelectionListener = function (ev) {
     var instance = this.getInstance();
     var arr = this.widget.getSelection();
@@ -69,6 +71,7 @@ ZaCRMCategoryModel.categorySelectionListener = function (ev) {
         ZaCRMCategoryModel.editButtonListener.call(this);
     }
 }
+
 ZaCRMCategoryModel.deleteButtonListener = function () {
     var instance = this.getInstance();
     var path = ZaCRMadmin.A_category;
@@ -97,6 +100,7 @@ ZaCRMCategoryModel.deleteButtonListener = function () {
     ZaApp.getInstance().dialogs["confirmMessageDialog"].registerCallback(DwtDialog.YES_BUTTON, ZaCRMCategoryModel.prototype.doDelete, this, [idArray]);
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popup();
 }
+
 ZaCRMCategoryModel.prototype.doDelete = function (idArray) {
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
@@ -119,8 +123,8 @@ ZaCRMCategoryModel.closeButtonListener = function () {
     this.parent.setDirty(false);
     DBG.println(AjxDebug.DBG3, "Cancel button Listener");
     this.refresh();
-
 }
+
 ZaCRMCategoryModel.editButtonListener = function () {
     var instance = this.getInstance();
 
@@ -225,7 +229,6 @@ ZaCRMCategoryModel.addPerson = function () {
     }
 
 }
-
 
 ZaCRMCategoryModel.addButtonListener = function () {
     var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"category\"}";

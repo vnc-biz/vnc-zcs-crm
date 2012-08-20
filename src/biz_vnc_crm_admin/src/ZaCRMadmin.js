@@ -98,8 +98,7 @@ ZaCRMadmin.companyList = {
     type: _OBJECT_
 }
 
-
-// Country list 
+// Country list
 ZaCRMadmin.A_country_list_cache = "country_list_cache";
 ZaCRMadmin.A_country = "country";
 ZaCRMadmin.A_countryId = "countryId";
@@ -150,7 +149,8 @@ ZaCRMadmin.countryList = {
     }],
     type: _OBJECT_
 }
-// Country State List 
+
+// Country State List
 ZaCRMadmin.A_state_list_cache = "state_list_cache";
 ZaCRMadmin.A_state = "states";
 ZaCRMadmin.A_stateId = "stateId";
@@ -228,7 +228,6 @@ ZaCRMadmin.stateList = {
     type: _OBJECT_
 }
 
-
 // Channel List
 ZaCRMadmin.A_channel_list_cache = "channel_list_cache";
 ZaCRMadmin.A_channel = "channels";
@@ -241,7 +240,6 @@ ZaCRMadmin.A_channelWriteby = "writeBy";
 ZaCRMadmin.A_channelWritedate = "writeDate";
 
 ZaCRMadmin.A_channelRemoved = "channelRemoved";
-
 
 ZaCRMadmin.channelList = {
     items: [{
@@ -290,7 +288,6 @@ ZaCRMadmin.A_priorityWriteby = "writeBy";
 ZaCRMadmin.A_priorityWritedate = "writeDate";
 
 ZaCRMadmin.A_priorityRemoved = "priorityRemoved";
-
 
 ZaCRMadmin.priorityList = {
     items: [{
@@ -343,7 +340,6 @@ ZaCRMadmin.A_categoryWriteby = "writeBy";
 ZaCRMadmin.A_categoryWritedate = "writeDate";
 
 ZaCRMadmin.A_categoryRemoved = "categoryRemoved";
-
 
 ZaCRMadmin.categoryList = {
     items: [{
@@ -402,8 +398,6 @@ ZaCRMadmin.A_sectionWritedate = "writeDate";
 ZaCRMadmin.A_sectionRemoved = "sectionRemoved";
 ZaCRMadmin.A_common_user_selection = "common_user_selection";
 ZaCRMadmin.A_selected_user_selection = "selected_user_selection";
-
-
 
 ZaCRMadmin.sectionList = {
     items: [{

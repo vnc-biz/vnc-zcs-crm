@@ -43,7 +43,6 @@ AttachTask.prototype.showMe = function () {
         return;
     }
     this._createHtml1();
-    //document.getElementById(this._folderTreeCellId).onclick = AjxCallback.simpleClosure(this._treeListener, this);
     this._isLoaded = true;
 };
 

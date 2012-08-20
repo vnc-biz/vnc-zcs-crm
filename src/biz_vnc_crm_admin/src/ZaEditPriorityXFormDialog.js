@@ -37,8 +37,6 @@ ZaEditPriorityXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_priorityName,
                 type: _TEXTFIELD_,

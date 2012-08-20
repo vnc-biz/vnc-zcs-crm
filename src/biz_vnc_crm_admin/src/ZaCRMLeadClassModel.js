@@ -128,7 +128,6 @@ ZaCRMLeadClassModel.closeButtonListener = function () {
 
 ZaCRMLeadClassModel.editButtonListener = function () {
     var instance = this.getInstance();
-
     if (instance.leadClass_list_cache && instance.leadClass_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editleadClassDlg) {

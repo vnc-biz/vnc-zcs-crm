@@ -37,8 +37,6 @@ ZaEditCountryXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_countryName,
                 type: _TEXTFIELD_,

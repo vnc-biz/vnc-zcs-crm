@@ -21,13 +21,15 @@
 */
 
 AjxDispatcher.require(["CalendarCore", "Calendar", "CalendarAppt"]);
+
 ZmCRMCalViewController = function (calApp) {
     ZmCalViewController.call(this, calApp);
 }
+
 ZmCRMCalViewController.prototype = new ZmCalViewController();
 ZmCRMCalViewController.prototype.constructor = ZmCRMCalViewController;
-ZmCRMCalViewController.prototype._quickAddCallback = function (response) {
 
+ZmCRMCalViewController.prototype._quickAddCallback = function (response) {
     var array = [];
     array.push(response.invId);
 

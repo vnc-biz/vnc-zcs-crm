@@ -30,7 +30,6 @@ function ZaCRMCompanyModel(parent) {
     this._localXForm.setController(ZaApp.getInstance());
 }
 
-
 ZaCRMCompanyModel.prototype = new ZaTabView;
 
 ZaCRMCompanyModel.prototype.constructor = ZaCRMCompanyModel;
@@ -42,12 +41,12 @@ ZaCRMCompanyModel.prototype.toString = function () {
 ZaCRMCompanyModel.isEditCompanyEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_company_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_company_list_cache).length == 1);
 }
+
 ZaCRMCompanyModel.isDeleteCompanyEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_company_list_cache)));
 }
 
 ZaCRMCompanyModel.display = function () {
-
     var json, reqHeader, reqJson, response;
     json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
     reqHeader = {
@@ -123,6 +122,7 @@ ZaCRMCompanyModel.closeButtonListener = function () {
     this.parent.setDirty(false);
     this.refresh();
 }
+
 ZaCRMCompanyModel.editButtonListener = function () {
     var instance = this.getInstance();
     if (instance.company_list_cache && instance.company_list_cache[0]) {
@@ -234,6 +234,7 @@ ZaCRMCompanyModel.addPerson = function () {
         this.refresh();
     }
 }
+
 ZaCRMCompanyModel.addButtonListener = function () {
     var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"company\"}";
     var reqHeader = {

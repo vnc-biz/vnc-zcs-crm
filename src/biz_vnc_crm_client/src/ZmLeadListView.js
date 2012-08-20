@@ -52,6 +52,7 @@ ZmLeadListView.prototype.getContacts = function (offset, contactList, rec, app) 
     };
     appCtxt.getAppController().sendRequest(searchParams);
 };
+
 ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec, app, result) {
     if (result) {
         biz_vnc_crm_client.contactList = [];
@@ -81,11 +82,15 @@ ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec,
         } else {}
     }
 };
+
 function ZmLeadListView() {}
+
 ZmLeadListView.prototype.constructor = ZmLeadListView;
+
 ZmLeadListView.prototype.toString = function () {
     return "ZmLeadListView";
 }
+
 ZmLeadListView._myCancelListener = function (app) {
     app.pushView(app.getName());
 }
@@ -192,7 +197,6 @@ ZmLeadListView._mySaveResponseListener = function (result) {
 }
 
 ZmLeadListView._mySaveListener = function (app) {
-
     var modifiedAttributes = appCtxt.getCurrentView().getModifiedAttrs();
     var contact = appCtxt.getCurrentView().getContact();
     appCtxt.getCurrentApp().popView(true);
@@ -204,7 +208,6 @@ ZmLeadListView._mySaveListener = function (app) {
 }
 
 ZmLeadListView.createForm = function (rec, contactList, app) {
-
     var toolbar = app.getToolbar();
     toolbar.setVisibility(false);
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
@@ -390,12 +393,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     var leadSMMail = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
-				if(selections.length>0) {
+                if(selections.length>0) {
                     Ext.getCmp('btnMailDelete').enable();
-       	        } else {
-           	        Ext.getCmp('btnMailDelete').disable();
-               	}
-			}	
+                } else {
+                    Ext.getCmp('btnMailDelete').disable();
+                }
+            }
         }
     });
 
@@ -425,24 +428,24 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     var leadSMAppt = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
-				if(selections.length>0) {
+                if(selections.length>0) {
                     Ext.getCmp('btnApptDelete').enable();
                 } else {
                     Ext.getCmp('btnApptDelete').disable();
                 }
-			}
+            }
         }
     });
 
     var leadSMTask = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
-				if(selections.length>0) {
-					Ext.getCmp('btnTaskDelete').enable();
-				} else {
-					Ext.getCmp('btnTaskDelete').disable();
-				}
-			}
+                if(selections.length>0) {
+                    Ext.getCmp('btnTaskDelete').enable();
+                } else {
+                    Ext.getCmp('btnTaskDelete').disable();
+                }
+            }
         }
     });
 
@@ -638,7 +641,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 border: false,
                 layout: 'anchor',
                 defaultType: 'textfield',
-
                 items: [{
                     xtype: 'combo',
                     mode: 'local',
@@ -951,7 +953,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         id: 'txtleadleadDescription',
                         anchor: '100%'
                     }]
-
                 }, {
                     columnWidth: .04,
                     border: false,
@@ -1099,7 +1100,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }, {
                         iconCls: 'cancel',
                         text: biz_vnc_crm_client.btnDelete,
-						id: 'btnMailDelete',
+                        id: 'btnMailDelete',
                         disabled: true,
                         itemId: 'delete',
                         handler: function () {
@@ -1249,7 +1250,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.btnDelete,
                         id: 'btnApptDelete',
                         disabled: true,
-						itemId: 'delete',
+                        itemId: 'delete',
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
@@ -1408,8 +1409,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     }, {
                         iconCls: 'cancel',
                         text: biz_vnc_crm_client.btnDelete,
-						id: 'btnTaskDelete',
-						disabled: true,
+                        id: 'btnTaskDelete',
+                        disabled: true,
                         handler: function () {
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
 
@@ -1475,10 +1476,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                                         Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                         Ext.getCmp('leadTaskGrid').getView().refresh();
-
                                     }
-
-
                                 }
                             };
                         }
@@ -1492,7 +1490,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container, appCtxt.getApp(ZmApp.TASKS), appCtxt.getCurrentViewId(), leadId);
                             taskController.initComposeView();
                             taskController.show(new ZmTask(null, null, 15), ZmCalItem.MODE_NEW, true);
-
                         }
                     }, {
                         iconCls: 'refresh',
@@ -1832,9 +1829,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
                     Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
-
                 } else {
-
                     var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                     var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
                     var contactName = Ext.getCmp('txtleadcontactName').getValue();
@@ -1854,8 +1849,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     if (dateOpen == '') {
                         dateOpen = '0000-00-00 00:00:00';
                     }
-
-
                     var dateClose = Ext.getCmp('dateclosed').getSubmitValue();
                     if (dateClose == '') {
                         dateClose = '0000-00-00 00:00:00';
@@ -2016,7 +2009,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
-
                     }
                 }
             }
@@ -2038,7 +2030,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('leadTask').setDisabled(false);
         Ext.getCmp('leadAppointment').setDisabled(false);
         Ext.getCmp('leadComm').setDisabled(false);
-
         Ext.getCmp('cmbpartner').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
@@ -2094,7 +2085,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 Ext.getCmp('cmbleadClass').setValue(rec.get('leadClassId'));
             }
         });
-
         Ext.getCmp('txtleadsubjectName').setValue(rec.get('subjectName'));
         Ext.getCmp('txtleadcontactName').setValue(rec.get('contactName'));
         Ext.getCmp('txtleadleadDescription').setValue(rec.get('leadDescription'));

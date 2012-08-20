@@ -37,8 +37,6 @@ ZaEditCompanyXFormDialog.prototype.getMyXForm = function () {
         items: [{
             type: _ZAWIZGROUP_,
             items: [
-
-
             {
                 ref: ZaCRMadmin.A_companyName,
                 type: _TEXTFIELD_,

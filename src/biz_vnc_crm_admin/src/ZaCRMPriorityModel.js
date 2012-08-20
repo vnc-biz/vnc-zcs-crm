@@ -40,6 +40,7 @@ ZaCRMPriorityModel.prototype.toString = function () {
 ZaCRMPriorityModel.isEditPriorityEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_priority_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_priority_list_cache).length == 1);
 }
+
 ZaCRMPriorityModel.isDeletePriorityEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_priority_list_cache)));
 }
@@ -117,6 +118,7 @@ ZaCRMPriorityModel.prototype.doDelete = function (idArray) {
     this.getForm().refresh();
 
 }
+
 ZaCRMPriorityModel.closeButtonListener = function () {
     this.parent.editpriorityDlg.popdown();
     this.getInstance()[ZaCRMadmin.A_priority_list_cache] = new Array();
@@ -125,6 +127,7 @@ ZaCRMPriorityModel.closeButtonListener = function () {
     this.refresh();
 
 }
+
 ZaCRMPriorityModel.editButtonListener = function () {
     var instance = this.getInstance();
 

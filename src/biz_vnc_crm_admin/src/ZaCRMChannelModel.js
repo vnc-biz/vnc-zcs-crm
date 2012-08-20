@@ -44,6 +44,7 @@ ZaCRMChannelModel.isEditChannelEnabled = function () {
 ZaCRMChannelModel.isDeleteChannelEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_channel_list_cache)));
 }
+
 ZaCRMChannelModel.display = function () {
     var json, reqHeader, reqJson, response;
     json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
@@ -56,9 +57,6 @@ ZaCRMChannelModel.display = function () {
 }
 
 ZaCRMChannelModel.channelSelectionListener = function (ev) {
-
-
-
     var instance = this.getInstance();
     var arr = this.widget.getSelection();
     if (arr && arr.length) {
@@ -107,7 +105,6 @@ ZaCRMChannelModel.deleteButtonListener = function () {
 }
 
 ZaCRMChannelModel.prototype.doDelete = function (idArray) {
-
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
     var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"channel\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -131,6 +128,7 @@ ZaCRMChannelModel.closeButtonListener = function () {
     this.refresh();
 
 }
+
 ZaCRMChannelModel.editButtonListener = function () {
     var instance = this.getInstance();
 

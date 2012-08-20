@@ -23,6 +23,7 @@
 function ZaCRM_Panel() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
+
 /*
     Adding node to tree in Admin UI
 */
@@ -47,6 +48,7 @@ ZaApp.prototype.getCRMadmin = function (refresh) {
     }
     return this._crmAdmin;
 }
+
 ZaApp.prototype.getCRMadminViewController = function () {
     if (this._controllers[ZaZimbraAdmin._CRM_ADMIN_VIEW] == null) {
         this._controllers[ZaZimbraAdmin._CRM_ADMIN_VIEW] = new ZaCRMadminViewController(this._appCtxt, this._container, this);
@@ -62,6 +64,7 @@ ZaOverviewPanelController.crm_adminTreeListener = function (ev) {
     }
 
 }
+
 if (ZaOverviewPanelController.treeModifiers) {
     ZaOverviewPanelController.treeModifiers.push(ZaCRM_Panel.backupOvTreeModifier);
 }

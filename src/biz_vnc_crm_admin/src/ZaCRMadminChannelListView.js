@@ -55,7 +55,6 @@ ZaCRMadminChannelListView.prototype._createItemHtml = function (item) {
     if (this._headerList) {
         var cnt = this._headerList.length;
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_channelId];
         html[idx++] = "</td>";
@@ -87,8 +86,6 @@ ZaCRMadminChannelListView.prototype._createItemHtml = function (item) {
         html[idx++] = "<td align=left height=20px width=" + this._headerList[6]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_channelWritedate];
         html[idx++] = "</td>";
-
-
     } else {
         html[idx++] = "<td width=100%>";
         html[idx++] = AjxStringUtil.htmlEncode(item);

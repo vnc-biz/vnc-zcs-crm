@@ -30,7 +30,6 @@ function ZaCRMCountryModel(parent) {
     this._localXForm.setController(ZaApp.getInstance());
 }
 
-
 ZaCRMCountryModel.prototype = new ZaTabView;
 
 ZaCRMCountryModel.prototype.constructor = ZaCRMCountryModel;
@@ -42,6 +41,7 @@ ZaCRMCountryModel.prototype.toString = function () {
 ZaCRMCountryModel.isEditCountryEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_country_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_country_list_cache).length == 1);
 }
+
 ZaCRMCountryModel.isDeleteCountryEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_country_list_cache)));
 }
@@ -123,6 +123,7 @@ ZaCRMCountryModel.closeButtonListener = function () {
     this.parent.setDirty(false);
     this.refresh();
 }
+
 ZaCRMCountryModel.editButtonListener = function () {
     var instance = this.getInstance();
     if (instance.country_list_cache && instance.country_list_cache[0]) {
@@ -224,6 +225,7 @@ ZaCRMCountryModel.addPerson = function () {
         this.refresh();
     }
 }
+
 ZaCRMCountryModel.addButtonListener = function () {
     var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"country\"}";
     var reqHeader = {

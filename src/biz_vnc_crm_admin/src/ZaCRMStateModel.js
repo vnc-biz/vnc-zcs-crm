@@ -41,6 +41,7 @@ ZaCRMStateModel.prototype.toString = function () {
 ZaCRMStateModel.isEditStateEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_state_list_cache)) && this.getInstanceValue(ZaCRMadmin.A_state_list_cache).length == 1);
 }
+
 ZaCRMStateModel.isDeleteStateEnabled = function () {
     return (!AjxUtil.isEmpty(this.getInstanceValue(ZaCRMadmin.A_state_list_cache)));
 }
@@ -101,7 +102,6 @@ ZaCRMStateModel.deleteButtonListener_state = function () {
 }
 
 ZaCRMStateModel.prototype.doDelete = function (idArray) {
-
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
     var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"state\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
@@ -125,8 +125,8 @@ ZaCRMStateModel.closeButtonListener = function () {
     this.refresh();
 
 }
-ZaCRMStateModel.editButtonListener = function () {
 
+ZaCRMStateModel.editButtonListener = function () {
     var instance = this.getInstance();
     if (instance.state_list_cache && instance.state_list_cache[0]) {
         var formPage = this.getForm().parent;
@@ -195,7 +195,6 @@ ZaCRMStateModel.updateState = function () {
 
 ZaCRMStateModel.addPerson = function () {
     if (this.parent.addStateDlg) {
-
         var obj = this.parent.addStateDlg.getObject();
         var instance = this.getInstance();
         instance = this.getInstance();

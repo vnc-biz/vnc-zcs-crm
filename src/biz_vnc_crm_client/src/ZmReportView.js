@@ -1032,6 +1032,7 @@ ZmReportView.createForm = function (app) {
             closelead++;
         }
     }
+
     total = closelead + inProgresslead + newlead + pendinglead;
     var oppPieChartStore = Ext.create('Ext.data.JsonStore', {
         fields: [{
@@ -1216,7 +1217,6 @@ ZmReportView.createForm = function (app) {
         } else if (new Date(date[0]).getMonth() == 10) {
             nov += parseInt(oppData[i].valuation);
         } else if (new Date(date[0]).getMonth() == 11) {
-
             dec += parseInt(oppData[i].valuation);
         }
     }

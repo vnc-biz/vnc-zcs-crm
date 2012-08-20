@@ -21,6 +21,7 @@
 */
 
 function ZmDashboardView() {}
+
 ZmDashboardView.prototype.constructor = ZmDashboardView;
 
 ZmDashboardView.prototype.toString = function () {
@@ -28,7 +29,6 @@ ZmDashboardView.prototype.toString = function () {
 }
 
 ZmDashboardView.dashboard = function (app) {
-
     var content = AjxTemplate.expand("biz_vnc_crm_client.templates.Simple#MainLead");
     app.setContent(content);
 
@@ -284,7 +284,6 @@ ZmDashboardView.dashboard = function (app) {
             'data': dec
         }]
     });
-
 
     var oppChart = Ext.create('Ext.chart.Chart', {
         id: 'chartCmp12',
@@ -555,7 +554,9 @@ ZmDashboardView.dashboard = function (app) {
             type: 'date'
         }]
     });
+
     var LeadPanel, OppPanel;
+
     OppPanel = Ext.create('Ext.form.Panel', {
         width: 900,
         height: 300,
@@ -650,18 +651,18 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-				
-				var idArray = [];
-				var str = "'" + "In Progress" + "'";
-				idArray.push(str);
 
-				var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
-    			
+                                var idArray = [];
+                                var str = "'" + "In Progress" + "'";
+                                idArray.push(str);
+
+                                var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+
                                 var reqJson = AjxStringUtil.urlEncode(json);
-				var oppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                var oppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                               	Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
-				Ext.getCmp('opportunityGrid').getView().refresh();
+                                Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
+                                Ext.getCmp('opportunityGrid').getView().refresh();
                             }
                         };
                     }
@@ -781,20 +782,18 @@ ZmDashboardView.dashboard = function (app) {
                                 };
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-				var idArray = [];
-				var str = "'" + "In Progress" + "'";
-				idArray.push(str);
+                                var idArray = [];
+                                var str = "'" + "In Progress" + "'";
+                                idArray.push(str);
 
-				var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
-				var reqJson = AjxStringUtil.urlEncode(json1);
-				var leadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                
-				Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-				Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
+                                var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+                                var reqJson = AjxStringUtil.urlEncode(json1);
+                                var leadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+                                Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
                                 Ext.getCmp('leadGrid').getView().refresh();
-                              //  biz_vnc_crm_client.initLeadGrid(app);
                             }
-
                         };
                     }
                 }]
@@ -807,7 +806,6 @@ ZmDashboardView.dashboard = function (app) {
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                         app.setContent(content);
                         ZmLeadListView.prototype.getContacts(0, [], rec, app);
-
                     }
                 }
             }

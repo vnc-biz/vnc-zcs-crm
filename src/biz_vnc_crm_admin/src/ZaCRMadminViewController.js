@@ -40,7 +40,6 @@ ZaCRMadminViewController.prototype.show = function (entry) {
 }
 
 ZaCRMadminViewController.setViewMethod = function (entry) {
-
     if (!this._UICreated) {
         this._contentView = this._view = new this.tabConstructor(this._container);
         var elements = new Object();
