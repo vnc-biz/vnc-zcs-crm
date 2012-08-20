@@ -1,4 +1,4 @@
-VERSION=1.0.2.2
+VERSION=1.0.2.3
 PACKAGE=zcs-crm
 MAINTAINER=Enrico Weigelt <enrico.weigelt@vnc.biz>
 SECTION=base
