@@ -1669,10 +1669,30 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     app.setContent(content);
     var toolbar = app.getToolbar();
     toolbar.setVisibility(true);
+
     biz_vnc_crm_client._flag = 0;
+
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+
+	Ext.override(Ext.util.Filter,{
+    	createFilterFn: function() {
+        	var me       = this,
+           	matcher  = me.createValueMatcher(),
+	        property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
+    		return function(item) {
+    	      	var hasmatch = false;
+	    	    for(var i=0;i<property.length;i++) {
+            	    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
+                   		hasmatch=true;
+	                   	break;
+    		        }		
+            	}
+		        return matcher === null ? value === null : hasmatch;
+       		};
+    	}
+	});
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -2576,7 +2596,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
-                                        var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
+                                           var workState = biz_vnc_crm_client.contactList[i]._attrs.workState;
                                         var workCountry = biz_vnc_crm_client.contactList[i]._attrs.workCountry;
                                         var state = Ext.getCmp('cmbstate').getStore().findRecord("stateName", workState);
                                         var country = Ext.getCmp('cmbcountry').getStore().findRecord("countryName", workCountry);
@@ -3683,7 +3703,36 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         }
                     };
                 }
-            }]
+            }, {
+				xtype: 'textfield',
+				fieldLabel: biz_vnc_crm_client.quick_search,
+				id: 'txtleadsearch',
+				cls: 'searchTextField',
+				listeners: {
+				change: {
+					fn:function(field, newVal, oldVal){
+						var propertyArray = new Array();
+						var columns = Ext.getCmp('leadGrid').columns;
+						for(var i=2;i<columns.length-1;i++) {
+							if(!columns[i].isHidden()) {
+								propertyArray.push(columns[i].dataIndex);
+							}
+						}
+						var store = Ext.data.StoreManager.lookup(Ext.getCmp('leadGrid').getStore());
+						var leadfilter = new Ext.util.Filter({
+							property: propertyArray,
+							value: newVal,
+     						anyMatch: true,
+							caseSensitive: false,
+     						root: 'data'
+ 						});
+						store.clearFilter();
+						store.filter(leadfilter);
+					},
+				buffer: 100,
+				scope: this,
+				}}
+			}]
         }],
         items: [{
             title: biz_vnc_crm_client.lblLeadForm,
@@ -3715,6 +3764,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             },
             store: Ext.create('Ext.data.Store', {
                 model: 'model_1',
+				storeId: 'leadStore',
                 proxy: {
                     type: 'memory',
                     data: jsonParse(response.text)
@@ -3746,39 +3796,48 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             }, {
                 text: biz_vnc_crm_client.creationDate,
                 width: 160,
-                dataIndex: 'createDate'
+                dataIndex: 'createDate',
+				renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.subject,
                 width: 160,
-                dataIndex: 'subjectName'
+                dataIndex: 'subjectName',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.leadClass,
                 width: 160,
-                dataIndex: 'leadClassName'
+                dataIndex: 'leadClassName',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.contactName,
                 width: 160,
-                dataIndex: 'contactName'
+                dataIndex: 'contactName',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.email,
                 width: 160,
-                dataIndex: 'email'
+                dataIndex: 'email',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.phone,
                 width: 160,
-                dataIndex: 'phone'
+                dataIndex: 'phone',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.stage,
                 width: 160,
-                dataIndex: 'stageName'
+                dataIndex: 'stageName',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.salesman,
                 width: 160,
-                dataIndex: 'userId'
+                dataIndex: 'userId',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.state,
                 width: 160,
-                dataIndex: 'leadState'
+                dataIndex: 'leadState',
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 sortable: false,
                 xtype: 'actioncolumn',
@@ -3924,6 +3983,30 @@ biz_vnc_crm_client.initReports = function (app) {
     biz_vnc_crm_client._flag = 3;
 }
 
+biz_vnc_crm_client.leadGridColumnRender = function (v) {
+    var searchValue = Ext.getCmp("txtleadsearch").getValue();
+    if(searchValue!='') {
+        var v = v.replace(new RegExp(searchValue,"gi"), function($1) {
+            return '<span style="background:yellow;">' + $1 + '</span>';
+        });
+        return v;
+    } else {
+        return v;
+    }
+};
+
+biz_vnc_crm_client.oppGridColumnRender = function (v) {
+	var searchValue = Ext.getCmp("txtoppsearch").getValue();
+    if(searchValue!='') {
+    	var v = v.replace(new RegExp(searchValue,"gi"), function($1) {
+        	return '<span style="background:yellow;">' + $1 + '</span>';
+        });
+		return v;
+	} else {
+    	return v;
+    }
+};
+
 biz_vnc_crm_client.initOpportunityGrid = function (app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
@@ -3933,15 +4016,33 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     app.setContent(content);
     var toolbar = app.getToolbar();
     toolbar.setVisibility(true);
+
     biz_vnc_crm_client._flag = 1;
     Ext.Loader.setConfig({
         enabled: true
     });
 
-    Ext.Loader.setPath('Ext.ux', '../ux');
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.tip.QuickTipManager']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
+
+	Ext.override(Ext.util.Filter,{
+    	createFilterFn: function() {
+        	var me       = this,
+           	matcher  = me.createValueMatcher(),
+	        property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
+    		return function(item) {
+    	      	var hasmatch = false;
+	    	    for(var i=0;i<property.length;i++) {
+            	    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
+                   		hasmatch=true;
+	                   	break;
+    		        }		
+            	}
+		        return matcher === null ? value === null : hasmatch;
+       		};
+    	}
+	});
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -3958,7 +4059,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    var responseOpp = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -4067,7 +4168,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'float'
         }, {
             name: 'probability',
-            type: 'float'
+            type: 'string'
         }, {
             name: 'channelName',
             mapping: 'channelBean.channelName',
@@ -4153,7 +4254,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }
         }
     });
-
     Ext.define('priority', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -5873,6 +5973,35 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                     };
                 }
+            }, {
+                xtype: 'textfield',
+                fieldLabel: biz_vnc_crm_client.quick_search,
+                id: 'txtoppsearch',
+                cls: 'searchTextField',
+                listeners: {
+                change: {
+                    fn:function(field, newVal, oldVal){
+                        var propertyArray = new Array();
+                        var columns = Ext.getCmp('opportunityGrid').columns;
+                        for(var i=2;i<columns.length-1;i++) {
+                            if(!columns[i].isHidden()) {
+                                propertyArray.push(columns[i].dataIndex);
+                            }
+                        }
+                        var store = Ext.data.StoreManager.lookup(Ext.getCmp('opportunityGrid').getStore());
+                        var leadfilter = new Ext.util.Filter({
+                            property: propertyArray,
+                            value: newVal,
+                            anyMatch: true,
+                            caseSensitive: false,
+                            root: 'data'
+                        });
+                        store.clearFilter();
+                        store.filter(leadfilter);
+                    },
+                buffer: 100,
+                scope: this,
+                }}
             }]
         }],
         items: [{
@@ -5900,9 +6029,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             },
             store: Ext.create('Ext.data.Store', {
                 model: 'model_1',
+				storeId: 'oppStore',
                 proxy: {
                     type: 'memory',
-                    data: jsonParse(response.text)
+                    data: jsonParse(responseOpp.text)
                 },
                 autoLoad: true,
                 actionMethods: {
@@ -5931,57 +6061,68 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 header: biz_vnc_crm_client.creationDate,
                 width: 120,
                 dataIndex: 'createDate',
-                sortable: true
+                sortable: true,
+				renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.opportunity,
                 width: 150,
                 dataIndex: 'subjectName',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.leadClass,
                 width: 150,
                 dataIndex: 'leadClassName',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.customer,
                 width: 150,
                 dataIndex: 'contactName',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.nextActionDate,
                 width: 120,
                 dataIndex: 'nextActionDate',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.nextAction,
                 width: 150,
                 dataIndex: 'nextAction',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.stage,
                 width: 150,
                 dataIndex: 'stageName',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.expectedRevenue,
                 width: 150,
                 dataIndex: 'valuation',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.probability,
                 width: 110,
                 dataIndex: 'probability',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.salesman,
                 width: 120,
                 dataIndex: 'userId',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.state,
                 width: 120,
                 dataIndex: 'leadState',
-                sortable: true
+                sortable: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 sortable: false,
                 xtype: 'actioncolumn',
@@ -6399,7 +6540,6 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
         asyncMode: false
     });
     var msgResp = bc.GetMsgResponse;
-    console.log(msgResp);
     var ans = msgResp.m[0].inv[0].comp[0];
 
     var attend = msgResp.m[0].inv[0].comp[0].at;
@@ -6609,7 +6749,6 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
         asyncMode: false
     });
     var msgResp = bc.GetMsgResponse;
-    console.log(msgResp);
     var ans = msgResp.m[0].inv[0].comp[0];
     var subject = biz_vnc_crm_client.isDefine(ans.name);
     var taskLocation = biz_vnc_crm_client.isDefine(ans.loc);
@@ -6619,6 +6758,7 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     var status = biz_vnc_crm_client.isDefine(ans.status);
     var percentComplete = biz_vnc_crm_client.isDefine(ans.percentComplete);
     var priority = biz_vnc_crm_client.isDefine(ans.priority);
+
     var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
@@ -6634,7 +6774,8 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
             title: subject,
             width: 400,
             bodyPadding: 10,
-            items: [{
+
+             items: [{
                 layout: 'column',
                 border: false,
                 defaults: {
