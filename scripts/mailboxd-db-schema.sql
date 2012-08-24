@@ -1,4 +1,28 @@
-USE zimbra;
+/*
+##############################################################################
+#    VNC-Virtual Network Consult GmbH.
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    (< http://www.vnc.biz >).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+#
+##############################################################################
+*/
+
+CREATE DATABASE IF NOT EXISTS test_zimbra;
+
+USE test_zimbra;
 
 CREATE TABLE IF NOT EXISTS tbl_crm_company (
 companyId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -108,7 +132,6 @@ contactName varchar(64),
 companyId Integer REFERENCES tbl_crm_company(companyId),
 valuation varchar(64),
 leadState varchar(64),
-leadClassId Integer,
 partnerName varchar(255),
 phone varchar(16),
 fax varchar(16),
@@ -159,7 +182,6 @@ leadId Integer REFERENCES tbl_crm_lead(leadId),
 appointmentId varchar(255) 
 );
 
-
 CREATE TABLE IF NOT EXISTS tbl_crm_leadClass (
 leadClassId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,
 leadClassName varchar(64) NOT NULL,
@@ -169,3 +191,5 @@ createDate timestamp default 0,
 writeBy varchar(255),
 writeDate timestamp default 0
 );
+
+ALTER TABLE tbl_crm_lead ADD COLUMN leadClassId Integer REFERENCES tbl_crm_leadClass(leadClassId) AFTER leadState;
