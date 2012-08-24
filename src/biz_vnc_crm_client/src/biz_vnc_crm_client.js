@@ -4236,7 +4236,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
-
     var sm1 = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm1, selections) {
@@ -4253,6 +4252,16 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }
             }
         }
+    });
+	Ext.define('leadClass', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'leadClassId',
+            type: 'int'
+        }, {
+            name: 'leadClassName',
+            type: 'string'
+        }]
     });
     Ext.define('priority', {
         extend: 'Ext.data.Model',
