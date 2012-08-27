@@ -6462,6 +6462,14 @@ biz_vnc_crm_client_HandlerObject.prototype.settoolbar = function (app) {
     var idindex = 0;
     var toolbar = app.getToolbar();
     if (toolbar.getItemCount() == 0) {
+        var filler = toolbar.addFiller(null, idindex++);
+
+        var filter_button_params = {
+            id: 'Filter',
+            text: biz_vnc_crm_client.btnfilter,
+            index: idindex++
+        }
+
         var new_button_params = {
             id: 'New',
             text: biz_vnc_crm_client.btnNew,
@@ -6469,6 +6477,7 @@ biz_vnc_crm_client_HandlerObject.prototype.settoolbar = function (app) {
             tooltip: 'New button',
             index: idindex++
         }
+
         var open_button_params = {
             id: 'In Progress',
             text: biz_vnc_crm_client.btnopen,
@@ -6485,6 +6494,9 @@ biz_vnc_crm_client_HandlerObject.prototype.settoolbar = function (app) {
             tooltip: 'Pending button',
             index: idindex++
         }
+
+        var filter_button = toolbar.createButton(filter_button_params, filter_button_params);
+        filter_button.setEnabled(false);
 
         var new_button = toolbar.createButton(new_button_params, new_button_params);
         new_button.addSelectionListener(new AjxListener(this, this._add, [new_button, app]));
