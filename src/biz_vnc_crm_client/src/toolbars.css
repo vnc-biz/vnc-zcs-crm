@@ -20,6 +20,27 @@
 ##############################################################################
 */
 
+.btncreate
+{
+	height:25px;
+	width:67px;
+	padding:0px;
+}
+
+.btnedit
+{
+	height:25px;
+	width:58px;
+	padding:0px;
+}
+
+.btndelete
+{
+	height:25px;
+	width:63px;
+	padding:0px;
+}
+
 .add
 {
 	background-image:url(images/add.gif)!important;
@@ -103,11 +124,15 @@
 .add24
 {
 	background-image:url(./default/btn/create.png)!important;
+	height:15px;
+	width:16px;
 }
 
 .delete
 {
 	background-image:url(./default/btn/delete.png)!important;
+	height:15px;
+	width:16px;
 }
 
 .remove
@@ -118,6 +143,8 @@
 .edit
 {
 	background-image:url(../menu/images/edit.gif)!important;
+	height:15px;
+	width:16px;
 }
 
 .find
@@ -172,7 +199,7 @@ h3
 .searchTextField
 {
 	padding-left:5px;
-	padding-top:4px;
+	padding-top:0px;
 	text-align:right;
 }
 

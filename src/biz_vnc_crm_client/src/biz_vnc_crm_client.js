@@ -2658,23 +2658,25 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'button',
-                        text: null,
+                        xtype: 'image',
                         disabled: true,
                         id: 'btnLeadAddContact',
-                        height: 25,
-                        iconCls: 'add_contact',
-                        anchor: '40%',
-                        handler: function () {
-                            biz_vnc_crm_client.contactFlag = 0;
-                            var contact = new ZmContact(null, null, null);
-                            var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
-                            var contactController = new ZmContactController(contactApp._container, contactApp);
-                            contactController.show(contact);
-                            contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-                            contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
-                            contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));
-
+                        imgCls:'add_contact',
+                        height: '26px',
+                        width: '26px',
+                        listeners: {
+                            render: function(c) {
+                                c.getEl().on('click', function(e) {
+                                    biz_vnc_crm_client.contactFlag = 0;
+                                    var contact = new ZmContact(null, null, null);
+                                    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
+                                    var contactController = new ZmContactController(contactApp._container, contactApp);
+                                    contactController.show(contact);
+                                    contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
+                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
+                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));           
+                                }, c);
+                            }
                         }
                     }]
                 }, {
@@ -3631,9 +3633,12 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         },
         tbar: [{
             xtype: 'buttongroup',
+            height:30,
             items: [{
                 tooltip: 'Create new lead.',
+                cls: 'btncreate',
                 id: 'btnCreateLead',
+                iconAlign: 'middle',
                 text: biz_vnc_crm_client.btnCreate,
                 iconCls: 'add24',
                 scale: 'medium',
@@ -3660,8 +3665,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 }
             }, {
                 id: 'btnEditLead',
+                cls: 'btnedit',
                 tooltip: 'Edit selected lead.',
                 disabled: true,
+                iconAlign: 'middle',
                 text: biz_vnc_crm_client.btnEdit,
                 iconCls: 'add16',
                 scale: 'medium',
@@ -3676,7 +3683,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 }
             }, {
                 tooltip: 'Delete selected lead.',
+                cls: 'btndelete',
                 id: 'btnDeleteLead',
+                iconAlign: 'middle',
                 disabled: true,
                 text: biz_vnc_crm_client.btnDelete,
                 iconCls: 'delete',
@@ -4877,23 +4886,25 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'button',
-                        text: null,
+                        xtype: 'image',
                         disabled: true,
                         id: 'btnOppAddContact',
-                        height: 25,
-                        iconCls: 'add_contact',
-                        anchor: '17%',
-                        handler: function () {
-                            biz_vnc_crm_client.contactFlag = 1;
-                            var contact = new ZmContact(null, null, null);
-                            var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
-                            var contactController = new ZmContactController(contactApp._container, contactApp);
-                            contactController.show(contact);
-                            contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-                            contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
-                            contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));
-
+                        imgCls:'add_contact',
+                        height: '26px',
+                        width: '26px',
+                        listeners: {
+                            render: function(c) {
+                                c.getEl().on('click', function(e) {
+                                    biz_vnc_crm_client.contactFlag = 1;
+                                    var contact = new ZmContact(null, null, null);
+                                    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
+                                    var contactController = new ZmContactController(contactApp._container, contactApp);
+                                    contactController.show(contact);
+                                    contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
+                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
+                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));    
+                                }, c);
+                            }
                         }
                     }]
                 }, {
@@ -5904,9 +5915,12 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         },
         tbar: [{
             xtype: 'buttongroup',
+            height:30,
             items: [{
                 tooltip: 'Create new opportunity.',
+                cls: 'btncreate',
                 id: 'btnCreateOpportunity',
+                iconAlign: 'middle',
                 text: biz_vnc_crm_client.btnCreate,
                 iconCls: 'add24',
                 scale: 'medium',
@@ -5933,8 +5947,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }
             }, {
                 id: 'btnEditOpportunity',
+                cls: 'btnedit',
                 tooltip: 'Edit selected lead.',
                 disabled: true,
+                iconAlign: 'middle',
                 text: biz_vnc_crm_client.btnEdit,
                 iconCls: 'add16',
                 scale: 'medium',
@@ -5951,8 +5967,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }
             }, {
                 tooltip: 'Delete selected lead.',
+                cls: 'btndelete',
                 id: 'btnDeleteOpportunity',
                 disabled: true,
+                iconAlign: 'middle',
                 text: biz_vnc_crm_client.btnDelete,
                 iconCls: 'delete',
                 scale: 'medium',
