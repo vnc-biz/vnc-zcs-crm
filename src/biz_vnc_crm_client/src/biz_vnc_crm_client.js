@@ -3769,7 +3769,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     type: 'memory',
                     data: jsonParse(response.text)
                 },
-                autoLoad: true,
                 actionMethods: {
                     read: 'POST'
                 }
@@ -3866,15 +3865,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     }
                 }]
             }]
-
         }],
         renderTo: 'datagrid'
     });
 
     var grid = Ext.getCmp('leadGrid');
     grid.on('viewready', function(){
-        if(grid.store.count()>0)
-                grid.getSelectionModel().select(0);
+        if(grid.store.load().count()>0)
+            grid.getSelectionModel().select(0);
     });
 
     grid.getSelectionModel().on('selectionchange', function (sm, selectedRecord) {
@@ -6043,7 +6041,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     type: 'memory',
                     data: jsonParse(responseOpp.text)
                 },
-                autoLoad: true,
                 actionMethods: {
                     read: 'POST'
                 }
@@ -6166,8 +6163,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
     var grid = Ext.getCmp('opportunityGrid');
     grid.on('viewready', function(){
-        if(grid.store.count()>0)
-                grid.getSelectionModel().select(0);
+        if(grid.store.load().count()>0)
+            grid.getSelectionModel().select(0);
     });
     grid.getSelectionModel().on('selectionchange', function (sm, selectedRecord) {
         if (selectedRecord.length) {
