@@ -132,7 +132,7 @@ ZaCRMSectionModel.editButtonListener = function () {
     if (instance.section_list_cache && instance.section_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editSectionDlg) {
-            formPage.editSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "750px", "500px", "Edit Section");
+            formPage.editSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", "Edit Section");
             formPage.editSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.updateSection, this.getForm(), null);
             formPage.editSectionDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMSectionModel.closeButtonListener, this.getForm(), null);
         }
@@ -307,7 +307,7 @@ ZaCRMSectionModel.addButtonListener = function () {
     obj[ZaCRMadmin.A_common_user_selection] = "";
 
     if (!formPage.addSectionDlg) {
-        formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "750px", "475px", "Add new section");
+        formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", "Add new section");
         formPage.addSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.addPerson, this.getForm(), null);
     }
     var json, reqHeader, reqJson, response;
