@@ -2783,6 +2783,159 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     }]
                 }]
             }, {
+                title: biz_vnc_crm_client.tabComm_History,
+                id: 'leadComm',
+                disabled: true,
+                layout: 'column',
+                width: '100%',
+                height: 220,
+                dockedItems: [{
+                    xtype: 'toolbar',
+                    items: [{
+                        iconCls: 'attachment',
+                        text: biz_vnc_crm_client.btnAttach,
+                        handler: function () {
+                            var flag = 0;
+                            var leadId = biz_vnc_crm_client.leadId;
+                            biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog(leadId, flag);
+                        }
+                    }, {
+                        iconCls: 'cancel',
+                        text: biz_vnc_crm_client.btnDelete,
+                        id: 'btnMailDelete',
+                        disabled: true,
+                        handler: function () {
+                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
+
+                            function showResult(btn) {
+                                if (btn == "yes") {
+                                    var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
+                                    var idArray = [];
+                                    Ext.each(rec1, function (item) {
+                                        idArray.push(item.data.mailId);
+                                    });
+
+                                    var leadId = biz_vnc_crm_client.leadId;
+                                    var json = "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
+                                    var reqHeader = {
+                                        "Content-Type": "application/x-www-form-urlencoded"
+                                    };
+                                    var reqJson = AjxStringUtil.urlEncode(json);
+                                    var responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
+                                    var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+                                    var reqHeader = {
+                                        "Content-Type": "application/x-www-form-urlencoded"
+                                    };
+                                    var reqJson = AjxStringUtil.urlEncode(json);
+                                    var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                    var msgArray = [];
+                                    var item;
+                                    var msgArray = (responseMailHistory.text).split(",");
+
+
+                                    if (msgArray != "null") {
+                                        biz_vnc_crm_client.requestMailList(msgArray);
+                                    } else {
+                                        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+                                    }
+                                    Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
+                                    Ext.getCmp('leadMailGrid').getView().refresh();
+                                }
+                            };
+                        }
+                    }, {
+                        iconCls: 'email',
+                        text: biz_vnc_crm_client.btnNew,
+                        itemId: 'newmail',
+                        handler: function () {
+                            biz_vnc_crm_client.flag = 0;
+                            var leadId = biz_vnc_crm_client.leadId;
+                            biz_vnc_crm_client.composeMail(leadId);
+                        }
+                    }, {
+                        iconCls: 'refresh',
+                        text: biz_vnc_crm_client.btnRefresh,
+                        itemId: 'refresh',
+                        handler: function () {
+                            var leadId = biz_vnc_crm_client.leadId;
+                            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+                            var reqHeader = {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            };
+                            var reqJson = AjxStringUtil.urlEncode(json);
+                            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            var msgArray = [];
+                            var item;
+                            var msgArray = (responseMailHistory.text).split(",");
+
+                            if (msgArray != "null") {
+                                biz_vnc_crm_client.requestMailList(msgArray);
+                            } else {
+                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+                            }
+                            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
+                            Ext.getCmp('leadMailGrid').getView().refresh();
+                        }
+                    }]
+                }, {
+                    xtype: 'grid',
+                    selModel: leadSMMail,
+                    id: 'leadMailGrid',
+                    height: 195,
+                    defaults: {
+                        autoRender: true,
+                        autoScroll: true
+                    },
+                    store: Ext.create('Ext.data.Store', {
+                        model: 'leadMailModel',
+                        proxy: {
+                            type: 'memory',
+                            data: jsonParse(biz_vnc_crm_client.mailData)
+                        },
+                        autoLoad: true,
+                        actionMethods: {
+                            read: 'POST'
+                        }
+                    }),
+                    columnLines: true,
+                    columns: [{
+                        text: biz_vnc_crm_client.date,
+                        sortable: false,
+                        width: 120,
+                        dataIndex: 'date',
+                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                    }, {
+                        text: biz_vnc_crm_client.from,
+                        sortable: false,
+                        width: 180,
+                        dataIndex: 'from'
+                    }, {
+                        text: biz_vnc_crm_client.subject,
+                        width: 250,
+                        sortable: true,
+                        dataIndex: 'subject'
+                    }, {
+                        text: biz_vnc_crm_client.message,
+                        width: 500,
+                        sortable: true,
+                        dataIndex: 'message'
+                    }],
+                    title: null,
+                    viewConfig: {
+                        stripeRows: true
+                    },
+                    listeners: {
+                        el:{
+                                dblclick: function(){
+                                    var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
+                                    var mailID = rec.items[0].data.mailId;
+                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                }
+                        }
+                    }
+                }]
+            }, {
                 title: biz_vnc_crm_client.tabAppointment,
                 id: 'leadAppointment',
                 disabled: true,
@@ -3026,7 +3179,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             biz_vnc_crm_client.flag = 0;
                             var leadId = biz_vnc_crm_client.leadId;
                             var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container, appCtxt.getApp(ZmApp.TASKS), appCtxt.getCurrentViewId(), leadId);
-                            console.log(taskController);
                             taskController.initComposeView();
                             taskController.show(new ZmTask(null, null, 15), ZmCalItem.MODE_NEW, true);
                         }
@@ -3132,164 +3284,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 var taskId = rec.items[0].data.taskId;
                                 biz_vnc_crm_client.viewTaskDetails(taskId);
                             }
-                        }
-                    }
-                }]
-            }, {
-                title: biz_vnc_crm_client.tabComm_History,
-                id: 'leadComm',
-                disabled: true,
-                layout: 'column',
-                width: '100%',
-                height: 220,
-                dockedItems: [{
-                    xtype: 'toolbar',
-                    items: [{
-                        iconCls: 'attachment',
-                        text: biz_vnc_crm_client.btnAttach,
-                        handler: function () {
-                            var flag = 0;
-                            var leadId = biz_vnc_crm_client.leadId;
-                            biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog(leadId, flag);
-                        }
-                    }, {
-                        iconCls: 'cancel',
-                        text: biz_vnc_crm_client.btnDelete,
-                        id: 'btnMailDelete',
-                        disabled: true,
-                        handler: function () {
-                            Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
-
-                            function showResult(btn) {
-                                if (btn == "yes") {
-                                    var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
-                                    var idArray = [];
-                                    Ext.each(rec1, function (item) {
-                                        idArray.push(item.data.mailId);
-                                    });
-
-                                    var leadId = biz_vnc_crm_client.leadId;
-                                    var json = "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
-                                    var reqHeader = {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    };
-                                    var reqJson = AjxStringUtil.urlEncode(json);
-                                    var responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-                                    var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                    var reqHeader = {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    };
-                                    var reqJson = AjxStringUtil.urlEncode(json);
-                                    var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                                    var msgArray = [];
-                                    var item;
-                                    var msgArray = (responseMailHistory.text).split(",");
-
-
-                                    if (msgArray != "null") {
-                                        biz_vnc_crm_client.requestMailList(msgArray);
-                                    } else {
-                                        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                    }
-                                    Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                    Ext.getCmp('leadMailGrid').getView().refresh();
-                                }
-                            };
-                        }
-                    }, {
-                        iconCls: 'email',
-                        text: biz_vnc_crm_client.btnNew,
-                        itemId: 'newmail',
-                        handler: function () {
-                            biz_vnc_crm_client.flag = 0;
-                            var leadId = biz_vnc_crm_client.leadId;
-                            if(!biz_vnc_crm_client.mailController) {
-                                biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);	
-                            }
-                            console.log(biz_vnc_crm_client.mailController);
-                            biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
-                            console.log("10");
-                        }
-                    }, {
-                        iconCls: 'refresh',
-                        text: biz_vnc_crm_client.btnRefresh,
-                        itemId: 'refresh',
-                        handler: function () {
-                            var leadId = biz_vnc_crm_client.leadId;
-                            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                            var reqHeader = {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            };
-                            var reqJson = AjxStringUtil.urlEncode(json);
-                            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestMailList(msgArray);
-                            } else {
-                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                            }
-                            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                            Ext.getCmp('leadMailGrid').getView().refresh();
-                        }
-                    }]
-                }, {
-                    xtype: 'grid',
-                    selModel: leadSMMail,
-                    id: 'leadMailGrid',
-                    height: 195,
-                    defaults: {
-                        autoRender: true,
-                        autoScroll: true
-                    },
-                    store: Ext.create('Ext.data.Store', {
-                        model: 'leadMailModel',
-                        proxy: {
-                            type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.mailData)
-                        },
-                        autoLoad: true,
-                        actionMethods: {
-                            read: 'POST'
-                        }
-                    }),
-                    columnLines: true,
-                    columns: [{
-                        text: biz_vnc_crm_client.date,
-                        sortable: false,
-                        width: 120,
-                        dataIndex: 'date',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
-                    }, {
-                        text: biz_vnc_crm_client.from,
-                        sortable: false,
-                        width: 180,
-                        dataIndex: 'from'
-                    }, {
-                        text: biz_vnc_crm_client.subject,
-                        width: 250,
-                        sortable: true,
-                        dataIndex: 'subject'
-                    }, {
-                        text: biz_vnc_crm_client.message,
-                        width: 500,
-                        sortable: true,
-                        dataIndex: 'message'
-                    }],
-                    title: null,
-                    viewConfig: {
-                        stripeRows: true
-                    },
-                    listeners: {
-                        el:{
-                                dblclick: function(){
-                                    var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
-                                    var mailID = rec.items[0].data.mailId;
-                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
-                                }
                         }
                     }
                 }]
@@ -5169,8 +5163,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: biz_vnc_crm_client.btnNew,
                         itemId: 'newmail',
                         handler: function () {
-                            biz_vnc_crm_client.flag = 0;
+                            biz_vnc_crm_client.flag = 1;
                             var leadId = biz_vnc_crm_client.leadId;
+							biz_vnc_crm_client.composeMail(leadId);
                         }
                     }, {
                         iconCls: 'refresh',
@@ -6912,3 +6907,10 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     });
     leadTaskDetailsWindow.show();
 };
+
+biz_vnc_crm_client.composeMail = function(leadId){
+	if(!biz_vnc_crm_client.mailController) {
+		biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);	
+	}
+	biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
+}

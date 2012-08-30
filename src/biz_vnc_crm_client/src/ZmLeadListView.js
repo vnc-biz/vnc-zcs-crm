@@ -1097,7 +1097,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             var leadId = rec.get('leadId');
                             var flag = 0;
                             biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog(leadId, flag);
-
                         }
                     }, {
                         iconCls: 'cancel',
@@ -1152,8 +1151,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.btnNew,
                         itemId: 'newmail',
                         handler: function () {
-                            biz_vnc_crm_client.flag = 0;
-                            var leadId = biz_vnc_crm_client.leadId;
+                            if(rec!=null){
+                                biz_vnc_crm_client.flag = 0;
+                                var leadId = rec.get('leadId');
+                                biz_vnc_crm_client.composeMail(leadId);
+                            }
                         }
                     }, {
                         iconCls: 'refresh',

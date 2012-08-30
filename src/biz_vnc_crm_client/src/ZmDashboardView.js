@@ -158,7 +158,7 @@ ZmDashboardView.dashboard = function (app) {
 
     // pie chart end--------------------------------------------------------------------------------------------
 
-    ////////////////----------------opp Chart start------------------------------
+    // ---------------opp Chart start------------------------------
 
     var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
     var reqHeader = {
@@ -358,7 +358,7 @@ ZmDashboardView.dashboard = function (app) {
 
     });
 
-    ////////////////////----------------- opp chart end -----------------------------
+    // ----------------- opp chart end -----------------------------
 
     var idArray = [];
     var str = "'" + "In Progress" + "'";

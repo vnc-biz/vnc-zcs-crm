@@ -972,8 +972,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.btnNew,
                         itemId: 'newmail',
                         handler: function () {
-                            biz_vnc_crm_client.flag = 0;
-                            var leadId = biz_vnc_crm_client.leadId;
+                            biz_vnc_crm_client.flag = 1;
+                            var leadId = rec.get('leadId');
+                            biz_vnc_crm_client.composeMail(leadId);
                         }
                     }, {
                         iconCls: 'refresh',

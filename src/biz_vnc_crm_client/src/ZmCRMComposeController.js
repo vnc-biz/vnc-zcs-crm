@@ -35,10 +35,7 @@ ZmCRMComposeController.prototype.constructor = ZmCRMComposeController;
 ZmCRMComposeController.prototype._handleResponseSendMsg =
 function(draftType, msg, callback, result) {
     var resp = result.getResponse();
-    console.log(resp);
-    // Reset the autosave interval to the default
     delete(this._autoSaveInterval);
-    // Re-enable autosave
     this._initAutoSave();
     var needToPop = this._processSendMsg(draftType, msg, resp);
 
@@ -52,12 +49,65 @@ function(draftType, msg, callback, result) {
         this.sendMsgCallback.run(result);
     }
 
-    appCtxt.notifyZimlets("onSendMsgSuccess", [this, msg]);//notify Zimlets on success
+    appCtxt.notifyZimlets("onSendMsgSuccess", [this, msg]);
 
     if (needToPop) {
         this._app.popView(true, this._currentView);
     }
+    
     appCtxt.getCurrentApp().pushView(this._crmViewId);
+    var mailId = resp.m[0].id;
+    var json = "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"leadId\":\"" + this.leadId + "\"}";
+    var reqHeader = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    };
+    var reqJson = AjxStringUtil.urlEncode(json);
+    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    if (response.text == 1) {
+        Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
+        if (biz_vnc_crm_client.flag == 0) {
+            var leadId = biz_vnc_crm_client.leadId;
+            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+            var reqHeader = {
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
+            var reqJson = AjxStringUtil.urlEncode(json);
+            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var msgArray = [];
+            var item;
+            var msgArray = (responseMailHistory.text).split(",");
+    
+            if (msgArray != "null") {
+                biz_vnc_crm_client.requestMailList(msgArray);
+            } else {
+                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+            }
+            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
+            Ext.getCmp('leadMailGrid').getView().refresh();
+
+        } else if (biz_vnc_crm_client.flag == 1) {
+            var leadId = biz_vnc_crm_client.leadId;
+            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+            var reqHeader = {
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
+            var reqJson = AjxStringUtil.urlEncode(json);
+            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var msgArray = [];
+            var item;
+            var msgArray = (responseMailHistory.text).split(",");
+    
+            if (msgArray != "null") {
+                biz_vnc_crm_client.requestMailList(msgArray);
+            } else {
+                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+            }
+            Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
+            Ext.getCmp('oppMailGrid').getView().refresh();
+        }
+    } else {
+           Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
+    }
 };
 
 ZmCRMComposeController.prototype._cancelCompose = function() {
