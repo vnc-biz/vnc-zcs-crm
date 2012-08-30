@@ -968,6 +968,14 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             };
                         }
                     }, {
+                        iconCls: 'email',
+                        text: biz_vnc_crm_client.btnNew,
+                        itemId: 'newmail',
+                        handler: function () {
+                            biz_vnc_crm_client.flag = 0;
+                            var leadId = biz_vnc_crm_client.leadId;
+                        }
+                    }, {
                         iconCls: 'refresh',
                         text: biz_vnc_crm_client.btnRefresh,
                         itemId: 'refresh',

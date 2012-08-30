@@ -1659,7 +1659,7 @@ biz_vnc_crm_client.handleGetContactsResponse = function (contactList, rec, resul
         } else {}
     }
 };
-
+biz_vnc_crm_client.mailController = null;
 biz_vnc_crm_client.initLeadGrid = function (app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
@@ -3026,6 +3026,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             biz_vnc_crm_client.flag = 0;
                             var leadId = biz_vnc_crm_client.leadId;
                             var taskController = new ZmCRMTaskController(appCtxt.getApp(ZmApp.TASKS)._container, appCtxt.getApp(ZmApp.TASKS), appCtxt.getCurrentViewId(), leadId);
+                            console.log(taskController);
                             taskController.initComposeView();
                             taskController.show(new ZmTask(null, null, 15), ZmCalItem.MODE_NEW, true);
                         }
@@ -3195,6 +3196,20 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     Ext.getCmp('leadMailGrid').getView().refresh();
                                 }
                             };
+                        }
+                    }, {
+                        iconCls: 'email',
+                        text: biz_vnc_crm_client.btnNew,
+                        itemId: 'newmail',
+                        handler: function () {
+                            biz_vnc_crm_client.flag = 0;
+                            var leadId = biz_vnc_crm_client.leadId;
+                            if(!biz_vnc_crm_client.mailController) {
+                                biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);	
+                            }
+                            console.log(biz_vnc_crm_client.mailController);
+                            biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
+                            console.log("10");
                         }
                     }, {
                         iconCls: 'refresh',
@@ -5148,6 +5163,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     Ext.getCmp('oppMailGrid').getView().refresh();
                                 }
                             };
+                        }
+                    }, {
+                        iconCls: 'email',
+                        text: biz_vnc_crm_client.btnNew,
+                        itemId: 'newmail',
+                        handler: function () {
+                            biz_vnc_crm_client.flag = 0;
+                            var leadId = biz_vnc_crm_client.leadId;
                         }
                     }, {
                         iconCls: 'refresh',
