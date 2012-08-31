@@ -20,11 +20,11 @@
 ##############################################################################
 */
 
-DROP DATABASE test_zimbra;
+DROP DATABASE vnccrm;
 
-CREATE DATABASE test_zimbra;
+CREATE DATABASE vnccrm;
 
-USE test_zimbra;
+USE vnccrm;
 
 CREATE TABLE IF NOT EXISTS tbl_crm_company (
 companyId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,

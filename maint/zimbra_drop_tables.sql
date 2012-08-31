@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-USE test_zimbra;
+USE vnccrm;
 
 DROP TABLE tbl_crm_lead;
 DROP TABLE tbl_crm_country;

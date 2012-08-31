@@ -20,9 +20,9 @@
 ##############################################################################
 */
 
-CREATE DATABASE IF NOT EXISTS test_zimbra;
+CREATE DATABASE IF NOT EXISTS vnccrm;
 
-USE test_zimbra;
+USE vnccrm;
 
 CREATE TABLE IF NOT EXISTS tbl_crm_company (
 companyId Integer PRIMARY KEY NOT NULL AUTO_INCREMENT,

@@ -46,7 +46,7 @@ public class DBUtility {
 	            MYSQL_PASSWORD = br.readLine();
 	            
 	            Class.forName("com.mysql.jdbc.Driver");
-	            String dbUrl = "jdbc:mysql://localhost:7306/test_zimbra?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
+	            String dbUrl = "jdbc:mysql://localhost:7306/vnccrm?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
 	            String dbUsername = "zimbra";
 	            connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
 	            statement = connection.createStatement();
