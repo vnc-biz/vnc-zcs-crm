@@ -6742,14 +6742,16 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
 
 biz_vnc_crm_client.viewAboutUsDetails = function(){
     var aboutUsDetailsWindow = Ext.create('widget.window', {
-            height: 400,
-            width: 565,
-            title: 'Zimbra CRM',
+            minHeight: 400,
+            minWidth: 565,
+			maxWidth: 565,
+			maxHeight: 400,
+            title: null,
             shrinkWrap: true,
             titleCollapse: true,
             toFrontOnShow: true,
             closable: true,
-            collapsible: true,
+            collapsible: false,
             modal: true,
             layout: 'fit',
             items: [AboutPanel = Ext.create('Ext.form.Panel', {
@@ -6767,7 +6769,7 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                     }, {
                         xtype: 'label',
                         text: biz_vnc_crm_client.lbl1,
-                        style: {"height": '18px', "font-size":'20px', "margin-left": '180px', "margin-top": '20px', "font-weight":'bold',},
+                        style: {"height": '18px', "font-size":'20px', "margin-left": '140px', "margin-top": '20px', "font-weight":'bold',},
                         width: '100%'
                     }, {
                         xtype: 'label',
