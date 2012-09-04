@@ -16,4 +16,5 @@ INSTALL_ADMIN=y
 INSTALL_SERVICE=y
 INSTALL_EXTENSION=y
 
-include $(TOPDIR)/zcs-java-lib.mk
+include $(TOPDIR)/common.mk
+include $(ZIMBRA_BUILD_ROOT)/extensions-extra/zmpkg/mk/zcs-java-lib.mk

@@ -7,4 +7,5 @@ JSP_BUILD_JARS=\
 	../lib_vnc_crm/ZimbraCRM.jar\
 	$(ZIMBRA_BUILD_ROOT)/lib/jars/zcs-lib-vnc-common.jar
 
-include $(TOPDIR)/zcs-zimlet.mk
+include $(TOPDIR)/common.mk
+include $(ZIMBRA_BUILD_ROOT)/extensions-extra/zmpkg/mk/zcs-zimlet.mk
