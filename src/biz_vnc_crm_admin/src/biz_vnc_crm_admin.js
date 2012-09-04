@@ -34,7 +34,7 @@ ZaCRM_Panel.backupOvTreeModifier = function (tree) {
             className: "AdminTreeItem"
         });
         this._crmTi.setText(biz_vnc_crm_admin.CRM_tab_title);
-        this._crmTi.setImage("Backup");
+        this._crmTi.setImage("Zimlet");
         this._crmTi.setData(ZaOverviewPanelController._TID, ZaZimbraAdmin._CRM_ADMIN_VIEW);
         if (ZaOverviewPanelController.overviewTreeListeners) {
             ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;

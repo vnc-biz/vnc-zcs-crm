@@ -42,7 +42,7 @@ ZaCRMxFormView.prototype.getTitle = function () {
 }
 
 ZaCRMxFormView.prototype.getTabIcon = function () {
-    return "Backup";
+    return "Zimlet";
 }
 
 ZaCRMxFormView.prototype.getTabTitle = function () {

@@ -6762,9 +6762,9 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                     layout: 'vbox',
                     items: [{
                         xtype : 'image',
-                        src : "/service/zimlet/biz_vnc_crm_client/VNC_Logo.png",
+                        src : "/service/zimlet/biz_vnc_crm_client/VNC-CRM-for-Zimbra.png",
                         border : true,
-                        style : {"height": '158px', "width": '130px',"margin-left": '200px', "margin-top": '30px'},
+                        style : {"height": '96px', "width": '320px',"margin-left": '120px', "margin-top": '30px'},
                         resizable : false   
                     }, {
                         xtype: 'label',
@@ -6779,7 +6779,7 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                     }, {
                         xtype: 'label',
                         text: biz_vnc_crm_client.lbl3,
-                        style: {"height": '18px', "font-size":'12px', "margin-left": '40px', "top":'370px', "margin-top":'68px'},
+                        style: {"height": '18px', "font-size":'12px', "margin-left": '40px', "top":'410px', "margin-top":'110px'},
                         width: '100%'
                     }]
         })],
