@@ -6768,17 +6768,17 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                         resizable : false   
                     }, {
                         xtype: 'label',
-                        text: biz_vnc_crm_client.lbl1,
+                        text: biz_vnc_crm_client.crmclient_label + " v" + biz_vnc_crm_client.ZIMLET_VERSION,
                         style: {"height": '18px', "font-size":'20px', "margin-left": '140px', "margin-top": '20px', "font-weight":'bold',},
                         width: '100%'
                     }, {
                         xtype: 'label',
-                        text: biz_vnc_crm_client.lbl2,
+                        text: biz_vnc_crm_client.vncurl,
                         style: {"height": '18px', "font-size":'15px', "margin-left": '200px', "top":'232px', "margin-top":'10px'},
                         width: '100%'
                     }, {
                         xtype: 'label',
-                        text: biz_vnc_crm_client.lbl3,
+                        text: biz_vnc_crm_client.copyright,
                         style: {"height": '18px', "font-size":'12px', "margin-left": '40px', "top":'410px', "margin-top":'110px'},
                         width: '100%'
                     }]

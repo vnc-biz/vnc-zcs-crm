@@ -840,13 +840,13 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
             caseKey: newTab++,
             cssStyle: "padding: 20px;",
             items:[{
-                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl1, labelLocation:_LEFT_, cssStyle:"font-size:30pt;font-weight: bold;text-align: center;"
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.CRM_tab_title, labelLocation:_LEFT_, cssStyle:"font-size:30pt;font-weight: bold;text-align: center;"
             }, {
-                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl2, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.vncurl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
-                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl3, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.copyright, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
-                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.lbl4, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
+                type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.gpl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }]
         }]
     }];

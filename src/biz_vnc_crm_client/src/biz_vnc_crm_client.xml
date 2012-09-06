@@ -1,4 +1,4 @@
-<zimlet name="biz_vnc_crm_client" label="${msg.ZIMLET_NAME}" version="1.0.1.40" description="${msg.ZIMLET_NAME}">
+<zimlet name="biz_vnc_crm_client" label="${msg.ZIMLET_NAME}" version="@ZIMLET_VERSION@" description="${msg.ZIMLET_DESCRIPTION}">
 	<include>templates/Simple.template.js</include>
 	<include>templates/SimpleOpportunity.template.js</include>
 	<include>templates/LeadForm.template.js</include>

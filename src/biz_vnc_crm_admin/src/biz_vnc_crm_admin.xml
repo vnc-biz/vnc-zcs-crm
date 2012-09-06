@@ -1,4 +1,4 @@
-<zimlet name="biz_vnc_crm_admin" version="1.0" description="Admin Panel for CRM" extension="true">
+<zimlet name="biz_vnc_crm_admin" label="${msg.ZIMLET_NAME}" version="@ZIMLET_VERSION@" description="${msg.ZIMLET_DESCRIPTION}" extension="true">
 	<include>biz_vnc_crm_admin.js</include>
 	<include>ZaCRMadminViewController.js</include>
 	<include>ZaCRMxFormView.js</include>
