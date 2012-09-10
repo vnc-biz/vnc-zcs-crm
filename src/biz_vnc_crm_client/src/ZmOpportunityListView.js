@@ -1057,7 +1057,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                 ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
                             }
                         }
-                    },
+                    }
                 }]
             }, {
                 title: biz_vnc_crm_client.tabAppointment,

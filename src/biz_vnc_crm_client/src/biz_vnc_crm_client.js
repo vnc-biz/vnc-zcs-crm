@@ -526,7 +526,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
-                                var len = selmsg.length
+                                var len = selmsg.length;
                                 var msgids = [];
                                 var k = 0;
                                 for (var i = 0; i < len; i++) {
@@ -555,7 +555,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
-                                var len = selmsg.length
+                                var len = selmsg.length;
                                 var appids = [];
                                 for (var i = 0; i < len; i++) {
                                     appids[i] = selmsg[i].invId;
@@ -576,7 +576,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
-                                var len = selmsg.length
+                                var len = selmsg.length;
                                 var taskids = [];
                                 for (var i = 0; i < len; i++) {
                                     taskids[i] = selmsg[i].invId;
@@ -672,7 +672,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
-                                var len = selmsg.length
+                                var len = selmsg.length;
                                 var msgids = [];
                                 var k = 0;
                                 for (var i = 0; i < len; i++) {
@@ -702,7 +702,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
-                                var len = selmsg.length
+                                var len = selmsg.length;
                                 var appids = [];
                                 for (var i = 0; i < len; i++) {
                                     appids[i] = selmsg[i].invId;
@@ -3745,7 +3745,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 						store.filter(leadfilter);
 					},
 				buffer: 100,
-				scope: this,
+				scope: this
 				}}
 			}]
         }],
@@ -5246,7 +5246,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
                                 }
                         }
-                    },
+                    }
                 }]
             }, {
                 title: biz_vnc_crm_client.tabAppointment,
@@ -6037,7 +6037,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         store.filter(leadfilter);
                     },
                 buffer: 100,
-                scope: this,
+                scope: this
                 }}
             }]
         }],
@@ -6769,7 +6769,7 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                     }, {
                         xtype: 'label',
                         text: biz_vnc_crm_client.crmclient_label + " v" + biz_vnc_crm_client.ZIMLET_VERSION,
-                        style: {"height": '18px', "font-size":'20px', "margin-left": '140px', "margin-top": '20px', "font-weight":'bold',},
+                        style: {"height": '18px', "font-size":'20px', "margin-left": '140px', "margin-top": '20px', "font-weight":'bold'},
                         width: '100%'
                     }, {
                         xtype: 'label',
