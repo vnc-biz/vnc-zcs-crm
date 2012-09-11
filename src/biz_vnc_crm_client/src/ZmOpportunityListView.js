@@ -706,14 +706,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         listeners: {
                             render: function(c) {
                                 c.getEl().on('click', function(e) {
-                                    biz_vnc_crm_client.contactFlag = 1;
-                                    var contact = new ZmContact(null, null, null);
-                                    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
-                                    var contactController = new ZmContactController(contactApp._container, contactApp);
-                                    contactController.show(contact);
-                                    contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
-                                    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));
+									biz_vnc_crm_client.add_contact(1);
                                 }, c);
                             }
                         }
