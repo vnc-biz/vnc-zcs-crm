@@ -169,20 +169,21 @@ public class SectionHelper implements InterfaceHelper{
 	@Override
 	public String getUsers (){
 		try{
-		int cnt = 1;
 		String rec = "";
 		List<String> listOfAccounts = new ArrayList<String>();
 		SoapProvisioning soap = null;
 		Options options=new Options();
 	    options.setLocalConfigAuth(true);
 	    soap = new SoapProvisioning(options);
-	    for(int i=0;i<soap.getAllDomains().size();i++){
-	      	Domain singleD = soap.getAllDomains().get(i);
-	      	for(int j=0;j<singleD.getAllAccounts().size();j++){
-	      		Account ac = (Account) soap.getAllAccounts(singleD).get(j);
+		List<Domain> allDomains = soap.getAllDomains();
+		List allAccounts = null;
+	    for(int i=0;i<allDomains.size();i++){
+	      	Domain singleD = allDomains.get(i);
+		allAccounts = singleD.getAllAccounts();
+	      	for(int j=0;j<allAccounts.size();j++){
+	      		Account ac = (Account)allAccounts.get(j);
 	      		rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
 	      		listOfAccounts.add(rec);
-	      		cnt++;
 	      	}
 	    }
 	    return listOfAccounts.toString();
