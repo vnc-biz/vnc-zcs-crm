@@ -64,7 +64,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                     type: _TEXTFIELD_,
                     label: biz_vnc_crm_admin.HDR_name + ":",
                     labelLocation: _LEFT_,
-                    width: 250,
+                    width: 250
                 }, {
                     type: _SPACER_,
                     height: "5"
