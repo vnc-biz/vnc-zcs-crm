@@ -105,7 +105,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 
     json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    biz_vnc_crm_client.responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false,2000);
 
 };
 
@@ -6476,7 +6476,7 @@ biz_vnc_crm_client_HandlerObject.prototype.setview = function (app) {
     tree_item_dashboard.enableSelection(true);
     tree_item_lead.enableSelection(true);
     tree_item_opportunity.enableSelection(true);
-    tree_item_reports.enableSelection(false);
+    tree_item_reports.enableSelection(true);
     tree_item_aboutus.enableSelection(true);
     treeview.addChild(tree_item_dashboard);
     treeview.addChild(tree_item_lead);

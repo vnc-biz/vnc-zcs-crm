@@ -20,6 +20,16 @@
 ##############################################################################
 */
 
+.leadOpp .x-grid-cell-inner {
+	padding-left: 15px;
+}
+
+.x-grid-row-summary .x-grid-cell-inner {
+	font-weight: bold;
+	font-size: 11px;
+}
+
+
 .AttachMailTabBox
 {
 	background-color:#FDFCFA;

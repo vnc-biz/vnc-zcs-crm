@@ -50,11 +50,17 @@ try {
 	JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 	String actionType = k.get("action").getAsString();
 	AbstractBean abstractBean = interfaceHelper.toBean(jString);
-	if(actionType.equals("LIST")) {
+	if(actionType.equals("FULLLIST")) {
+		try{
+			String result = interfaceHelper.listView();
+			out.println(result);
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in full listing", e);
+		}
+	} else if(actionType.equals("LIST")) {
 		try {
 			String result = interfaceHelper.listClientView();
 			out.println(result);
-
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in listing", e);
 		}

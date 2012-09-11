@@ -27,22 +27,28 @@ ZmReportView.prototype.toString = function () {
     return "ZmReportView";
 }
 
-ZmReportView.createForm = function (app) {
-    var content = AjxTemplate.expand("biz_vnc_crm_client.templates.SimpleOpportunity#MainOpportunity");
-    app.setContent(content);
+ZmReportView.type = [];
+ZmReportView.state = [];
+ZmReportView.responseLead = null;
+ZmReportView.response = null;
 
-    var toolbar = app.getToolbar();
-    toolbar.setVisibility(false);
-    biz_vnc_crm_client._flag = 3;
-
-    Ext.Loader.setConfig({
+ZmReportView.createForm = function(app) {
+	var content = AjxTemplate.expand("biz_vnc_crm_client.templates.SimpleOpportunity#MainOpportunity");
+	app.setContent(content);
+	
+	var toolbar = app.getToolbar();
+	toolbar.setVisibility(false);
+	biz_vnc_crm_client._flag = 3;
+	ZmReportView.type = [];
+	ZmReportView.state = [];
+	Ext.Loader.setConfig({
         enabled: true
     });
-    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*', 'Ext.EventManager', 'Ext.ux.grid.Printer']);
 
-    // -------------data load-----------------------------------------------------------------    
+    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*', 'Ext.EventManager', 'Ext.tree.*', 'Ext.form.field.Number', 'Ext.form.field.Date', 'Ext.tip.QuickTipManager']);
 
-    Ext.define('model_1', {
+	Ext.tip.QuickTipManager.init();
+	Ext.define('data', {
         extend: 'Ext.data.Model',
 
         fields: [{
@@ -67,11 +73,19 @@ ZmReportView.createForm = function (app) {
             type: 'int'
         }, {
             name: 'valuation',
-            type: 'string'
+            type: 'float'
         }, {
             name: 'leadState',
             type: 'string'
         }, {
+			name: 'leadClassId',
+			mapping: 'leadClassBean.leadClassId',
+			type: 'int'
+		}, {
+			name: 'leadClassName',
+			mapping: 'leadClassBean.leadClassName',
+			type: 'string'
+		}, {
             name: 'phone',
             type: 'string'
         }, {
@@ -208,1160 +222,580 @@ ZmReportView.createForm = function (app) {
             type: 'string'
         }, {
             name: 'writeDate',
-            type: 'string'
-        }]
-    });
-
-    Ext.define('model_2', {
-        extend: 'Ext.data.Model',
-
-        fields: [{
-            name: 'leadId',
-            type: 'int'
-        }, {
-            name: 'valuation',
-            type: 'string'
-        }, {
-            name: 'stageName',
-            mapping: 'stageBean.stageName',
-            type: 'string'
-        }, {
-            name: 'stageId',
-            mapping: 'stageBean.stageId',
-            type: 'int'
-        }, ]
-    });
-
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
+	        type: 'string'
+	    }]
+	});
+	
+	var json = "jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     var reqJson = AjxStringUtil.urlEncode(json);
-    var responseLead = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var responseOpportunity = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    //---------------------------combo panel start --------------------------------
-    var typeData = Ext.create('Ext.data.Store', {
-        fields: ['name', 'value'],
-        data: [{
-            'name': 'Lead',
-            'value': 'lead'
+    ZmReportView.responseLead = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+	ZmReportView.response = jsonParse(ZmReportView.responseLead.text);
+	var store = Ext.create('Ext.data.JsonStore', {
+        model: 'data',
+		storeId: 'data',
+        proxy: {
+            type: 'memory',
+			data: ZmReportView.response
+        },
+		autoLoad: true,
+		actionMethods: {
+        	read: 'POST'
+		},
+		groupers: [{
+			property: null
+		}]
+    });
+	var LeadPanel = Ext.create('Ext.grid.Panel', {
+    	width: '100%',
+		height: '100%',
+        id: 'leadPanel',
+		frame: true,
+        store: store,
+        viewConfig: {
+            stripeRows: true
+        },
+		features: [{
+            id: 'group',
+            ftype: 'groupingsummary',
+            groupHeaderTpl: '{name}',
+            hideGroupedHeader: true,
+            enableGroupingMenu: false
+        }],
+        columns: [{
+            text: biz_vnc_crm_client.subject,
+			flex: 1,
+			sortable: true,
+			hideable: false,
+            width: 150,
+            dataIndex: 'subjectName',
+			tdCls: 'leadOpp',
+			summaryType: 'count',
+			summaryRenderer: function(value, summaryData, dataIndex) {
+                return ((value === 0 || value > 1) ? '(' + value + ' Records)' : '(1 Record)');
+            }
         }, {
-            'name': 'Opportunity',
-            'value': 'opp'
+			header: biz_vnc_crm_client.customer,
+            width: 150,
+            dataIndex: 'contactName',
+            sortable: true
+		}, {
+            header: biz_vnc_crm_client.expectedRevenue,
+            width: 150,
+            dataIndex: 'valuation',
+            sortable: true,
+			summaryType: 'sum',
+			summaryRenderer: function(value, summaryData, dataIndex){
+				return (biz_vnc_crm_client.reportTotal + ': ' + value);
+			}
+        }, {
+			header: biz_vnc_crm_client.probability,
+           	width: 150,
+            dataIndex: 'probability',
+            sortable: true,
+			summaryType: 'average',
+			summaryRenderer: function(value, summaryData, dataIndex){
+                return (biz_vnc_crm_client.reportAverage + ': ' + value);
+            }
+        }, {
+            header: biz_vnc_crm_client.reportDayOpen,
+            width: 150,
+            dataIndex: 'dayOpen',
+            sortable: true,
+			summaryType: 'max',
+			summaryRenderer: function(value, summaryData, dataIndex){
+                return (biz_vnc_crm_client.reportMax + ': ' + value);
+            }
+        }, {
+            header: biz_vnc_crm_client.reportDayClose,
+            width: 150,
+            dataIndex: 'dayClose',
+            sortable: true,
+			summaryType: 'max',
+			summaryRenderer: function(value, summaryData, dataIndex){
+                return (biz_vnc_crm_client.reportMax + ': ' + value);
+            }
         }]
-    });
-    var reportData = Ext.create('Ext.data.Store', {
-        fields: ['name', 'value'],
-        data: [{
-            'name': 'By State',
-            'value': 'By State'
-        }, {
-            'name': 'By month vise revenue',
-            'value': 'By month vise revenue'
-        }, {
-            'name': 'By Stage',
-            'value': 'By Stage '
-        }, {
-            'name': 'By year vise revenue',
-            'value': 'By year vise revenue'
-        }
+    });	
 
-        ]
-    });
-
-    Ext.create('Ext.panel.Panel', {
-        title: biz_vnc_crm_client.lblReport,
+	Ext.create('Ext.panel.Panel', {
+		title: biz_vnc_crm_client.lblReport,
+		id: 'reportPanel',
         width: '100%',
-        height: 100,
-        layout: 'column',
+        height: '100%',
         defaults: {
             autoScroll: true,
             autoRender: true
         },
-        items: [{
-            columnWidth: .5,
-            border: false,
-            anchor: '100%',
+		items:[{
+			xtype: 'buttongroup',
+			id: 'buttonGroupFirst',
+            columns: 2,
             items: [{
-                xtype: 'combo',
-                id: 'cmbChooseType',
-                fieldLabel: biz_vnc_crm_client.chooseType,
-
-                store: typeData,
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'value'
-            }]
-
-        }, {
-            columnWidth: .5,
-            border: false,
-            anchor: '100%',
-            width: 200,
-            items: [{
-                xtype: 'combo',
-                id: 'cmbChooseReport',
-                fieldLabel: biz_vnc_crm_client.chooseReportType,
-                store: reportData,
-                queryMode: 'local',
-                displayField: 'name',
-                labelWidth: 130,
-                valueField: 'value'
-
-            }]
-        }],
-
-        renderTo: 'datagridOpportunity'
-    });
-    //--------------------------- combo panel end --------------------------------
-
-    // ------------------------ all lead grid window start ------------------------------------------------------
-
-    var leadGridWindow = Ext.create('widget.window', {
-        height: 500,
-        width: 600,
-        x: 10,
-        y: 110,
-        title: biz_vnc_crm_client.lblMyLeads,
-        closable: true,
-        collapsible: true,
-
-        layout: 'fit',
-        items: [LeadPanel = Ext.create('Ext.panel.Panel', {
-            width: '100%',
-            id: 'leadPanel',
-            layout: 'border',
-            bodyBorder: true,
-            items: [{
-                xtype: 'grid',
-                id: 'leadGrid',
-                layout: 'fit',
-                defaults: {
-                    autoRender: true,
-                    autoScroll: true
-                },
-                store: Ext.create('Ext.data.Store', {
-                    model: 'model_1',
-                    proxy: {
-                        type: 'memory',
-                        data: jsonParse(responseLead.text)
-                    },
-                    autoLoad: true,
-                    actionMethods: {
-                        read: 'POST'
+				xtype: 'buttongroup',
+				id: 'buttonGroupType',
+				columns: 2,
+				title: biz_vnc_crm_client.reportType,
+				items: [{
+                	text: biz_vnc_crm_client.tabLead,
+					id: 'toggleButtonLead',
+					enableToggle: true,
+        	        scale: 'large',
+            	    rowspan: 3, 
+					iconCls: 'btnLead32',
+               	 	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+						if(pressedStatus){
+							ZmReportView.type.push('0');
+						} else {
+							ZmReportView.popItemType('0');
+						}
+						ZmReportView.filter(store);
+					}
+            	},{
+                	text: biz_vnc_crm_client.tabOpportunity,
+					id: 'toggleButtonOpp',
+					enableToggle: true,
+                	scale: 'large',
+                	rowspan: 3, 
+                	iconCls: 'btnOpportunity32',
+                	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+                        if(pressedStatus){
+                            ZmReportView.type.push('1');
+                        } else {
+                            ZmReportView.popItemType('1');
+                        }
+                        ZmReportView.filter(store);
                     }
-
-                }),
-                viewConfig: {
-                    stripeRows: true
-                },
-                columns: [{
-                    text: biz_vnc_crm_client.creationDate,
-                    width: 160,
-                    dataIndex: 'createDate'
-                }, {
-                    text: biz_vnc_crm_client.subject,
-                    width: 160,
-                    dataIndex: 'subjectName'
-                }, {
+            	}]
+			},{
+            	xtype: 'buttongroup',
+				id: 'buttonGroupState',
+            	columns: 4,
+            	title: biz_vnc_crm_client.state,
+            	items: [{
+                	text: biz_vnc_crm_client.reportNew,
+					id: 'toggleButtonNew',
+                	enableToggle: true,
+                	scale: 'large',
+                	rowspan: 3,
+                	iconCls: 'btnNew32',
+                	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+                        if(pressedStatus){
+                            ZmReportView.state.push('New');
+                        } else {
+                            ZmReportView.popItemState('New');
+                        }
+                        ZmReportView.filter(store);
+                    }
+            	},{
+                	text: biz_vnc_crm_client.reportInProgress,
+					id: 'toggleButtonInProgress',
+                	enableToggle: true,
+                	scale: 'large',
+                	rowspan: 3,
+                	iconCls: 'btnOpen32',
+                	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+                        if(pressedStatus){
+                            ZmReportView.state.push('In Progress');
+                        } else {
+                            ZmReportView.popItemState('In Progress');
+                        }
+                        ZmReportView.filter(store);
+                    }
+            	},{
+                	text: biz_vnc_crm_client.reportPending,
+					id: 'toggleButtonPending',
+                	enableToggle: true,
+                	scale: 'large',
+                	rowspan: 3,
+                	iconCls: 'btnPending32',
+                	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+                        if(pressedStatus){
+                            ZmReportView.state.push('Pending');
+                        } else {
+                            ZmReportView.popItemState('Pending');
+                        }
+                        ZmReportView.filter(store);
+                    }
+            	},{
+                	text: biz_vnc_crm_client.reportClosed,
+					id: 'toggleButtonClosed',
+                	enableToggle: true,
+                	scale: 'large',
+                	rowspan: 3,
+                	iconCls: 'btnClosed32',
+                	iconAlign: 'top',
+					toggleHandler: function(btn, pressedStatus){
+                        if(pressedStatus){
+                            ZmReportView.state.push('Closed');
+                        } else {
+                            ZmReportView.popItemState('Closed');
+                        }
+                        ZmReportView.filter(store);
+                    }
+            	}]
+        	}]
+		},{
+			xtype: 'buttongroup',
+			id: 'buttonGroupSecond',
+            columns: 3,
+            title: biz_vnc_crm_client.reportGroupBy,
+            items: [{
+                xtype: 'buttongroup',
+				id: 'buttonGroupOthers',
+                columns: 8,
+                title: biz_vnc_crm_client.reportOthers,
+                items: [{
+                    text: biz_vnc_crm_client.salesman,
+					id: 'toggleButtonSalesman',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnSalesman32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+						ZmReportView.groupBy(pressedStatus, 'userId');
+					}
+                },{
+                    text: biz_vnc_crm_client.reportSalesTeam,
+					id: 'toggleButtonSalesTeam',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnSalesTeam32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'sectionName');
+                    }
+                },{
+                    text: biz_vnc_crm_client.partner,
+					id: 'toggleButtonPartner',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnPartner32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'partnerName');
+                    }
+                },{
+                    text: biz_vnc_crm_client.company,
+					id: 'toggleButtonCompany',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnCompany32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'companyName');
+                    }
+                },{
+                    text: biz_vnc_crm_client.leadClass,
+                    id: 'toggleButtonLeadClass',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnLeadClass32',
+                    iconAlign: 'top',
+                    toggleGroup: 'others',
+                    toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'leadClassName');
+                    }
+                },{
                     text: biz_vnc_crm_client.stage,
-                    width: 160,
-                    dataIndex: 'stageName'
-                }, {
+					id: 'toggleButtonStage',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnStage32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'stageName');
+                    }
+                },{
+                    text: biz_vnc_crm_client.priority,
+					id: 'toggleButtonPriority',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnPriority32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'priorityName');
+                    }
+                },{
+                    text: biz_vnc_crm_client.channel,
+					id: 'toggleButtonChannel',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnChannel32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'channelName');
+                    }
+                }]
+            },{
+                xtype: 'buttongroup',
+				id: 'buttonGroupRegion',
+                columns: 2,
+                title: biz_vnc_crm_client.reportRegion,
+                items: [{
+                    text: biz_vnc_crm_client.country,
+					id: 'toggleButtonCountry',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnCountry32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'countryName');
+                    }
+                },{
                     text: biz_vnc_crm_client.state,
-                    width: 160,
-                    dataIndex: 'leadState'
-                }]
-
-            }]/*,
-            tbar: [{
-                text: 'Print',
-                iconCls: 'print',
-                handler: function () {}
-            }]*/
-        })],
-        renderTo: 'datagridOpportunity'
-    });
-    leadGridWindow.show();
-
-    //--------------------------all lead grid window end ---------------------------------------------------------
-    //--------------------------all opportunity grid window start ---------------------------------------------------------
-    var oppGridWindow = Ext.create('widget.window', {
-        height: 500,
-        width: 600,
-        x: 10,
-        y: 110,
-        title: biz_vnc_crm_client.lblMyOpportunities,
-        closable: true,
-        collapsible: true,
-        layout: 'fit',
-        items: [OppPanel = Ext.create('Ext.form.Panel', {
-            width: '100%',
-            id: 'oppPanel',
-            layout: 'border',
-            bodyBorder: true,
-            items: [{
-                xtype: 'grid',
-                id: 'opportunityGrid',
-                layout: 'fit',
-                store: Ext.create('Ext.data.Store', {
-                    model: 'model_1',
-                    proxy: {
-                        type: 'memory',
-                        data: jsonParse(responseOpportunity.text)
-                    },
-                    autoLoad: true,
-                    actionMethods: {
-                        read: 'POST'
+					id: 'toggleButtonState',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnState32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupBy(pressedStatus, 'stateName');
                     }
-
-                }),
-                viewConfig: {
-                    stripeRows: true
-                },
-                columns: [{
-                    header: biz_vnc_crm_client.creationDate,
-                    width: 120,
-                    dataIndex: 'createDate',
-                    sortable: true
-                }, {
-                    header: biz_vnc_crm_client.opportunity,
-                    width: 150,
-                    dataIndex: 'subjectName',
-                    sortable: true
-                }, {
-                    header: biz_vnc_crm_client.stage,
-                    width: 150,
-                    dataIndex: 'stageName',
-                    sortable: true
-                }, {
-                    header: biz_vnc_crm_client.state,
-                    width: 120,
-                    dataIndex: 'leadState',
-                    sortable: true
                 }]
+            },{
+                xtype: 'buttongroup',
+				id: 'buttonGroupTimeline',
+                columns: 5,
+                title: biz_vnc_crm_client.reportTimeline,
+                items: [{
+                    text: biz_vnc_crm_client.reportYear,
+					id: 'toggleButtonYear',
+                    enableToggle: true,
+					scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnYear32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupByYear(pressedStatus,'createDate');
+                    }
+                },{
+                    text: biz_vnc_crm_client.reportMonth,
+					id: 'toggleButtonMonth',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnMonth32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupByMonth(pressedStatus,'createDate');
+                    }
+                },{
+                    text: biz_vnc_crm_client.reportWeek,
+					id: 'toggleButtonWeek',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnWeek32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupByWeek(pressedStatus,'createDate');
+                    }
+                },{
+                    text: biz_vnc_crm_client.reportDay,
+					id: 'toggleButtonDay',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnDay32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupByDay(pressedStatus,'createDate');
+                    }
+                },{
+                    text: biz_vnc_crm_client.expectedClosing,
+					id: 'toggleButtonExpectedClosing',
+                    enableToggle: true,
+                    scale: 'large',
+                    rowspan: 3,
+                    iconCls: 'btnExpectedClosing32',
+                    iconAlign: 'top',
+					toggleGroup: 'others',
+					toggleHandler : function(btn, pressedStatus){
+                        ZmReportView.groupByMonth(pressedStatus,'expectedDateClose');
+                    }
+                }]
+            }]
+		},LeadPanel],
+		renderTo: 'datagridOpportunity'
+	});
+}
 
-            }]/*,
-            tbar: [{
-                text: 'Print',
-                iconCls: 'print',
-                handler: function () {}
-            }]*/
-        })],
-        renderTo: 'datagridOpportunity'
-    });
-    oppGridWindow.show();
-
-    //--------------------------all opportunity grid window end ---------------------------------------------------------
-    //-------------------------- all lead pie chart stage wise window start ---------------------------------------------------------
-
-    function foo(arr) {
-        var a = [],
-            b = [],
-            prev;
-        arr.sort();
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i] !== prev) {
-                a.push(arr[i]);
-                b.push(1);
+ZmReportView.filter = function (store) {
+	Ext.getStore('data').clearFilter();
+	store.filterBy (
+		function(record, id){
+			if(ZmReportView.type.length > 0 && ZmReportView.state.length > 0){
+				for(var i=0;i<ZmReportView.type.length;i++){
+					for(var j=0; j<ZmReportView.state.length;j++){
+						if(record.get('type') == ZmReportView.type[i] && record.get('leadState') == ZmReportView.state[j]){
+							return true;
+						}
+					}
+				}
+				return false;
+			} else if (ZmReportView.type.length > 0 && ZmReportView.state.length <= 0) {
+				for(var i=0; i<ZmReportView.type.length; i++){
+					if(record.get('type') == ZmReportView.type[i]){
+						return true;
+					}
+				}
+				return false;	
+			} else if (ZmReportView.type.length <= 0 && ZmReportView.state.length > 0) {
+                for(var i=0; i<ZmReportView.state.length; i++){
+                    if(record.get('leadState') == ZmReportView.state[i]){
+                        return true;
+                    }
+                }
+                return false;
             } else {
-                b[b.length - 1]++;
-            }
-            prev = arr[i];
+				return true;
+			}
+		}	
+	);
+}
+
+ZmReportView.groupBy = function(pressedStatus, str) {
+	if(pressedStatus){
+		Ext.getStore('data').groupers.items[0].property = str;
+		Ext.getStore('data').load();
+	} else {
+		Ext.getStore('data').groupers.items[0].property = null;
+		Ext.getStore('data').load();
+	}
+}
+
+ZmReportView.groupByYear = function(pressedStatus, str) {
+	if(pressedStatus){
+		var response = jsonParse(ZmReportView.responseLead.text);
+		for(var i=0; i < response.length ; i++){
+			date = response[i].createDate.split(" ");
+        	year = new Date(date[0]).getFullYear();
+			response[i].createDate = year;
+		}
+		ZmReportView.response = response;
+		Ext.getStore('data').groupers.items[0].property = str;
+		Ext.getStore('data').loadData(ZmReportView.response, false);
+	} else {
+		Ext.getStore('data').groupers.items[0].property = null;
+        Ext.getStore('data').load();
+    }
+}
+
+ZmReportView.groupByMonth = function(pressedStatus, str) {
+    if(pressedStatus){
+        var response = jsonParse(ZmReportView.responseLead.text);
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+        for(var i=0; i < response.length ; i++){
+            date = response[i].createDate.split(" ");
+           	month = monthNames[new Date(date[0]).getMonth()];
+            response[i].createDate = month;
         }
-        return [a, b];
+        ZmReportView.response = response;
+        Ext.getStore('data').groupers.items[0].property = str;
+		Ext.getStore('data').loadData(ZmReportView.response, false);
+    } else {
+        Ext.getStore('data').groupers.items[0].property = null;
+        Ext.getStore('data').load();
     }
+}
 
-    var len = jsonParse(responseLead.text).length;
-    var stages = [];
-    for (var i = 0; i < len; i++) {
-        if (!((jsonParse(responseLead.text))[i].stageBean.stageName)) {
-            stages.push("Undefined");
-        } else {
-            stages.push((jsonParse(responseLead.text))[i].stageBean.stageName);
+ZmReportView.groupByWeek = function(pressedStatus, str) {
+    if(pressedStatus){
+        var response = jsonParse(ZmReportView.responseLead.text);
+        for(var i=0; i < response.length ; i++){
+            date = response[i].createDate.split(" ")[0];
+			var weekNo = new Date(date).getWeek();
+			var weekRange = ZmReportView.getDateRangeOfWeek(weekNo);
+            response[i].createDate = "[ " + biz_vnc_crm_client.reportWeek + ": " + weekNo + "] -" + " " + weekRange;
         }
+        ZmReportView.response = response;
+        Ext.getStore('data').groupers.items[0].property = str;
+        Ext.getStore('data').loadData(ZmReportView.response, false);
+    } else {
+        Ext.getStore('data').groupers.items[0].property = null;
+        Ext.getStore('data').load();
     }
-    var fooArr = foo(stages);
-    var stage = fooArr[0];
-    var stagecnt = fooArr[1];
+}
 
-    var total = 0;
-    var leadStageChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }]
-    });
-    for (var i = 0; i < stage.length; i++) {
-        leadStageChartStore.add({
-            'name': stage[i],
-            'data': stagecnt[i]
-        });
-        total += stagecnt[i];
+Date.prototype.getWeek = function() {
+	var onejan = new Date(this.getFullYear(),0,1);
+	return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+}
+
+ZmReportView.getDateRangeOfWeek = function(weekNo) {
+	var tempDate = new Date();
+	numOfdaysPastSinceLastMonday = eval(tempDate.getDay()- 1);
+	tempDate.setDate(tempDate.getDate() - numOfdaysPastSinceLastMonday);
+	var weekNoToday = tempDate.getWeek();
+	var weeksInTheFuture = eval( weekNo - weekNoToday );
+	tempDate.setDate(tempDate.getDate() + eval( 7 * weeksInTheFuture ));
+	var rangeIsFrom =  tempDate.getFullYear() + "/" + eval(tempDate.getMonth()+1)   +"/"  +  tempDate.getDate();
+	tempDate.setDate(tempDate.getDate() + 6);		
+	var rangeIsTo = tempDate.getFullYear() + "/" + eval(tempDate.getMonth()+1) + "/" +  tempDate.getDate();
+	return rangeIsFrom + " to "+ rangeIsTo;
+}
+
+ZmReportView.groupByDay = function(pressedStatus, str) {
+    if(pressedStatus){
+        var response = jsonParse(ZmReportView.responseLead.text);
+        for(var i=0; i < response.length ; i++){
+            date = response[i].createDate.split(" ")[0];
+            response[i].createDate = date;
+        }
+        ZmReportView.response = response;
+        Ext.getStore('data').groupers.items[0].property = str;
+        Ext.getStore('data').loadData(ZmReportView.response, false);
+    } else {
+        Ext.getStore('data').groupers.items[0].property = null;
+        Ext.getStore('data').load();
     }
-    var donut = false,
-        leadStageChart = Ext.create('Ext.chart.Chart', {
-            xtype: 'chart',
-            id: 'chartCmpStage',
-            animate: true,
-            store: leadStageChartStore,
-            height: 200,
-            width: 350,
-            shadow: true,
-            legend: {
-                position: 'right'
-            },
-            theme: 'Base:gradients',
-            series: [{
-                type: 'pie',
-                angleField: 'data',
-                showInLegend: true,
-                donut: donut,
-                tips: {
-                    trackMouse: true,
-                    width: 140,
-                    height: 28,
-                    renderer: function (storeItem, item) {
-                        this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
-                    }
-                },
-                highlight: {
-                    segment: {
-                        margin: 20
-                    }
-                },
-                label: {
-                    field: 'name',
-                    display: 'rotate',
-                    contrast: true,
-                    font: '10px Arial'
-                }
-            }]
-        });
+}
 
+ZmReportView.popItemType = function (str){
+	for(var i=0; i<ZmReportView.type.length ; i++){
+		if(ZmReportView.type[i] == str) {
+			ZmReportView.type.splice(i,1);
+			break;
+		}
+	}
+}
 
-    var leadStageChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        leadStageChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }, {
-            enableToggle: true,
-            pressed: false,
-            text: biz_vnc_crm_client.btnDonut,
-            toggleHandler: function (btn, pressed) {
-                var chart = Ext.getCmp('chartCmpStage');
-                chart.series.first().donut = pressed ? 35 : false;
-                chart.refresh();
-            }
-        }],
-        items: leadStageChart
-    });
-
-    var leadStagePieChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblNumberofleadsbystage,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: leadStageChartPanel
-        }]
-    });
-    leadStagePieChartWindow.show();
-
-    //-------------------------- all lead pie chart stage wise window end ---------------------------------------------------------
-
-    //-------------------------- all Opp pie chart stage wise window start ---------------------------------------------------------
-
-    var len = jsonParse(responseOpportunity.text).length;
-    var stages = [];
-    for (var i = 0; i < len; i++) {
-        if (!((jsonParse(responseOpportunity.text))[i].stageBean.stageName)) {
-            stages.push("Undefined");
-        } else {
-            stages.push((jsonParse(responseOpportunity.text))[i].stageBean.stageName);
+ZmReportView.popItemState = function (str){
+    for(var i=0; i<ZmReportView.state.length ; i++){
+        if(ZmReportView.state[i] == str) {
+            ZmReportView.state.splice(i,1);
+            break;
         }
     }
-
-    var fooArr = foo(stages);
-    var stage = fooArr[0];
-    var stagecnt = fooArr[1];
-
-    var total = len;
-    var oppStageChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }]
-    });
-
-    for (var i = 0; i < stage.length; i++) {
-        oppStageChartStore.add({
-            'name': stage[i],
-            'data': stagecnt[i]
-        });
-    }
-
-    var donut = false,
-        oppStageChart = Ext.create('Ext.chart.Chart', {
-            xtype: 'chart',
-            id: 'chartCmpOppStage',
-            animate: true,
-            store: oppStageChartStore,
-            height: 200,
-            width: 350,
-            shadow: true,
-            legend: {
-                position: 'right'
-            },
-            theme: 'Base:gradients',
-            series: [{
-                type: 'pie',
-                angleField: 'data',
-                showInLegend: true,
-                donut: donut,
-                tips: {
-                    trackMouse: true,
-                    width: 140,
-                    height: 28,
-                    renderer: function (storeItem, item) {
-                        this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
-                    }
-                },
-                highlight: {
-                    segment: {
-                        margin: 20
-                    }
-                },
-                label: {
-                    field: 'name',
-                    display: 'rotate',
-                    contrast: true,
-                    font: '10px Arial'
-                }
-            }]
-        });
-
-
-    var oppStageChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        oppStageChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }, {
-            enableToggle: true,
-            pressed: false,
-            text: biz_vnc_crm_client.btnDonut,
-            toggleHandler: function (btn, pressed) {
-                var chart = Ext.getCmp('chartCmpOppStage');
-                chart.series.first().donut = pressed ? 35 : false;
-                chart.refresh();
-            }
-        }],
-        items: oppStageChart
-    });
-
-    var oppStagePieChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblNumberofoppbystage,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: oppStageChartPanel
-        }]
-    });
-    oppStagePieChartWindow.show();
-
-    //-------------------------- all Opportunity pie chart stage wise window end ---------------------------------------------------------
-    //-------------------------- all Opportunity column chart stage wise window start ---------------------------------------------------------
-
-    var len = jsonParse(responseOpportunity.text).length;
-    var allyear = [];
-    for (var i = 0; i < len; i++) {
-        date = (jsonParse(responseOpportunity.text))[i].createDate;
-        date = date.split(" ");
-        allyear.push(new Date(date[0]).getFullYear());
-    }
-    var fooArr = foo(allyear);
-    var year = fooArr[0];
-    var val = new Array(year.length);
-    var item = jsonParse(responseOpportunity.text);
-    for (var i = 0; i < year.length; i++) {
-        val[i] = 0;
-        for (var j = 0; j < len; j++) {
-            date = item[j].createDate;
-            date = date.split(" ");
-            yr = new Date(date[0]).getFullYear();
-            if (year[i] == yr) {
-                val[i] += parseInt(item[j].valuation);
-            }
-        }
-    }
-    var total = len;
-    var oppValuationChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }]
-    });
-
-
-    for (var i = 0; i < year.length; i++) {
-
-        oppValuationChartStore.add({
-            'name': year[i],
-            'data': val[i]
-        });
-    }
-
-    var oppRevenueChart = Ext.create('Ext.chart.Chart', {
-        id: 'chartCmpRevenue',
-        xtype: 'chart',
-        style: 'background:#fff',
-        animate: true,
-        shadow: true,
-
-        store: oppValuationChartStore,
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: ['data'],
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            title: 'Expected Revenue',
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: ['name'],
-            title: biz_vnc_crm_client.lblYears
-        }],
-        series: [{
-            type: 'column',
-            axis: 'left',
-            highlight: true,
-            tips: {
-                trackMouse: true,
-                width: 140,
-                height: 28,
-                renderer: function (storeItem, item) {
-                    this.setTitle(storeItem.get('name') + ': ' + storeItem.get('data'));
-                }
-            },
-            label: {
-                display: 'insideEnd',
-                'text-anchor': 'middle',
-                field: 'data',
-                renderer: Ext.util.Format.numberRenderer('0'),
-                orientation: 'vertical',
-                color: '#333'
-            },
-            xField: 'name',
-            yField: 'data'
-        }]
-    });
-
-    var oppRevenueChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        oppRevenueChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }],
-        items: oppRevenueChart
-
-    });
-
-    var oppRevenueChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblYearviseRevenue,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: oppRevenueChartPanel
-        }]
-    });
-    oppRevenueChartWindow.show();
-
-    //-------------------------- all Opportunity column chart stage wise window end ---------------------------------------------------------
-
-    //-------------------------- all lead pie chart window start ---------------------------------------------------------
-    var leadData = jsonParse(responseLead.text);
-    var closelead = inProgresslead = newlead = pendinglead = total = 0;
-    for (var i = 0; i < leadData.length; i++) {
-        if (leadData[i].leadState == "New") {
-            newlead++;
-        } else if (leadData[i].leadState == "In Progress") {
-            inProgresslead++;
-        } else if (leadData[i].leadState == "Pending") {
-            pendinglead++;
-        } else if (leadData[i].leadState == "Close") {
-            closelead++;
-        }
-    }
-
-    total = closelead + inProgresslead + newlead + pendinglead;
-    var leadChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }],
-        data: [{
-            'name': 'New',
-            'data': newlead
-        }, {
-            'name': 'In Progress',
-            'data': inProgresslead
-        }, {
-            'name': 'Close',
-            'data': closelead
-        }, {
-            'name': 'Pending',
-            'data': pendinglead
-        }]
-    });
-
-    var donut = false,
-        leadChart = Ext.create('Ext.chart.Chart', {
-            xtype: 'chart',
-            id: 'chartCmp',
-            animate: true,
-            store: leadChartStore,
-            height: 200,
-            width: 350,
-            shadow: true,
-            legend: {
-                position: 'right'
-            },
-            theme: 'Base:gradients',
-            series: [{
-                type: 'pie',
-                angleField: 'data',
-                showInLegend: true,
-                donut: donut,
-                tips: {
-                    trackMouse: true,
-                    width: 140,
-                    height: 28,
-                    renderer: function (storeItem, item) {
-                        this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
-                    }
-                },
-                highlight: {
-                    segment: {
-                        margin: 20
-                    }
-                },
-                label: {
-                    field: 'name',
-                    display: 'rotate',
-                    contrast: true,
-                    font: '10px Arial'
-                }
-            }]
-        });
-
-
-    var leadChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        leadChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }, {
-            enableToggle: true,
-            pressed: false,
-            text: biz_vnc_crm_client.btnDonut,
-            toggleHandler: function (btn, pressed) {
-                var chart = Ext.getCmp('chartCmp');
-                chart.series.first().donut = pressed ? 35 : false;
-                chart.refresh();
-            }
-        }],
-        items: leadChart
-    });
-
-    var leadPieChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblNumberofleadsbystate,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: leadChartPanel
-        }]
-    });
-    leadPieChartWindow.show();
-
-
-    //-------------------------- all lead pie chart window end ---------------------------------------------------------
-    //-------------------------- all opp pie chart window start ---------------------------------------------------------
-
-    var oppData = jsonParse(responseOpportunity.text);
-    var closelead = inProgresslead = newlead = pendinglead = total = 0;
-    for (var i = 0; i < oppData.length; i++) {
-        if (oppData[i].leadState == "New") {
-            newlead++;
-        } else if (oppData[i].leadState == "In Progress") {
-            inProgresslead++;
-        } else if (oppData[i].leadState == "Pending") {
-            pendinglead++;
-        } else if (oppData[i].leadState == "Close") {
-            closelead++;
-        }
-    }
-
-    total = closelead + inProgresslead + newlead + pendinglead;
-    var oppPieChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }],
-        data: [{
-            'name': 'New',
-            'data': newlead
-        }, {
-            'name': 'In Progress',
-            'data': inProgresslead
-        }, {
-            'name': 'Close',
-            'data': closelead
-        }, {
-            'name': 'Pending',
-            'data': pendinglead
-        }]
-    });
-
-    var donut = false,
-        oppPieChart = Ext.create('Ext.chart.Chart', {
-            xtype: 'chart',
-            id: 'oppPieChart',
-            animate: true,
-            store: oppPieChartStore,
-            height: 200,
-            width: 350,
-            shadow: true,
-            legend: {
-                position: 'right'
-            },
-            theme: 'Base:gradients',
-            series: [{
-                type: 'pie',
-                angleField: 'data',
-                showInLegend: true,
-                donut: donut,
-                tips: {
-                    trackMouse: true,
-                    width: 140,
-                    height: 28,
-                    renderer: function (storeItem, item) {
-                        this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data') / total * 100) + '%');
-                    }
-                },
-                highlight: {
-                    segment: {
-                        margin: 20
-                    }
-                },
-                label: {
-                    field: 'name',
-                    display: 'rotate',
-                    contrast: true,
-                    font: '10px Arial'
-                }
-            }]
-        });
-
-    var oppPieChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        oppPieChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }, {
-            enableToggle: true,
-            pressed: false,
-            text: biz_vnc_crm_client.btnDonut,
-            toggleHandler: function (btn, pressed) {
-                var chart = Ext.getCmp('oppPieChart');
-                chart.series.first().donut = pressed ? 35 : false;
-                chart.refresh();
-            }
-        }],
-        items: oppPieChart
-    });
-
-    var oppPieChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblNumberofoppbystate,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: oppPieChartPanel
-        }]
-    });
-    oppPieChartWindow.show();
-
-    //-------------------------- all opp pie chart window end ---------------------------------------------------------
-
-    //-------------------------- all opportunity column chart window start ---------------------------------------------------------
-    var oppData = jsonParse(responseOpportunity.text);
-    var closeopp = inProgressopp = newopp = pendingopp = totalopp = 0;
-    for (var i = 0; i < oppData.length; i++) {
-        if (oppData[i].leadState == "New") {
-            newopp++;
-        } else if (oppData[i].leadState == "In Progress") {
-            inProgressopp++;
-        } else if (oppData[i].leadState == "Pending") {
-            pendingopp++;
-        } else if (oppData[i].leadState == "Close") {
-            closeopp++;
-        }
-    }
-    totalopp = closeopp + inProgressopp + newopp + pendingopp;
-    var oppChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }],
-        data: [{
-            'name': 'New',
-            'data': newopp
-        }, {
-            'name': 'In Progress',
-            'data': inProgressopp
-        }, {
-            'name': 'Close',
-            'data': closeopp
-        }, {
-            'name': 'Pending',
-            'data': pendingopp
-        }]
-    });
-    var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
-    for (var i = 0; i < oppData.length; i++) {
-        date = oppData[i].createDate;
-        date = date.split(" ");
-        if (new Date(date[0]).getMonth() == 0) {
-            jan += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 1) {
-            feb += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 2) {
-            march += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 3) {
-            april += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 4) {
-            may += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 5) {
-            jun += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 6) {
-            jul += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 7) {
-            aug += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 8) {
-            sep += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 9) {
-            oct += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 10) {
-            nov += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 11) {
-            dec += parseInt(oppData[i].valuation);
-        }
-    }
-
-    var oppChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }],
-        data: [{
-            'name': 'Jan',
-            'data': jan
-        }, {
-            'name': 'Feb',
-            'data': feb
-        }, {
-            'name': 'Mar',
-            'data': march
-        }, {
-            'name': 'Apr',
-            'data': april
-        }, {
-            'name': 'May',
-            'data': may
-        }, {
-            'name': 'Jun',
-            'data': jun
-        }, {
-            'name': 'Jul',
-            'data': jul
-        }, {
-            'name': 'Aug',
-            'data': aug
-        }, {
-            'name': 'Sep',
-            'data': sep
-        }, {
-            'name': 'Oct',
-            'data': oct
-        }, {
-            'name': 'Nov',
-            'data': nov
-        }, {
-            'name': 'Dec',
-            'data': dec
-        }]
-    });
-
-    var oppChart = Ext.create('Ext.chart.Chart', {
-        id: 'chartCmp12',
-        xtype: 'chart',
-        style: 'background:#fff',
-        animate: true,
-        shadow: true,
-
-        store: oppChartStore,
-        axes: [{
-            type: 'Numeric',
-            position: 'left',
-            fields: ['data'],
-            label: {
-                renderer: Ext.util.Format.numberRenderer('0,0')
-            },
-            title: 'Expected Revenue',
-            grid: true,
-            minimum: 0
-        }, {
-            type: 'Category',
-            position: 'bottom',
-            fields: ['name'],
-            title: biz_vnc_crm_client.lblMonthsOfCurrentYear
-        }],
-        series: [{
-            type: 'column',
-            axis: 'left',
-            highlight: true,
-            tips: {
-                trackMouse: true,
-                width: 140,
-                height: 28,
-                renderer: function (storeItem, item) {
-                    this.setTitle(storeItem.get('name') + ': ' + storeItem.get('data'));
-                }
-            },
-            label: {
-                display: 'insideEnd',
-                'text-anchor': 'middle',
-                field: 'data',
-                renderer: Ext.util.Format.numberRenderer('0'),
-                orientation: 'vertical',
-                color: '#333'
-            },
-            xField: 'name',
-            yField: 'data'
-        }]
-    });
-
-    var oppChartPanel = Ext.create('widget.panel', {
-        width: 700,
-        height: 450,
-        title: null,
-        renderTo: Ext.getBody(),
-        layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        oppChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }],
-        items: oppChart
-
-    });
-
-    var oppChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblMonthlyRevenue,
-        renderTo: 'datagridOpportunity',
-        maxWidth: 700,
-        maxHeight: 500,
-        minWidth: 700,
-        minHeight: 500,
-        x: 620,
-        y: 110,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: oppChartPanel
-        }]
-    });
-    oppChartWindow.show();
-
-    //-------------------------- all opportunity column chart window end ---------------------------------------------------------
 }
