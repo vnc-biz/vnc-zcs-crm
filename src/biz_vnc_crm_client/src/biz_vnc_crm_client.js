@@ -114,13 +114,13 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, toolbar, controller, view) {
     if (view == "CNS") {
         var menu = controller.getActionMenu();
-        if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
-            menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
+        if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
+            menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
                 image: "tabIcon",
                 text: biz_vnc_crm_client.lead_window_title
             });
         }
-        if (toolbar.getOp("Zimbra CRM")) {
+        if (toolbar.getOp(biz_vnc_crm_client.lead_window_title)) {
             return;
         }
         var buttonIndex = -1;
@@ -132,17 +132,17 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonArgs = {
             text: biz_vnc_crm_client.lead_window_title,
-            tooltip: "View Info",
+            tooltip: biz_vnc_crm_client.lead_window_title,
             index: buttonIndex, // position of the button
             image: "tabIcon" // icon
         };
-        var button = toolbar.createOp("Zimbra CRM", buttonArgs);
+        var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM).addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
     } else if (view == "CLV") {
         var menu = controller.getActionMenu();
-        if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
-            menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
+        if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
+            menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
                 image: "tabIcon",
                 text: biz_vnc_crm_client.lead_window_title
             });
@@ -160,17 +160,17 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonArgs = {
             text: biz_vnc_crm_client.crmclient_label,
-            tooltip: "View Info",
+            tooltip: biz_vnc_crm_client.lead_window_title,
             index: buttonIndex,
             image: "tabIcon"
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
     } else if (view == "CLD" || view == "CLWW" || view == "CLM" || view == "CLW" || view == "CLL" || view == "CLS") {
         var menu = controller.getActionMenu();
-        if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
-            menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
+        if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
+            menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
                 image: "tabIcon",
                 text: biz_vnc_crm_client.lead_window_title
             });
@@ -188,17 +188,17 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonArgs = {
             text: biz_vnc_crm_client.lead_window_title,
-            tooltip: "View Info",
+            tooltip: biz_vnc_crm_client.lead_window_title,
             index: buttonIndex,
             image: "tabIcon"
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
     } else if (view == "TKL") {
         var menu = controller.getActionMenu();
-        if (!menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM)) {
-            menu.createMenuItem(biz_vnc_crm_client.ZIMBRACRM, {
+        if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
+            menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
                 image: "tabIcon",
                 text: biz_vnc_crm_client.lead_window_title
             });
@@ -216,13 +216,13 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonArgs = {
             text: biz_vnc_crm_client.lead_window_title,
-            tooltip: "View Info",
+            tooltip: biz_vnc_crm_client.lead_window_title,
             index: buttonIndex, // position of the button
             image: "tabIcon" // icon
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.ZIMBRACRM).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
     }
 };
 
@@ -231,7 +231,7 @@ biz_vnc_crm_client.onRightClick = function (controller, actionMenu) {
     selected = (selected instanceof Array) ? selected : [selected];
     selected = selected.length;
     // default behaviour is disable for more than one, changed here
-    actionMenu.enable([biz_vnc_crm_client.ZIMBRACRM], selected > 0);
+    actionMenu.enable([biz_vnc_crm_client.crmclient_label], selected > 0);
 
 };
 
@@ -240,7 +240,7 @@ biz_vnc_crm_client.onRightClickCal = function (controller, actionMenu) {
     selected = (selected instanceof Array) ? selected : [selected];
     selected = selected.length;
     // default behaviour is disable for more than one, changed here
-    actionMenu.enable([biz_vnc_crm_client.ZIMBRACRM], selected > 0);
+    actionMenu.enable([biz_vnc_crm_client.crmclient_label], selected > 0);
 
 };
 
@@ -257,7 +257,7 @@ biz_vnc_crm_client_HandlerObject.prototype._addSlide = function () {
     var app = appCtxt.getCurrentApp();
     var tthtml = this._getTooltipBGHtml();
     var selectCallback = new AjxCallback(this, this._handleToolbarBtnClick, [controller, app]);
-    this._slide = new EmailToolTipSlide(tthtml, true, "tabIcon", selectCallback, "View Info");
+    this._slide = new EmailToolTipSlide(tthtml, true, "tabIcon", selectCallback, biz_vnc_crm_client.lead_window_title);
     this.emailZimlet.slideShow.addSlide(this._slide);
 };
 
@@ -1269,9 +1269,9 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog = function (lead
     this.attachMailTabView = new DwtTabView(view, "AttachMailTabView1");
 
     this.attachMailTabPage = new AttachMailTabView1(this.attachMailTabView, this);
-    view.setSize("485", "255");
-    this.attachMailTabView.setSize("485", "230");
-    this.attachMailTabPage.setSize("485", "230");
+    view.setSize("500", "255");
+    this.attachMailTabView.setSize("500", "230");
+    this.attachMailTabPage.setSize("500", "230");
 
     tabKeys = [];
     tabKeys.push(this.attachMailTabView.addTab(biz_vnc_crm_client.attach_mail_dialog_tab, this.attachMailTabPage));
@@ -1304,9 +1304,9 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog = function (lead
     this.attachTaskTabView = new DwtTabView(view, "AttachTask");
 
     this.attachTaskTabPage = new AttachTask(this.attachTaskTabView, this);
-    view.setSize("485", "255");
-    this.attachTaskTabView.setSize("485", "230");
-    this.attachTaskTabPage.setSize("485", "230");
+    view.setSize("500", "255");
+    this.attachTaskTabView.setSize("500", "230");
+    this.attachTaskTabPage.setSize("500", "230");
 
     tabKeys = [];
     tabKeys.push(this.attachTaskTabView.addTab(biz_vnc_crm_client.attach_task_dialog_tab, this.attachTaskTabPage));
@@ -2834,6 +2834,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                     Ext.getCmp('leadMailGrid').getView().refresh();
+									Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
                         }
@@ -2984,6 +2985,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('leadApptGrid').getView().refresh();
+									Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                 }
                             };
                         }
@@ -3160,7 +3162,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                     Ext.getCmp('leadTaskGrid').getView().refresh();
-
+									Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                 }
                             };
                         }
@@ -5141,6 +5143,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     }
                                     Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                     Ext.getCmp('oppMailGrid').getView().refresh();
+									Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
                         }
@@ -5290,6 +5293,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     }
                                     Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('oppApptGrid').getView().refresh();
+									Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                 }
                             };
                         }
@@ -5474,6 +5478,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                                     Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                                     Ext.getCmp('oppTaskGrid').getView().refresh();
+									Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                 }
                             };
                         }
@@ -6300,8 +6305,8 @@ biz_vnc_crm_client.add_contact = function(flag) {
 	var contactController = new ZmContactController(contactApp._container, contactApp);
 	contactController.show(contact);
 	contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [app]));
-	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [app]));           
+	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [biz_vnc_crm_client._app]));
+	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));           
 }
 
 biz_vnc_crm_client.requestMailList = function (msgArray) {
@@ -6810,7 +6815,7 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
-        title: biz_vnc_crm_client.windowApptDetails,
+        title: biz_vnc_crm_client.windowTaskDetails,
         shrinkWrap: true,
         titleCollapse: true,
         toFrontOnShow: true,

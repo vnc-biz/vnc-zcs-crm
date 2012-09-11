@@ -1135,6 +1135,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                         Ext.getCmp('leadMailGrid').getView().refresh();
+										Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                     }
                                 }
                             };
@@ -1292,6 +1293,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                         Ext.getCmp('leadApptGrid').getView().refresh();
+										Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                     }
                                 }
                             };
@@ -1478,7 +1480,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                                 }
                                             }
                                         }
-
+										Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                         Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                         Ext.getCmp('leadTaskGrid').getView().refresh();
                                     }

@@ -956,6 +956,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                         Ext.getCmp('oppMailGrid').getView().refresh();
+										Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                     }
                                 }
                             };
@@ -1110,6 +1111,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                         Ext.getCmp('oppApptGrid').getView().refresh();
+										Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                     }
                                 }
                             };
@@ -1294,7 +1296,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                                 }
                                             }
                                         }
-
+										Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                         Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                                         Ext.getCmp('oppTaskGrid').getView().refresh();
                                     }

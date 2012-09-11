@@ -39,7 +39,7 @@ AttachMailTabView1.prototype.toString = function () {
 AttachMailTabView1.prototype.showMe = function () {
     DwtTabViewPage.prototype.showMe.call(this);
     if (this._isLoaded) {
-        this.setSize("485", "230");
+        this.setSize("500", "230");
         return;
     }
     this._createHtml1();
@@ -220,7 +220,7 @@ AttachMailTabView1.prototype._showTreeView = function () {
         account: acct
     };
     this._setOverview(params);
-    this.setSize("485", "230");
+    this.setSize("500", "230");
     this._currentQuery = this._getQueryFromFolder("2");
     this.treeView.setSelected("2");
     this._treeListener();
