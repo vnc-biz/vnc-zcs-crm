@@ -486,7 +486,7 @@ ZmReportView.createForm = function(app) {
                     iconAlign: 'top',
 					toggleGroup: 'others',
 					toggleHandler : function(btn, pressedStatus){
-                        ZmReportView.groupBy(pressedStatus, 'partnerName');
+                        ZmReportView.groupByPartner(pressedStatus, 'partnerName');
                     }
                 },{
                     text: biz_vnc_crm_client.company,
@@ -719,7 +719,11 @@ ZmReportView.groupByMonth = function(pressedStatus, str) {
         for(var i=0; i < response.length ; i++){
             date = response[i].createDate.split(" ");
            	month = monthNames[new Date(date[0]).getMonth()];
-            response[i].createDate = month;
+			if(str == 'expectedDateClose'){
+				response[i].expectedDateClose = month;
+			} else {
+				response[i].createDate = month;
+			}
         }
         ZmReportView.response = response;
         Ext.getStore('data').groupers.items[0].property = str;
@@ -797,5 +801,29 @@ ZmReportView.popItemState = function (str){
             ZmReportView.state.splice(i,1);
             break;
         }
+    }
+}
+
+ZmReportView.groupByPartner = function(pressedStatus, str) {
+	var partner = jsonParse(biz_vnc_crm_client.temp);
+	var userCount = partner.length;
+    if(pressedStatus){
+        var response = jsonParse(ZmReportView.responseLead.text);
+        for(var i=0; i < response.length ; i++){
+            partnerId = response[i].partnerName;
+			for(var j=0; j<userCount; j++){
+				if(partnerId == partner[j].value){
+					response[i].partnerName = partner[j].label;
+				} else {
+					response[i].partnerName = "Undefined";
+				}
+			}
+        }
+        ZmReportView.response = response;
+        Ext.getStore('data').groupers.items[0].property = str;
+        Ext.getStore('data').loadData(ZmReportView.response, false);
+    } else {
+        Ext.getStore('data').groupers.items[0].property = null;
+        Ext.getStore('data').load();
     }
 }
