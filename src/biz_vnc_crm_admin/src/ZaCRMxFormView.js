@@ -20,17 +20,19 @@
 ##############################################################################
 */
 
-var ZaCRMxFormView = function(parent) {
+function ZaCRMxFormView(parent, entry) {
+    if (arguments.length == 0) return;
+    ZaTabView.call(this, parent,"ZaCRMxFormView");
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMxFormView",
         contextId: "_CRM_Admin_"
     });
-    this.initForm(ZaCRMadmin.myXModel, this.getMyXForm());
-    this._localXForm.setController(ZaApp.getInstance());
+    this.setScrollStyle(Dwt.SCROLL);
+    this.initForm(ZaCRMadmin.myXModel, this.getMyXForm(entry),null);
 }
 
-ZaCRMxFormView.prototype = new ZaTabView;
+ZaCRMxFormView.prototype = new ZaTabView();
 ZaCRMxFormView.prototype.constructor = ZaCRMxFormView;
 
 ZaCRMxFormView.prototype.toString = function () {
@@ -106,7 +108,6 @@ ZaCRMxFormView.prototype.setObject = function (entry) {
     this.formDirtyLsnr = new AjxListener(ZaApp.getInstance().getCurrentController(), ZaXFormViewController.prototype.handleXFormChange);
     this._localXForm.addListener(DwtEvent.XFORMS_FORM_DIRTY_CHANGE, this.formDirtyLsnr);
     this._localXForm.addListener(DwtEvent.XFORMS_VALUE_ERROR, this.formDirtyLsnr);
-    this.updateTab();
 }
 
 ZaCRMxFormView.currentFieldChanged = function (value, event, form) {
@@ -814,7 +815,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
             }, {
                 type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.vncurl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
-                type:_GROUP_, numCols:2, cssStyle: "padding-left: 44%;",
+                type:_GROUP_, numCols:2, cssStyle: "padding-left: 42%;",
                 items: [{
                     type:_ANCHOR_, cssStyle:"font-size:12px;", showInNewWindow:true, labelLocation:_CENTER_, label: biz_vnc_crm_admin.changelog, href:('"' + biz_vnc_crm_admin.changeLogUrl + '"')
                 }, {

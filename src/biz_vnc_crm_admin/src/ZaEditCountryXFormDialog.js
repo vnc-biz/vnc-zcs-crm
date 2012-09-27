@@ -55,7 +55,8 @@ ZaEditCountryXFormDialog.prototype.getMyXForm = function () {
             }, {
                 ref: ZaCRMadmin.A_countryStatus,
                 type: _ZA_CHECKBOX_,
-                label: biz_vnc_crm_admin.HDR_status,
+                label: biz_vnc_crm_admin.HDR_status + ":",
+                labelCssStyle: "text-align: right;",
                 trueValue: true,
                 falseValue: false,
                 visibilityChecks: [],

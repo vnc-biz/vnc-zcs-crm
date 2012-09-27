@@ -73,7 +73,9 @@ ZaEditCompanyXFormDialog.prototype.getMyXForm = function () {
             }, {
                 ref: ZaCRMadmin.A_companyStatus,
                 type: _ZA_CHECKBOX_,
-                label: biz_vnc_crm_admin.HDR_status,
+                label: biz_vnc_crm_admin.HDR_status + ":",
+                labelLocation: _LEFT_,
+                labelCssStyle: "text-align: right;",
                 trueValue: true,
                 falseValue: false,
                 visibilityChecks: [],

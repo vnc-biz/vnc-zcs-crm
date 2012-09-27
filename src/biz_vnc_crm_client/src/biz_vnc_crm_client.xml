@@ -3,23 +3,23 @@
 	<include>templates/SimpleOpportunity.template.js</include>
 	<include>templates/LeadForm.template.js</include>
 	<include>templates/OpportunityForm.template.js</include>
-	<include>biz_vnc_crm_client.js</include>
-	<include>ZmCRMTaskController.js</include>
-	<include>ZmCRMComposeController.js</include>
-	<include>ZmLeadListView.js</include>
-	<include>ZmReportView.js</include>
 	<include>templates/LinkedIn.template.js</include>
-	<include>ZmOpportunityListView.js</include>
-	<include>ZmDashboardView.js</include>
+	<include>ext-all.js</include>
 	<include>json-minified.js</include>
+	<include>examples.js</include>
+	<handlerObject>biz_vnc_crm_client_HandlerObject</handlerObject>
+	<include>ZmCRMComposeController.js</include>
+	<include>ZmCRMTaskController.js</include>
+	<include>biz_vnc_crm_client.js</include>
+	<include>ZmDashboardView.js</include>
+	<include>ZmLeadListView.js</include>
+	<include>ZmOpportunityListView.js</include>
+	<include>ZmReportView.js</include>
+	<include>AttachAppointmentTabView.js</include>
+	<include>AttachTask.js</include>
 	<includeCSS>My.css</includeCSS>
 	<includeCSS>ext-all.css</includeCSS>
 	<includeCSS>example.css</includeCSS>
 	<includeCSS>toolbars.css</includeCSS>
-	<include>ext-all.js</include>
-	<include>examples.js</include>
 	<include>biz_vnc_crm_client_AttachMailTabView.js</include>
-	<include>AttachAppointmentTabView.js</include>
-	<include>AttachTask.js</include>
-	<handlerObject>biz_vnc_crm_client_HandlerObject</handlerObject>
 </zimlet>
