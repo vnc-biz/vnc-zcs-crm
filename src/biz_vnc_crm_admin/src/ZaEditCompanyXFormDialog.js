@@ -67,8 +67,7 @@ ZaEditCompanyXFormDialog.prototype.getMyXForm = function () {
                 label: biz_vnc_crm_admin.HDR_email + ":",
                 labelLocation: _LEFT_,
                 width: 250
-            },
-            {
+            }, {
                 type: _SPACER_,
                 height: "5"
             }, {

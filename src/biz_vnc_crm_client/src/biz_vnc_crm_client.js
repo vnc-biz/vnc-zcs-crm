@@ -718,7 +718,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                                 if (response.text == 1) {
                                     Ext.example.msg('', biz_vnc_crm_client.msgTaskAttach);
-
                                 } else {
                                     Ext.example.msg('', biz_vnc_crm_client.msgTaskNotAttach);
                                 }
@@ -1672,7 +1671,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     });
 
     var idArray = [];
-	idArray = biz_vnc_crm_client.getFilterItems(app);
+    idArray = biz_vnc_crm_client.getFilterItems(app);
 
     var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
     var reqHeader = {
@@ -1680,8 +1679,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    
-	Ext.define('model_1', {
+
+    Ext.define('model_1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'leadId',
@@ -4014,7 +4013,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     });
 
     var idArray = [];
-	idArray = biz_vnc_crm_client.getFilterItems(app);
+    idArray = biz_vnc_crm_client.getFilterItems(app);
 
     var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
     var reqHeader = {
@@ -4605,13 +4604,13 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             if (Ext.getCmp('dateOppOpened').getValue() != null) {
                                 var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtOppDaysToOpen').setValue(0);
                             }
                             if (Ext.getCmp('dateOppClosed').getValue() != null) {
                                 var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtOppDaysToClose').setValue(0);
                             }
                         }
@@ -5845,7 +5844,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var reqJson = AjxStringUtil.urlEncode(json);
                     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
                     if (response.text == 1) {
-                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                         biz_vnc_crm_client.initOpportunityGrid(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
@@ -6250,12 +6249,12 @@ biz_vnc_crm_client.add_contact = function(flag) {
     AjxDispatcher.require(["ContactsCore", "Contacts"]);
     biz_vnc_crm_client.contactFlag = flag;
     var contact = new ZmContact(null, null, null);
-    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);    
+    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);
     var contactController = new ZmContactController(contactApp._container, contactApp);
     contactController.show(contact);
     contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
     contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [biz_vnc_crm_client._app]));
-    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));           
+    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));
 }
 
 biz_vnc_crm_client.requestMailList = function (msgArray) {
@@ -6486,10 +6485,10 @@ biz_vnc_crm_client_HandlerObject.prototype._eventTreeViewSelected = function (ap
         if (tree_item.getText() == biz_vnc_crm_client.btndashboard) {
             ZmDashboardView.dashboard(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnleads) {
-			biz_vnc_crm_client.disableFilters(app);
+            biz_vnc_crm_client.disableFilters(app);
             biz_vnc_crm_client.initLeadGrid(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnopportunities) {
-			biz_vnc_crm_client.disableFilters(app);
+            biz_vnc_crm_client.disableFilters(app);
             biz_vnc_crm_client.initOpportunityGrid(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnreports) {
             ZmReportView.createForm(app);
@@ -6846,7 +6845,7 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
 
 biz_vnc_crm_client.composeMail = function(leadId){
     if(!biz_vnc_crm_client.mailController) {
-        biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);    
+        biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);
     }
     biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
 };
@@ -6917,24 +6916,23 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
 
 biz_vnc_crm_client.getFilterItems = function(app) {
     var toolbar = app.getToolbar();
-	var toolbarButtonCount = toolbar.getItemCount();
+    var toolbarButtonCount = toolbar.getItemCount();
     var arrOfEle = toolbar.getChildren();
-	var idArray = [];
-	
+    var idArray = [];
     for (var i = 0; i < toolbarButtonCount; i++) {
         if (arrOfEle[i].isToggled()) {
             var str = "'" + arrOfEle[i].getHTMLElId() + "'";
             idArray.push(str);
         }
     }
-	return idArray;
+    return idArray;
 }
 
 biz_vnc_crm_client.disableFilters = function(app) {
-	var toolbar = app.getToolbar();
-	toolbar.setVisibility(true);
-	var arrOfEle = toolbar.getChildren();
-	for (var i = 0; i < arrOfEle.length ; i++) {
-		arrOfEle[i].setSelected(false);
-	}
+    var toolbar = app.getToolbar();
+    toolbar.setVisibility(true);
+    var arrOfEle = toolbar.getChildren();
+    for (var i = 0; i < arrOfEle.length ; i++) {
+        arrOfEle[i].setSelected(false);
+    }
 }

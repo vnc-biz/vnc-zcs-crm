@@ -670,7 +670,7 @@ ZmReportView.filter = function (store) {
                         return true;
                     }
                 }
-                return false;    
+                return false;
             } else if (ZmReportView.type.length <= 0 && ZmReportView.state.length > 0) {
                 for(var i=0; i<ZmReportView.state.length; i++){
                     if(record.get('leadState') == ZmReportView.state[i]){
