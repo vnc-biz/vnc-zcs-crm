@@ -26,7 +26,6 @@ function ZaCRMadmin(app) {
     ZaItem.call(app, "ZaCRMadmin");
     this.type = ZaItem.CRM_ADMIN;
     this._init(app);
-
 }
 
 ZaCRMadmin.prototype = new ZaItem;
@@ -45,7 +44,6 @@ ZaCRMadmin.A_companyCreatedby = "createBy";
 ZaCRMadmin.A_companyCreateddate = "createDate";
 ZaCRMadmin.A_companyWriteby = "writeBy";
 ZaCRMadmin.A_companyWritedate = "writeDate";
-
 ZaCRMadmin.A_companyRemoved = "companyRemoved";
 
 ZaCRMadmin.companyList = {
@@ -109,7 +107,6 @@ ZaCRMadmin.A_countryCreatedby = "createBy";
 ZaCRMadmin.A_countryCreateddate = "createDate";
 ZaCRMadmin.A_countryWriteby = "writeBy";
 ZaCRMadmin.A_countryWritedate = "writeDate";
-
 ZaCRMadmin.A_countryRemoved = "countryRemoved";
 
 ZaCRMadmin.countryList = {
@@ -162,7 +159,6 @@ ZaCRMadmin.A_stateCreatedby = "createBy";
 ZaCRMadmin.A_stateCreateddate = "createDate";
 ZaCRMadmin.A_stateWriteby = "writeBy";
 ZaCRMadmin.A_stateWritedate = "writeDate";
-
 ZaCRMadmin.A_stateRemoved = "stateRemoved";
 
 ZaCRMadmin.stageChoices = [{
@@ -172,6 +168,7 @@ ZaCRMadmin.stageChoices = [{
     value: 1,
     label: "Opportunity"
 }];
+
 ZaCRMadmin.stateChoices = [{
     value: "New",
     label: "New"
@@ -238,7 +235,6 @@ ZaCRMadmin.A_channelCreatedby = "createBy";
 ZaCRMadmin.A_channelCreateddate = "createDate";
 ZaCRMadmin.A_channelWriteby = "writeBy";
 ZaCRMadmin.A_channelWritedate = "writeDate";
-
 ZaCRMadmin.A_channelRemoved = "channelRemoved";
 
 ZaCRMadmin.channelList = {
@@ -286,7 +282,6 @@ ZaCRMadmin.A_priorityCreatedby = "createBy";
 ZaCRMadmin.A_priorityCreateddate = "createDate";
 ZaCRMadmin.A_priorityWriteby = "writeBy";
 ZaCRMadmin.A_priorityWritedate = "writeDate";
-
 ZaCRMadmin.A_priorityRemoved = "priorityRemoved";
 
 ZaCRMadmin.priorityList = {
@@ -338,7 +333,6 @@ ZaCRMadmin.A_categoryCreatedby = "createBy";
 ZaCRMadmin.A_categoryCreateddate = "createDate";
 ZaCRMadmin.A_categoryWriteby = "writeBy";
 ZaCRMadmin.A_categoryWritedate = "writeDate";
-
 ZaCRMadmin.A_categoryRemoved = "categoryRemoved";
 
 ZaCRMadmin.categoryList = {
@@ -483,7 +477,6 @@ ZaCRMadmin.A_stageCreatedby = "createBy";
 ZaCRMadmin.A_stageCreateddate = "createDate";
 ZaCRMadmin.A_stageWriteby = "writeBy";
 ZaCRMadmin.A_stageWritedate = "writeDate";
-
 ZaCRMadmin.A_stageRemoved = "stageRemoved";
 
 ZaCRMadmin.stageList = {
@@ -555,7 +548,6 @@ ZaCRMadmin.A_leadClassCreatedby = "createBy";
 ZaCRMadmin.A_leadClassCreateddate = "createDate";
 ZaCRMadmin.A_leadClassWriteby = "writeBy";
 ZaCRMadmin.A_leadClassWritedate = "writeDate";
-
 ZaCRMadmin.A_leadClassRemoved = "leadClassRemoved";
 
 ZaCRMadmin.leadClassList = {

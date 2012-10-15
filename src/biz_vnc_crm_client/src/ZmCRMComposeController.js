@@ -54,7 +54,7 @@ function(draftType, msg, callback, result) {
     if (needToPop) {
         this._app.popView(true, this._currentView);
     }
-    
+
     appCtxt.getCurrentApp().pushView(this._crmViewId);
     var mailId = resp.m[0].id;
     var json = "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"leadId\":\"" + this.leadId + "\"}";
@@ -76,7 +76,7 @@ function(draftType, msg, callback, result) {
             var msgArray = [];
             var item;
             var msgArray = (responseMailHistory.text).split(",");
-    
+
             if (msgArray != "null") {
                 biz_vnc_crm_client.requestMailList(msgArray);
             } else {
@@ -96,7 +96,7 @@ function(draftType, msg, callback, result) {
             var msgArray = [];
             var item;
             var msgArray = (responseMailHistory.text).split(",");
-    
+
             if (msgArray != "null") {
                 biz_vnc_crm_client.requestMailList(msgArray);
             } else {

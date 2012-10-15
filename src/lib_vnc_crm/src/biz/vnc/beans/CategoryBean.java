@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,12 @@ package biz.vnc.beans;
 
 import biz.vnc.base.AbstractBean;
 
-public class CategoryBean extends AbstractBean{
+public class CategoryBean extends AbstractBean {
 
 	private int categoryId;
 	private String categoryName;
 	private String sectionId;
-	
+
 	public CategoryBean() {
 		super();
 	}

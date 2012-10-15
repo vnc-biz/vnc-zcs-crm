@@ -322,7 +322,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }]
     });
 
-
     Ext.define('user', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -623,7 +622,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             if (Ext.getCmp('dateclosed').getValue() != null) {
                                 var dayclose = Math.ceil(((Ext.getCmp('dateclosed').getValue()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtleadday2close').setValue(dayclose);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtleadday2close').setValue(0);
                             }
                         }
@@ -964,8 +963,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         width: '26px',
                         listeners: {
                             render: function(c) {
-                           		c.getEl().on('click', function(e) {
-									biz_vnc_crm_client.add_contact(0);	
+                                   c.getEl().on('click', function(e) {
+                                       biz_vnc_crm_client.add_contact(0);
                                 }, c);
                             }
                         }
@@ -1135,7 +1134,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                         Ext.getCmp('leadMailGrid').getView().refresh();
-										Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                        Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                     }
                                 }
                             };
@@ -1293,7 +1292,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         }
                                         Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                         Ext.getCmp('leadApptGrid').getView().refresh();
-										Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                        Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                     }
                                 }
                             };
@@ -1480,7 +1479,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                                 }
                                             }
                                         }
-										Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+                                        Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                         Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                         Ext.getCmp('leadTaskGrid').getView().refresh();
                                     }

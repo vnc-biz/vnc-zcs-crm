@@ -21,7 +21,6 @@
 */
 
 function ZaCRMSectionModel(parent) {
-
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMSectionModel",

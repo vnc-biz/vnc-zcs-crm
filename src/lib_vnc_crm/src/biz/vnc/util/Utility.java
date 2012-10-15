@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -38,43 +38,33 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Utility {
-	
-	public static InterfaceHelper callHelper(String jString){
-			JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
-			String objType = k.get("object").getAsString();
-			if(objType.equals("country")){
-				return new CountryHelper();
-			}
-			else if(objType.equals("company")){
-				return new CompanyHelper();
-			}
-			else if(objType.equals("state")){
-				return new StateHelper();
-			}
-			else if(objType.equals("category")){
-				return new CategoryHelper();
-			}
-			else if(objType.equals("channel")){
-				return new ChannelHelper();
-			}
-			else if(objType.equals("section")){
-				return new SectionHelper();
-			}
-			else if(objType.equals("priority")){
-				return new PriorityHelper();
-			}
-			else if(objType.equals("stage")){
-				return new StageHelper();
-			}
-			else if(objType.equals("lead")){
-				return new LeadHelper();
-			}
-			else if(objType.equals("opp")){
-				return new OpportunityHelper();
-			}
-			else if(objType.equals("leadClass")){
-				return new LeadClassHelper();
-			}
-			return null;
+
+	public static InterfaceHelper callHelper(String jString) {
+		JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
+		String objType = k.get("object").getAsString();
+		if(objType.equals("country")) {
+			return new CountryHelper();
+		} else if(objType.equals("company")) {
+			return new CompanyHelper();
+		} else if(objType.equals("state")) {
+			return new StateHelper();
+		} else if(objType.equals("category")) {
+			return new CategoryHelper();
+		} else if(objType.equals("channel")) {
+			return new ChannelHelper();
+		} else if(objType.equals("section")) {
+			return new SectionHelper();
+		} else if(objType.equals("priority")) {
+			return new PriorityHelper();
+		} else if(objType.equals("stage")) {
+			return new StageHelper();
+		} else if(objType.equals("lead")) {
+			return new LeadHelper();
+		} else if(objType.equals("opp")) {
+			return new OpportunityHelper();
+		} else if(objType.equals("leadClass")) {
+			return new LeadClassHelper();
+		}
+		return null;
 	}
 }

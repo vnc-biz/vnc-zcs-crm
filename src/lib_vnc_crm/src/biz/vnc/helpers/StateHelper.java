@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
-
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,9 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StateHelper implements InterfaceHelper {
+
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
+
 	@Override
 	public String listView() {
 		String str = gson.toJson(getAllRecords());
@@ -68,12 +69,12 @@ public class StateHelper implements InterfaceHelper {
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
-	
+
 	private StateBean getRecordFromResultSet(ResultSet rs) {
 		StateBean stateBean = new StateBean();
-		stateBean = new StateBean(); 
+		stateBean = new StateBean();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
 				stateBean.setStateCode(rs.getString("stateCode"));
@@ -96,9 +97,8 @@ public class StateHelper implements InterfaceHelper {
 		String query = "select stateId, stateName, stateCode, c.countryName, s.status, s.createBy, s.createDate, s.writeBy, s.writeDate from tbl_crm_state s join tbl_crm_country c where s.countryId = c.countryId;" ;
 		ResultSet rs = dbu.select(query);
 		StateBean stateBean = null;
-			
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				stateBean = new StateBean();
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
@@ -109,16 +109,14 @@ public class StateHelper implements InterfaceHelper {
 				stateBean.setCreateDate(rs.getString("createDate"));
 				stateBean.setWriteBy(rs.getString("writeBy"));
 				stateBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(stateBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
-	
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
 		String query = "update tbl_crm_state set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where stateId IN (" + arrayIds + ");" ;
@@ -142,11 +140,11 @@ public class StateHelper implements InterfaceHelper {
 
 	@Override
 	public StateBean toBean(String jsonString) {
-		try{
+		try {
 			StateBean stateBean  = new StateBean ();
 			stateBean = gson.fromJson(jsonString, StateBean.class);
 			return stateBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -154,25 +152,22 @@ public class StateHelper implements InterfaceHelper {
 
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select stateId, stateName, stateCode, c.countryName, s.status, s.createBy, s.createDate, s.writeBy, s.writeDate from tbl_crm_state s join tbl_crm_country c where s.status = true AND s.countryId = c.countryId;" ;
 		ResultSet rs = dbu.select(query);
 		StateBean stateBean = null;
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				stateBean = new StateBean();
 				stateBean.setStateId(rs.getInt("stateId"));
 				stateBean.setStateName(rs.getString("stateName"));
@@ -186,93 +181,79 @@ public class StateHelper implements InterfaceHelper {
 				retValue.add(stateBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
 
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String filterByContact(String Array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int deleteHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_state";
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)

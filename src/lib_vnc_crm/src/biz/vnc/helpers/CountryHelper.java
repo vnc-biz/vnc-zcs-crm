@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.CountryBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
-
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +39,7 @@ public class CountryHelper implements InterfaceHelper {
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
-	
+
 	@Override
 	public String listView() {
 		String strOfAllRecords = gson.toJson(getAllRecords());
@@ -55,7 +54,6 @@ public class CountryHelper implements InterfaceHelper {
 		return operationStatus;
 	}
 
-
 	@Override
 	public int update(AbstractBean ab) {
 		CountryBean countryBean = (CountryBean)ab;
@@ -63,7 +61,6 @@ public class CountryHelper implements InterfaceHelper {
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public int delete(AbstractBean ab) {
@@ -76,7 +73,7 @@ public class CountryHelper implements InterfaceHelper {
 	private CountryBean getRecordFromResultSet(ResultSet rs) {
 		CountryBean countryBean = new CountryBean();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -99,8 +96,8 @@ public class CountryHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CountryBean countryBean = null;
 		try {
-			while(rs.next()){
-				countryBean = new CountryBean(); 
+			while(rs.next()) {
+				countryBean = new CountryBean();
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -109,11 +106,10 @@ public class CountryHelper implements InterfaceHelper {
 				countryBean.setCreateDate(rs.getString("createDate"));
 				countryBean.setWriteBy(rs.getString("writeBy"));
 				countryBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -124,7 +120,6 @@ public class CountryHelper implements InterfaceHelper {
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public AbstractBean getRecordById(String id) {
@@ -142,41 +137,37 @@ public class CountryHelper implements InterfaceHelper {
 
 	@Override
 	public CountryBean toBean(String jsonString) {
-		
-		try{
+
+		try {
 			CountryBean countryBean  = new CountryBean ();
 			countryBean = gson.fromJson(jsonString, CountryBean.class);
 			return countryBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
 	}
-	
+
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		retValue.add(ab);
 		return retValue;
 	}
 
-
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_country where status = true;" ;
 		ResultSet rs = dbu.select(query);
 		CountryBean countryBean = null;
 		try {
-			while(rs.next()){
-				countryBean = new CountryBean(); 
+			while(rs.next()) {
+				countryBean = new CountryBean();
 				countryBean.setCountryId(rs.getInt("countryId"));
 				countryBean.setCountryName(rs.getString("countryName"));
 				countryBean.setCountryCode(rs.getString("countryCode"));
@@ -188,110 +179,83 @@ public class CountryHelper implements InterfaceHelper {
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
 
-
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public String filterByContact(String Array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public int deleteHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int deleteAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public int deleteTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_country";
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)
 			return 2;
 		return 0;
 	}
-	
 }

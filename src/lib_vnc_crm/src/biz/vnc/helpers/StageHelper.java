@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.StageBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
-
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,16 +35,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StageHelper implements InterfaceHelper {
+
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
+
 	@Override
 	public String listView() {
 		String strOfAllRecords = gson.toJson(getAllRecords());
 		return strOfAllRecords;
 	}
 
-	
 	@Override
 	public int add(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
@@ -54,7 +54,6 @@ public class StageHelper implements InterfaceHelper {
 		return operationStatus;
 	}
 
-
 	@Override
 	public int update(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
@@ -62,7 +61,6 @@ public class StageHelper implements InterfaceHelper {
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public int delete(AbstractBean ab) {
@@ -75,7 +73,7 @@ public class StageHelper implements InterfaceHelper {
 	private StageBean getRecordFromResultSet(ResultSet rs) {
 		StageBean stageBean = new StageBean();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -103,8 +101,8 @@ public class StageHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		StageBean stageBean = null;
 		try {
-			while(rs.next()){
-				stageBean = new StageBean(); 
+			while(rs.next()) {
+				stageBean = new StageBean();
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -118,11 +116,10 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setCreateDate(rs.getString("createDate"));
 				stageBean.setWriteBy(rs.getString("writeBy"));
 				stageBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -150,42 +147,35 @@ public class StageHelper implements InterfaceHelper {
 
 	@Override
 	public StageBean toBean(String jsonString) {
-		
-		try{
+		try {
 			StageBean stageBean  = new StageBean ();
 			stageBean = gson.fromJson(jsonString, StageBean.class);
 			return stageBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_stage where status = true;" ;
 		ResultSet rs = dbu.select(query);
 		StageBean stageBean = null;
 		try {
-			while(rs.next()){
-				stageBean = new StageBean(); 
+			while(rs.next()) {
+				stageBean = new StageBean();
 				stageBean.setStageId(rs.getInt("stageId"));
 				stageBean.setStageName(rs.getString("stageName"));
 				stageBean.setStageSequence(rs.getInt("stageSequence"));
@@ -199,110 +189,82 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setCreateDate(rs.getString("createDate"));
 				stageBean.setWriteBy(rs.getString("writeBy"));
 				stageBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
-
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
 
-
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public String filterByContact(String Array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-@Override
+	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public int deleteHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int deleteAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int deleteTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_stage";
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)

@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ package biz.vnc.beans;
 
 import biz.vnc.base.AbstractBean;
 
-public class StageBean extends AbstractBean{
+public class StageBean extends AbstractBean {
 
 	private int stageId;
 	private String stageName;
@@ -34,8 +34,8 @@ public class StageBean extends AbstractBean{
 	private float stageProbability;
 	private String stageDescription;
 	private boolean stageAuto;
-	
-	
+
+
 	public StageBean() {
 		super();
 	}

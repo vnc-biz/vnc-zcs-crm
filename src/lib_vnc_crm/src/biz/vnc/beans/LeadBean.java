@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,43 @@ import biz.vnc.base.AbstractBean;
 
 public class LeadBean extends AbstractBean {
 	private int leadId;
-	private String subjectName, leadDescription, contactName, companyName,
-			valuation, leadState, partnerName, phone, fax, email, workPhone,
-			mobile, street1, street2, city, zip, type, dateOpen, dateClose,
-			dayClose, dayOpen, referredBy, userId, expectedDateClose,
-			nextActionDate, nextAction, stageProbability, countryId, stateId,
-			categoryId, stageId, channelId, sectionId, priorityId, companyId,
-			probability, leadClassId;
+	private String subjectName;
+	private String leadDescription;
+	private String contactName;
+	private String companyName;
+	private String valuation;
+	private String leadState;
+	private String partnerName;
+	private String phone;
+	private String fax;
+	private String email;
+	private String workPhone;
+	private String mobile;
+	private String street1;
+	private String street2;
+	private String city;
+	private String zip;
+	private String type;
+	private String dateOpen;
+	private String dateClose;
+	private String dayClose;
+	private String dayOpen;
+	private String referredBy;
+	private String userId;
+	private String expectedDateClose;
+	private String nextActionDate;
+	private String nextAction;
+	private String stageProbability;
+	private String countryId;
+	private String stateId;
+	private String categoryId;
+	private String stageId;
+	private String channelId;
+	private String sectionId;
+	private String priorityId;
+	private String companyId;
+	private String probability;
+	private String leadClassId;
 	private CountryBean countryBean;
 	private StateBean stateBean;
 	private SectionBean sectionBean;
@@ -101,7 +131,6 @@ public class LeadBean extends AbstractBean {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

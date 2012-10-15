@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ package biz.vnc.beans;
 
 import biz.vnc.base.AbstractBean;
 
-public class SectionBean extends AbstractBean{
+public class SectionBean extends AbstractBean {
 
 	private int sectionId;
 	private String sectionName;
@@ -33,7 +33,7 @@ public class SectionBean extends AbstractBean{
 	private String sectionManagerId;
 	private String sectionLeaderId;
 	private String sectionWatcherId;
-	
+
 	public SectionBean() {
 		super();
 	}
@@ -99,5 +99,4 @@ public class SectionBean extends AbstractBean{
 	public void setSectionWatcherId(String sectionWatcherId) {
 		this.sectionWatcherId = sectionWatcherId;
 	}
-
 }

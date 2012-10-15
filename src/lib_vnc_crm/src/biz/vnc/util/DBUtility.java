@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -32,91 +32,93 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBUtility {
+
 	public static Connection connection;
 	public static Statement statement;
 	public static String MYSQL_PASSWORD = null;
-	static{
+
+	static {
 		try{
-				String cmd[] = {"/bin/sh","-c","/opt/zimbra/bin/zmlocalconfig -s | /bin/grep zimbra_mysql_password | /usr/bin/cut -d\" \" -f 3"};
-				Runtime r = Runtime.getRuntime();
-	            Process p = r.exec(cmd);
-	            InputStream stdin = p.getInputStream();
-	            InputStreamReader isr = new InputStreamReader(stdin);
-	            BufferedReader br = new BufferedReader(isr);
-	            MYSQL_PASSWORD = br.readLine();
-	            
-	            Class.forName("com.mysql.jdbc.Driver");
-	            String dbUrl = "jdbc:mysql://localhost:7306/vnccrm?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
-	            String dbUsername = "zimbra";
-	            connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
-	            statement = connection.createStatement();
-	            System.out.println("Connection Established Successfully.");
-		}catch(Exception e){
+			String cmd[] = {"/bin/sh","-c","/opt/zimbra/bin/zmlocalconfig -s | /bin/grep zimbra_mysql_password | /usr/bin/cut -d\" \" -f 3"};
+			Runtime r = Runtime.getRuntime();
+			Process p = r.exec(cmd);
+			InputStream stdin = p.getInputStream();
+			InputStreamReader isr = new InputStreamReader(stdin);
+			BufferedReader br = new BufferedReader(isr);
+			MYSQL_PASSWORD = br.readLine();
+
+			Class.forName("com.mysql.jdbc.Driver");
+			String dbUrl = "jdbc:mysql://localhost:7306/vnccrm?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
+			String dbUsername = "zimbra";
+			connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
+			statement = connection.createStatement();
+			System.out.println("Connection Established Successfully.");
+		} catch(Exception e) {
 			System.out.println("Exception:" + e);
 		}
 	}
-	public DBUtility(){
-		
+
+	public DBUtility() {
 	}
-	
-	public void stopConnection(){
-		try{
+
+	public void stopConnection() {
+		try {
 			statement.close();
 			connection.close();
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Connection close exception:" + e);
 		}
 	}
-	
-	public int insert(String query){
+
+	public int insert(String query) {
 		try {
 			System.out.println(query);
 			statement.execute(query);
 			return 1;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Insertion Exception: " + e);
 			return 0;
 		}
 	}
-	
-	public int update(String query){
-		try{
+
+	public int update(String query) {
+		try {
 			statement.execute(query);
 			return 1;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Updation Exception: " + e);
 			return 0;
 		}
 	}
-	
-	public int delete(String query){
-		try{
+
+	public int delete(String query) {
+		try {
 			statement.execute(query);
 			return 1;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Deletion Exception: " + e);
 			return 0;
 		}
 	}
-	
-	public ResultSet select(String query){
-		try{
+
+	public ResultSet select(String query) {
+		try {
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			return rs;
-				
-		}catch(Exception e){
+
+		} catch(Exception e) {
 			System.out.println("Selection Exception: " + e);
 		}
 		return null;
 	}
-	
-	public int adminCounter(String tableName){
+
+	public int adminCounter(String tableName) {
 		try {
 			Statement statement = connection.createStatement();
 			String query = "select count(*) from " + tableName + " where status = true;";
 			ResultSet rs = statement.executeQuery(query);
-			while (rs.next()){
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
 		} catch (SQLException e) {
@@ -125,13 +127,13 @@ public class DBUtility {
 		}
 		return 0;
 	}
-	
-	public int clientCounter(String tableName, int type){
+
+	public int clientCounter(String tableName, int type) {
 		try {
 			Statement statement = connection.createStatement();
 			String query = "select count(*) from " + tableName + " where status = true and type = " + type + ";";
 			ResultSet rs = statement.executeQuery(query);
-			while (rs.next()){
+			while (rs.next()) {
 				return rs.getInt(1);
 			}
 		} catch (SQLException e) {

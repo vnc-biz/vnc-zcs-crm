@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,9 @@ public class LeadClassBean extends AbstractBean {
 	private int leadClassId;
 	private String leadClassName;
 	private String leadClassActive;
-	
+
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -59,5 +58,5 @@ public class LeadClassBean extends AbstractBean {
 	public String getLeadClassActive() {
 		return leadClassActive;
 	}
-
 }
+

@@ -21,7 +21,6 @@
 */
 
 function ZaCRMCategoryModel(parent) {
-
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMCategoryModel",

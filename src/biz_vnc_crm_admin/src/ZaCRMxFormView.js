@@ -851,4 +851,5 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
         }]
     }];
 }
+
 ZaTabView.XFormModifiers["ZaCRMxFormView"].push(ZaCRMxFormView.myXFormModifier);

@@ -150,8 +150,8 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
             Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
             Ext.getCmp('oppTaskGrid').getView().refresh();
         }
-	} else {
-		Ext.example.msg('',biz_vnc_crm_client.msgTaskNotAttach);
+    } else {
+        Ext.example.msg('',biz_vnc_crm_client.msgTaskNotAttach);
     }
 }
 

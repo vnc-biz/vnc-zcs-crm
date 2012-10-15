@@ -233,7 +233,6 @@ ZmDashboardView.dashboard = function (app) {
         } else if (new Date(date[0]).getMonth() == 10) {
             nov += parseInt(oppData[i].valuation);
         } else if (new Date(date[0]).getMonth() == 11) {
-
             dec += parseInt(oppData[i].valuation);
         }
     }
@@ -355,7 +354,6 @@ ZmDashboardView.dashboard = function (app) {
             }
         }],
         items: oppChart
-
     });
 
     // ----------------- opp chart end -----------------------------
@@ -723,7 +721,6 @@ ZmDashboardView.dashboard = function (app) {
                 xtype: 'actioncolumn',
                 width: 25,
                 icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif",
-
                 items: [{
                     icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif", // Use a URL in the icon config
                     tooltip: biz_vnc_crm_client.btnEdit,
@@ -731,9 +728,6 @@ ZmDashboardView.dashboard = function (app) {
                         var rec = grid.getStore().getAt(rowIndex);
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
                         app.setContent(content);
-
-
-
                         ZmLeadListView.prototype.getContacts(0, [], rec, app);
                     }
                 }]

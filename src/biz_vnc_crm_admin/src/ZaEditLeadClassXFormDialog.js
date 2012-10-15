@@ -54,9 +54,7 @@ ZaEditLeadClassXFormDialog.prototype.getMyXForm = function () {
                 falseValue: false,
                 visibilityChecks: [],
                 enableDisableChecks: []
-            }
-
-            ]
+            }]
         }]
     };
     return xFormObject;

@@ -39,46 +39,46 @@ ZmCRMCalViewController.prototype._quickAddCallback = function (response) {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-	if (response.text == 0) {
-		Ext.example.msg('',biz_vnc_crm_client.msgApptNotAttach);
-	} else {
-    	if (biz_vnc_crm_client.flag == 0) {
-       		var leadId = biz_vnc_crm_client.leadId;
-        	var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-	        var reqHeader = {
-	            "Content-Type": "application/x-www-form-urlencoded"
-    	    };
-    	    var reqJson = AjxStringUtil.urlEncode(json);
-    	    var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    	    var msgArray = [];
-    	    var item;
-    	    var msgArray = (responseMailHistory.text).split(",");
-    	    if (msgArray != "null") {
-    	        biz_vnc_crm_client.requestApptList(msgArray);
-    	    } else {
-    	        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
-    	    }
-    	    Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
-    	    Ext.getCmp('leadApptGrid').getView().refresh();
-    	} else if (biz_vnc_crm_client.flag == 1) {
-    	    var leadId = biz_vnc_crm_client.leadId;
-    	    var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
-    	    var reqHeader = {
-    	        "Content-Type": "application/x-www-form-urlencoded"
-    	    };
-    	    var reqJson = AjxStringUtil.urlEncode(json);
-    	    var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    	    var msgArray = [];
-    	    var item;
-    	    var msgArray = (responseMailHistory.text).split(",");
-    	    if (msgArray != "null") {
-    	        biz_vnc_crm_client.requestApptList(msgArray);
-    	    } else {
-    	        biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
-    	    }
-    	    Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
-    	    Ext.getCmp('oppApptGrid').getView().refresh();
-    	}
-		Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
-	}
-}		
+    if (response.text == 0) {
+        Ext.example.msg('',biz_vnc_crm_client.msgApptNotAttach);
+    } else {
+        if (biz_vnc_crm_client.flag == 0) {
+            var leadId = biz_vnc_crm_client.leadId;
+            var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+            var reqHeader = {
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
+            var reqJson = AjxStringUtil.urlEncode(json);
+            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var msgArray = [];
+            var item;
+            var msgArray = (responseMailHistory.text).split(",");
+            if (msgArray != "null") {
+                biz_vnc_crm_client.requestApptList(msgArray);
+            } else {
+                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+            }
+            Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
+            Ext.getCmp('leadApptGrid').getView().refresh();
+        } else if (biz_vnc_crm_client.flag == 1) {
+            var leadId = biz_vnc_crm_client.leadId;
+            var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+            var reqHeader = {
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
+            var reqJson = AjxStringUtil.urlEncode(json);
+            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var msgArray = [];
+            var item;
+            var msgArray = (responseMailHistory.text).split(",");
+            if (msgArray != "null") {
+                biz_vnc_crm_client.requestApptList(msgArray);
+            } else {
+                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+            }
+            Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
+            Ext.getCmp('oppApptGrid').getView().refresh();
+        }
+        Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
+    }
+}

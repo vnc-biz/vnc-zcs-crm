@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.ChannelBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
-
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +45,6 @@ public class ChannelHelper implements InterfaceHelper {
 		return strOfAllRecords;
 	}
 
-	
 	@Override
 	public int add(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
@@ -55,7 +53,6 @@ public class ChannelHelper implements InterfaceHelper {
 		return operationStatus;
 	}
 
-
 	@Override
 	public int update(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
@@ -63,7 +60,6 @@ public class ChannelHelper implements InterfaceHelper {
 		operationStatus = dbu.update(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public int delete(AbstractBean ab) {
@@ -76,7 +72,7 @@ public class ChannelHelper implements InterfaceHelper {
 	private ChannelBean getRecordFromResultSet(ResultSet rs) {
 		ChannelBean channelBean = new ChannelBean();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -98,8 +94,8 @@ public class ChannelHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		ChannelBean channelBean = null;
 		try {
-			while(rs.next()){
-				channelBean = new ChannelBean(); 
+			while(rs.next()) {
+				channelBean = new ChannelBean();
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -107,11 +103,10 @@ public class ChannelHelper implements InterfaceHelper {
 				channelBean.setCreateDate(rs.getString("createDate"));
 				channelBean.setWriteBy(rs.getString("writeBy"));
 				channelBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -122,7 +117,6 @@ public class ChannelHelper implements InterfaceHelper {
 		operationStatus = dbu.delete(query);
 		return operationStatus;
 	}
-
 
 	@Override
 	public AbstractBean getRecordById(String id) {
@@ -140,40 +134,35 @@ public class ChannelHelper implements InterfaceHelper {
 
 	@Override
 	public ChannelBean toBean(String jsonString) {
-		
-		try{
+		try {
 			ChannelBean channelBean = new ChannelBean();
 			channelBean = gson.fromJson(jsonString, ChannelBean.class);
 			return channelBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
 	}
 
-
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_channel where status = true;" ;
 		ResultSet rs = dbu.select(query);
 		ChannelBean channelBean = null;
 		try {
-			while(rs.next()){
-				channelBean = new ChannelBean(); 
+			while(rs.next()) {
+				channelBean = new ChannelBean();
 				channelBean.setChannelId(rs.getInt("channelId"));
 				channelBean.setChannelName(rs.getString("channelName"));
 				channelBean.setStatus(rs.getBoolean("status"));
@@ -181,110 +170,86 @@ public class ChannelHelper implements InterfaceHelper {
 				channelBean.setCreateDate(rs.getString("createDate"));
 				channelBean.setWriteBy(rs.getString("writeBy"));
 				channelBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
 
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String filterByContact(String Array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
 	@Override
 	public int deleteHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int deleteAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 	@Override
 	public int deleteTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_channel";
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)
 			return 2;
 		return 0;
 	}
-
 }

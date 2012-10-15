@@ -22,7 +22,7 @@
 
 /*
  * Defines the Zimlet handler class.
- *   
+ *
  */
 function biz_vnc_crm_client_HandlerObject() {};
 
@@ -35,7 +35,7 @@ biz_vnc_crm_client_HandlerObject.prototype.constructor = biz_vnc_crm_client_Hand
 
 /*
  * This method gets called by the Zimlet framework when the zimlet loads.
- *  
+ *
  */
 biz_vnc_crm_client._app = null;
 
@@ -508,7 +508,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                     actionMethods: {
                         read: 'POST'
                     }
-
                 }),
                 viewConfig: {
                     stripeRows: true
@@ -1025,7 +1024,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                     actionMethods: {
                         read: 'POST'
                     }
-
                 }),
                 viewConfig: {
                     stripeRows: true
@@ -1038,7 +1036,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                         icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif", // Use a URL in the icon config
                         tooltip: biz_vnc_crm_client.btnEdit,
                         handler: function (grid, rowIndex, colIndex) {
-
                             var rec = grid.getStore().getAt(rowIndex);
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             var app = biz_vnc_crm_client._app;
@@ -1157,7 +1154,6 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                     xtype: 'actioncolumn',
                     width: 25,
                     icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif",
-
                     items: [{
                         icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif", // Use a URL in the icon config
                         tooltip: biz_vnc_crm_client.btnEdit,
@@ -1224,8 +1220,8 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                     }
 
                                     json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
-                                        var reqJson = AjxStringUtil.urlEncode(json);
-                                        var contactLeadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                    var reqJson = AjxStringUtil.urlEncode(json);
+                                    var contactLeadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
                                     Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                     Ext.getCmp('contactLeadGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
@@ -1530,7 +1526,6 @@ biz_vnc_crm_client.okMailAttach = function () {
         Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
         Ext.getCmp('oppMailGrid').getView().refresh();
     }
-
 };
 
 biz_vnc_crm_client.okAppointmentAttach = function () {
@@ -1574,7 +1569,6 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
             }
             Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
             Ext.getCmp('leadApptGrid').getView().refresh();
-
         } else if (biz_vnc_crm_client.flag == 1) {
             var leadId = biz_vnc_crm_client.leadId;
             var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
@@ -1659,7 +1653,9 @@ biz_vnc_crm_client.handleGetContactsResponse = function (contactList, rec, resul
         } else {}
     }
 };
+
 biz_vnc_crm_client.mailController = null;
+
 biz_vnc_crm_client.initLeadGrid = function (app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
@@ -1676,23 +1672,23 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-	Ext.override(Ext.util.Filter,{
-    	createFilterFn: function() {
-        	var me       = this,
-           	matcher  = me.createValueMatcher(),
-	        property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
-    		return function(item) {
-    	      	var hasmatch = false;
-	    	    for(var i=0;i<property.length;i++) {
-            	    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
-                   		hasmatch=true;
-	                   	break;
-    		        }		
-            	}
-		        return matcher === null ? value === null : hasmatch;
-       		};
-    	}
-	});
+    Ext.override(Ext.util.Filter,{
+        createFilterFn: function() {
+            var me   = this,
+            matcher  = me.createValueMatcher(),
+            property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
+            return function(item) {
+                var hasmatch = false;
+                for(var i=0;i<property.length;i++) {
+                    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
+                           hasmatch=true;
+                           break;
+                    }
+                }
+                return matcher === null ? value === null : hasmatch;
+            };
+        }
+    });
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -1887,8 +1883,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             name: 'writeDate',
             type: 'string'
         }]
-
     });
+
     var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
@@ -2091,9 +2087,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }, {
             name: 'dueDate',
             type: 'date'
-        }
-
-        ]
+        }]
     });
 
     var leadSMMail = Ext.create('Ext.selection.CheckboxModel', {
@@ -2335,7 +2329,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 border: false,
                 layout: 'anchor',
                 defaultType: 'textfield',
-
                 items: [{
                     xtype: 'combo',
                     mode: 'local',
@@ -2631,7 +2624,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                         Ext.getCmp('txtleadfax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
-
                             }
                         },
                         anchor: '100%'
@@ -2667,7 +2659,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         listeners: {
                             render: function(c) {
                                 c.getEl().on('click', function(e) {
-									biz_vnc_crm_client.add_contact(0);
+                                    biz_vnc_crm_client.add_contact(0);
                                 }, c);
                             }
                         }
@@ -2834,7 +2826,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                     Ext.getCmp('leadMailGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
                         }
@@ -2959,7 +2951,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     var rec1 = Ext.getCmp('leadApptGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
-
                                         idArray.push("'" + item.data.appointmentId + "'");
                                     });
                                     var leadId = biz_vnc_crm_client.leadId;
@@ -2985,7 +2976,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('leadApptGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                 }
                             };
                         }
@@ -3162,7 +3153,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     }
                                     Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
                                     Ext.getCmp('leadTaskGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                 }
                             };
                         }
@@ -3412,7 +3403,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         var msgArray = (responseMailHistory.text).split(",");
                         if (msgArray != "null") {
                             biz_vnc_crm_client.requestApptList(msgArray);
-
                             Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                             Ext.getCmp('leadApptGrid').getView().refresh();
                         } else {
@@ -3714,35 +3704,35 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     };
                 }
             }, {
-				xtype: 'textfield',
-				fieldLabel: biz_vnc_crm_client.quick_search,
-				id: 'txtleadsearch',
-				cls: 'searchTextField',
-				listeners: {
-				change: {
-					fn:function(field, newVal, oldVal){
-						var propertyArray = new Array();
-						var columns = Ext.getCmp('leadGrid').columns;
-						for(var i=2;i<columns.length-1;i++) {
-							if(!columns[i].isHidden()) {
-								propertyArray.push(columns[i].dataIndex);
-							}
-						}
-						var store = Ext.data.StoreManager.lookup(Ext.getCmp('leadGrid').getStore());
-						var leadfilter = new Ext.util.Filter({
-							property: propertyArray,
-							value: newVal,
-     						anyMatch: true,
-							caseSensitive: false,
-     						root: 'data'
- 						});
-						store.clearFilter();
-						store.filter(leadfilter);
-					},
-				buffer: 100,
-				scope: this
-				}}
-			}]
+                xtype: 'textfield',
+                fieldLabel: biz_vnc_crm_client.quick_search,
+                id: 'txtleadsearch',
+                cls: 'searchTextField',
+                listeners: {
+                change: {
+                    fn:function(field, newVal, oldVal){
+                        var propertyArray = new Array();
+                        var columns = Ext.getCmp('leadGrid').columns;
+                        for(var i=2;i<columns.length-1;i++) {
+                            if(!columns[i].isHidden()) {
+                                propertyArray.push(columns[i].dataIndex);
+                            }
+                        }
+                        var store = Ext.data.StoreManager.lookup(Ext.getCmp('leadGrid').getStore());
+                        var leadfilter = new Ext.util.Filter({
+                            property: propertyArray,
+                            value: newVal,
+                             anyMatch: true,
+                            caseSensitive: false,
+                             root: 'data'
+                         });
+                        store.clearFilter();
+                        store.filter(leadfilter);
+                    },
+                buffer: 100,
+                scope: this
+                }}
+            }]
         }],
         items: [{
             title: biz_vnc_crm_client.lblLeadForm,
@@ -3774,7 +3764,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             },
             store: Ext.create('Ext.data.Store', {
                 model: 'model_1',
-				storeId: 'leadStore',
+                storeId: 'leadStore',
                 proxy: {
                     type: 'memory',
                     data: jsonParse(response.text)
@@ -3791,7 +3781,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 xtype: 'actioncolumn',
                 width: 25,
                 icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif",
-
                 items: [{
                     icon: "/service/zimlet/biz_vnc_crm_client/default/btn/pencil.gif", // Use a URL in the icon config
                     tooltip: biz_vnc_crm_client.btnEdit,
@@ -3806,7 +3795,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 text: biz_vnc_crm_client.creationDate,
                 width: 160,
                 dataIndex: 'createDate',
-				renderer: biz_vnc_crm_client.leadGridColumnRender
+                renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.subject,
                 width: 160,
@@ -3870,7 +3859,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 biz_vnc_crm_client.initLeadGrid(app);
                             }
-
                         };
                     }
                 }]
@@ -4004,14 +3992,14 @@ biz_vnc_crm_client.leadGridColumnRender = function (v) {
 };
 
 biz_vnc_crm_client.oppGridColumnRender = function (v) {
-	var searchValue = Ext.getCmp("txtoppsearch").getValue();
+    var searchValue = Ext.getCmp("txtoppsearch").getValue();
     if(searchValue!='') {
-    	var v = v.replace(new RegExp(searchValue,"gi"), function($1) {
-        	return '<span style="background:yellow;">' + $1 + '</span>';
+        var v = v.replace(new RegExp(searchValue,"gi"), function($1) {
+            return '<span style="background:yellow;">' + $1 + '</span>';
         });
-		return v;
-	} else {
-    	return v;
+        return v;
+    } else {
+        return v;
     }
 };
 
@@ -4034,23 +4022,23 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-	Ext.override(Ext.util.Filter,{
-    	createFilterFn: function() {
-        	var me       = this,
-           	matcher  = me.createValueMatcher(),
-	        property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
-    		return function(item) {
-    	      	var hasmatch = false;
-	    	    for(var i=0;i<property.length;i++) {
-            	    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
-                   		hasmatch=true;
-	                   	break;
-    		        }		
-            	}
-		        return matcher === null ? value === null : hasmatch;
-       		};
-    	}
-	});
+    Ext.override(Ext.util.Filter,{
+        createFilterFn: function() {
+            var me       = this,
+            matcher  = me.createValueMatcher(),
+            property = !Ext.isArray(me.property) ? me.property.split(',') : me.property
+            return function(item) {
+                var hasmatch = false;
+                for(var i=0;i<property.length;i++) {
+                    if(matcher.test(me.getRoot.call(me, item)[property[i]])) {
+                           hasmatch=true;
+                           break;
+                    }
+                }
+                return matcher === null ? value === null : hasmatch;
+            };
+        }
+    });
 
     var toolbar = app.getToolbar();
     var arrOfEle = toolbar.getChildren();
@@ -4261,7 +4249,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             }
         }
     });
-	Ext.define('leadClass', {
+    Ext.define('leadClass', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'leadClassId',
@@ -4309,9 +4297,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }, {
             name: 'companyName',
             type: 'string'
-        }
-
-        ]
+        }]
     });
     Ext.define('contact', {
         extend: 'Ext.data.Model',
@@ -4321,9 +4307,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }, {
             name: 'contactName',
             type: 'string'
-        }
-
-        ]
+        }]
     });
     Ext.define('category', {
         extend: 'Ext.data.Model',
@@ -4837,7 +4821,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                         Ext.getCmp('txtOppFax').setValue(ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.workFax));
                                     }
                                 }
-
                             }
                         },
                         anchor: '100%'
@@ -4896,7 +4879,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         listeners: {
                             render: function(c) {
                                 c.getEl().on('click', function(e) {
-									biz_vnc_crm_client.add_contact(1);
+                                    biz_vnc_crm_client.add_contact(1);
                                 }, c);
                             }
                         }
@@ -5143,7 +5126,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     }
                                     Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
                                     Ext.getCmp('oppMailGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
                         }
@@ -5154,7 +5137,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         handler: function () {
                             biz_vnc_crm_client.flag = 1;
                             var leadId = biz_vnc_crm_client.leadId;
-							biz_vnc_crm_client.composeMail(leadId);
+                            biz_vnc_crm_client.composeMail(leadId);
                         }
                     }, {
                         iconCls: 'refresh',
@@ -5293,7 +5276,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     }
                                     Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
                                     Ext.getCmp('oppApptGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                 }
                             };
                         }
@@ -5478,7 +5461,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                                     Ext.getCmp('oppTaskGrid').getStore().loadData(jsonParse(oppTaskListData), false);
                                     Ext.getCmp('oppTaskGrid').getView().refresh();
-									Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
                                 }
                             };
                         }
@@ -6057,7 +6040,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             },
             store: Ext.create('Ext.data.Store', {
                 model: 'model_1',
-				storeId: 'oppStore',
+                storeId: 'oppStore',
                 proxy: {
                     type: 'memory',
                     data: jsonParse(responseOpp.text)
@@ -6089,7 +6072,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 120,
                 dataIndex: 'createDate',
                 sortable: true,
-				renderer: biz_vnc_crm_client.oppGridColumnRender
+                renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.opportunity,
                 width: 150,
@@ -6220,7 +6203,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         Ext.getCmp('cmbOppsection').setValue(rec.get('sectionId'));
                     }
                 });
-
                 Ext.getCmp('cmbOppchannel').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbOppchannel').setValue(rec.get('channelId'));
@@ -6298,15 +6280,15 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 };
 
 biz_vnc_crm_client.add_contact = function(flag) {
-	AjxDispatcher.require(["ContactsCore", "Contacts"]);
-	biz_vnc_crm_client.contactFlag = flag;
-	var contact = new ZmContact(null, null, null);
-	var contactApp = appCtxt.getApp(ZmApp.CONTACTS);	
-	var contactController = new ZmContactController(contactApp._container, contactApp);
-	contactController.show(contact);
-	contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
-	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [biz_vnc_crm_client._app]));
-	contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));           
+    AjxDispatcher.require(["ContactsCore", "Contacts"]);
+    biz_vnc_crm_client.contactFlag = flag;
+    var contact = new ZmContact(null, null, null);
+    var contactApp = appCtxt.getApp(ZmApp.CONTACTS);    
+    var contactController = new ZmContactController(contactApp._container, contactApp);
+    contactController.show(contact);
+    contactController.getCurrentToolbar().getButton(ZmOperation.SAVE).removeSelectionListeners();
+    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.CANCEL, new AjxListener(this, ZmLeadListView._myCancelListener, [biz_vnc_crm_client._app]));
+    contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));           
 }
 
 biz_vnc_crm_client.requestMailList = function (msgArray) {
@@ -6335,7 +6317,6 @@ biz_vnc_crm_client.requestMailList = function (msgArray) {
             biz_vnc_crm_client.mailData += "{\"mailId\":\"" + msgArray[i] + "\",\"date\":\"" + new Date(resp.d) + "\",\"from\":\"" + resp.e[0].a + "\",\"subject\":\"" + resp.su + "\",\"message\":\"" + resp.fr + "\"},";
         }
     }
-
 }
 
 biz_vnc_crm_client.requestApptList = function (msgArray) {
@@ -6368,7 +6349,7 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
 
 /**
  * This method gets called by the Zimlet framework each time the application is opened or closed.
- *  
+ *
  * @param    {String}    appName        the application name
  * @param    {Boolean}    active        if <code>true</code>, the application status is open; otherwise, <code>false</code>
  */
@@ -6388,7 +6369,6 @@ biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active
 
                 var app = appCtxt.getApp(this._tabAppName);
                 biz_vnc_crm_client_HandlerObject.prototype.setview(app);
-
             }
             break;
         }
@@ -6397,8 +6377,8 @@ biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active
 
 /**
  * This method gets called by the Zimlet framework when the application is opened for the first time.
- *  
- * @param    {String}    appName        the application name        
+ *
+ * @param    {String}    appName        the application name
  */
 biz_vnc_crm_client_HandlerObject.prototype.appLaunch = function (appName) {
     switch (appName) {
@@ -6747,8 +6727,8 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
     var aboutUsDetailsWindow = Ext.create('widget.window', {
             minHeight: 400,
             minWidth: 565,
-			maxWidth: 565,
-			maxHeight: 400,
+            maxWidth: 565,
+            maxHeight: 400,
             title: null,
             shrinkWrap: true,
             titleCollapse: true,
@@ -6768,7 +6748,7 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                         src : "/service/zimlet/biz_vnc_crm_client/VNC-CRM-for-Zimbra.png",
                         border : true,
                         style : {"height": '96px', "width": '320px',"margin-left": '120px', "margin-top": '30px'},
-                        resizable : false   
+                        resizable : false
                     }, {
                         xtype: 'label',
                         text: biz_vnc_crm_client.crmclient_label + " v" + biz_vnc_crm_client.ZIMLET_VERSION,
@@ -6827,8 +6807,7 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
             title: subject,
             width: 400,
             bodyPadding: 10,
-
-             items: [{
+            items: [{
                 layout: 'column',
                 border: false,
                 defaults: {
@@ -6914,8 +6893,8 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
 };
 
 biz_vnc_crm_client.composeMail = function(leadId){
-	if(!biz_vnc_crm_client.mailController) {
-		biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);	
-	}
-	biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
+    if(!biz_vnc_crm_client.mailController) {
+        biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);    
+    }
+    biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
 }

@@ -2,7 +2,7 @@
 /* 
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -75,10 +75,10 @@ try {
 		}
 	} else if(actionType.equals("COUNT")){
 		try{
-				operationStatus = interfaceHelper.recordCounter();
-				out.println(operationStatus);
+			operationStatus = interfaceHelper.recordCounter();
+			out.println(operationStatus);
 		}catch(Exception e){
-				ZLog.err("Zimbra CRM Admin","Error in count",e);
+			ZLog.err("Zimbra CRM Admin","Error in count",e);
 		}
 	} else if(actionType.equals("USER")) {
 		try {

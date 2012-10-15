@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -44,20 +44,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeadHelper implements InterfaceHelper {
-	
+
 	Gson gson = new Gson();
 	int operationStatus=0;
 	DBUtility dbu = new DBUtility();
+
 	@Override
 	public String listView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllRecords());
 		return strOfAllRecords;
 	}
 
 	@Override
 	public int add(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		LeadBean leadBean = (LeadBean)ab;
 		String query = "insert into tbl_crm_lead values (" + leadBean.getLeadId() + ",\"" + leadBean.getSubjectName() + "\",\"" + leadBean.getLeadDescription() + "\",\"" + leadBean.getContactName() + "\"," + leadBean.getCompanyId() + ",\"" + leadBean.getValuation() + "\",'" + leadBean.getLeadState() + "'," + leadBean.getLeadClassId() + ",'" + leadBean.getPartnerName() + "','" + leadBean.getPhone() + "','" + leadBean.getFax() + "','" + leadBean.getEmail() + "','" + leadBean.getWorkPhone() + "','" + leadBean.getMobile() + "','" + leadBean.getStreet1() + "','" + leadBean.getStreet2() + "','" + leadBean.getCity() + "','" + leadBean.getZip() + "'," + leadBean.getStateId() + "," + leadBean.getCountryId() + "," + leadBean.getType() + ",'" + leadBean.getDateOpen() + "','" + leadBean.getDateClose() + "','" + leadBean.getExpectedDateClose() + "'," + leadBean.getStageId() + "," + leadBean.getProbability() + "," + leadBean.getChannelId() + "," + leadBean.getSectionId() + "," + leadBean.getCategoryId() + "," + leadBean.getDayClose() + "," + leadBean.getDayOpen() + ",'" + leadBean.getReferredBy() + "','" + leadBean.getUserId() + "'," + leadBean.getPriorityId() + ",'" + leadBean.getNextActionDate() + "','" + leadBean.getNextAction() + "'," + leadBean.isStatus() + ",'" + leadBean.getCreateBy() + "','" + new Timestamp(System.currentTimeMillis()) + "','" + leadBean.getWriteBy() + "','" + leadBean.getWriteDate()+ "');" ;
 		operationStatus = dbu.insert(query);
@@ -66,7 +65,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int update(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		LeadBean leadBean = (LeadBean)ab;
 		String query = "update tbl_crm_lead set subjectName = \"" + leadBean.getSubjectName() + "\", leadDescription='" + leadBean.getLeadDescription() + "', contactName = '" + leadBean.getContactName() + "', companyId = " + leadBean.getCompanyId() + ", valuation = '" + leadBean.getValuation() + "', leadState = '" +leadBean.getLeadState() + "', leadClassId = " + leadBean.getLeadClassId() + " , partnerName = '" + leadBean.getPartnerName() + "', phone = '" + leadBean.getPhone() + "', fax = '" + leadBean.getFax() + "', email = '" + leadBean.getEmail() + "', workPhone = '" + leadBean.getWorkPhone() + "', mobile = '" + leadBean.getMobile() + "', street1 = '" + leadBean.getStreet1() + "', street2 = '" + leadBean.getStreet2() + "', city = '" + leadBean.getCity() + "', zip = '" + leadBean.getZip() + "', stateId = " + leadBean.getStateId() + ", countryId = " + leadBean.getCountryId() + ", type = '" + leadBean.getType() + "', dateOpen = '" + leadBean.getDateOpen() + "', dateClose = '" + leadBean.getDateClose() + "', expectedDateClose = '" + leadBean.getExpectedDateClose() + "', stageId = " + leadBean.getStageId() + ", probability = '" + leadBean.getProbability() +  "', channelId = " + leadBean.getChannelId() + ", sectionId = " + leadBean.getSectionId() + ", categoryId = " + leadBean.getCategoryId() + ", dayClose = " + leadBean.getDayClose() + ",dayOpen = " + leadBean.getDayOpen() + ", referredBy = '" + leadBean.getReferredBy() + "', userId = '" + leadBean.getUserId() + "', priorityId = " + leadBean.getPriorityId() + ", nextActionDate = '" + leadBean.getNextActionDate() + "', nextAction = '" + leadBean.getNextAction() + "', writeBy = \"" + leadBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where leadId = " + leadBean.getLeadId() + ";" ;
 		operationStatus = dbu.update(query);
@@ -75,7 +73,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int delete(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		LeadBean leadBean = (LeadBean)ab;
 		String query = "delete from tbl_crm_lead where leadId =" + leadBean.getLeadId() + ";" ;
 		operationStatus = dbu.delete(query);
@@ -84,7 +81,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteByIds(String arrayIds, String user) {
-		// TODO Auto-generated method stub
 		String query = "update tbl_crm_lead set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where leadId IN (" + arrayIds + ");" ;
 		operationStatus = dbu.delete(query);
 		return operationStatus;
@@ -92,7 +88,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public List<AbstractBean> getAllRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_lead;" ;
 		ResultSet rs = dbu.select(query);
@@ -110,11 +105,11 @@ public class LeadHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();	
+		CompanyHelper companyHelper = new CompanyHelper();
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
-		
+
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -160,31 +155,28 @@ public class LeadHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public AbstractBean toBean(String jsonString) {
-		// TODO Auto-generated method stub
-		try{
+		try {
 			LeadBean leadBean  = new LeadBean();
 			leadBean = gson.fromJson(jsonString, LeadBean.class);
 			return leadBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -192,19 +184,16 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_lead where type = 0 and status = true;" ;
 		ResultSet rs = dbu.select(query);
@@ -222,10 +211,10 @@ public class LeadHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();	
+		CompanyHelper companyHelper = new CompanyHelper();
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -271,31 +260,26 @@ public class LeadHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
-		
 	}
-	
+
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		String field = "leadState";
 		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(array,field));
 		return strOfAllRecords;
-		
 	}
-	
+
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array, String field) {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_lead where type = 0 and status = true and " + field + " IN (" + array + ");"  ;
 		ResultSet rs = dbu.select(query);
@@ -313,11 +297,11 @@ public class LeadHelper implements InterfaceHelper {
 		CategoryHelper categoryHelper = new CategoryHelper();
 		PriorityHelper priorityHelper = new PriorityHelper();
 		StageHelper stageHelper = new StageHelper();
-		CompanyHelper companyHelper = new CompanyHelper();	
+		CompanyHelper companyHelper = new CompanyHelper();
 		LeadClassHelper leadClassHelper = new LeadClassHelper();
-		
+
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				leadBean = new LeadBean();
 				leadBean.setLeadId(rs.getInt("leadId"));
 				leadBean.setSubjectName(rs.getString("subjectName"));
@@ -363,14 +347,13 @@ public class LeadHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String filterByContact(String array) {
-		// TODO Auto-generated method stub
 		String field = "partnerName";
 		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(array,field));
 		return strOfAllRecords;
@@ -378,9 +361,8 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String messageId : str){
+for(String messageId : str) {
 			String query = "insert into tbl_crm_lead_mailHistory values ('" + leadId +"','" + messageId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -389,17 +371,16 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		String query = "select messageId from tbl_crm_lead_mailHistory where leadId = " + leadId + ";";
 		ResultSet rs = dbu.select(query);
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				str = rs.getString("messageId");
-				if(msgArray == null){
+				if(msgArray == null) {
 					msgArray = str;
-				}else
+				} else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
@@ -411,7 +392,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteHistory(String array,String leadId) {
-		// TODO Auto-generated method stub
 		String query = "delete from tbl_crm_lead_mailHistory where leadId = " + leadId + " and messageId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
@@ -419,9 +399,8 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String appointmentId : str){
+for(String appointmentId : str) {
 			String query = "insert into tbl_crm_lead_calendar values ('" + leadId +"','" + appointmentId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -430,17 +409,16 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		String query = "select appointmentId from tbl_crm_lead_calendar where leadId = " + leadId + ";";
 		ResultSet rs = dbu.select(query);
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				str = rs.getString("appointmentId");
-				if(msgArray == null){
+				if(msgArray == null) {
 					msgArray = str;
-				}else
+				} else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
@@ -452,7 +430,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteAppointment(String array,String leadId) {
-		// TODO Auto-generated method stub
 		String query = "delete from tbl_crm_lead_calendar where leadId = " + leadId + " and appointmentId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
@@ -460,9 +437,8 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		String[] str = array.split(",");
-		for(String taskId : str){
+for(String taskId : str) {
 			String query = "insert into tbl_crm_lead_task values ('" + leadId +"','" + taskId + "');";
 			operationStatus = dbu.insert(query);
 		}
@@ -471,17 +447,16 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		String query = "select taskId from tbl_crm_lead_task where leadId = " + leadId + ";";
 		ResultSet rs = dbu.select(query);
 		String str;
 		String msgArray = null;
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				str = rs.getString("taskId");
-				if(msgArray == null){
+				if(msgArray == null) {
 					msgArray = str;
-				}else
+				} else
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
@@ -493,7 +468,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteTask(String array,String leadId) {
-		// TODO Auto-generated method stub
 		String query = "delete from tbl_crm_lead_task where leadId = " + leadId + " and taskId IN (" + array + ");";
 		operationStatus = dbu.delete(query);
 		return operationStatus;
@@ -501,7 +475,6 @@ public class LeadHelper implements InterfaceHelper {
 
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_lead";
 		operationStatus = dbu.clientCounter(tableName, 0);
 		if(operationStatus >= Limits.max_limit)

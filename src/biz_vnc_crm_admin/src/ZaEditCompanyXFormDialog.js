@@ -68,7 +68,6 @@ ZaEditCompanyXFormDialog.prototype.getMyXForm = function () {
                 labelLocation: _LEFT_,
                 width: 250
             },
-
             {
                 type: _SPACER_,
                 height: "5"

@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,13 @@ package biz.vnc.beans;
 
 import biz.vnc.base.AbstractBean;
 
-public class StateBean extends AbstractBean{
+public class StateBean extends AbstractBean {
 
 	private int stateId;
 	private String stateName;
 	private String stateCode;
 	private String countryId;
-	
+
 
 	public StateBean() {
 		super();
@@ -67,7 +67,7 @@ public class StateBean extends AbstractBean{
 	public void setCountryId(int countryId) {
 		this.countryId = String.valueOf(countryId);
 	}
-	
+
 	public int getCountryId() {
 		return Integer.parseInt(countryId);
 	}

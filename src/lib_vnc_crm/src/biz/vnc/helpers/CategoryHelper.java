@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.CategoryBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
-
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,7 +44,7 @@ public class CategoryHelper implements InterfaceHelper {
 		String strOfAllRecords = gson.toJson(getAllRecords());
 		return strOfAllRecords;
 	}
-	
+
 	@Override
 	public int add(AbstractBean ab) {
 		CategoryBean categoryBean = (CategoryBean)ab;
@@ -73,7 +72,7 @@ public class CategoryHelper implements InterfaceHelper {
 	private CategoryBean getRecordFromResultSet(ResultSet rs) {
 		CategoryBean categoryBean = new CategoryBean();
 		try {
-			while(rs.next()){
+			while(rs.next()) {
 				categoryBean.setCategoryId(rs.getInt("categoryId"));
 				categoryBean.setCategoryName(rs.getString("categoryName"));
 				categoryBean.setSectionId(rs.getString("sectionId"));
@@ -96,8 +95,8 @@ public class CategoryHelper implements InterfaceHelper {
 		ResultSet rs = dbu.select(query);
 		CategoryBean categoryBean = null;
 		try {
-			while(rs.next()){
-				categoryBean = new CategoryBean(); 
+			while(rs.next()) {
+				categoryBean = new CategoryBean();
 				categoryBean.setCategoryId(rs.getInt("categoryId"));
 				categoryBean.setCategoryName(rs.getString("categoryName"));
 				categoryBean.setSectionId(rs.getString("sectionName"));
@@ -106,11 +105,10 @@ public class CategoryHelper implements InterfaceHelper {
 				categoryBean.setCreateDate(rs.getString("createDate"));
 				categoryBean.setWriteBy(rs.getString("writeBy"));
 				categoryBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(categoryBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
@@ -138,12 +136,11 @@ public class CategoryHelper implements InterfaceHelper {
 
 	@Override
 	public CategoryBean toBean(String jsonString) {
-		
-		try{
+		try {
 			CategoryBean categoryBean  = new CategoryBean ();
 			categoryBean = gson.fromJson(jsonString, CategoryBean.class);
 			return categoryBean;
-		}catch(Exception e){
+		} catch(Exception e) {
 			System.out.println("Error in toBean() :" + e);
 		}
 		return null;
@@ -151,26 +148,23 @@ public class CategoryHelper implements InterfaceHelper {
 
 	@Override
 	public List<AbstractBean> getStringRecord(AbstractBean ab) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUsers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
-		// TODO Auto-generated method stub
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.status = true AND c.sectionId = s.sectionId;" ;
 		ResultSet rs = dbu.select(query);
 		CategoryBean categoryBean = null;
 		try {
-			while(rs.next()){
-				categoryBean = new CategoryBean(); 
+			while(rs.next()) {
+				categoryBean = new CategoryBean();
 				categoryBean.setCategoryId(rs.getInt("categoryId"));
 				categoryBean.setCategoryName(rs.getString("categoryName"));
 				categoryBean.setSectionId(rs.getString("sectionName"));
@@ -179,97 +173,82 @@ public class CategoryHelper implements InterfaceHelper {
 				categoryBean.setCreateDate(rs.getString("createDate"));
 				categoryBean.setWriteBy(rs.getString("writeBy"));
 				categoryBean.setWriteDate(rs.getString("writeDate"));
-				
 				retValue.add(categoryBean);
 			}
 		} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return retValue;
 	}
 
 	@Override
 	public String listClientView() {
-		// TODO Auto-generated method stub
 		String strOfAllRecords = gson.toJson(getAllActiveRecords());
 		return strOfAllRecords;
 	}
 
 	@Override
 	public String filterView(String array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String filterByContact(String Array) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listHistory(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listAppointment(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int addTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String listTask(String leadId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int deleteHistory(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteAppointment(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int deleteTask(String array, String leadId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int recordCounter() {
-		// TODO Auto-generated method stub
 		String tableName = "tbl_crm_category";
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)
