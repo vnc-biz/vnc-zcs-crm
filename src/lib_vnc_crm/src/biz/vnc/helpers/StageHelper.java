@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import biz.vnc.zimbra.util.ZLog;
 
 public class StageHelper implements InterfaceHelper {
 
@@ -89,7 +90,7 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return stageBean;
 	}
@@ -119,7 +120,7 @@ public class StageHelper implements InterfaceHelper {
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}
@@ -192,7 +193,7 @@ public class StageHelper implements InterfaceHelper {
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}

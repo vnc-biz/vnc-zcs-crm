@@ -8,7 +8,8 @@ ZCS_LIB_JARS=\
 	zimbracommon.jar	\
 	zimbrastore.jar		\
 	zcs-lib-json-simple.jar	\
-	zcs-lib-gson.jar
+	zcs-lib-gson.jar	\
+	zcs-lib-vnc-common.jar
 
 INSTALL_ZIMLET=y
 INSTALL_USER=y

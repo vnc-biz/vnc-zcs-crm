@@ -37,6 +37,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import biz.vnc.zimbra.util.ZLog;
 
 public class SectionHelper implements InterfaceHelper {
 
@@ -93,7 +94,7 @@ public class SectionHelper implements InterfaceHelper {
 				sectionBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Section Helper Class", e);
 		}
 		return sectionBean;
 	}
@@ -122,7 +123,7 @@ public class SectionHelper implements InterfaceHelper {
 				retValue.add(sectionBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Section Helper Class", e);
 		}
 		return retValue;
 	}
@@ -187,7 +188,7 @@ public class SectionHelper implements InterfaceHelper {
 			}
 			return listOfAccounts.toString();
 		} catch(Exception e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Section Helper Class", e);
 		}
 		return null;
 	}
@@ -216,7 +217,7 @@ public class SectionHelper implements InterfaceHelper {
 				retValue.add(sectionBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Section Helper Class", e);
 		}
 		return retValue;
 	}

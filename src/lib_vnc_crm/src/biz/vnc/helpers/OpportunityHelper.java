@@ -42,7 +42,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
+import biz.vnc.zimbra.util.ZLog;
 
 public class OpportunityHelper implements InterfaceHelper {
 
@@ -95,8 +95,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		try {
 			System.out.println("Number of records : " + rs.getRow());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e1);
 		}
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
@@ -155,7 +154,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}
@@ -200,8 +199,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		try {
 			System.out.println("Number of records : " + rs.getRow());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e1);
 		}
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
@@ -260,7 +258,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}
@@ -279,8 +277,7 @@ public class OpportunityHelper implements InterfaceHelper {
 		try {
 			System.out.println("Number of records : " + rs.getRow());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e1);
 		}
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
@@ -339,7 +336,7 @@ public class OpportunityHelper implements InterfaceHelper {
 				retValue.add(leadBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}
@@ -383,8 +380,7 @@ for(String messageId : str) {
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return msgArray;
 	}
@@ -421,8 +417,7 @@ for(String messageId : str) {
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return msgArray;
 	}
@@ -459,8 +454,7 @@ for(String messageId : str) {
 					msgArray = msgArray + "," + str;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return msgArray;
 	}

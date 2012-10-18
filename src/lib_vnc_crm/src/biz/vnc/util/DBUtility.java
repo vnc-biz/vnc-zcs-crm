@@ -30,6 +30,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import biz.vnc.zimbra.util.ZLog;
 
 public class DBUtility {
 
@@ -122,8 +123,7 @@ public class DBUtility {
 				return rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Admin Counter", e);
 		}
 		return 0;
 	}
@@ -137,8 +137,7 @@ public class DBUtility {
 				return rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Client Counter", e);
 		}
 		return 0;
 	}

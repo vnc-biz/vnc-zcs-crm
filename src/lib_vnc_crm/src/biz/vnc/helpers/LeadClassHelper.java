@@ -33,6 +33,7 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.LeadClassBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
+import biz.vnc.zimbra.util.ZLog;
 
 public class LeadClassHelper  implements InterfaceHelper {
 
@@ -89,7 +90,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 				leadClassBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return leadClassBean;
 	}
@@ -120,7 +121,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 				retValue.add(leadClassBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}
@@ -180,7 +181,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 				retValue.add(leadClassBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return retValue;
 	}

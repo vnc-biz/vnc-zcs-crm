@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import biz.vnc.zimbra.util.ZLog;
 
 public class ChannelHelper implements InterfaceHelper {
 
@@ -82,7 +83,7 @@ public class ChannelHelper implements InterfaceHelper {
 				channelBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Channel Helper Class", e);
 		}
 		return channelBean;
 	}
@@ -106,7 +107,7 @@ public class ChannelHelper implements InterfaceHelper {
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Channel Helper Class", e);
 		}
 		return retValue;
 	}
@@ -173,7 +174,7 @@ public class ChannelHelper implements InterfaceHelper {
 				retValue.add(channelBean);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ZLog.err("VNC CRM for Zimbra","Error in Channel Helper Class", e);
 		}
 		return retValue;
 	}
