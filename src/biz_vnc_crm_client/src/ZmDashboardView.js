@@ -132,27 +132,6 @@ ZmDashboardView.dashboard = function (app) {
             title: biz_vnc_crm_client.lblNumberofleadsbystate,
             renderTo: Ext.getBody(),
             layout: 'fit',
-            tbar: [{
-                text: biz_vnc_crm_client.btnSaveChart,
-                handler: function() {
-                    Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                        if (choice == 'yes'){
-                            leadChart.save({
-                                type: 'image/png'
-                            });
-                        }
-                    });
-                }
-            },{
-                enableToggle: true,
-                pressed: false,
-                text: biz_vnc_crm_client.btnDonut,
-                toggleHandler: function(btn, pressed) {
-                    var chart = Ext.getCmp('chartCmp');
-                    chart.series.first().donut = pressed ? 35 : false;
-                    chart.refresh();
-                }
-            }],
             items: leadChart
         });
 
@@ -341,18 +320,6 @@ ZmDashboardView.dashboard = function (app) {
         y: 10,
         title: biz_vnc_crm_client.lblMonthlyRevenue,
         layout: 'fit',
-        tbar: [{
-            text: biz_vnc_crm_client.btnSaveChart,
-            handler: function () {
-                Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirmDownload, function (choice) {
-                    if (choice == 'yes') {
-                        oppChart.save({
-                            type: 'image/png'
-                        });
-                    }
-                });
-            }
-        }],
         items: oppChart
     });
 
