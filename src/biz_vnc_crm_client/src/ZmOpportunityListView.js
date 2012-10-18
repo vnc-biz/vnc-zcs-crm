@@ -1124,7 +1124,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             if (rec != null) {
                                 biz_vnc_crm_client.leadId = rec.get('leadId');
                                 biz_vnc_crm_client.flag = 1;
-                                new ZmCRMCalViewController(appCtxt.getApp(ZmApp.CALENDAR)).newAppointmentHelper(new Date(), null, 10, null);
+                                biz_vnc_crm_client.createAppointment();
                             }
                         }
                     }, {

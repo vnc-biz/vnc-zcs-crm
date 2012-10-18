@@ -4,7 +4,6 @@
 	<include>templates/LeadForm.template.js</include>
 	<include>templates/OpportunityForm.template.js</include>
 	<include>biz_vnc_crm_client.js</include>
-	<include>ZmCRMCalViewController.js</include>
 	<include>ZmCRMTaskController.js</include>
 	<include>ZmCRMComposeController.js</include>
 	<include>ZmLeadListView.js</include>

@@ -2986,7 +2986,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         itemId: 'newappoint',
                         handler: function () {
                             biz_vnc_crm_client.flag = 0;
-                            new ZmCRMCalViewController(appCtxt.getApp(ZmApp.CALENDAR)).newAppointmentHelper(new Date(), null, 10, null);
+                            biz_vnc_crm_client.createAppointment();
                         }
                     }, {
                         iconCls: 'refresh',
@@ -5286,7 +5286,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         itemId: 'newappoint',
                         handler: function () {
                             biz_vnc_crm_client.flag = 1;
-                            new ZmCRMCalViewController(appCtxt.getApp(ZmApp.CALENDAR)).newAppointmentHelper(new Date(), null, 10, null);
+                            biz_vnc_crm_client.createAppointment();
                         }
                     }, {
                         iconCls: 'refresh',
@@ -6355,6 +6355,7 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
  */
 
 biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active) {
+    appCtxt.getAppViewMgr()._isTransient[appName] = false;
     switch (appName) {
     case this._tabAppName:
         {
@@ -6897,4 +6898,68 @@ biz_vnc_crm_client.composeMail = function(leadId){
         biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);    
     }
     biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
+};
+
+biz_vnc_crm_client.createAppointment = function() {
+    var container = AjxDispatcher.run("GetCalController")._container;
+    var calApp = appCtxt.getApp(ZmApp.CALENDAR);
+    var controller = new ZmCalViewController(container, calApp);
+    var appt = new ZmAppt();
+    appt.leadId = biz_vnc_crm_client.leadId;
+    controller.newAppointment(appt, ZmCalItem.MODE_NEW, true);
 }
+
+biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controller, calItem, response) {
+    if(calItem.leadId) {
+        var array = [];
+        array.push(response.invId);
+        var json = "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"lead\",\"array\":\"" + array + "\",\"leadId\":\"" + calItem.leadId + "\"}";
+        var reqHeader = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        };
+        var reqJson = AjxStringUtil.urlEncode(json);
+        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+        if (response.text == 0) {
+            Ext.example.msg('',biz_vnc_crm_client.msgApptNotAttach);
+        } else {
+            if (biz_vnc_crm_client.flag == 0) {
+                var leadId = biz_vnc_crm_client.leadId;
+                var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
+                var reqHeader = {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                };
+                var reqJson = AjxStringUtil.urlEncode(json);
+                var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                var msgArray = [];
+                var item;
+                var msgArray = (responseMailHistory.text).split(",");
+                if (msgArray != "null") {
+                    biz_vnc_crm_client.requestApptList(msgArray);
+                } else {
+                    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                }
+                Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
+                Ext.getCmp('leadApptGrid').getView().refresh();
+            } else if (biz_vnc_crm_client.flag == 1) {
+                var leadId = biz_vnc_crm_client.leadId;
+                var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
+                var reqHeader = {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                };
+                var reqJson = AjxStringUtil.urlEncode(json);
+                var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                var msgArray = [];
+                var item;
+                var msgArray = (responseMailHistory.text).split(",");
+                if (msgArray != "null") {
+                    biz_vnc_crm_client.requestApptList(msgArray);
+                } else {
+                    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','status':'','calendar':'','startdate':''}]";
+                }
+                Ext.getCmp('oppApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
+                Ext.getCmp('oppApptGrid').getView().refresh();
+            }
+            Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
+        }
+    }
+};
