@@ -44,13 +44,35 @@
 JSPUtil.nocache(response);
 try {
 	int operationStatus = 0;
+	AbstractBean abstractBean = null;
 	Gson gson = new Gson();
 	String jString = request.getParameter("jsonobj");
-	InterfaceHelper interfaceHelper = Utility.callHelper(jString);
 	JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 	String actionType = k.get("action").getAsString();
-	AbstractBean abstractBean = interfaceHelper.toBean(jString);
-	if(actionType.equals("FULLLIST")) {
+	String objectType = k.get("object").getAsString();
+	InterfaceHelper interfaceHelper = Utility.callHelper(objectType);
+	if(interfaceHelper != null){
+		abstractBean = interfaceHelper.toBean(jString);
+	}
+	if(objectType.equals("AllObject")) {
+		try {
+			String[] object = {"priority","category","stage","state","country","company","channel","section","leadClass"};
+			String result = "";
+			String AllResult = "[";
+			for(int i=0;i<object.length;i++){
+				interfaceHelper = Utility.callHelper(object[i]);
+				result = interfaceHelper.listClientView();
+				if(i == object.length-1) {
+					AllResult += "{\"" + object[i] + "\":" + result + "}]";
+				} else {
+					AllResult += "{\"" + object[i] + "\":" + result + "},";	
+				}
+			}
+			out.println(AllResult);
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in getting all data", e);
+		}
+	} else if(actionType.equals("FULLLIST")) {
 		try{
 			String result = interfaceHelper.listView();
 			out.println(result);

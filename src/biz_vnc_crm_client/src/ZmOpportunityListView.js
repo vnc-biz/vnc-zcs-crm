@@ -400,7 +400,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'leadClass',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                            data: biz_vnc_crm_client.responseLeadClass
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -432,7 +432,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
+                            data: biz_vnc_crm_client.responseStage
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -557,7 +557,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
+                            data: biz_vnc_crm_client.responsePriority
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -670,7 +670,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
+                                data: biz_vnc_crm_client.responseCompany
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -731,7 +731,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'section',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseSection.text)
+                                data: biz_vnc_crm_client.responseSection
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -755,7 +755,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'category',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCategory.text)
+                                data: biz_vnc_crm_client.responseCategory
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -817,7 +817,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseState.text)
+                                data: biz_vnc_crm_client.responseState
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -842,7 +842,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
+                                data: biz_vnc_crm_client.responseCountry
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -887,7 +887,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
+                                data: biz_vnc_crm_client.responseChannel
                             },
                             autoLoad: true,
                             actionMethods: {

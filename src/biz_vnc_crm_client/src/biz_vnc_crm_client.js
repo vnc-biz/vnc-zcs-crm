@@ -61,52 +61,29 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.responseSection = "";
     biz_vnc_crm_client.responseLeadClass = "";
     biz_vnc_crm_client.responseUser = "";
-
+    biz_vnc_crm_client.response = "";
     var json, reqJson;
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
+    json = "jsonobj={\"action\":\"ALLLIST\",\"object\":\"AllObject\"}";
     reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responsePriority = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    biz_vnc_crm_client.response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    var allObject = jsonParse(biz_vnc_crm_client.response.text);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseCategory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseStage = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseChannel = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseState = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseCountry = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseCompany = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseSection = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"leadClass\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    biz_vnc_crm_client.responseLeadClass = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    biz_vnc_crm_client.responsePriority = allObject[0].priority;
+    biz_vnc_crm_client.responseCategory = allObject[1].category;
+    biz_vnc_crm_client.responseStage = allObject[2].stage;
+    biz_vnc_crm_client.responseState = allObject[3].state;
+    biz_vnc_crm_client.responseCountry = allObject[4].country;
+    biz_vnc_crm_client.responseCompany = allObject[5].company;
+    biz_vnc_crm_client.responseChannel = allObject[6].channel;
+    biz_vnc_crm_client.responseSection = allObject[7].section;
+    biz_vnc_crm_client.responseLeadClass = allObject[8].leadClass;
 
     json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
     reqJson = AjxStringUtil.urlEncode(json);
     biz_vnc_crm_client.responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false,2000);
-
 };
 
 // Intializing the toolbar for putting zimbraCRM button in the toolbar
@@ -2185,7 +2162,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'section',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseSection.text)
+                            data: biz_vnc_crm_client.responseSection
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2213,7 +2190,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'leadClass',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                            data: biz_vnc_crm_client.responseLeadClass
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2247,7 +2224,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
+                            data: biz_vnc_crm_client.responsePriority
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2271,7 +2248,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
+                            data: biz_vnc_crm_client.responseStage
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2345,7 +2322,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         model: 'category',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseCategory.text)
+                            data: biz_vnc_crm_client.responseCategory
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -2700,7 +2677,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseState.text)
+                                data: biz_vnc_crm_client.responseState
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -2726,7 +2703,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
+                                data: biz_vnc_crm_client.responseCountry
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -3297,7 +3274,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
+                                data: biz_vnc_crm_client.responseCompany
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -3321,7 +3298,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
+                                data: biz_vnc_crm_client.responseChannel
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4567,7 +4544,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'leadClass',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseLeadClass.text)
+                            data: biz_vnc_crm_client.responseLeadClass
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4599,7 +4576,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'stage',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responseStage.text)
+                            data: biz_vnc_crm_client.responseStage
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4725,7 +4702,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         model: 'priority',
                         proxy: {
                             type: 'memory',
-                            data: jsonParse(biz_vnc_crm_client.responsePriority.text)
+                            data: biz_vnc_crm_client.responsePriority
                         },
                         autoLoad: true,
                         actionMethods: {
@@ -4840,7 +4817,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'company',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCompany.text)
+                                data: biz_vnc_crm_client.responseCompany
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4904,7 +4881,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'section',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseSection.text)
+                                data: biz_vnc_crm_client.responseSection
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -4928,7 +4905,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'category',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCategory.text)
+                                data: biz_vnc_crm_client.responseCategory
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -5009,7 +4986,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'channel',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseChannel.text)
+                                data: biz_vnc_crm_client.responseChannel
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -5034,7 +5011,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'state',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseState.text)
+                                data: biz_vnc_crm_client.responseState
                             },
                             autoLoad: true,
                             actionMethods: {
@@ -5059,7 +5036,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             model: 'country',
                             proxy: {
                                 type: 'memory',
-                                data: jsonParse(biz_vnc_crm_client.responseCountry.text)
+                                data: biz_vnc_crm_client.responseCountry
                             },
                             autoLoad: true,
                             actionMethods: {

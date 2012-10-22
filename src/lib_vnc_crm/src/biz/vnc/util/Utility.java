@@ -39,9 +39,7 @@ import com.google.gson.JsonParser;
 
 public class Utility {
 
-	public static InterfaceHelper callHelper(String jString) {
-		JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
-		String objType = k.get("object").getAsString();
+	public static InterfaceHelper callHelper(String objType) {
 		if(objType.equals("country")) {
 			return new CountryHelper();
 		} else if(objType.equals("company")) {

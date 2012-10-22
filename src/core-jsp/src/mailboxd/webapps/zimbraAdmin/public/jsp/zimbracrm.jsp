@@ -1,5 +1,5 @@
 <%
-/* 
+/*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
 #    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
@@ -47,12 +47,34 @@ JSPUtil.nocache(response);
 try {
 	int operationStatus = 0;
 	Gson gson = new Gson();
+	AbstractBean abstractBean = null;
 	String jString = request.getParameter("jsonobj");
-	InterfaceHelper interfaceHelper = Utility.callHelper(jString);
 	JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 	String actionType = k.get("action").getAsString();
-	AbstractBean abstractBean = interfaceHelper.toBean(jString);
-	if(actionType.equals("LIST")) {
+	String objectType = k.get("object").getAsString();
+	InterfaceHelper interfaceHelper = Utility.callHelper(objectType);
+	if(interfaceHelper != null) {
+		abstractBean = interfaceHelper.toBean(jString);
+	}
+	if(objectType.equals("AllObject")) {
+		try {
+			String[] object = {"priority","category","stage","state","country","company","channel","section","leadClass"};
+			String result = "";
+			String AllResult = "[";
+			for(int i=0;i<object.length;i++){
+				interfaceHelper = Utility.callHelper(object[i]);
+				result = interfaceHelper.listClientView();
+				if(i == object.length-1){
+					AllResult += "{\"" + object[i] + "\":" + result + "}]";
+				} else {
+					AllResult += "{\"" + object[i] + "\":" + result + "},";
+				}
+			}
+			out.println(AllResult);
+		} catch(Exception e) {
+			ZLog.err("CRM ADMIN","Error in getting all data", e);
+		}
+	} else if(actionType.equals("LIST")) {
 		try {
 			String result = interfaceHelper.listView();
 			out.println(result);

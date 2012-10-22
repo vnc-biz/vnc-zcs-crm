@@ -69,53 +69,23 @@ ZaCRMxFormView.prototype.setObject = function (entry) {
         this._containedObject.id = entry.id;
     }
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
+    json = "jsonobj={\"action\":\"ALLLIST\",\"object\":\"AllObject\"}";
     reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     reqJson = AjxStringUtil.urlEncode(json);
     response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_company] = jsonParse(response.text);
+    var allAdminObject = jsonParse(response.text);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_country] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"state\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_state] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"channel\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_channel] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_priority] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_category] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_section] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_stage] = jsonParse(response.text);
-
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"leadClass\"}";
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
-    this._containedObject[ZaCRMadmin.A_leadClass] = jsonParse(response.text);
+    this._containedObject[ZaCRMadmin.A_priority] = allAdminObject[0].priority;
+    this._containedObject[ZaCRMadmin.A_category] = allAdminObject[1].category;
+    this._containedObject[ZaCRMadmin.A_stage] = allAdminObject[2].stage;
+    this._containedObject[ZaCRMadmin.A_state] = allAdminObject[3].state;
+    this._containedObject[ZaCRMadmin.A_country] = allAdminObject[4].country;
+    this._containedObject[ZaCRMadmin.A_company] = allAdminObject[5].company;
+    this._containedObject[ZaCRMadmin.A_channel] = allAdminObject[6].channel;
+    this._containedObject[ZaCRMadmin.A_section] = allAdminObject[7].section;
+    this._containedObject[ZaCRMadmin.A_leadClass] = allAdminObject[8].leadClass;
 
     if (entry.attrs) {
         for (var a in entry.attrs) {
