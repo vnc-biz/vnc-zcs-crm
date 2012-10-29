@@ -28,6 +28,7 @@ import biz.vnc.beans.ChannelBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class ChannelHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 	@Override
 	public String listView() {
@@ -49,24 +51,52 @@ public class ChannelHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
-		String query = "insert into tbl_crm_channel values (" + channelBean.getChannelId() + ",\"" + channelBean.getChannelName() + "\"," + channelBean.isStatus() + ",\"" + channelBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + channelBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_channel values (?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, channelBean.getChannelId());
+			preparedStatement.setString(2, channelBean.getChannelName());
+			preparedStatement.setBoolean(3, channelBean.isStatus());
+			preparedStatement.setString(4, channelBean.getCreateBy());
+			preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(6, channelBean.getWriteBy());
+			preparedStatement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in ChannelHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
-		String query = "update tbl_crm_channel set channelName = \"" + channelBean.getChannelName() + "\", status =" + channelBean.isStatus() + ", writeBy = \"" + channelBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where channelId = " + channelBean.getChannelId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_channel set channelName = ?, status = ?, writeBy = ?, writeDate = ? where channelId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, channelBean.getChannelName());
+			preparedStatement.setBoolean(2, channelBean.isStatus());
+			preparedStatement.setString(3, channelBean.getWriteBy());
+			preparedStatement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(5, channelBean.getChannelId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in ChannelHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		ChannelBean channelBean = (ChannelBean)ab;
-		String query = "delete from tbl_crm_channel where channelId =" + channelBean.getChannelId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_channel where channelId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, channelBean.getChannelId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in ChannelHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -92,7 +122,12 @@ public class ChannelHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_channel;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in ChannelHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		ChannelBean channelBean = null;
 		try {
 			while(rs.next()) {
@@ -114,22 +149,42 @@ public class ChannelHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_channel set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where channelId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_channel set status = ?, writeBy = ?, writeDate = ? where channelId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in ChannelHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_channel where channelId = " + id + ";" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_channel where channelId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in ChannelHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_channel where channelName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_channel where channelName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordByName in ChannelHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -140,7 +195,7 @@ public class ChannelHelper implements InterfaceHelper {
 			channelBean = gson.fromJson(jsonString, ChannelBean.class);
 			return channelBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -158,8 +213,14 @@ public class ChannelHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_channel where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_channel where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in ChannelHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		ChannelBean channelBean = null;
 		try {
 			while(rs.next()) {

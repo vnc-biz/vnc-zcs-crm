@@ -28,6 +28,7 @@ import biz.vnc.beans.CountryBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class CountryHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -50,24 +52,54 @@ public class CountryHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		CountryBean countryBean = (CountryBean)ab;
-		String query = "insert into tbl_crm_country values (" + countryBean.getCountryId() + ",\"" + countryBean.getCountryName() + "\",\"" + countryBean.getCountryCode() + "\"," + countryBean.isStatus() + ",\"" + countryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + countryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_country values (?,?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, countryBean.getCountryId());
+			preparedStatement.setString(2, countryBean.getCountryName());
+			preparedStatement.setString(3, countryBean.getCountryCode());
+			preparedStatement.setBoolean(4, countryBean.isStatus());
+			preparedStatement.setString(5, countryBean.getCreateBy());
+			preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(7, countryBean.getWriteBy());
+			preparedStatement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in CountryHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		CountryBean countryBean = (CountryBean)ab;
-		String query = "update tbl_crm_country set countryName = \"" + countryBean.getCountryName() + "\", countryCode =\"" + countryBean.getCountryCode() + "\", status =" + countryBean.isStatus() + ", writeBy = \"" + countryBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where countryId = " + countryBean.getCountryId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_country set countryName = ?, countryCode = ?, status = ?, writeBy = ?, writeDate = ? where countryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, countryBean.getCountryName());
+			preparedStatement.setString(2, countryBean.getCountryCode());
+			preparedStatement.setBoolean(3, countryBean.isStatus());
+			preparedStatement.setString(4, countryBean.getWriteBy());
+			preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(6, countryBean.getCountryId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in CountryHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		CountryBean countryBean = (CountryBean)ab;
-		String query = "delete from tbl_crm_country where countryId =" + countryBean.getCountryId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_country where countryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, countryBean.getCountryId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in CountryHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -85,7 +117,7 @@ public class CountryHelper implements InterfaceHelper {
 				countryBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Country Helper Class", e);
 		}
 		return countryBean;
 	}
@@ -94,7 +126,12 @@ public class CountryHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_country;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in CountryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CountryBean countryBean = null;
 		try {
 			while(rs.next()) {
@@ -110,29 +147,49 @@ public class CountryHelper implements InterfaceHelper {
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Country Helper Class", e);
 		}
 		return retValue;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_country set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where countryId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_country set status = ?, writeBy = ?, writeDate = ? where countryId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in CountryHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_country where countryId = '" + id + "' " ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_country where countryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in CountryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_country where countryName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_country where countryName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordByName in CountryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -144,7 +201,7 @@ public class CountryHelper implements InterfaceHelper {
 			countryBean = gson.fromJson(jsonString, CountryBean.class);
 			return countryBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -163,8 +220,14 @@ public class CountryHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_country where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_country where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in CountryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CountryBean countryBean = null;
 		try {
 			while(rs.next()) {
@@ -180,7 +243,7 @@ public class CountryHelper implements InterfaceHelper {
 				retValue.add(countryBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Country Helper Class", e);
 		}
 		return retValue;
 	}

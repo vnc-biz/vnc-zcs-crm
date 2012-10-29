@@ -814,6 +814,15 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
             }, {
                 type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.vncurl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
+                type:_GROUP_, numCols:3, cssStyle: "padding-left: 41%;",
+                items: [{
+                    type:_ANCHOR_, cssStyle:"font-size:12px;", showInNewWindow:true, labelLocation:_CENTER_, label: biz_vnc_crm_admin.changelog, href:('"' + biz_vnc_crm_admin.changeLogUrl + '"')
+                }, {
+                    type:_ANCHOR_, cssStyle:"font-size:12px;padding-left: 20px;", showInNewWindow:true, labelLocation:_CENTER_, label: biz_vnc_crm_admin.documentation, href: ('"' + biz_vnc_crm_admin.documentationUrl + '"')
+                }, {
+                    type:_ANCHOR_, cssStyle:"font-size:12px;padding-left: 20px;", showInNewWindow:true, labelLocation:_CENTER_, label: biz_vnc_crm_admin.screenshot, href: ('"' + biz_vnc_crm_admin.screenShotsUrl + '"')
+                }]
+            }, {
                 type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.copyright, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
                 type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.gpl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"

@@ -6738,13 +6738,17 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                         width: '100%'
                     }, {
                         xtype: 'label',
-                        text: biz_vnc_crm_client.vncurl,
+                        html: '<a href="' + biz_vnc_crm_client.vncurl + '" target="_blank">' + biz_vnc_crm_client.vncurl + '</a>',
                         style: {"height": '18px', "font-size":'15px', "margin-left": '200px', "top":'232px', "margin-top":'10px'},
                         width: '100%'
                     }, {
                         xtype: 'label',
+                        html: '<a href="' + biz_vnc_crm_client.changeLogUrl + '" target="_blank">'+ biz_vnc_crm_client.changelog +'</a>' + " - " + '<a href="' + biz_vnc_crm_client.documentationUrl + '" target="_blank">'+ biz_vnc_crm_client.documentation +'</a>' + " - " + '<a href="' + biz_vnc_crm_client.screenShotsUrl + '" target="_blank">'+ biz_vnc_crm_client.screenshot +'</a>',
+                        style: {"font-size":'15px', "margin-left": '130px', "top":'232px', "margin-top":'10px'}
+                    }, {
+                        xtype: 'label',
                         text: biz_vnc_crm_client.copyright,
-                        style: {"height": '18px', "font-size":'12px', "margin-left": '40px', "top":'410px', "margin-top":'110px'},
+                        style: {"height": '18px', "font-size":'12px', "margin-left": '40px', "top":'320px', "margin-top":'100px'},
                         width: '100%'
                     }]
         })],

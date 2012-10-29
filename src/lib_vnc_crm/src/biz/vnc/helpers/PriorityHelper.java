@@ -28,6 +28,7 @@ import biz.vnc.beans.PriorityBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class PriorityHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -50,24 +52,54 @@ public class PriorityHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		PriorityBean priorityBean = (PriorityBean)ab;
-		String query = "insert into tbl_crm_priority values (" + priorityBean.getPriorityId() + ",\"" + priorityBean.getPriorityName() + "\",\"" + priorityBean.getPriorityCode() + "\"," + priorityBean.isStatus() + ",\"" + priorityBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + priorityBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_priority values (?,?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, priorityBean.getPriorityId());
+			preparedStatement.setString(2, priorityBean.getPriorityName());
+			preparedStatement.setString(3, priorityBean.getPriorityCode());
+			preparedStatement.setBoolean(4, priorityBean.isStatus());
+			preparedStatement.setString(5, priorityBean.getCreateBy());
+			preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(7, priorityBean.getWriteBy());
+			preparedStatement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in PriorityHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		PriorityBean priorityBean = (PriorityBean)ab;
-		String query = "update tbl_crm_priority set priorityName =\"" + priorityBean.getPriorityName() + "\", priorityCode =\"" + priorityBean.getPriorityCode() + "\", status =" + priorityBean.isStatus() + ", writeBy = \"" + priorityBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where priorityId = " + priorityBean.getPriorityId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_priority set priorityName = ?, priorityCode = ?, status = ?, writeBy = ?, writeDate = ? where priorityId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, priorityBean.getPriorityName());
+			preparedStatement.setString(2, priorityBean.getPriorityCode());
+			preparedStatement.setBoolean(3, priorityBean.isStatus());
+			preparedStatement.setString(4, priorityBean.getWriteBy());
+			preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(6, priorityBean.getPriorityId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in PriorityHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		PriorityBean priorityBean = (PriorityBean)ab;
-		String query = "delete from tbl_crm_priority where priorityId =" + priorityBean.getPriorityId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_priority where priorityId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, priorityBean.getPriorityId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in PriorityHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -85,7 +117,7 @@ public class PriorityHelper implements InterfaceHelper {
 				priorityBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Priority Helper Class", e);
 		}
 		return priorityBean;
 	}
@@ -94,7 +126,12 @@ public class PriorityHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_priority;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in PriorityHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		PriorityBean priorityBean = null;
 		try {
 			while(rs.next()) {
@@ -110,29 +147,50 @@ public class PriorityHelper implements InterfaceHelper {
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Priority Helper Class", e);
 		}
 		return retValue;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_priority set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where priorityId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_stage set status = ?, writeBy = ?, writeDate = ? where priorityId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(4, arrayIds);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in PriorityHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_priority where priorityId = " + id + ";" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_priority where priorityId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in PriorityHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_priority where priorityName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_priority where priorityName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in PriorityHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -143,7 +201,7 @@ public class PriorityHelper implements InterfaceHelper {
 			priorityBean = gson.fromJson(jsonString, PriorityBean.class);
 			return priorityBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -161,8 +219,14 @@ public class PriorityHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_priority where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_priority where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in PriorityHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		PriorityBean priorityBean = null;
 		try {
 			while(rs.next()) {
@@ -178,7 +242,7 @@ public class PriorityHelper implements InterfaceHelper {
 				retValue.add(priorityBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Priority Helper Class", e);
 		}
 		return retValue;
 	}

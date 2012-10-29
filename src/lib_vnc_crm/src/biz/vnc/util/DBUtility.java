@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,9 +54,9 @@ public class DBUtility {
 			String dbUsername = "zimbra";
 			connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
 			statement = connection.createStatement();
-			System.out.println("Connection Established Successfully.");
+			ZLog.info("VNC CRM for Zimbra","Connection Established Successfully.");
 		} catch(Exception e) {
-			System.out.println("Exception:" + e);
+			ZLog.err("VNC CRM for Zimbra","Connection Error",e);
 		}
 	}
 
@@ -67,49 +68,46 @@ public class DBUtility {
 			statement.close();
 			connection.close();
 		} catch(Exception e) {
-			System.out.println("Connection close exception:" + e);
+			ZLog.err("VNC CRM for Zimbra","Connection close exception:",e);
 		}
 	}
 
-	public int insert(String query) {
+	public int insert(PreparedStatement preparedStatement) {
 		try {
-			System.out.println(query);
-			statement.execute(query);
+			preparedStatement.executeUpdate();
 			return 1;
 		} catch(Exception e) {
-			System.out.println("Insertion Exception: " + e);
+			ZLog.err("VNC CRM for Zimbra","Insertion Exception: ",e);
 			return 0;
 		}
 	}
 
-	public int update(String query) {
+	public int update(PreparedStatement preparedStatement) {
 		try {
-			statement.execute(query);
+			preparedStatement.executeUpdate();
 			return 1;
 		} catch(Exception e) {
-			System.out.println("Updation Exception: " + e);
+			ZLog.err("VNC CRM for Zimbra","Updation Exception: ",e);
 			return 0;
 		}
 	}
 
-	public int delete(String query) {
+	public int delete(PreparedStatement preparedStatement) {
 		try {
-			statement.execute(query);
+			preparedStatement.executeUpdate();
 			return 1;
 		} catch(Exception e) {
-			System.out.println("Deletion Exception: " + e);
+			ZLog.err("VNC CRM for Zimbra","Deletion Exception: ",e);
 			return 0;
 		}
 	}
 
-	public ResultSet select(String query) {
+	public ResultSet select(PreparedStatement preparedStatement) {
 		try {
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery(query);
+			ResultSet rs = preparedStatement.executeQuery();
 			return rs;
-
 		} catch(Exception e) {
-			System.out.println("Selection Exception: " + e);
+			ZLog.err("VNC CRM for Zimbra","Selection Exception: ",e);
 		}
 		return null;
 	}

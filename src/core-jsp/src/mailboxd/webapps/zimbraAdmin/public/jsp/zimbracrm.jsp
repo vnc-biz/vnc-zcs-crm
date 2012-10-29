@@ -63,7 +63,7 @@ try {
 			String AllResult = "[";
 			for(int i=0;i<object.length;i++){
 				interfaceHelper = Utility.callHelper(object[i]);
-				result = interfaceHelper.listClientView();
+				result = interfaceHelper.listView();
 				if(i == object.length-1){
 					AllResult += "{\"" + object[i] + "\":" + result + "}]";
 				} else {

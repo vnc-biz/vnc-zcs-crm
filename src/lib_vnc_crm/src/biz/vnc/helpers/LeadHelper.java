@@ -37,6 +37,7 @@ import biz.vnc.beans.StageBean;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -48,6 +49,7 @@ public class LeadHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -59,31 +61,134 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		LeadBean leadBean = (LeadBean)ab;
-		String query = "insert into tbl_crm_lead values (" + leadBean.getLeadId() + ",\"" + leadBean.getSubjectName() + "\",\"" + leadBean.getLeadDescription() + "\",\"" + leadBean.getContactName() + "\"," + leadBean.getCompanyId() + ",\"" + leadBean.getValuation() + "\",'" + leadBean.getLeadState() + "'," + leadBean.getLeadClassId() + ",'" + leadBean.getPartnerName() + "','" + leadBean.getPhone() + "','" + leadBean.getFax() + "','" + leadBean.getEmail() + "','" + leadBean.getWorkPhone() + "','" + leadBean.getMobile() + "','" + leadBean.getStreet1() + "','" + leadBean.getStreet2() + "','" + leadBean.getCity() + "','" + leadBean.getZip() + "'," + leadBean.getStateId() + "," + leadBean.getCountryId() + "," + leadBean.getType() + ",'" + leadBean.getDateOpen() + "','" + leadBean.getDateClose() + "','" + leadBean.getExpectedDateClose() + "'," + leadBean.getStageId() + "," + leadBean.getProbability() + "," + leadBean.getChannelId() + "," + leadBean.getSectionId() + "," + leadBean.getCategoryId() + "," + leadBean.getDayClose() + "," + leadBean.getDayOpen() + ",'" + leadBean.getReferredBy() + "','" + leadBean.getUserId() + "'," + leadBean.getPriorityId() + ",'" + leadBean.getNextActionDate() + "','" + leadBean.getNextAction() + "'," + leadBean.isStatus() + ",'" + leadBean.getCreateBy() + "','" + new Timestamp(System.currentTimeMillis()) + "','" + leadBean.getWriteBy() + "','" + leadBean.getWriteDate()+ "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_lead values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, leadBean.getLeadId());
+			preparedStatement.setString(2, leadBean.getSubjectName());
+			preparedStatement.setString(3, leadBean.getLeadDescription());
+			preparedStatement.setString(4, leadBean.getContactName());
+			preparedStatement.setString(5, leadBean.getCompanyId());
+			preparedStatement.setString(6, leadBean.getValuation());
+			preparedStatement.setString(7, leadBean.getLeadState());
+			preparedStatement.setString(8, leadBean.getLeadClassId());
+			preparedStatement.setString(9, leadBean.getPartnerName());
+			preparedStatement.setString(10, leadBean.getPhone());
+			preparedStatement.setString(11, leadBean.getFax());
+			preparedStatement.setString(12, leadBean.getEmail());
+			preparedStatement.setString(13, leadBean.getWorkPhone());
+			preparedStatement.setString(14, leadBean.getMobile());
+			preparedStatement.setString(15, leadBean.getStreet1());
+			preparedStatement.setString(16, leadBean.getStreet2());
+			preparedStatement.setString(17, leadBean.getCity());
+			preparedStatement.setString(18, leadBean.getZip());
+			preparedStatement.setString(19, leadBean.getStateId());
+			preparedStatement.setString(20, leadBean.getCountryId());
+			preparedStatement.setString(21, leadBean.getType());
+			preparedStatement.setString(22, leadBean.getDateOpen());
+			preparedStatement.setString(23, leadBean.getDateClose());
+			preparedStatement.setString(24, leadBean.getExpectedDateClose());
+			preparedStatement.setString(25, leadBean.getStageId());
+			preparedStatement.setString(26, leadBean.getProbability());
+			preparedStatement.setString(27, leadBean.getChannelId());
+			preparedStatement.setString(28, leadBean.getSectionId());
+			preparedStatement.setString(29, leadBean.getCategoryId());
+			preparedStatement.setString(30, leadBean.getDayClose());
+			preparedStatement.setString(31, leadBean.getDayOpen());
+			preparedStatement.setString(32, leadBean.getReferredBy());
+			preparedStatement.setString(33, leadBean.getUserId());
+			preparedStatement.setString(34, leadBean.getPriorityId());
+			preparedStatement.setString(35, leadBean.getNextActionDate());
+			preparedStatement.setString(36, leadBean.getNextAction());
+			preparedStatement.setBoolean(37, leadBean.isStatus());
+			preparedStatement.setString(38, leadBean.getCreateBy());
+			preparedStatement.setTimestamp(39, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(40, leadBean.getWriteBy());
+			preparedStatement.setTimestamp(41, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in LeadHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		LeadBean leadBean = (LeadBean)ab;
-		String query = "update tbl_crm_lead set subjectName = \"" + leadBean.getSubjectName() + "\", leadDescription='" + leadBean.getLeadDescription() + "', contactName = '" + leadBean.getContactName() + "', companyId = " + leadBean.getCompanyId() + ", valuation = '" + leadBean.getValuation() + "', leadState = '" +leadBean.getLeadState() + "', leadClassId = " + leadBean.getLeadClassId() + " , partnerName = '" + leadBean.getPartnerName() + "', phone = '" + leadBean.getPhone() + "', fax = '" + leadBean.getFax() + "', email = '" + leadBean.getEmail() + "', workPhone = '" + leadBean.getWorkPhone() + "', mobile = '" + leadBean.getMobile() + "', street1 = '" + leadBean.getStreet1() + "', street2 = '" + leadBean.getStreet2() + "', city = '" + leadBean.getCity() + "', zip = '" + leadBean.getZip() + "', stateId = " + leadBean.getStateId() + ", countryId = " + leadBean.getCountryId() + ", type = '" + leadBean.getType() + "', dateOpen = '" + leadBean.getDateOpen() + "', dateClose = '" + leadBean.getDateClose() + "', expectedDateClose = '" + leadBean.getExpectedDateClose() + "', stageId = " + leadBean.getStageId() + ", probability = '" + leadBean.getProbability() +  "', channelId = " + leadBean.getChannelId() + ", sectionId = " + leadBean.getSectionId() + ", categoryId = " + leadBean.getCategoryId() + ", dayClose = " + leadBean.getDayClose() + ",dayOpen = " + leadBean.getDayOpen() + ", referredBy = '" + leadBean.getReferredBy() + "', userId = '" + leadBean.getUserId() + "', priorityId = " + leadBean.getPriorityId() + ", nextActionDate = '" + leadBean.getNextActionDate() + "', nextAction = '" + leadBean.getNextAction() + "', writeBy = \"" + leadBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where leadId = " + leadBean.getLeadId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_lead set subjectName = ?, leadDescription= ?, contactName = ?, companyId = ?, valuation = ?, leadState = ?, leadClassId = ?, partnerName = ?, phone = ?, fax = ?, email = ?, workPhone = ?, mobile = ?, street1 = ?, street2 = ?, city = ?, zip = ?, stateId = ?, countryId = ?, type = ?, dateOpen = ?, dateClose = ?, expectedDateClose = ?, stageId = ?, probability = ?, channelId = ?, sectionId = ?, categoryId = ?, dayClose = ?, dayOpen = ?, referredBy = ?, userId = ?, priorityId = ?, nextActionDate = ?, nextAction = ?, writeBy = ?, writeDate = ? where leadId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadBean.getSubjectName());
+			preparedStatement.setString(2, leadBean.getLeadDescription());
+			preparedStatement.setString(3, leadBean.getContactName());
+			preparedStatement.setString(4, leadBean.getCompanyId());
+			preparedStatement.setString(5, leadBean.getValuation());
+			preparedStatement.setString(6, leadBean.getLeadState());
+			preparedStatement.setString(7, leadBean.getLeadClassId());
+			preparedStatement.setString(8, leadBean.getPartnerName());
+			preparedStatement.setString(9, leadBean.getPhone());
+			preparedStatement.setString(10, leadBean.getFax());
+			preparedStatement.setString(11, leadBean.getEmail());
+			preparedStatement.setString(12, leadBean.getWorkPhone());
+			preparedStatement.setString(13, leadBean.getMobile());
+			preparedStatement.setString(14, leadBean.getStreet1());
+			preparedStatement.setString(15, leadBean.getStreet2());
+			preparedStatement.setString(16, leadBean.getCity());
+			preparedStatement.setString(17, leadBean.getZip());
+			preparedStatement.setString(18, leadBean.getStateId());
+			preparedStatement.setString(19, leadBean.getCountryId());
+			preparedStatement.setString(20, leadBean.getType());
+			preparedStatement.setString(21, leadBean.getDateOpen());
+			preparedStatement.setString(22, leadBean.getDateClose());
+			preparedStatement.setString(23, leadBean.getExpectedDateClose());
+			preparedStatement.setString(24, leadBean.getStageId());
+			preparedStatement.setString(25, leadBean.getProbability());
+			preparedStatement.setString(26, leadBean.getChannelId());
+			preparedStatement.setString(27, leadBean.getSectionId());
+			preparedStatement.setString(28, leadBean.getCategoryId());
+			preparedStatement.setString(29, leadBean.getDayClose());
+			preparedStatement.setString(30, leadBean.getDayOpen());
+			preparedStatement.setString(31, leadBean.getReferredBy());
+			preparedStatement.setString(32, leadBean.getUserId());
+			preparedStatement.setString(33, leadBean.getPriorityId());
+			preparedStatement.setString(34, leadBean.getNextActionDate());
+			preparedStatement.setString(35, leadBean.getNextAction());
+			preparedStatement.setString(36, leadBean.getWriteBy());
+			preparedStatement.setTimestamp(37, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(38, leadBean.getLeadId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in LeadHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		LeadBean leadBean = (LeadBean)ab;
-		String query = "delete from tbl_crm_lead where leadId =" + leadBean.getLeadId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_lead where leadId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, leadBean.getLeadId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds, String user) {
-		String query = "update tbl_crm_lead set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where leadId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_lead set status = ?, writeBy = ?, writeDate = ? where leadId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -91,12 +196,12 @@ public class LeadHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_lead;" ;
-		ResultSet rs = dbu.select(query);
 		try {
-			System.out.println("Number of records : " + rs.getRow());
-		} catch (SQLException e1) {
-			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e1);
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in LeadHelper", e);
 		}
+		ResultSet rs = dbu.select(preparedStatement);
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
 		StateHelper stateHelper = new StateHelper();
@@ -177,7 +282,7 @@ public class LeadHelper implements InterfaceHelper {
 			leadBean = gson.fromJson(jsonString, LeadBean.class);
 			return leadBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -195,13 +300,14 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_lead where type = 0 and status = ?;" ;
 		try {
-			System.out.println("Number of records : " + rs.getRow());
-		} catch (SQLException e1) {
-			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e1);
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
+		ResultSet rs = dbu.select(preparedStatement);
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
 		StateHelper stateHelper = new StateHelper();
@@ -280,13 +386,14 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array, String field) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = true and " + field + " IN (" + array + ");"  ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and " + field + " IN (" + array + ");";
 		try {
-			System.out.println("Number of records : " + rs.getRow());
-		} catch (SQLException e1) {
-			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e1);
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
+		ResultSet rs = dbu.select(preparedStatement);
 		LeadBean leadBean = null;
 		CountryHelper countryHelper = new CountryHelper();
 		StateHelper stateHelper = new StateHelper();
@@ -361,16 +468,29 @@ public class LeadHelper implements InterfaceHelper {
 	public int addHistory(String array, String leadId) {
 		String[] str = array.split(",");
 for(String messageId : str) {
-			String query = "insert into tbl_crm_lead_mailHistory values ('" + leadId +"','" + messageId + "');";
-			operationStatus = dbu.insert(query);
+			String query = "insert into tbl_crm_lead_mailHistory values (?,?);";
+			try {
+				preparedStatement = DBUtility.connection.prepareStatement(query);
+				preparedStatement.setString(1, leadId);
+				preparedStatement.setString(2, messageId);
+			} catch(Exception e) {
+				ZLog.err("VNC CRM for Zimbra","Error in addHistory Lead Helper Class", e);
+			}
+			operationStatus = dbu.insert(preparedStatement);
 		}
 		return operationStatus;
 	}
 
 	@Override
 	public String listHistory(String leadId) {
-		String query = "select messageId from tbl_crm_lead_mailHistory where leadId = " + leadId + ";";
-		ResultSet rs = dbu.select(query);
+		String query = "select messageId from tbl_crm_lead_mailHistory where leadId = ?;";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch(Exception e) {
+			ZLog.err("VNC CRM for Zimbra","Error in addHistory Lead Helper Class", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		String str;
 		String msgArray = null;
 		try {
@@ -389,8 +509,14 @@ for(String messageId : str) {
 
 	@Override
 	public int deleteHistory(String array,String leadId) {
-		String query = "delete from tbl_crm_lead_mailHistory where leadId = " + leadId + " and messageId IN (" + array + ");";
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_lead_mailHistory where leadId = ? and messageId IN (" + array + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteHistory in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -398,16 +524,29 @@ for(String messageId : str) {
 	public int addAppointment(String array, String leadId) {
 		String[] str = array.split(",");
 for(String appointmentId : str) {
-			String query = "insert into tbl_crm_lead_calendar values ('" + leadId +"','" + appointmentId + "');";
-			operationStatus = dbu.insert(query);
+			String query = "insert into tbl_crm_lead_calendar values (?,?);";
+			try {
+				preparedStatement = DBUtility.connection.prepareStatement(query);
+				preparedStatement.setString(1, leadId);
+				preparedStatement.setString(2, appointmentId);
+			} catch (SQLException e) {
+				ZLog.err("VNC CRM for Zimbra", "Error in addAppointment in LeadHelper", e);
+			}
+			operationStatus = dbu.insert(preparedStatement);
 		}
 		return operationStatus;
 	}
 
 	@Override
 	public String listAppointment(String leadId) {
-		String query = "select appointmentId from tbl_crm_lead_calendar where leadId = " + leadId + ";";
-		ResultSet rs = dbu.select(query);
+		String query = "select appointmentId from tbl_crm_lead_calendar where leadId = ?;";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in list appointment in LeadHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		String str;
 		String msgArray = null;
 		try {
@@ -426,8 +565,14 @@ for(String appointmentId : str) {
 
 	@Override
 	public int deleteAppointment(String array,String leadId) {
-		String query = "delete from tbl_crm_lead_calendar where leadId = " + leadId + " and appointmentId IN (" + array + ");";
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_lead_calendar where leadId = ? and appointmentId IN (" + array + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteAppointment in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -435,16 +580,29 @@ for(String appointmentId : str) {
 	public int addTask(String array, String leadId) {
 		String[] str = array.split(",");
 for(String taskId : str) {
-			String query = "insert into tbl_crm_lead_task values ('" + leadId +"','" + taskId + "');";
-			operationStatus = dbu.insert(query);
+			String query = "insert into tbl_crm_lead_task values (?,?);";
+			try {
+				preparedStatement = DBUtility.connection.prepareStatement(query);
+				preparedStatement.setString(1, leadId);
+				preparedStatement.setString(2, taskId);
+			} catch (SQLException e) {
+				ZLog.err("VNC CRM for Zimbra", "Error in addTask in LeadHelper", e);
+			}
+			operationStatus = dbu.insert(preparedStatement);
 		}
 		return operationStatus;
 	}
 
 	@Override
 	public String listTask(String leadId) {
-		String query = "select taskId from tbl_crm_lead_task where leadId = " + leadId + ";";
-		ResultSet rs = dbu.select(query);
+		String query = "select taskId from tbl_crm_lead_task where leadId = ?;";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in listTask in LeadHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		String str;
 		String msgArray = null;
 		try {
@@ -463,8 +621,14 @@ for(String taskId : str) {
 
 	@Override
 	public int deleteTask(String array,String leadId) {
-		String query = "delete from tbl_crm_lead_task where leadId = " + leadId + " and taskId IN (" + array + ");";
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_lead_task where leadId = ? and taskId IN (" + array + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteTask in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 

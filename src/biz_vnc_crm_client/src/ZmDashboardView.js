@@ -86,7 +86,6 @@ ZmDashboardView.dashboard = function (app) {
         }]
     });
 
-    var donut = false;
     leadChart = Ext.create('Ext.chart.Chart', {
         xtype: 'chart',
         id: 'chartCmp',
@@ -101,7 +100,6 @@ ZmDashboardView.dashboard = function (app) {
             type: 'pie',
             angleField: 'data',
             showInLegend: true,
-            donut: donut,
             tips: {
                 trackMouse: true,
                 width: 140,
@@ -147,45 +145,8 @@ ZmDashboardView.dashboard = function (app) {
     var responseOpp = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
     var oppData = jsonParse(responseOpp.text);
-    var closeopp = inProgressopp = newopp = pendingopp = totalopp = 0;
-    for (var i = 0; i < oppData.length; i++) {
-
-        if (oppData[i].leadState == "New") {
-            newopp++;
-        } else if (oppData[i].leadState == "In Progress") {
-            inProgressopp++;
-        } else if (oppData[i].leadState == "Pending") {
-            pendingopp++;
-        } else if (oppData[i].leadState == "Close") {
-            closeopp++;
-        }
-    }
-    totalopp = closeopp + inProgressopp + newopp + pendingopp;
-    var oppChartStore = Ext.create('Ext.data.JsonStore', {
-        fields: [{
-            name: 'name',
-            type: 'string'
-        }, {
-            name: 'data',
-            type: 'int'
-        }],
-        data: [{
-            'name': 'New',
-            'data': newopp
-        }, {
-            'name': 'In Progress',
-            'data': inProgressopp
-        }, {
-            'name': 'Close',
-            'data': closeopp
-        }, {
-            'name': 'Pending',
-            'data': pendingopp
-        }]
-    });
     var date;
     var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
-
     for (var i = 0; i < oppData.length; i++) {
         date = oppData[i].createDate;
         date = date.split(" ");
@@ -770,29 +731,6 @@ ZmDashboardView.dashboard = function (app) {
                     }
                 }
             }
-        }]
-    });
-
-    var leadChartWindow = new Ext.Window({
-        title: biz_vnc_crm_client.lblNumberofleadsbystate,
-        renderTo: 'datagrid',
-        maxWidth: 450,
-        maxHeight: 300,
-        minWidth: 450,
-        minHeight: 300,
-        x: 920,
-        y: 320,
-        collapsible: true,
-        closable: true,
-        border: false,
-        layoutConfig: {
-            animate: true
-        },
-        items: [{
-            stateId: 'first',
-            title: null,
-            collapsed: false,
-            items: leadChartPanel
         }]
     });
 

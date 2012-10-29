@@ -28,6 +28,7 @@ import biz.vnc.beans.CategoryBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class CategoryHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 	@Override
 	public String listView() {
@@ -49,24 +51,54 @@ public class CategoryHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		CategoryBean categoryBean = (CategoryBean)ab;
-		String query = "insert into tbl_crm_category values (" + categoryBean.getCategoryId() + ",\"" + categoryBean.getCategoryName() + "\"," + categoryBean.getSectionId() + "," + categoryBean.isStatus() + ",\"" + categoryBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + categoryBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_category values (?,?,?,?,?,?,?,?);";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, categoryBean.getCategoryId());
+			preparedStatement.setString(2, categoryBean.getCategoryName());
+			preparedStatement.setInt(3, categoryBean.getSectionId());
+			preparedStatement.setBoolean(4, categoryBean.isStatus());
+			preparedStatement.setString(5, categoryBean.getCreateBy());
+			preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(7, categoryBean.getWriteBy());
+			preparedStatement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in CategoryHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		CategoryBean categoryBean = (CategoryBean)ab;
-		String query = "update tbl_crm_category set categoryName =\"" + categoryBean.getCategoryName() + "\", sectionId =" + categoryBean.getSectionId() + ", status =" + categoryBean.isStatus() + ", writeBy = \"" + categoryBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where categoryId = " + categoryBean.getCategoryId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_category set categoryName = ?, sectionId = ?, status = ?, writeBy = ?, writeDate = ? where categoryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, categoryBean.getCategoryName());
+			preparedStatement.setInt(2, categoryBean.getSectionId());
+			preparedStatement.setBoolean(3, categoryBean.isStatus());
+			preparedStatement.setString(4, categoryBean.getWriteBy());
+			preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(6, categoryBean.getCategoryId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in CategoryHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		CategoryBean categoryBean = (CategoryBean)ab;
-		String query = "delete from tbl_crm_category where id =" + categoryBean.getCategoryId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_category where categoryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, categoryBean.getCategoryId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in CategoryHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -84,7 +116,7 @@ public class CategoryHelper implements InterfaceHelper {
 				categoryBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Category Helper Class", e);
 		}
 		return categoryBean;
 	}
@@ -93,7 +125,12 @@ public class CategoryHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.sectionId = s.sectionId;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in CategoryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CategoryBean categoryBean = null;
 		try {
 			while(rs.next()) {
@@ -109,29 +146,49 @@ public class CategoryHelper implements InterfaceHelper {
 				retValue.add(categoryBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Category Helper Class", e);
 		}
 		return retValue;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_category set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where categoryId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_category set status = ?, writeBy = ?, writeDate = ? where categoryId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in CategoryHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_category where categoryId = " + id + ";" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_category where categoryId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in CategoryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_category where categoryName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_category where categoryName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordByName in CategoryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -142,7 +199,7 @@ public class CategoryHelper implements InterfaceHelper {
 			categoryBean = gson.fromJson(jsonString, CategoryBean.class);
 			return categoryBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -160,8 +217,14 @@ public class CategoryHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.status = true AND c.sectionId = s.sectionId;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.status = ? AND c.sectionId = s.sectionId;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in CategoryHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CategoryBean categoryBean = null;
 		try {
 			while(rs.next()) {
@@ -177,7 +240,7 @@ public class CategoryHelper implements InterfaceHelper {
 				retValue.add(categoryBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Category Helper Class", e);
 		}
 		return retValue;
 	}

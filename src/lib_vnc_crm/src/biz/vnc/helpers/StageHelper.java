@@ -28,6 +28,7 @@ import biz.vnc.beans.StageBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class StageHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -50,24 +52,64 @@ public class StageHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
-		String query = "insert into tbl_crm_stage values (" + stageBean.getStageId() + ",\"" + stageBean.getStageName() + "\"," + stageBean.getStageSequence() + "," + stageBean.getStageType() + ",'" + stageBean.getStageState() + "'," + stageBean.getStageProbability() + ",\"" + stageBean.getStageDescription() + "\"," + stageBean.getStageAuto() + "," + stageBean.isStatus() + ",\"" + stageBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + stageBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_stage values (?,?,?,?,?,?,?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, stageBean.getStageId());
+			preparedStatement.setString(2, stageBean.getStageName());
+			preparedStatement.setInt(3, stageBean.getStageSequence());
+			preparedStatement.setInt(4, stageBean.getStageType());
+			preparedStatement.setString(5, stageBean.getStageState());
+			preparedStatement.setFloat(6, stageBean.getStageProbability());
+			preparedStatement.setString(7, stageBean.getStageDescription());
+			preparedStatement.setBoolean(8, stageBean.getStageAuto());
+			preparedStatement.setBoolean(9, stageBean.isStatus());
+			preparedStatement.setString(10, stageBean.getCreateBy());
+			preparedStatement.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(12, stageBean.getWriteBy());
+			preparedStatement.setTimestamp(13, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in StageHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
-		String query = "update tbl_crm_stage set stageName = \"" + stageBean.getStageName() + "\", stageSequence =" + stageBean.getStageSequence() + ", stageType =" + stageBean.getStageType() + ", stageState = '" + stageBean.getStageState() + "', stageProbability =" + stageBean.getStageProbability() + ", stageDescription =\"" + stageBean.getStageDescription() + "\", stageAuto =" + stageBean.getStageAuto() + ", status =" + stageBean.isStatus() + ", writeBy = \"" + stageBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where stageId = " + stageBean.getStageId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_stage set stageName = ?, stageSequence = ?, stageType = ?, stageState = ?, stageProbability = ?, stageDescription = ?, stageAuto = ?, status = ?, writeBy = ?, writeDate = ? where stageId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, stageBean.getStageName());
+			preparedStatement.setInt(2, stageBean.getStageSequence());
+			preparedStatement.setInt(3, stageBean.getStageType());
+			preparedStatement.setString(4, stageBean.getStageState());
+			preparedStatement.setFloat(5, stageBean.getStageProbability());
+			preparedStatement.setString(6, stageBean.getStageDescription());
+			preparedStatement.setBoolean(7, stageBean.getStageAuto());
+			preparedStatement.setBoolean(8, stageBean.isStatus());
+			preparedStatement.setString(9, stageBean.getWriteBy());
+			preparedStatement.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(11, stageBean.getStageId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in StageHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		StageBean stageBean = (StageBean)ab;
-		String query = "delete from tbl_crm_stage where stageId =" + stageBean.getStageId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_stage where stageId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, stageBean.getStageId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in StageHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -90,7 +132,7 @@ public class StageHelper implements InterfaceHelper {
 				stageBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Stage Helper Class", e);
 		}
 		return stageBean;
 	}
@@ -99,7 +141,12 @@ public class StageHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_stage;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in StageHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		StageBean stageBean = null;
 		try {
 			while(rs.next()) {
@@ -120,29 +167,50 @@ public class StageHelper implements InterfaceHelper {
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Stage Helper Class", e);
 		}
 		return retValue;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds, String user) {
-		String query = "update tbl_crm_stage set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where stageId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_stage set status = ?, writeBy = ?, writeDate = ? where stageId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(4, arrayIds);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in StageHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_stage where stageId = " + id + ";" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_stage where stageId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in StageHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_stage where stageName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_stage where stageName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in StageHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -153,7 +221,7 @@ public class StageHelper implements InterfaceHelper {
 			stageBean = gson.fromJson(jsonString, StageBean.class);
 			return stageBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -171,8 +239,14 @@ public class StageHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_stage where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_stage where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in StageHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		StageBean stageBean = null;
 		try {
 			while(rs.next()) {
@@ -193,7 +267,7 @@ public class StageHelper implements InterfaceHelper {
 				retValue.add(stageBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Stage Helper Class", e);
 		}
 		return retValue;
 	}

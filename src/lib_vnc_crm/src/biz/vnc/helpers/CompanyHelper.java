@@ -28,6 +28,7 @@ import biz.vnc.beans.CompanyBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import com.google.gson.Gson;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -39,6 +40,7 @@ public class CompanyHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -56,24 +58,60 @@ public class CompanyHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		CompanyBean companyBean = (CompanyBean)ab;
-		String query = "insert into tbl_crm_company values (" + companyBean.getCompanyId() + ",\"" + companyBean.getCompanyName() + "\",\"" + companyBean.getCompanyAddress() + "\",\"" + companyBean.getCompanyPhone() + "\",\"" + companyBean.getCompanyFax() + "\",\"" + companyBean.getCompanyEmail() + "\"," + companyBean.isStatus() + ",\"" + companyBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + companyBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_company values (?,?,?,?,?,?,?,?,?,?,?);" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, companyBean.getCompanyId());
+			preparedStatement.setString(2, companyBean.getCompanyName());
+			preparedStatement.setString(3, companyBean.getCompanyAddress());
+			preparedStatement.setString(4, companyBean.getCompanyPhone());
+			preparedStatement.setString(5, companyBean.getCompanyFax());
+			preparedStatement.setString(6, companyBean.getCompanyEmail());
+			preparedStatement.setBoolean(7, companyBean.isStatus());
+			preparedStatement.setString(8, companyBean.getCreateBy());
+			preparedStatement.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(10, companyBean.getWriteBy());
+			preparedStatement.setTimestamp(11, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in CompanyHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		CompanyBean companyBean = (CompanyBean)ab;
-		String query = "update tbl_crm_company set companyName = \"" + companyBean.getCompanyName() + "\", companyAddress =\"" + companyBean.getCompanyAddress() + "\", companyPhone =\"" + companyBean.getCompanyPhone() + "\", companyFax =\"" + companyBean.getCompanyFax() + "\", companyEmail =\"" + companyBean.getCompanyEmail() + "\", status =" + companyBean.isStatus() + ", writeBy = \"" + companyBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where companyId = " + companyBean.getCompanyId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_company set companyName = ?, companyAddress = ?, companyPhone = ?, companyFax = ?, companyEmail = ?, status = ?, writeBy = ?, writeDate = ? where companyId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, companyBean.getCompanyName());
+			preparedStatement.setString(2, companyBean.getCompanyAddress());
+			preparedStatement.setString(3, companyBean.getCompanyPhone());
+			preparedStatement.setString(4, companyBean.getCompanyFax());
+			preparedStatement.setString(5, companyBean.getCompanyEmail());
+			preparedStatement.setBoolean(6, companyBean.isStatus());
+			preparedStatement.setString(7, companyBean.getWriteBy());
+			preparedStatement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(9, companyBean.getCompanyId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in CompanyHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		CompanyBean companyBean = (CompanyBean)ab;
-		String query = "delete from tbl_crm_company where companyId =" + companyBean.getCompanyId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_company where companyId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, companyBean.getCompanyId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in CompanyHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -94,15 +132,23 @@ public class CompanyHelper implements InterfaceHelper {
 				companyBean.setWriteDate(rs.getString("writeDate"));
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Company Helper Class", e);
 		}
 		return companyBean;
 	}
 
 	@Override
 	public int deleteByIds(String arrayIds, String user) {
-		String query = "update tbl_crm_company set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where companyId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_company set status = ?, writeBy = ?, writeDate = ? where companyId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in CompanyHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -110,7 +156,12 @@ public class CompanyHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_company;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in CompanyHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CompanyBean companyBean = null;
 		try {
 			while(rs.next()) {
@@ -129,22 +180,34 @@ public class CompanyHelper implements InterfaceHelper {
 				retValue.add(companyBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Company Helper Class", e);
 		}
 		return retValue;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_company where companyId = '" + id + "' " ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_company where companyId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in CompanyHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_company where companyName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_company where companyName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordByName in CompanyHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -155,7 +218,7 @@ public class CompanyHelper implements InterfaceHelper {
 			companyBean = gson.fromJson(jsonString, CompanyBean.class);
 			return companyBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -175,8 +238,14 @@ public class CompanyHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_company where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_company where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in CompanyHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		CompanyBean companyBean = null;
 		try {
 			while(rs.next()) {
@@ -195,7 +264,7 @@ public class CompanyHelper implements InterfaceHelper {
 				retValue.add(companyBean);
 			}
 		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
+			ZLog.err("VNC CRM for Zimbra","Error in Company Helper Class", e);
 		}
 		return retValue;
 	}

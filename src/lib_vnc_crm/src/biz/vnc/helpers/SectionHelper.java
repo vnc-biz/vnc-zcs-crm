@@ -32,6 +32,7 @@ import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.Domain;
 import com.zimbra.cs.account.soap.SoapProvisioning;
 import com.zimbra.cs.account.soap.SoapProvisioning.Options;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -43,6 +44,7 @@ public class SectionHelper implements InterfaceHelper {
 
 	Gson gson = new Gson();
 	int operationStatus=0;
+	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 
 	@Override
@@ -54,24 +56,62 @@ public class SectionHelper implements InterfaceHelper {
 	@Override
 	public int add(AbstractBean ab) {
 		SectionBean sectionBean = (SectionBean)ab;
-		String query = "insert into tbl_crm_section values (" + sectionBean.getSectionId() + ",\"" + sectionBean.getSectionName() + "\",\"" + sectionBean.getSectionCode() + "\",\"" + sectionBean.getSectionManagerId() + "\",\"" + sectionBean.getSectionLeaderId() + "\",\"" + sectionBean.getSectionWatcherId() + "\",\"" + sectionBean.getSectionSalesTeamIds() + "\"," + sectionBean.isStatus() + ",\"" + sectionBean.getCreateBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "',\"" + sectionBean.getWriteBy() + "\",'" + new Timestamp(System.currentTimeMillis()) + "');" ;
-		operationStatus = dbu.insert(query);
+		String query = "insert into tbl_crm_section values (?,?,?,?,?,?,?,?,?,?,?,?);";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, sectionBean.getSectionId());
+			preparedStatement.setString(2, sectionBean.getSectionName());
+			preparedStatement.setString(3, sectionBean.getSectionCode());
+			preparedStatement.setString(4, sectionBean.getSectionManagerId());
+			preparedStatement.setString(5, sectionBean.getSectionLeaderId());
+			preparedStatement.setString(6, sectionBean.getSectionWatcherId());
+			preparedStatement.setString(7, sectionBean.getSectionSalesTeamIds());
+			preparedStatement.setBoolean(8, sectionBean.isStatus());
+			preparedStatement.setString(9, sectionBean.getCreateBy());
+			preparedStatement.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(11, sectionBean.getWriteBy());
+			preparedStatement.setTimestamp(12, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in SectionHelper", e);
+		}
+		operationStatus = dbu.insert(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int update(AbstractBean ab) {
 		SectionBean sectionBean = (SectionBean)ab;
-		String query = "update tbl_crm_section set sectionName = \"" + sectionBean.getSectionName() + "\", sectionCode =\"" + sectionBean.getSectionCode() + "\", sectionManagerId =\"" + sectionBean.getSectionManagerId() + "\", sectionLeaderId =\"" + sectionBean.getSectionLeaderId() + "\", sectionWatcherId =\"" + sectionBean.getSectionWatcherId() + "\", sectionSalesTeamIds =\"" + sectionBean.getSectionSalesTeamIds() + "\", status =" + sectionBean.isStatus() + ", writeBy = \"" + sectionBean.getWriteBy() + "\", writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' " + "where sectionId = " + sectionBean.getSectionId() + ";" ;
-		operationStatus = dbu.update(query);
+		String query = "update tbl_crm_section set sectionName = ?, sectionCode = ?, sectionManagerId = ?, sectionLeaderId = ?, sectionWatcherId = ?, sectionSalesTeamIds = ?, status = ?, writeBy = ?, writeDate = ? where sectionId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, sectionBean.getSectionName());
+			preparedStatement.setString(2, sectionBean.getSectionCode());
+			preparedStatement.setString(3, sectionBean.getSectionManagerId());
+			preparedStatement.setString(4, sectionBean.getSectionLeaderId());
+			preparedStatement.setString(5, sectionBean.getSectionWatcherId());
+			preparedStatement.setString(6, sectionBean.getSectionSalesTeamIds());
+			preparedStatement.setBoolean(7, sectionBean.isStatus());
+			preparedStatement.setString(8, sectionBean.getWriteBy());
+			preparedStatement.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(10, sectionBean.getSectionId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in update operation in SectionHelper", e);
+		}
+		operationStatus = dbu.update(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public int delete(AbstractBean ab) {
 		SectionBean sectionBean = (SectionBean)ab;
-		String query = "delete from tbl_crm_section where sectionId =" + sectionBean.getSectionId() + ";" ;
-		operationStatus = dbu.delete(query);
+		String query = "delete from tbl_crm_section where sectionId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setInt(1, sectionBean.getSectionId());
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in SectionHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
@@ -103,7 +143,12 @@ public class SectionHelper implements InterfaceHelper {
 	public List<AbstractBean> getAllRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_section;" ;
-		ResultSet rs = dbu.select(query);
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in SectionHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		SectionBean sectionBean = null;
 		try {
 			while(rs.next()) {
@@ -130,22 +175,42 @@ public class SectionHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_section set status = false, writeBy = '" + user + "', writeDate = '" + new Timestamp(System.currentTimeMillis()) + "' where sectionId IN (" + arrayIds + ");" ;
-		operationStatus = dbu.delete(query);
+		String query = "update tbl_crm_section set status = ?, writeBy = ?, writeDate = ? where sectionId IN (" + arrayIds + ");";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, false);
+			preparedStatement.setString(2, user);
+			preparedStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in SectionHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
 	}
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_section where sectionId = " + id + ";" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_section where sectionId = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in SectionHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
 	@Override
 	public AbstractBean getRecordByName(String name) {
-		String query = "select * from tbl_crm_section where sectionName = '" + name + "';" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_section where sectionName = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, name);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in recordById in SectionHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		return (getRecordFromResultSet(rs));
 	}
 
@@ -156,7 +221,7 @@ public class SectionHelper implements InterfaceHelper {
 			sectionBean = gson.fromJson(jsonString, SectionBean.class);
 			return sectionBean;
 		} catch(Exception e) {
-			System.out.println("Error in toBean() :" + e);
+			ZLog.err("VNC CRM for Zimbra","Error in toBean() :",e);
 		}
 		return null;
 	}
@@ -196,8 +261,14 @@ public class SectionHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords() {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_section where status = true;" ;
-		ResultSet rs = dbu.select(query);
+		String query = "select * from tbl_crm_section where status = ?;" ;
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setBoolean(1, true);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in SectionHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
 		SectionBean sectionBean = null;
 		try {
 			while(rs.next()) {
