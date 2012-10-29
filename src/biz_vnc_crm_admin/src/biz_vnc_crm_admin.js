@@ -62,9 +62,10 @@ ZaOverviewPanelController.crm_adminTreeListener = function (ev) {
     } else {
         this._app.getCRMadminViewController().show(this._app.getCRMadmin(this));
     }
-
 }
 
 if (ZaOverviewPanelController.treeModifiers) {
+    var jspurl = "/service/zimlet/biz_vnc_crm_admin/vnccrmadminmonitoring.jsp";
+    var response = AjxRpc.invoke(null,jspurl,null,null,true);
     ZaOverviewPanelController.treeModifiers.push(ZaCRM_Panel.backupOvTreeModifier);
 }

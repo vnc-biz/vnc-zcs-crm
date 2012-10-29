@@ -62,6 +62,10 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.responseLeadClass = "";
     biz_vnc_crm_client.responseUser = "";
     biz_vnc_crm_client.response = "";
+
+    var jspurl = "/service/zimlet/biz_vnc_crm_client/vnccrmmonitoring.jsp";
+    var response = AjxRpc.invoke(null,jspurl,null,null,true);
+
     var json, reqJson;
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
