@@ -1278,9 +1278,9 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachAppointmentDialog = functio
 biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog = function (leadId, flag) {
     /*..... Generates main Dialogbox......*/
     var view = new DwtComposite(appCtxt.getShell());
-    this.attachTaskTabView = new DwtTabView(view, "AttachTask");
+    this.attachTaskTabView = new DwtTabView(view, "biz_vnc_crm_client_AttachTask");
 
-    this.attachTaskTabPage = new AttachTask(this.attachTaskTabView, this);
+    this.attachTaskTabPage = new biz_vnc_crm_client_AttachTask(this.attachTaskTabView, this);
     view.setSize("500", "255");
     this.attachTaskTabView.setSize("500", "230");
     this.attachTaskTabPage.setSize("500", "230");
@@ -1292,13 +1292,13 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog = function (lead
 }
 
 biz_vnc_crm_client.okTaskAttach = function () {
-    if (0 == AttachTask._tabAttachTaskView.getSelectionCount()) {
+    if (0 == biz_vnc_crm_client_AttachTask._tabAttachTaskView.getSelectionCount()) {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_atleast_one_record_msg);
         return;
     }
     var item, count;
     var array = [];
-    var bcView = AttachTask._tabAttachTaskView;
+    var bcView = biz_vnc_crm_client_AttachTask._tabAttachTaskView;
     count = bcView.getSelectionCount();
     for (var i = 0; i < count; i++) {
         array.push(bcView.getSelection()[i].invId);

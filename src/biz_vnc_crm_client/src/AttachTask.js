@@ -20,15 +20,15 @@
 ##############################################################################
 */
 
-AttachTask = function (parent, zimlet) {
+biz_vnc_crm_client_AttachTask = function (parent, zimlet) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, "", Dwt.STATIC_STYLE);
 };
 
-AttachTask.prototype = new DwtTabViewPage;
-AttachTask.prototype.constructor = AttachTask;
+biz_vnc_crm_client_AttachTask.prototype = new DwtTabViewPage;
+biz_vnc_crm_client_AttachTask.prototype.constructor = biz_vnc_crm_client_AttachTask;
 
-AttachTask.prototype.toString = function () {
+biz_vnc_crm_client_AttachTask.prototype.toString = function () {
     return "AttachTask";
 };
 
@@ -36,7 +36,7 @@ AttachTask.prototype.toString = function () {
  * Shows the tab view.
  * 
  */
-AttachTask.prototype.showMe = function () {
+biz_vnc_crm_client_AttachTask.prototype.showMe = function () {
     DwtTabViewPage.prototype.showMe.call(this);
     if (this._isLoaded) {
         this.setSize("500", "230");
@@ -51,7 +51,7 @@ AttachTask.prototype.showMe = function () {
  * 
  * @param    {string}    newQuery        the new query
  */
-AttachTask.prototype._resetQuery = function (newQuery) {
+biz_vnc_crm_client_AttachTask.prototype._resetQuery = function (newQuery) {
     if (this._currentQuery == undefined) {
         return newQuery;
     }
@@ -68,7 +68,7 @@ AttachTask.prototype._resetQuery = function (newQuery) {
  * @param    {string}        folderId
  * @return    {string}    the query
  */
-AttachTask.prototype._getQueryFromFolder = function (folderId) {
+biz_vnc_crm_client_AttachTask.prototype._getQueryFromFolder = function (folderId) {
     return this._resetQuery('inid:"' + folderId + '"');
 };
 
@@ -76,7 +76,7 @@ AttachTask.prototype._getQueryFromFolder = function (folderId) {
  * Hides the tab view.
  * 
  */
-AttachTask.prototype.hideMe = function () {
+biz_vnc_crm_client_AttachTask.prototype.hideMe = function () {
     DwtTabViewPage.prototype.hideMe.call(this);
 };
 
@@ -84,7 +84,7 @@ AttachTask.prototype.hideMe = function () {
  * Creates HTML for for the attach mail tab UI.
  * 
  */
-AttachTask.prototype._createHtml1 = function () {
+biz_vnc_crm_client_AttachTask.prototype._createHtml1 = function () {
     this._contentEl = this.getContentHtmlElement();
     this._tableID = Dwt.getNextId();
     this._folderTreeCellId = Dwt.getNextId();
@@ -110,13 +110,13 @@ AttachTask.prototype._createHtml1 = function () {
         view: ZmId.VIEW_BRIEFCASE_ICON,
         type: ZmItem.ATT
     };
-    var bcView = AttachTask._tabAttachTaskView = new ZmAttachTasksListView(params);
+    var bcView = biz_vnc_crm_client_AttachTask._tabAttachTaskView = new ZmAttachTasksListView(params);
     bcView.reparentHtmlElement(this._folderListId);
     bcView.addSelectionListener(new AjxListener(this, this._listSelectionListener));
     Dwt.setPosition(bcView.getHtmlElement(), Dwt.RELATIVE_STYLE);
 };
 
-AttachTask.prototype.searchFolder = function (params) {
+biz_vnc_crm_client_AttachTask.prototype.searchFolder = function (params) {
     var soapDoc = AjxSoapDoc.create("SearchRequest", "urn:zimbraMail");
     soapDoc.setMethodAttribute("sortBy", "taskDueAsc");
     soapDoc.setMethodAttribute("limit", params.limit);
@@ -136,7 +136,7 @@ AttachTask.prototype.searchFolder = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachTask.prototype.handleSearchResponse = function (params) {
+biz_vnc_crm_client_AttachTask.prototype.handleSearchResponse = function (params) {
     var response = params.response;
     if (response && (response.SearchResponse || response._data.SearchResponse)) {
         params.searchResponse = response.SearchResponse || response._data.SearchResponse;
@@ -152,7 +152,7 @@ AttachTask.prototype.handleSearchResponse = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachTask.prototype.processDocsResponse = function (params) {
+biz_vnc_crm_client_AttachTask.prototype.processDocsResponse = function (params) {
     var tasks = params.searchResponse.task;
     var taskList = new ZmMailList(ZmItem.TASK, "");
     taskList.setHasMore(params.searchResponse.more);
@@ -170,7 +170,7 @@ AttachTask.prototype.processDocsResponse = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachTask.prototype.showResultContents = function (params) {
+biz_vnc_crm_client_AttachTask.prototype.showResultContents = function (params) {
     var items = params.items;
 
     var numItems = items.size();
@@ -179,7 +179,7 @@ AttachTask.prototype.showResultContents = function (params) {
     } else {
         this._list = new ZmList(ZmItem.BRIEFCASE_ITEM);
     }
-    var bcView = AttachTask._tabAttachTaskView;
+    var bcView = biz_vnc_crm_client_AttachTask._tabAttachTaskView;
     bcView.set(this._list);
 };
 
@@ -189,7 +189,7 @@ AttachTask.prototype.showResultContents = function (params) {
  * @param    {DwtKeyEvent}    ev
  */
 
-AttachTask.prototype.gotAttachments = function () {
+biz_vnc_crm_client_AttachTask.prototype.gotAttachments = function () {
     return false;
 };
 
@@ -197,12 +197,12 @@ AttachTask.prototype.gotAttachments = function () {
  * Shows the attach mail tree view.
  * 
  */
-AttachTask.prototype.showAttachMailTreeView = function () {
+biz_vnc_crm_client_AttachTask.prototype.showAttachMailTreeView = function () {
     var callback = new AjxCallback(this, this._showTreeView);
     AjxDispatcher.require(["TasksCore", "Tasks"], false, callback, null, true);
 };
 
-AttachTask.prototype._showTreeView = function () {
+biz_vnc_crm_client_AttachTask.prototype._showTreeView = function () {
     if (appCtxt.isChildWindow) {
         ZmOverviewController.CONTROLLER[ZmOrganizer.TASKS] = "ZmTaskTreeController";
     }
@@ -223,7 +223,7 @@ AttachTask.prototype._showTreeView = function () {
     this.treeView.setSelected("2");
 };
 
-AttachTask.prototype._setOverview = function (params) {
+biz_vnc_crm_client_AttachTask.prototype._setOverview = function (params) {
     var overviewId = params.overviewId;
     var opc = appCtxt.getOverviewController();
     var overview = opc.getOverview(overviewId);
@@ -250,13 +250,13 @@ AttachTask.prototype._setOverview = function (params) {
     this._hideRoot(this.treeView);
 };
 
-AttachTask.prototype._treeListener = function (ev) {
+biz_vnc_crm_client_AttachTask.prototype._treeListener = function (ev) {
     var item = this.treeView.getSelected();
     var query = this._getQueryFromFolder(item.id);
     this.executeQuery(query);
 };
 
-AttachTask.prototype._hideRoot = function (treeView) {
+biz_vnc_crm_client_AttachTask.prototype._hideRoot = function (treeView) {
     var ti = treeView.getTreeItemById(ZmOrganizer.ID_ROOT);
     if (!ti) {
         var rootId = ZmOrganizer.getSystemId(ZmOrganizer.ID_ROOT);
@@ -267,7 +267,7 @@ AttachTask.prototype._hideRoot = function (treeView) {
     ti.setVisible(false, true);
 };
 
-AttachTask.prototype.executeQuery = function (query, forward) {
+biz_vnc_crm_client_AttachTask.prototype.executeQuery = function (query, forward) {
     if (this._limit == undefined) this._limit = 50;
 
     if (this._offset == undefined) this._offset = 0;
