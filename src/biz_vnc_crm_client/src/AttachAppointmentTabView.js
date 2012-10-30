@@ -20,15 +20,15 @@
 ##############################################################################
 */
 
-AttachAppointmentTabView = function (parent, zimlet, className) {
+biz_vnc_crm_client_AttachAppointmentTabView = function (parent, zimlet, className) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, className, Dwt.STATIC_STYLE);
 };
 
-AttachAppointmentTabView.prototype = new DwtTabViewPage;
-AttachAppointmentTabView.prototype.constructor = AttachAppointmentTabView;
+biz_vnc_crm_client_AttachAppointmentTabView.prototype = new DwtTabViewPage;
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.constructor = biz_vnc_crm_client_AttachAppointmentTabView;
 
-AttachAppointmentTabView.prototype.showMe = function () {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.showMe = function () {
     DwtTabViewPage.prototype.showMe.call(this);
     if (this._isLoaded) {
         this.setSize("500", "300");
@@ -104,7 +104,7 @@ CRMAppointmentListView.prototype._getCellContents = function (htmlArr, idx, item
     return idx;
 };
 
-AttachAppointmentTabView.prototype._createErView = function (zm) {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype._createErView = function (zm) {
     this.crm_apt_start_date_id = Dwt.getNextId();
     this.crm_apt_start_date_container_id = Dwt.getNextId();
     this.crm_apt_end_date_id = Dwt.getNextId();
@@ -126,7 +126,7 @@ AttachAppointmentTabView.prototype._createErView = function (zm) {
     this.getContentHtmlElement().innerHTML = html.join("");
 };
 
-AttachAppointmentTabView.prototype.search_appt = function () {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function () {
     var start_date = document.getElementById(this.crm_apt_start_date_id).value;
     var end_date = document.getElementById(this.crm_apt_end_date_id).value;
     if (start_date.trim() == "") {
@@ -173,7 +173,7 @@ AttachAppointmentTabView.prototype.search_appt = function () {
     this.searchResult.set(searchResultVector);
 }
 
-AttachAppointmentTabView.prototype.crm_apt_start_date_List = function (ev) {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.crm_apt_start_date_List = function (ev) {
     var calDate = AjxDateUtil.simpleParseDateStr(document.getElementById(this.crm_apt_start_date_id).value);
     var menu = ev.item.getMenu();
     var cal = menu.getItem(0);
@@ -182,11 +182,11 @@ AttachAppointmentTabView.prototype.crm_apt_start_date_List = function (ev) {
 
 }
 
-AttachAppointmentTabView.prototype.crm_apt_start_date_Sl = function (ev) {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.crm_apt_start_date_Sl = function (ev) {
     document.getElementById(this.crm_apt_start_date_id).value = AjxDateUtil.simpleComputeDateStr(ev.detail);
 };
 
-AttachAppointmentTabView.prototype.crm_apt_end_date_List = function (ev) {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.crm_apt_end_date_List = function (ev) {
     var calDate = AjxDateUtil.simpleParseDateStr(document.getElementById(this.crm_apt_end_date_id).value);
     var menu = ev.item.getMenu();
     var cal = menu.getItem(0);
@@ -194,11 +194,11 @@ AttachAppointmentTabView.prototype.crm_apt_end_date_List = function (ev) {
     ev.item.popup();
 };
 
-AttachAppointmentTabView.prototype.crm_apt_end_date_Sl = function (ev) {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.crm_apt_end_date_Sl = function (ev) {
     document.getElementById(this.crm_apt_end_date_id).value = AjxDateUtil.simpleComputeDateStr(ev.detail);
 };
 
-AttachAppointmentTabView.prototype.getSelectedRecords = function () {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.getSelectedRecords = function () {
     if (this.searchResult) {
         return this.searchResult.getSelection();
     } else {
@@ -206,7 +206,7 @@ AttachAppointmentTabView.prototype.getSelectedRecords = function () {
     }
 }
 
-AttachAppointmentTabView.prototype.getSelectedCounts = function () {
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.getSelectedCounts = function () {
     if (this.searchResult) {
         return this.searchResult.getSelectionCount();
     } else {

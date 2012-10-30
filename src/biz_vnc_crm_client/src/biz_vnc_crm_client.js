@@ -1260,9 +1260,9 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog = function (lead
 biz_vnc_crm_client_HandlerObject.prototype.showAttachAppointmentDialog = function (leadId, flag) {
     /*..... Generates main Dialogbox......*/
     var view = new DwtComposite(appCtxt.getShell());
-    this.attachApptTabView = new DwtTabView(view, "AttachAppointmentTabView");
+    this.attachApptTabView = new DwtTabView(view, "biz_vnc_crm_client_AttachAppointmentTabView");
 
-    this.attachApptTabPage = new AttachAppointmentTabView(this.attachApptTabView, this);
+    this.attachApptTabPage = new biz_vnc_crm_client_AttachAppointmentTabView(this.attachApptTabView, this);
     view.setSize("500", "325");
     this.attachApptTabView.setSize("500", "300");
     this.attachApptTabPage.setSize("500", "300");
