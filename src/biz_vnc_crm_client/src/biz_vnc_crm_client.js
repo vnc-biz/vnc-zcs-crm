@@ -1243,9 +1243,9 @@ biz_vnc_crm_client.leadId = null;
 biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog = function (leadId, flag) {
     /*..... Generates main Dialogbox......*/
     var view = new DwtComposite(appCtxt.getShell());
-    this.attachMailTabView = new DwtTabView(view, "AttachMailTabView1");
+    this.attachMailTabView = new DwtTabView(view, "biz_vnc_crm_client_AttachMailTabView");
 
-    this.attachMailTabPage = new AttachMailTabView1(this.attachMailTabView, this);
+    this.attachMailTabPage = new biz_vnc_crm_client_AttachMailTabView(this.attachMailTabView, this);
     view.setSize("500", "255");
     this.attachMailTabView.setSize("500", "230");
     this.attachMailTabPage.setSize("500", "230");
@@ -1442,13 +1442,13 @@ OpenDialog.prototype = new ZmDialog;
 OpenDialog.prototype.constructor = OpenDialog;
 
 biz_vnc_crm_client.okMailAttach = function () {
-    if (0 == AttachMailTabView1._tabAttachMailView.getSelectionCount()) {
+    if (0 == biz_vnc_crm_client_AttachMailTabView._tabAttachMailView.getSelectionCount()) {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_atleast_one_record_msg);
         return;
     }
     var item, count;
     var array = [];
-    var bcView = AttachMailTabView1._tabAttachMailView;
+    var bcView = biz_vnc_crm_client_AttachMailTabView._tabAttachMailView;
     count = bcView.getSelectionCount();
     for (var i = 0; i < count; i++) {
         array.push(bcView.getSelection()[i].id);

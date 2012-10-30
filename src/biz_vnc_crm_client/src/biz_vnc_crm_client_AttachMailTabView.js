@@ -20,23 +20,23 @@
 ##############################################################################
 */
 
-AttachMailTabView1 = function (parent, zimlet, className) {
+biz_vnc_crm_client_AttachMailTabView = function (parent, zimlet, className) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, className, Dwt.STATIC_STYLE);
 };
 
-AttachMailTabView1.prototype = new DwtTabViewPage;
-AttachMailTabView1.prototype.constructor = AttachMailTabView1;
+biz_vnc_crm_client_AttachMailTabView.prototype = new DwtTabViewPage;
+biz_vnc_crm_client_AttachMailTabView.prototype.constructor = biz_vnc_crm_client_AttachMailTabView;
 
-AttachMailTabView1.prototype.toString = function () {
-    return "AttachMailTabView1";
+biz_vnc_crm_client_AttachMailTabView.prototype.toString = function () {
+    return "biz_vnc_crm_client_AttachMailTabView";
 };
 
 /**
  * Shows the tab view.
  * 
  */
-AttachMailTabView1.prototype.showMe = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype.showMe = function () {
     DwtTabViewPage.prototype.showMe.call(this);
     if (this._isLoaded) {
         this.setSize("500", "230");
@@ -52,7 +52,7 @@ AttachMailTabView1.prototype.showMe = function () {
  * 
  * @param    {string}    newQuery        the new query
  */
-AttachMailTabView1.prototype._resetQuery = function (newQuery) {
+biz_vnc_crm_client_AttachMailTabView.prototype._resetQuery = function (newQuery) {
     if (this._currentQuery == undefined) {
         return newQuery;
     }
@@ -69,7 +69,7 @@ AttachMailTabView1.prototype._resetQuery = function (newQuery) {
  * @param    {string}        folderId
  * @return    {string}    the query
  */
-AttachMailTabView1.prototype._getQueryFromFolder = function (folderId) {
+biz_vnc_crm_client_AttachMailTabView.prototype._getQueryFromFolder = function (folderId) {
     return this._resetQuery('inid:"' + folderId + '"');
 };
 
@@ -77,7 +77,7 @@ AttachMailTabView1.prototype._getQueryFromFolder = function (folderId) {
  * Hides the tab view.
  * 
  */
-AttachMailTabView1.prototype.hideMe = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype.hideMe = function () {
     DwtTabViewPage.prototype.hideMe.call(this);
 };
 
@@ -85,7 +85,7 @@ AttachMailTabView1.prototype.hideMe = function () {
  * Creates HTML for for the attach mail tab UI.
  * 
  */
-AttachMailTabView1.prototype._createHtml1 = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype._createHtml1 = function () {
     this._contentEl = this.getContentHtmlElement();
     this._tableID = Dwt.getNextId();
     this._folderTreeCellId = Dwt.getNextId();
@@ -109,13 +109,13 @@ AttachMailTabView1.prototype._createHtml1 = function () {
         view: ZmId.VIEW_BRIEFCASE_ICON,
         type: ZmItem.ATT
     };
-    var bcView = AttachMailTabView1._tabAttachMailView = new ZmAttachMailListView(params);
+    var bcView = biz_vnc_crm_client_AttachMailTabView._tabAttachMailView = new ZmAttachMailListView(params);
     bcView.reparentHtmlElement(this._folderListId);
     bcView.addSelectionListener(new AjxListener(this, this._listSelectionListener));
     Dwt.setPosition(bcView.getHtmlElement(), Dwt.RELATIVE_STYLE);
 };
 
-AttachMailTabView1.prototype.searchFolder = function (params) {
+biz_vnc_crm_client_AttachMailTabView.prototype.searchFolder = function (params) {
     var soapDoc = AjxSoapDoc.create("SearchRequest", "urn:zimbraMail");
     soapDoc.setMethodAttribute("types", "message");
     soapDoc.setMethodAttribute("limit", params.limit);
@@ -134,7 +134,7 @@ AttachMailTabView1.prototype.searchFolder = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachMailTabView1.prototype.handleSearchResponse = function (params) {
+biz_vnc_crm_client_AttachMailTabView.prototype.handleSearchResponse = function (params) {
     var response = params.response;
     if (response && (response.SearchResponse || response._data.SearchResponse)) {
         params.searchResponse = response.SearchResponse || response._data.SearchResponse;
@@ -150,7 +150,7 @@ AttachMailTabView1.prototype.handleSearchResponse = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachMailTabView1.prototype.processDocsResponse = function (params) {
+biz_vnc_crm_client_AttachMailTabView.prototype.processDocsResponse = function (params) {
     var msgs = params.searchResponse.m;
     var mailList = new ZmMailList(ZmItem.MSG, "");
     mailList.setHasMore(params.searchResponse.more);
@@ -168,7 +168,7 @@ AttachMailTabView1.prototype.processDocsResponse = function (params) {
  * 
  * @param    {hash}    params        a hash of parameters
  */
-AttachMailTabView1.prototype.showResultContents = function (params) {
+biz_vnc_crm_client_AttachMailTabView.prototype.showResultContents = function (params) {
     var items = params.items;
     var numItems = items.size();
     if (items) {
@@ -176,7 +176,7 @@ AttachMailTabView1.prototype.showResultContents = function (params) {
     } else {
         this._list = new ZmList(ZmItem.BRIEFCASE_ITEM);
     }
-    var bcView = AttachMailTabView1._tabAttachMailView;
+    var bcView = biz_vnc_crm_client_AttachMailTabView._tabAttachMailView;
     bcView.set(this._list);
 };
 
@@ -186,7 +186,7 @@ AttachMailTabView1.prototype.showResultContents = function (params) {
  * @param    {DwtKeyEvent}    ev
  */
 
-AttachMailTabView1.prototype.gotAttachments = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype.gotAttachments = function () {
     return false;
 };
 
@@ -194,7 +194,7 @@ AttachMailTabView1.prototype.gotAttachments = function () {
  * Shows the attach mail tree view.
  * 
  */
-AttachMailTabView1.prototype.showAttachMailTreeView = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype.showAttachMailTreeView = function () {
     var callback = new AjxCallback(this, this._showTreeView);
     AjxPackage.undefine("zimbraMail.mail.controller.ZmMailFolderTreeController");
     AjxPackage.require({
@@ -204,7 +204,7 @@ AttachMailTabView1.prototype.showAttachMailTreeView = function () {
     });
 };
 
-AttachMailTabView1.prototype._showTreeView = function () {
+biz_vnc_crm_client_AttachMailTabView.prototype._showTreeView = function () {
     if (appCtxt.isChildWindow) {
         ZmOverviewController.CONTROLLER["FOLDER"] = "ZmMailFolderTreeController";
     }
@@ -226,7 +226,7 @@ AttachMailTabView1.prototype._showTreeView = function () {
     this._treeListener();
 };
 
-AttachMailTabView1.prototype._setOverview = function (params) {
+biz_vnc_crm_client_AttachMailTabView.prototype._setOverview = function (params) {
     var overviewId = params.overviewId;
     var opc = appCtxt.getOverviewController();
     var overview = opc.getOverview(overviewId);
@@ -255,13 +255,13 @@ AttachMailTabView1.prototype._setOverview = function (params) {
     this._hideRoot(this.treeView);
 };
 
-AttachMailTabView1.prototype._treeListener = function (ev) {
+biz_vnc_crm_client_AttachMailTabView.prototype._treeListener = function (ev) {
     var item = this.treeView.getSelected();
     var query = this._getQueryFromFolder(item.id);
     this.executeQuery(query);
 };
 
-AttachMailTabView1.prototype._hideRoot = function (treeView) {
+biz_vnc_crm_client_AttachMailTabView.prototype._hideRoot = function (treeView) {
     var ti = treeView.getTreeItemById(ZmOrganizer.ID_ROOT);
     if (!ti) {
         var rootId = ZmOrganizer.getSystemId(ZmOrganizer.ID_ROOT);
@@ -272,7 +272,7 @@ AttachMailTabView1.prototype._hideRoot = function (treeView) {
     ti.setVisible(false, true);
 };
 
-AttachMailTabView1.prototype.executeQuery = function (query, forward) {
+biz_vnc_crm_client_AttachMailTabView.prototype.executeQuery = function (query, forward) {
     if (this._limit == undefined) this._limit = 50;
 
     if (this._offset == undefined) this._offset = 0;
