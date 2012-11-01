@@ -1671,25 +1671,17 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }
     });
 
-    var toolbar = app.getToolbar();
-    var arrOfEle = toolbar.getChildren();
     var idArray = [];
-    for (var i = 0; i < 3; i++) {
-        if (arrOfEle[i].isToggled()) {
-            var str = "'" + arrOfEle[i].getHTMLElId() + "'";
-            idArray.push(str);
-        }
-    }
+	idArray = biz_vnc_crm_client.getFilterItems(app);
 
     var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
-
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
-
     var reqJson = AjxStringUtil.urlEncode(json);
     var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    Ext.define('model_1', {
+    
+	Ext.define('model_1', {
         extend: 'Ext.data.Model',
         fields: [{
             name: 'leadId',
@@ -4021,15 +4013,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }
     });
 
-    var toolbar = app.getToolbar();
-    var arrOfEle = toolbar.getChildren();
     var idArray = [];
-    for (var i = 0; i < 3; i++) {
-        if (arrOfEle[i].isToggled()) {
-            var str = "'" + arrOfEle[i].getHTMLElId() + "'";
-            idArray.push(str);
-        }
-    }
+	idArray = biz_vnc_crm_client.getFilterItems(app);
 
     var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
     var reqHeader = {
@@ -4037,6 +4022,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var responseOpp = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -6381,16 +6367,6 @@ biz_vnc_crm_client_HandlerObject.prototype._add = function (new_button, app) {
         new_button.setSelected(true);
     }
 
-    var toolbar = app.getToolbar();
-    var arrOfEle = toolbar.getChildren()
-    var idArray = [];
-    for (var i = 0; i < 3; i++) {
-        if (arrOfEle[i].isToggled()) {
-            var str = "'" + arrOfEle[i].getHTMLElId() + "'";
-            idArray.push(str);
-        }
-    }
-
     if (biz_vnc_crm_client._flag == 0) {
         biz_vnc_crm_client.initLeadGrid(app);
     } else if (biz_vnc_crm_client._flag == 1) {
@@ -6510,20 +6486,10 @@ biz_vnc_crm_client_HandlerObject.prototype._eventTreeViewSelected = function (ap
         if (tree_item.getText() == biz_vnc_crm_client.btndashboard) {
             ZmDashboardView.dashboard(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnleads) {
-            var toolbar = app.getToolbar();
-            toolbar.setVisibility(true);
-            var arrOfEle = toolbar.getChildren();
-            for (var i = 0; i < arrOfEle.length ; i++) {
-                arrOfEle[i].setSelected(false);
-            }
+			biz_vnc_crm_client.disableFilters(app);
             biz_vnc_crm_client.initLeadGrid(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnopportunities) {
-            var toolbar = app.getToolbar();
-            toolbar.setVisibility(true);
-            var arrOfEle = toolbar.getChildren();
-            for (var i = 0; i < arrOfEle.length ; i++) {
-                arrOfEle[i].setSelected(false);
-            }
+			biz_vnc_crm_client.disableFilters(app);
             biz_vnc_crm_client.initOpportunityGrid(app);
         } else if (tree_item.getText() == biz_vnc_crm_client.btnreports) {
             ZmReportView.createForm(app);
@@ -6948,3 +6914,27 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
         }
     }
 };
+
+biz_vnc_crm_client.getFilterItems = function(app) {
+    var toolbar = app.getToolbar();
+	var toolbarButtonCount = toolbar.getItemCount();
+    var arrOfEle = toolbar.getChildren();
+	var idArray = [];
+	
+    for (var i = 0; i < toolbarButtonCount; i++) {
+        if (arrOfEle[i].isToggled()) {
+            var str = "'" + arrOfEle[i].getHTMLElId() + "'";
+            idArray.push(str);
+        }
+    }
+	return idArray;
+}
+
+biz_vnc_crm_client.disableFilters = function(app) {
+	var toolbar = app.getToolbar();
+	toolbar.setVisibility(true);
+	var arrOfEle = toolbar.getChildren();
+	for (var i = 0; i < arrOfEle.length ; i++) {
+		arrOfEle[i].setSelected(false);
+	}
+}
