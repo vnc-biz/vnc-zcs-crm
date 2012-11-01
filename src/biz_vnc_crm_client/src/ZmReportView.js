@@ -814,8 +814,9 @@ ZmReportView.groupByPartner = function(pressedStatus, str) {
             for(var j=0; j<userCount; j++){
                 if(partnerId == partner[j].value){
                     response[i].partnerName = partner[j].label;
+					break;
                 } else {
-                    response[i].partnerName = "Undefined";
+                    response[i].partnerName = "";
                 }
             }
         }
