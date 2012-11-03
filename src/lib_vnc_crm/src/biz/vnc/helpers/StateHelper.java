@@ -58,12 +58,12 @@ public class StateHelper implements InterfaceHelper {
 			preparedStatement.setInt(1, stateBean.getStateId());
 			preparedStatement.setString(2, stateBean.getStateName());
 			preparedStatement.setString(3, stateBean.getStateCode());
-			preparedStatement.setInt(3, stateBean.getCountryId());
-			preparedStatement.setBoolean(4, stateBean.isStatus());
-			preparedStatement.setString(5, stateBean.getCreateBy());
-			preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-			preparedStatement.setString(7, stateBean.getWriteBy());
-			preparedStatement.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setInt(4, stateBean.getCountryId());
+			preparedStatement.setBoolean(5, stateBean.isStatus());
+			preparedStatement.setString(6, stateBean.getCreateBy());
+			preparedStatement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
+			preparedStatement.setString(8, stateBean.getWriteBy());
+			preparedStatement.setTimestamp(9, new Timestamp(System.currentTimeMillis()));
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in StateHelper", e);
 		}
