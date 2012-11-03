@@ -6708,8 +6708,8 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
                         width: '100%'
                     }, {
                         xtype: 'label',
-                        html: '<a href="' + biz_vnc_crm_client.changeLogUrl + '" target="_blank">'+ biz_vnc_crm_client.changelog +'</a>' + " - " + '<a href="' + biz_vnc_crm_client.documentationUrl + '" target="_blank">'+ biz_vnc_crm_client.documentation +'</a>' + " - " + '<a href="' + biz_vnc_crm_client.screenShotsUrl + '" target="_blank">'+ biz_vnc_crm_client.screenshot +'</a>',
-                        style: {"font-size":'15px', "margin-left": '130px', "top":'232px', "margin-top":'10px'}
+                        html: '<a href="' + biz_vnc_crm_client.changeLogUrl + '" target="_blank">'+ biz_vnc_crm_client.changelog +'</a>' + " - " + '<a href="' + biz_vnc_crm_client.documentationUrl + '" target="_blank">'+ biz_vnc_crm_client.documentation +'</a>',
+                        style: {"font-size":'15px', "margin-left": '175px', "top":'232px', "margin-top":'10px'}
                     }, {
                         xtype: 'label',
                         text: biz_vnc_crm_client.copyright,
