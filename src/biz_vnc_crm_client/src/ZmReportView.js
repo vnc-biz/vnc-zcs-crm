@@ -297,6 +297,7 @@ ZmReportView.createForm = function(app) {
             sortable: true,
             summaryType: 'average',
             summaryRenderer: function(value, summaryData, dataIndex){
+                value = biz_vnc_crm_client.setPrecision(value);
                 return (biz_vnc_crm_client.reportAverage + ': ' + value);
             }
         }, {
@@ -814,7 +815,7 @@ ZmReportView.groupByPartner = function(pressedStatus, str) {
             for(var j=0; j<userCount; j++){
                 if(partnerId == partner[j].value){
                     response[i].partnerName = partner[j].label;
-					break;
+                    break;
                 } else {
                     response[i].partnerName = "";
                 }

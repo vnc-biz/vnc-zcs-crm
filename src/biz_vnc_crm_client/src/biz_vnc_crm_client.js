@@ -6936,3 +6936,7 @@ biz_vnc_crm_client.disableFilters = function(app) {
         arrOfEle[i].setSelected(false);
     }
 }
+
+biz_vnc_crm_client.setPrecision = function(value) {
+    return value.toFixed(2);
+}
