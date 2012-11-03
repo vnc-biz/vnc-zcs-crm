@@ -57,7 +57,7 @@ ZmDashboardView.dashboard = function (app) {
             inProgresslead++;
         } else if (leadData[i].leadState == "Pending") {
             pendinglead++;
-        } else if (leadData[i].leadState == "Close") {
+        } else if (leadData[i].leadState == "Closed") {
             closelead++;
         }
     }
@@ -78,7 +78,7 @@ ZmDashboardView.dashboard = function (app) {
             'name': 'In Progress',
             'data': inProgresslead
         }, {
-            'name': 'Close',
+            'name': 'Closed',
             'data': closelead
         }, {
             'name': 'Pending',

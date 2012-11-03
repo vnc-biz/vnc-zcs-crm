@@ -456,14 +456,14 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             var state = Ext.getCmp('txtOppState').getValue();
                             if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
-                                if (state == "Close") {
+                                if (state == "Closed") {
                                     Ext.getCmp('dateOppOpened').setValue(new Date());
                                     Ext.getCmp('dateOppClosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != null && state == "Close") {
+                            } else if (dateOpen != null && state == "Closed") {
                                 Ext.getCmp('dateOppClosed').setValue(new Date());
                             }
-                            if (oldState == "Close" && state != "Close") {
+                            if (oldState == "Closed" && state != "Closed") {
                                 Ext.getCmp('dateOppOpened').setValue(new Date());
                                 Ext.getCmp('dateOppClosed').setValue('');
                             }

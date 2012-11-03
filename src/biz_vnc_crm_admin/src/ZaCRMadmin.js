@@ -179,8 +179,8 @@ ZaCRMadmin.stateChoices = [{
     value: "Pending",
     label: "Pending"
 }, {
-    value: "Close",
-    label: "Close"
+    value: "Closed",
+    label: "Closed"
 }];
 
 ZaCRMadmin.stateList = {

@@ -602,14 +602,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                             if (dateOpen == null && state != "New") {
                                 Ext.getCmp('dateopened').setValue(new Date());
-                                if (state == "Close") {
+                                if (state == "Closed") {
                                     Ext.getCmp('dateopened').setValue(new Date());
                                     Ext.getCmp('dateclosed').setValue(new Date());
                                 }
-                            } else if (dateOpen != null && state == "Close") {
+                            } else if (dateOpen != null && state == "Closed") {
                                 Ext.getCmp('dateclosed').setValue(new Date());
                             }
-                            if (oldState == "Close" && state != "Close") {
+                            if (oldState == "Closed" && state != "Closed") {
                                 Ext.getCmp('dateopened').setValue(new Date());
                                 Ext.getCmp('dateclosed').setValue('');
                             }
