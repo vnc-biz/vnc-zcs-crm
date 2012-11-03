@@ -334,6 +334,7 @@ ZmReportView.createForm = function(app) {
             xtype: 'buttongroup',
             id: 'buttonGroupFirst',
             columns: 2,
+            title: biz_vnc_crm_client.reportFilter,
             items: [{
                 xtype: 'buttongroup',
                 id: 'buttonGroupType',
