@@ -2386,7 +2386,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                            var leadEmptyField = [];
+                            leadEmptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
+                            Ext.example.msg('', leadEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
                         } else {
                             var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                             var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -3459,7 +3461,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                    var emptyField = [];
+                    emptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
+                    Ext.example.msg('', emptyField + " " + biz_vnc_crm_client.msgEmptyField);
                 } else {
                     var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                     var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -5716,7 +5720,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
-                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                    var oppEmptyField = [];
+                    oppEmptyField.push(Ext.getCmp('txtOppOpportunity').fieldLabel);
+                    Ext.example.msg('', oppEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
                 } else {
                     var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
                     var stageId = Ext.getCmp('cmbOppstage').getValue();

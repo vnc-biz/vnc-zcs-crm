@@ -1597,7 +1597,9 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
-                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                    var emptyString = [];
+                    emptyString.push(Ext.getCmp('txtOppOpportunity').fieldLabel);
+                    Ext.example.msg('', emptyString + " " + biz_vnc_crm_client.msgEmptyField);
                 } else {
                     var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
                     var stageId = Ext.getCmp('cmbOppstage').getValue();

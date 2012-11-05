@@ -726,7 +726,9 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                            var leadEmptyField = [];
+                            leadEmptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
+                            Ext.example.msg('', leadEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
                         } else {
                             var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                             var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -1834,7 +1836,9 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    Ext.example.msg('', biz_vnc_crm_client.msgEmptyField);
+                    var emptyField = [];
+                    emptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
+                    Ext.example.msg('', emptyField + " " + biz_vnc_crm_client.msgEmptyField);
                 } else {
                     var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                     var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
