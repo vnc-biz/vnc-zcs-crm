@@ -2560,8 +2560,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             }
                         }),
                         listeners: {
-                            change: function (combo, ewVal, oldVal) {
-                                var selname = Ext.getCmp('cmbpartner').getValue();
+                            select: function (box, record, index) {
+								var selname = Ext.getCmp('cmbpartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -4753,8 +4753,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             }
                         }),
                         listeners: {
-                            change: function (combo, ewVal, oldVal) {
-                                var selname = Ext.getCmp('cmbOpppartner').getValue();
+                            select: function (box, record, index) {
+								var selname = Ext.getCmp('cmbOpppartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);

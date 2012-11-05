@@ -612,7 +612,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             }
                         }),
                         listeners: {
-                            change: function (combo, ewVal, oldVal) {
+                            select: function (box, record, index) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
