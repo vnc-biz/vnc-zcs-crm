@@ -140,6 +140,7 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function () 
 
     start_date = new Date(AjxDateUtil.getSimpleDateFormat().parse(start_date));
     end_date = new Date(AjxDateUtil.getSimpleDateFormat().parse(end_date));
+    end_date.setDate(end_date.getDate() + 1);
     if (start_date.getTime() > end_date.getTime()) {
         appCtxt.setStatusMsg(biz_vnc_crm_client.start_date_gt_end_date_msg);
         return;
