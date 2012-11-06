@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMStateModel(parent) {
+var ZaCRMStateModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMStateModel",

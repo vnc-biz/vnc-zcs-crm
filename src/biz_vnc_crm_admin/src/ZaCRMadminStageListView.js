@@ -35,7 +35,7 @@ headerList_stage[10] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreateddate, biz_v
 headerList_stage[11] = new ZaListHeaderItem(ZaCRMadmin.A_stageWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_stageWriteby, true, true);
 headerList_stage[12] = new ZaListHeaderItem(ZaCRMadmin.A_stageWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "125px", true, ZaCRMadmin.A_stageWritedate, true, true);
 
-function ZaCRMadminStageListView(parent, className, posStyle) {
+var ZaCRMadminStageListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_stage);
 }
 

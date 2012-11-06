@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMCompanyModel(parent) {
+var ZaCRMCompanyModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMCompanyModel",

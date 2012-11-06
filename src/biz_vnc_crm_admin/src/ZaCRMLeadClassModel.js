@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMLeadClassModel(parent) {
+var ZaCRMLeadClassModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMLeadClassModel",

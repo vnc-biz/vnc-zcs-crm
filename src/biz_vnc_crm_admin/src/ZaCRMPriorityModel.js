@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMPriorityModel(parent) {
+var ZaCRMPriorityModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMPriorityModel",

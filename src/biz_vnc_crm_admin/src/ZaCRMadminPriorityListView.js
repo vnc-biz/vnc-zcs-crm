@@ -30,7 +30,7 @@ headerList_priority[5] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCreateddate, 
 headerList_priority[6] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_priorityWriteby, true, true);
 headerList_priority[7] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_priorityWritedate, true, true);
 
-function ZaCRMadminPriorityListView(parent, className, posStyle) {
+var ZaCRMadminPriorityListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_priority);
 }
 

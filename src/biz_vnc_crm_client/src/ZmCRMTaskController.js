@@ -22,7 +22,7 @@
 
 AjxDispatcher.require(["TasksCore", "Tasks"]);
 
-ZmCRMTaskController = function (container, calApp, currentView, leadId) {
+var ZmCRMTaskController = function (container, calApp, currentView, leadId) {
     this.leadId = leadId;
     ZmTaskController.call(this, container, calApp);
     this.viewId = ZmId.VIEW_TASKEDIT;

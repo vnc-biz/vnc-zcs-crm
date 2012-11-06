@@ -20,8 +20,7 @@
 ##############################################################################
 */
 
-function ZmDashboardView() {}
-
+var ZmDashboardView = function() {}
 ZmDashboardView.prototype.constructor = ZmDashboardView;
 
 ZmDashboardView.prototype.toString = function () {

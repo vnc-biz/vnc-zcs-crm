@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMxFormView(parent) {
+var ZaCRMxFormView = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMxFormView",

@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-biz_vnc_crm_client_AttachTask = function (parent, zimlet) {
+var biz_vnc_crm_client_AttachTask = function (parent, zimlet) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, "", Dwt.STATIC_STYLE);
 };
@@ -314,7 +314,7 @@ ZmAttachTasksController.prototype._resetToolbarOperations = function () {
  * 
  * @extends        ZmListView
  */
-ZmAttachTasksListView = function (params) {
+var ZmAttachTasksListView = function (params) {
     ZmListView.call(this, params);
     this._controller = new ZmAttachTasksController();
 };

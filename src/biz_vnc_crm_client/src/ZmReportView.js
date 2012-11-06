@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZmReportView() {}
+var ZmReportView = function() {}
 ZmReportView.prototype.constructor = ZmReportView;
 
 ZmReportView.prototype.toString = function () {

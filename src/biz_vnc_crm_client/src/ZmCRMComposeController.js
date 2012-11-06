@@ -22,7 +22,7 @@
 
 AjxDispatcher.require(["MailCore", "Mail"]);
 
-ZmCRMComposeController = function (container, mailApp, currentView, leadId) {
+var ZmCRMComposeController = function (container, mailApp, currentView, leadId) {
     this.leadId = leadId;
     ZmComposeController.call(this, container, mailApp);
     this.viewId = ZmId.VIEW_COMPOSE;

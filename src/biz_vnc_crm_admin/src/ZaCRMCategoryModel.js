@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMCategoryModel(parent) {
+var ZaCRMCategoryModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMCategoryModel",

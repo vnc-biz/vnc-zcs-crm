@@ -30,7 +30,7 @@ headerList_category[5] = new ZaListHeaderItem(ZaCRMadmin.A_categoryCreateddate, 
 headerList_category[6] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_categoryWriteby, true, true);
 headerList_category[7] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_categoryWritedate, true, true);
 
-function ZaCRMadminCategoryListView(parent, className, posStyle) {
+var ZaCRMadminCategoryListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_category);
 }
 

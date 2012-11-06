@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRM_Panel() {}
+var ZaCRM_Panel = function() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
 

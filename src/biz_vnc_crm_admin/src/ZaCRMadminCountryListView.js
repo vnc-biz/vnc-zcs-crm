@@ -30,7 +30,7 @@ headerList_cont[5] = new ZaListHeaderItem(ZaCRMadmin.A_countryCreateddate, biz_v
 headerList_cont[6] = new ZaListHeaderItem(ZaCRMadmin.A_countryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_countryWriteby, true, true);
 headerList_cont[7] = new ZaListHeaderItem(ZaCRMadmin.A_countryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_countryWritedate, true, true);
 
-function ZaCRMadminCountryListView(parent, className, posStyle) {
+var ZaCRMadminCountryListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_cont);
 }
 

@@ -33,7 +33,7 @@ headerList_section[8] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreateddate, bi
 headerList_section[9] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_A_sectionWriteby, true, true);
 headerList_section[10] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_sectionWritedate, true, true);
 
-function ZaCRMadminSectionListView(parent, className, posStyle) {
+var ZaCRMadminSectionListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_section);
 }
 

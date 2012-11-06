@@ -31,7 +31,7 @@ headerList_cont_state[6] = new ZaListHeaderItem(ZaCRMadmin.A_stateCreateddate, b
 headerList_cont_state[7] = new ZaListHeaderItem(ZaCRMadmin.A_stateWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_stateWriteby, true, true);
 headerList_cont_state[8] = new ZaListHeaderItem(ZaCRMadmin.A_stateWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_stateWritedate, true, true);
 
-function ZaCRMadminCountryStateListView(parent, className, posStyle) {
+var ZaCRMadminCountryStateListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_cont_state);
 }
 

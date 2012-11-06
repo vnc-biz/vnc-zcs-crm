@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMStageModel(parent) {
+var ZaCRMStageModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMStageModel",

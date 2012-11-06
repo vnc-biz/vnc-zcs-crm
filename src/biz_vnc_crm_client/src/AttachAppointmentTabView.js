@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-biz_vnc_crm_client_AttachAppointmentTabView = function (parent, zimlet, className) {
+var biz_vnc_crm_client_AttachAppointmentTabView = function (parent, zimlet, className) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, className, Dwt.STATIC_STYLE);
 };
@@ -89,7 +89,7 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.showMe = function () {
     this._isLoaded = true;
 }
 
-CRMAppointmentListView = function (params) {
+var CRMAppointmentListView = function (params) {
     ZmListView.call(this, params);
 };
 

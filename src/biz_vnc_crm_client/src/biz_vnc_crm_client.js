@@ -24,7 +24,7 @@
  * Defines the Zimlet handler class.
  *
  */
-function biz_vnc_crm_client_HandlerObject() {};
+var biz_vnc_crm_client_HandlerObject = function() {};
 
 /*
  * Makes the Zimlet class a subclass of ZmZimletBase.
@@ -1422,7 +1422,7 @@ biz_vnc_crm_client.okTaskAttach = function () {
     }
 }
 
-function OpenDialog(parent, title, view, leadId, flag, listener) {
+var OpenDialog = function(parent, title, view, leadId, flag, listener) {
     if (arguments.length == 0) return;
     biz_vnc_crm_client.leadId = leadId;
     biz_vnc_crm_client.flag = flag;

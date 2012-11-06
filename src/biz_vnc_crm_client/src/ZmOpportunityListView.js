@@ -20,6 +20,9 @@
 ##############################################################################
 */
 
+var ZmOpportunityListView = function() {}
+ZmOpportunityListView.prototype.constructor = ZmOpportunityListView;
+
 ZmOpportunityListView.prototype.getContacts = function (offset, contactList, rec, app) {
     contactBook = "Contacts";
     if (contactBook == null) {
@@ -86,10 +89,6 @@ ZmOpportunityListView.prototype.handleGetContactsResponse = function (app, conta
         }
     }
 };
-
-function ZmOpportunityListView() {}
-
-ZmOpportunityListView.prototype.constructor = ZmOpportunityListView;
 
 ZmOpportunityListView.prototype.toString = function () {
     return "ZmOpportunityListView";

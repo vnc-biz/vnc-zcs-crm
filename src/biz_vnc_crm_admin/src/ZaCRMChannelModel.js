@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaCRMChannelModel(parent) {
+var ZaCRMChannelModel = function(parent) {
     ZaTabView.call(this, {
         parent: parent,
         iKeyName: "ZaCRMChannelModel",

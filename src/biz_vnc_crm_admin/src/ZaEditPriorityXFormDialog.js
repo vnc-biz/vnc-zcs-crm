@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-function ZaEditPriorityXFormDialog(parent, app, w, h, title) {
+var ZaEditPriorityXFormDialog = function(parent, app, w, h, title) {
     if (arguments.length == 0) return;
     this._standardButtons = [DwtDialog.OK_BUTTON, DwtDialog.CANCEL_BUTTON];
     ZaXDialog.call(this, parent, app, title, w, h, "ZaEditPriorityXFormDialog");

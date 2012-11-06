@@ -29,7 +29,7 @@ headerList_leadClass[4] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassCreateddate
 headerList_leadClass[5] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_leadClassWriteby, true, true);
 headerList_leadClass[6] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_leadClassWritedate, true, true);
 
-function ZaCRMadminLeadClassListView(parent, className, posStyle) {
+var ZaCRMadminLeadClassListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_leadClass);
 }
 

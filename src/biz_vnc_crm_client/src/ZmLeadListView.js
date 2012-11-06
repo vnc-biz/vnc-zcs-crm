@@ -20,6 +20,9 @@
 ##############################################################################
 */
 
+var ZmLeadListView = function() {}
+ZmLeadListView.prototype.constructor = ZmLeadListView;
+
 ZmLeadListView.prototype.getContacts = function (offset, contactList, rec, app) {
     contactBook = "Contacts";
     if (contactBook == null) {
@@ -82,10 +85,6 @@ ZmLeadListView.prototype.handleGetContactsResponse = function (contactList, rec,
         } else {}
     }
 };
-
-function ZmLeadListView() {}
-
-ZmLeadListView.prototype.constructor = ZmLeadListView;
 
 ZmLeadListView.prototype.toString = function () {
     return "ZmLeadListView";

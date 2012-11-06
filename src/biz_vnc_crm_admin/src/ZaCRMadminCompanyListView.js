@@ -33,7 +33,7 @@ headerList_comp[8] = new ZaListHeaderItem(ZaCRMadmin.A_companyCreateddate, biz_v
 headerList_comp[9] = new ZaListHeaderItem(ZaCRMadmin.A_companyWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_companyWriteby, true, true);
 headerList_comp[10] = new ZaListHeaderItem(ZaCRMadmin.A_companyWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_companyWritedate, true, true);
 
-function ZaCRMadminCompanyListView(parent, className, posStyle) {
+var ZaCRMadminCompanyListView = function(parent, className, posStyle) {
     ZaListView.call(this, parent, className, posStyle, headerList_comp);
 }
 

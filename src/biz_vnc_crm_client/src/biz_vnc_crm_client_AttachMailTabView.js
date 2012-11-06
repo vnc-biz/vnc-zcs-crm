@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-biz_vnc_crm_client_AttachMailTabView = function (parent, zimlet, className) {
+var biz_vnc_crm_client_AttachMailTabView = function (parent, zimlet, className) {
     this.zimlet = zimlet;
     DwtTabViewPage.call(this, parent, className, Dwt.STATIC_STYLE);
 };
@@ -300,7 +300,7 @@ biz_vnc_crm_client_AttachMailTabView.prototype.executeQuery = function (query, f
  * 
  * @extends        ZmListController
  */
-ZmAttachMailController = function (container, app) {
+var ZmAttachMailController = function (container, app) {
     if (arguments.length == 0) {
         return;
     }
@@ -320,7 +320,7 @@ ZmAttachMailController.prototype._resetToolbarOperations = function () {
  * 
  * @extends        ZmListView
  */
-ZmAttachMailListView = function (params) {
+var ZmAttachMailListView = function (params) {
     ZmListView.call(this, params);
     this._controller = new ZmAttachMailController();
 };
