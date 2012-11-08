@@ -114,7 +114,11 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 // Intializing the toolbar for putting zimbraCRM button in the toolbar
 
 biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, toolbar, controller, view) {
-    if (view == "CNS") {
+    /* supporting Z7 as well as Z8 */
+    if (
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CNS")) ||
+        (( biz_vnc_crm_client.ZIMBRA8) && (view == "CLV" || view == "CLV-main" || view == "TV" || view == "TV-main"))
+        ) {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
             menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
@@ -141,7 +145,11 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
         menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
-    } else if (view == "CLV") {
+    } else if (
+        /** supporting Z7 as well as Z8 */
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLV")) ||
+        (( biz_vnc_crm_client.ZIMBRA8) && (view == "CNS" || view == "CNS-main"))
+        ) {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
             menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
@@ -169,7 +177,11 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
         menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-    } else if (view == "CLD" || view == "CLWW" || view == "CLM" || view == "CLW" || view == "CLL" || view == "CLS") {
+    } else if (
+        /* supporting Z7 as well as Z8 */
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLD" || view == "CLWW" || view == "CLM" || view == "CLW" || view == "CLL" || view == "CLS")) ||
+        (( biz_vnc_crm_client.ZIMBRA8) && (view == "CLD" || view == "CLWW" || view == "CLM" || view == "CLW" || view == "CLL" || view == "CLS" || view == "CAL"))
+    ) {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
             menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
@@ -197,7 +209,11 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
         button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
         menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-    } else if (view == "TKL") {
+    } else if (
+        /** supporting Z7 as well as Z8 */
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "TKL")) ||
+        (( biz_vnc_crm_client.ZIMBRA8) && (view == "TKL" || view == "TKL-main"))
+    ) {
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
             menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
@@ -522,8 +538,12 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                         icon: "/service/zimlet/biz_vnc_crm_client/default/btn/attachment.png", // Use a URL in the icon config
                         tooltip: biz_vnc_crm_client.btnEdit,
                         handler: function (grid, rowIndex, colIndex) {
-                            var view = appCtxt.getCurrentViewId();
-                            if (view == "CLV") {
+                            /** supporting Z7 as well as Z8 */
+                            var view = (biz_vnc_crm_client.ZIMBRA8 ? appCtxt.getCurrentViewType() : appCtxt.getCurrentViewId());
+                            if (
+                                ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLV")) ||
+                                (( biz_vnc_crm_client.ZIMBRA8) && (view == "CLV" || view == "TV"))
+                            ) {
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
@@ -552,7 +572,18 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
                                 }
                                 mailOppGridWindow.hide();
-                            } else if (view == "CAL") {
+                            } else if (
+                                /** supporting Z7 as well as Z8 */
+                                ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CAL")) ||
+                                (( biz_vnc_crm_client.ZIMBRA8) && (
+                                    view == "CLD" ||
+                                    view == "CLWW" ||
+                                    view == "CLM" ||
+                                    view == "CLW" ||
+                                    view == "CLL" ||
+                                    view == "CLS" ||
+                                    view == "CAL"))
+                            ) {
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
@@ -668,8 +699,12 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                         icon: "/service/zimlet/biz_vnc_crm_client/default/btn/attachment.png", // Use a URL in the icon config
                         tooltip: biz_vnc_crm_client.btnEdit,
                         handler: function (grid, rowIndex, colIndex) {
-                            var view = appCtxt.getCurrentViewId();
-                            if (view == "CLV") {
+                            /** supporting Z7 as well as Z8 */
+                            var view = (biz_vnc_crm_client.ZIMBRA8 ? appCtxt.getCurrentViewType() : appCtxt.getCurrentViewId());
+                            if (
+                                ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLV")) ||
+                                (( biz_vnc_crm_client.ZIMBRA8) && (view == "CLV" || view == "TV"))
+                            ) {
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
@@ -699,7 +734,18 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
                                 }
                                 mailOppGridWindow.hide();
-                            } else if (view == "CAL") {
+                            } else if (
+                                /** supporting Z7 as well as Z8 */
+                                ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CAL")) ||
+                                (( biz_vnc_crm_client.ZIMBRA8) && (
+                                    view == "CLD" ||
+                                    view == "CLWW" ||
+                                    view == "CLM" ||
+                                    view == "CLW" ||
+                                    view == "CLL" ||
+                                    view == "CLS" ||
+                                    view == "CAL" ))
+                            ) {
                                 var rec = grid.getStore().getAt(rowIndex);
                                 var leadId = rec.get('leadId');
                                 var selmsg = appCtxt.getCurrentController().getSelection();
