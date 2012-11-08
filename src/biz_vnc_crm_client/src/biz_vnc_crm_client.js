@@ -49,9 +49,15 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     if (biz_vnc_crm_client.ZIMBRA8) {
         // Zimbra8-specific initialization
         biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU = "TAG_MENU";
+        biz_vnc_crm_client.changeLogUrl = biz_vnc_crm_client.Z8_changeLogUrl;
+        biz_vnc_crm_client.documentationUrl = biz_vnc_crm_client.Z8_documentationUrl;
+        biz_vnc_crm_client.screenShotsUrl = biz_vnc_crm_client.Z8_screenShotsUrl;
     } else {
         // Zimbra7-specific initialization
         biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU = ZmOperation.TAG_MENU;
+        biz_vnc_crm_client.changeLogUrl = biz_vnc_crm_client.Z7_changeLogUrl;
+        biz_vnc_crm_client.documentationUrl = biz_vnc_crm_client.Z7_documentationUrl;
+        biz_vnc_crm_client.screenShotsUrl = biz_vnc_crm_client.Z7_screenShotsUrl;
     }
 
     // create the tab application
