@@ -48,8 +48,10 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 
     if (biz_vnc_crm_client.ZIMBRA8) {
         // Zimbra8-specific initialization
+        biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU = "TAG_MENU";
     } else {
         // Zimbra7-specific initialization
+        biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU = ZmOperation.TAG_MENU;
     }
 
     // create the tab application
@@ -119,7 +121,7 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonIndex = -1;
         for (var i = 0, count = toolbar.opList.length; i < count; i++) {
-            if (toolbar.opList[i] == ZmOperation.TAG_MENU) {
+            if (toolbar.opList[i] == biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU) {
                 buttonIndex = i + 2;
                 break;
             }
@@ -147,7 +149,7 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         }
         var buttonIndex = -1;
         for (var i = 0, count = toolbar.opList.length; i < count; i++) {
-            if (toolbar.opList[i] == ZmOperation.TAG_MENU) {
+            if (toolbar.opList[i] == biz_vnc_crm_client.ZIMBRA_OPERATION_TAG_MENU) {
                 buttonIndex = i + 2;
                 break;
             }
