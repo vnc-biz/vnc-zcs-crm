@@ -20,14 +20,14 @@
 ##############################################################################
 */
 
-var ZaCRM_Panel = function() {}
+function biz_vnc_crm_admin() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
 
 /*
     Adding node to tree in Admin UI
 */
-ZaCRM_Panel.backupOvTreeModifier = function (tree) {
+biz_vnc_crm_admin.versionCheckTreeModifier = function (tree) {
     if (ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.BACKUP_VIEW] || ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.CARTE_BLANCHE_UI]) {
         this._crmTi = new DwtTreeItem({
             parent: this._toolsTi,
@@ -67,5 +67,5 @@ ZaOverviewPanelController.crm_adminTreeListener = function (ev) {
 if (ZaOverviewPanelController.treeModifiers) {
     var jspurl = "/service/zimlet/biz_vnc_crm_admin/vnccrmadminmonitoring.jsp";
     var response = AjxRpc.invoke(null,jspurl,null,null,true);
-    ZaOverviewPanelController.treeModifiers.push(ZaCRM_Panel.backupOvTreeModifier);
+    ZaOverviewPanelController.treeModifiers.push(biz_vnc_crm_admin.versionCheckTreeModifier);
 }
