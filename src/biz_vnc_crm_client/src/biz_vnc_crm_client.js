@@ -39,7 +39,19 @@ biz_vnc_crm_client_HandlerObject.prototype.constructor = biz_vnc_crm_client_Hand
  */
 biz_vnc_crm_client._app = null;
 
+/* FIX ME: should be automatically detected instead of hardcoded */
+biz_vnc_crm_client.ZIMBRA8 = false;
+
 biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, controller, view) {
+
+    // FIX ME: need to add zimbra version detection here
+
+    if (biz_vnc_crm_client.ZIMBRA8) {
+        // Zimbra8-specific initialization
+    } else {
+        // Zimbra7-specific initialization
+    }
+
     // create the tab application
     this._tabAppName = this.createApp(biz_vnc_crm_client.crmclient_label, "tabIcon", biz_vnc_crm_client.crmclient_tooltip);
     var rec;
