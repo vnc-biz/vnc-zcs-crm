@@ -6526,7 +6526,6 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
     });
     var msgResp = bc.GetMsgResponse;
     var ans = msgResp.m[0].inv[0].comp[0];
-
     var attend = msgResp.m[0].inv[0].comp[0].at;
     var attendees = [];
     if(attend) {
@@ -6541,32 +6540,26 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
     var subject = biz_vnc_crm_client.isDefine(ans.name);
     var id = ans.apptId;
     var apptLocation = biz_vnc_crm_client.isDefine(ans.loc);
-    var fragment = biz_vnc_crm_client.isDefine(ans.fr);
+    var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
     if(ans.s[0]) {
         if (ans.s[0].u) {
             var startDate = new Date(ans.s[0].u);
         } else {
-            var startDate = ans.s[0].d;
-            var year = startDate.substring(0,4);
-            var month = startDate.substring(4,6);
-            var day = startDate.substring(6,8);
-            startDate = month + "/" + day + "/" + year;
+			var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
         }
     }
     if(ans.e[0]) {
         if (ans.e[0].u) {
             var endDate = new Date(ans.e[0].u);
         } else {
-            var endDate = ans.e[0].d;
-            var year = endDate.substring(0,4);
-            var month = endDate.substring(4,6);
-            var day = endDate.substring(6,8);
-            endDate = month + "/" + day + "/" + year;
+			var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
         }
     }
-    var displayFreeBusy = biz_vnc_crm_client.isDefine(ans.fba);
+    var displayFreeBusy = biz_vnc_crm_client.parseDisplay(ans.fba);
     var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
-
+	var appointmentAllDay = biz_vnc_crm_client.isDefine(ans.allDay);
+	var reminder = biz_vnc_crm_client.reminderParse(ans.alarm);
+	var reminderEmail = biz_vnc_crm_client.reminderEmailParse(ans.alarm);
     var leadApptDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
@@ -6615,6 +6608,21 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
                         anchor: '100%'
                     },{
                         xtype: 'label',
+                        text: biz_vnc_crm_client.windowAppointmentAllDay,
+                        forId: 'lblApptDetailsAppointmentAllDayLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowReminder,
+                        forId: 'lblApptDetailsReminderLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowReminderEmail,
+                        forId: 'lblApptDetailsReminderEmailLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
                         text: biz_vnc_crm_client.windowFreeBusy,
                         forId: 'lblApptDetailsFreeBusyLabel',
                         anchor: '100%'
@@ -6655,6 +6663,21 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
                         anchor: '100%'
                     },{
                         xtype: 'label',
+                        text: appointmentAllDay,
+                        forId: 'lblApptDetailsAppointmentAllDayValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: reminder,
+                        forId: 'lblApptDetailsReminderValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: reminderEmail,
+                        forId: 'lblApptDetailsReminderEmailValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
                         text: displayFreeBusy,
                         forId: 'lblApptDetailsFreeBusyValue',
                         anchor: '100%'
@@ -6665,7 +6688,7 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: fragment,
+                        html: fragment,
                         forId: 'lblApptDetailsFragmentValue',
                         anchor: '100%'
                     }]
@@ -6741,16 +6764,39 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     });
     var msgResp = bc.GetMsgResponse;
     var ans = msgResp.m[0].inv[0].comp[0];
+	if(ans.alarm) {
+		var reminderValue = ans.alarm[0].trigger[0].abs[0].d;
+		var reminder = AjxDateUtil.parseServerDateTime(reminderValue);
+		var reminderDate = reminder.getTime();
+		reminderDate = new Date(reminderDate);
+		if(ans.alarm[1]) {
+			var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1].at[0].a);
+		} else {
+			var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1]);
+		}
+	} else {
+		var reminderDate = biz_vnc_crm_client.isDefine(ans.alarm);
+		var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm);
+	}
     var subject = biz_vnc_crm_client.isDefine(ans.name);
     var taskLocation = biz_vnc_crm_client.isDefine(ans.loc);
-    var fragment = biz_vnc_crm_client.isDefine(ans.desc[0]._content);
-
     var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
-    var status = biz_vnc_crm_client.isDefine(ans.status);
+    var taskStatus = biz_vnc_crm_client.statusParse(ans.status);
     var percentComplete = biz_vnc_crm_client.isDefine(ans.percentComplete);
-    var priority = biz_vnc_crm_client.isDefine(ans.priority);
-
-    var leadTaskDetailsWindow = Ext.create('widget.window', {
+    var priority = biz_vnc_crm_client.priorityParse(ans.priority);
+	if(ans.s) {
+		var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
+	} else {
+		var startDate = "---";
+	}
+	if(ans.e) {
+		var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
+	} else {
+		var endDate = "---";
+	}
+	var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
+    
+	var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
         title: biz_vnc_crm_client.windowTaskDetails,
@@ -6788,8 +6834,28 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: biz_vnc_crm_client.windowDescription,
-                        forId: 'lblTaskDetailsFragmentLabel',
+                        text: biz_vnc_crm_client.windowStartDate,
+                        forId: 'lblTaskDetailsStartDateLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowEndDate,
+                        forId: 'lblTaskDetailsEndDateLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowReminderDate,
+                        forId: 'lblTaskDetailsReminderDateLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowReminderEmail,
+                        forId: 'lblTaskDetailsReminderEmailLabel',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: biz_vnc_crm_client.windowPriority,
+                        forId: 'lblTaskDetailsPriorityLabel',
                         anchor: '100%'
                     },{
                         xtype: 'label',
@@ -6802,11 +6868,11 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                         forId: 'lblTaskDetailsPercentCompleteLabel',
                         anchor: '100%'
                     },{
-                        xtype: 'label',
-                        text: biz_vnc_crm_client.windowPriority,
-                        forId: 'lblTaskDetailsPriorityLabel',
+						xtype: 'label',
+                        text: biz_vnc_crm_client.windowDescription,
+                        forId: 'lblTaskDetailsFragmentLabel',
                         anchor: '100%'
-                    }]
+					}]
                 }, {
                     columnWidth: .7,
                     border: false,
@@ -6816,19 +6882,39 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                         text: organizer,
                         forId: 'lblTaskDetailsOrganizerValue',
                         anchor: '100%'
-                    }, {
+                    },{
                         xtype: 'label',
                         text: taskLocation,
                         forId: 'lblTaskDetailsLocationValue',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: fragment,
-                        forId: 'lblTaskDetailsFragmentValue',
+                        text: startDate,
+                        forId: 'lblTaskDetailsStartDateValue',
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: status,
+                        text: endDate,
+                        forId: 'lblTaskDetailsEndDateValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: reminderDate,
+                        forId: 'lblTaskDetailsReminderDateValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: reminderEmail,
+                        forId: 'lblTaskDetailsReminderEmailValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: priority,
+                        forId: 'lblTaskDetailsPriorityValue',
+                        anchor: '100%'
+                    },{
+                        xtype: 'label',
+                        text: taskStatus,
                         forId: 'lblTaskDetailsStatusValue',
                         anchor: '100%'
                     },{
@@ -6838,8 +6924,8 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                         anchor: '100%'
                     },{
                         xtype: 'label',
-                        text: priority,
-                        forId: 'lblTaskDetailsPriorityValue',
+                        html: fragment,
+                        forId: 'lblTaskDetailsFragmentValue',
                         anchor: '100%'
                     }]
                 }]
@@ -6946,4 +7032,78 @@ biz_vnc_crm_client.disableFilters = function(app) {
 
 biz_vnc_crm_client.setPrecision = function(value) {
     return value.toFixed(2);
+}
+
+biz_vnc_crm_client.reverseDateFormat = function(endDate) {
+	if(endDate) {
+		var year = endDate.substring(0,4);
+		var month = endDate.substring(4,6);
+		var day = endDate.substring(6,8);
+		endDate = month + "/" + day + "/" + year;
+		return endDate;
+	} else {
+		return "---";
+	}
+}
+
+biz_vnc_crm_client.priorityParse = function(priority) {
+	if(priority == "1"){
+		return biz_vnc_crm_client.priorityHigh;
+	} else if(priority == "5") {
+		return biz_vnc_crm_client.priorityNormal;
+	} else if(priority == "9") {
+		return biz_vnc_crm_client.priorityLow;
+	}
+}
+
+biz_vnc_crm_client.statusParse = function(status) {
+	if(status == "NEED") {
+		return biz_vnc_crm_client.statusNotStarted;
+	} else if(status == "COMP") {
+		return biz_vnc_crm_client.statusCompleted;
+	} else if(status == "INPR") {
+		return biz_vnc_crm_client.statusInProgress;
+	} else if(status == "WAITING") {
+		return biz_vnc_crm_client.statusWaiting;
+	} else if(status == "DEFERRED") {
+		return biz_vnc_crm_client.statusDeferred;
+	}
+}
+
+biz_vnc_crm_client.fragmentParse = function(content) {
+	if(content == '<html><body></body></html>') {
+		return '<html><body>---</body></html>';
+	}
+	return content;
+}
+
+biz_vnc_crm_client.parseDisplay = function(fba) {
+	if(fba == "F"){
+		return biz_vnc_crm_client.displayFree;
+	} else if(fba == "B") {
+		return biz_vnc_crm_client.displayBusy;
+	} else if(fba == "T") {
+		return biz_vnc_crm_client.displayTentative;
+	} else if(fba == "O") {
+		return biz_vnc_crm_client.displayOutOfOffice;
+	}
+}
+
+biz_vnc_crm_client.reminderParse = function(alarm) {
+	if(alarm) {
+		return ZmCalendarApp.getReminderSummary(alarm[0].trigger[0].rel[0].m);
+	} else {
+		return "---";
+	}
+}
+
+biz_vnc_crm_client.reminderEmailParse = function(alarm) {
+    if(alarm) {
+		if(alarm[1]) {
+        	return alarm[1].at[0].a;
+		}
+		return "---";
+    } else {
+        return "---";
+    }
 }
