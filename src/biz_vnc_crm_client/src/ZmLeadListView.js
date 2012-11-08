@@ -844,6 +844,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
+							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
+							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }

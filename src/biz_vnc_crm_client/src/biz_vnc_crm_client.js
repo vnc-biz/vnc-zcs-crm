@@ -2509,6 +2509,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             });
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
+							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
+							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }
@@ -6385,7 +6387,6 @@ biz_vnc_crm_client_HandlerObject.prototype.setview = function (app) {
         parent: overview,
         overviewId: 'com_egroup_schedule_treeview'
     });
-
     var tree_item_dashboard = new DwtTreeItem({
         parent: treeview,
         icon: "week",
@@ -6427,7 +6428,7 @@ biz_vnc_crm_client_HandlerObject.prototype.setview = function (app) {
     treeview.addChild(tree_item_reports);
     treeview.addChild(tree_item_aboutus);
 
-    var lead_button_listener = new AjxListener(this, this._eventTreeViewSelected, app);
+	var lead_button_listener = new AjxListener(this, this._eventTreeViewSelected, app);
     treeview.addSelectionListener(lead_button_listener);
 };
 
