@@ -6537,7 +6537,11 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
     var subject = biz_vnc_crm_client.isDefine(ans.name);
     var id = ans.apptId;
     var apptLocation = biz_vnc_crm_client.isDefine(ans.loc);
-    var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
+	if(ans.desc) {
+    	var fragment = biz_vnc_crm_client.isDefine(ans.desc[0]._content);
+	} else {
+		var fragment = "---";
+	}
     if(ans.s[0]) {
         if (ans.s[0].u) {
             var startDate = new Date(ans.s[0].u);
@@ -6791,7 +6795,11 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
 	} else {
 		var endDate = "---";
 	}
-	var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
+	if(ans.desc) {
+		var fragment = biz_vnc_crm_client.isDefine(ans.desc[0]._content);
+	} else {
+		var fragment = "---";
+	}
     
 	var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
