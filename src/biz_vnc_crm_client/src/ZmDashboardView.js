@@ -21,6 +21,7 @@
 */
 
 var ZmDashboardView = function() {}
+
 ZmDashboardView.prototype.constructor = ZmDashboardView;
 
 ZmDashboardView.prototype.toString = function () {
@@ -369,7 +370,7 @@ ZmDashboardView.dashboard = function (app) {
             name: 'stateId',
             mapping: 'stateBean.stateId',
             type: 'int'
-        },  {
+        }, {
             name: 'leadClassName',
             mapping: 'leadClassBean.leadClassName',
             type: 'string'
@@ -523,8 +524,8 @@ ZmDashboardView.dashboard = function (app) {
                         var rec = grid.getStore().getAt(rowIndex);
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                         app.setContent(content);
-						appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[0]._setSelected(false);
-						appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
+                        appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[0]._setSelected(false);
+                        appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
                         ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                     }
                 }]
@@ -657,7 +658,7 @@ ZmDashboardView.dashboard = function (app) {
                         var rec = grid.getStore().getAt(rowIndex);
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
                         app.setContent(content);
-						appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[0]._setSelected(false);
+                        appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[0]._setSelected(false);
                         appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(true);
                         ZmLeadListView.prototype.getContacts(0, [], rec, app);
                     }

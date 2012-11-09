@@ -470,13 +470,13 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             if (Ext.getCmp('dateOppOpened').getValue() != null) {
                                 var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToOpen').setValue(dayopen);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtOppDaysToOpen').setValue(0);
                             }
                             if (Ext.getCmp('dateOppClosed').getValue() != null) {
                                 var dayclose = Math.ceil(((Ext.getCmp('dateOppClosed').getValue()) - (Ext.getCmp('dateOppOpened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtOppDaysToClose').setValue(dayclose);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtOppDaysToClose').setValue(0);
                             }
                         }
@@ -615,7 +615,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         listeners: {
                             select: function (box, record, index) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
-								ZmOpportunityListView.selectedOppPartnerName = selname;
+                                ZmOpportunityListView.selectedOppPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);

@@ -34,7 +34,7 @@ biz_vnc_crm_client_AttachTask.prototype.toString = function () {
 
 /**
  * Shows the tab view.
- * 
+ *
  */
 biz_vnc_crm_client_AttachTask.prototype.showMe = function () {
     DwtTabViewPage.prototype.showMe.call(this);
@@ -48,7 +48,7 @@ biz_vnc_crm_client_AttachTask.prototype.showMe = function () {
 
 /**
  * Resets the query.
- * 
+ *
  * @param    {string}    newQuery        the new query
  */
 biz_vnc_crm_client_AttachTask.prototype._resetQuery = function (newQuery) {
@@ -64,7 +64,7 @@ biz_vnc_crm_client_AttachTask.prototype._resetQuery = function (newQuery) {
 
 /**
  * Gets the "from folder id" query.
- * 
+ *
  * @param    {string}        folderId
  * @return    {string}    the query
  */
@@ -74,7 +74,7 @@ biz_vnc_crm_client_AttachTask.prototype._getQueryFromFolder = function (folderId
 
 /**
  * Hides the tab view.
- * 
+ *
  */
 biz_vnc_crm_client_AttachTask.prototype.hideMe = function () {
     DwtTabViewPage.prototype.hideMe.call(this);
@@ -82,7 +82,7 @@ biz_vnc_crm_client_AttachTask.prototype.hideMe = function () {
 
 /**
  * Creates HTML for for the attach mail tab UI.
- * 
+ *
  */
 biz_vnc_crm_client_AttachTask.prototype._createHtml1 = function () {
     this._contentEl = this.getContentHtmlElement();
@@ -133,7 +133,7 @@ biz_vnc_crm_client_AttachTask.prototype.searchFolder = function (params) {
 
 /**
  * Handles the search folder response.
- * 
+ *
  * @param    {hash}    params        a hash of parameters
  */
 biz_vnc_crm_client_AttachTask.prototype.handleSearchResponse = function (params) {
@@ -149,7 +149,7 @@ biz_vnc_crm_client_AttachTask.prototype.handleSearchResponse = function (params)
 
 /**
  * Processes the search folder doc response.
- * 
+ *
  * @param    {hash}    params        a hash of parameters
  */
 biz_vnc_crm_client_AttachTask.prototype.processDocsResponse = function (params) {
@@ -167,7 +167,7 @@ biz_vnc_crm_client_AttachTask.prototype.processDocsResponse = function (params) 
 
 /**
  * Shows the search folder result content.
- * 
+ *
  * @param    {hash}    params        a hash of parameters
  */
 biz_vnc_crm_client_AttachTask.prototype.showResultContents = function (params) {
@@ -185,7 +185,7 @@ biz_vnc_crm_client_AttachTask.prototype.showResultContents = function (params) {
 
 /**
  * Handles the view keys events.
- * 
+ *
  * @param    {DwtKeyEvent}    ev
  */
 
@@ -195,7 +195,7 @@ biz_vnc_crm_client_AttachTask.prototype.gotAttachments = function () {
 
 /**
  * Shows the attach mail tree view.
- * 
+ *
  */
 biz_vnc_crm_client_AttachTask.prototype.showAttachMailTreeView = function () {
     var callback = new AjxCallback(this, this._showTreeView);
@@ -233,7 +233,7 @@ biz_vnc_crm_client_AttachTask.prototype._setOverview = function (params) {
             overviewClass: "AttachTasksTabBox",
             headerClass: "DwtTreeItem",
             noTooltips: true,
-            treeIds: params.treeIds        
+            treeIds: params.treeIds
         };
         ovParams.omit = {};
         ovParams.omit[ZmFolder.ID_TRASH] = true;
@@ -291,7 +291,7 @@ biz_vnc_crm_client_AttachTask.prototype.executeQuery = function (query, forward)
 /**
  * @class
  * The attach mail controller.
- * 
+ *
  * @extends        ZmListController
  */
 ZmAttachTasksController = function (container, app) {
@@ -311,7 +311,7 @@ ZmAttachTasksController.prototype._resetToolbarOperations = function () {
 /**
  * @class
  * The attach mail list view.
- * 
+ *
  * @extends        ZmListView
  */
 var ZmAttachTasksListView = function (params) {
@@ -351,7 +351,7 @@ ZmAttachTasksListView.prototype._getCellContents = function (htmlArr, idx, item,
     htmlArr[idx++] = "<td  align=left><span style=\"font-weight:bold;font-size:14px;\"> ";
     htmlArr[idx++] = subject;
     htmlArr[idx++] = "</SPAN></td><td align=right>";
-    htmlArr[idx++] = dueDate; 
+    htmlArr[idx++] = dueDate;
     htmlArr[idx++] = "</td></tr></TABLE>";
 
     htmlArr[idx++] = "<span style=\"font-weight:bold;\">"+ status +"</SPAN>";

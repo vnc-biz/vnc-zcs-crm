@@ -49,7 +49,6 @@ ZaCRMadminViewController.setViewMethod = function (entry) {
             openInNewTab: true,
             tabId: ZaZimbraAdmin._CRM_ADMIN_VIEW,
             tab: this.getMainTab()
-
         }
 
         this._app.createView(ZaZimbraAdmin._CRM_ADMIN_VIEW, elements, tabParams);

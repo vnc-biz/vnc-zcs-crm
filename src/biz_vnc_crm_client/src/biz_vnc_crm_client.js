@@ -49,7 +49,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.temp = "";
     biz_vnc_crm_client.mailData = "";
     biz_vnc_crm_client.apptData = "";
-	biz_vnc_crm_client.selectedPartnerName = null;
+    biz_vnc_crm_client.selectedPartnerName = null;
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
 
     biz_vnc_crm_client.responsePriority = "";
@@ -2423,7 +2423,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                             var sectionId = Ext.getCmp('cmbsection').getValue();
                             var categoryId = Ext.getCmp('cmbcategory').getValue();
-                            var partnerName = biz_vnc_crm_client.selectedPartnerName; 
+                            var partnerName = biz_vnc_crm_client.selectedPartnerName;
                             var dayopen = Ext.getCmp('txtleadday2open').getValue();
                             var dayclose = Ext.getCmp('txtleadday2close').getValue();
                             var referredBy = Ext.getCmp('txtleadreferredby').getValue();
@@ -2510,8 +2510,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             });
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
-							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
-							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
+                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
+                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }
@@ -2562,8 +2562,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         }),
                         listeners: {
                             select: function (box, record, index) {
-								var selname = Ext.getCmp('cmbpartner').getValue();
-								biz_vnc_crm_client.selectedPartnerName = selname;
+                                var selname = Ext.getCmp('cmbpartner').getValue();
+                                biz_vnc_crm_client.selectedPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -3868,8 +3868,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
                 Ext.getCmp('cmbpartner').getStore().load({
                     callback: function () {
-						Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
-					}
+                        Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
+                    }
                 });
                 Ext.getCmp('cmbstage').getStore().load({
                     callback: function () {
@@ -4756,8 +4756,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         }),
                         listeners: {
                             select: function (box, record, index) {
-								var selname = Ext.getCmp('cmbOpppartner').getValue();
-								biz_vnc_crm_client.selectedPartnerName = selname;
+                                var selname = Ext.getCmp('cmbOpppartner').getValue();
+                                biz_vnc_crm_client.selectedPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -6431,7 +6431,7 @@ biz_vnc_crm_client_HandlerObject.prototype.setview = function (app) {
     treeview.addChild(tree_item_reports);
     treeview.addChild(tree_item_aboutus);
 
-	var lead_button_listener = new AjxListener(this, this._eventTreeViewSelected, app);
+    var lead_button_listener = new AjxListener(this, this._eventTreeViewSelected, app);
     treeview.addSelectionListener(lead_button_listener);
 };
 
@@ -6548,21 +6548,21 @@ biz_vnc_crm_client.viewApptDetails = function(apptId){
         if (ans.s[0].u) {
             var startDate = new Date(ans.s[0].u);
         } else {
-			var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
+            var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
         }
     }
     if(ans.e[0]) {
         if (ans.e[0].u) {
             var endDate = new Date(ans.e[0].u);
         } else {
-			var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
+            var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
         }
     }
     var displayFreeBusy = biz_vnc_crm_client.parseDisplay(ans.fba);
     var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
-	var appointmentAllDay = biz_vnc_crm_client.isDefine(ans.allDay);
-	var reminder = biz_vnc_crm_client.reminderParse(ans.alarm);
-	var reminderEmail = biz_vnc_crm_client.reminderEmailParse(ans.alarm);
+    var appointmentAllDay = biz_vnc_crm_client.isDefine(ans.allDay);
+    var reminder = biz_vnc_crm_client.reminderParse(ans.alarm);
+    var reminderEmail = biz_vnc_crm_client.reminderEmailParse(ans.alarm);
     var leadApptDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
@@ -6767,39 +6767,39 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
     });
     var msgResp = bc.GetMsgResponse;
     var ans = msgResp.m[0].inv[0].comp[0];
-	if(ans.alarm) {
-		var reminderValue = ans.alarm[0].trigger[0].abs[0].d;
-		var reminder = AjxDateUtil.parseServerDateTime(reminderValue);
-		var reminderDate = reminder.getTime();
-		reminderDate = new Date(reminderDate);
-		if(ans.alarm[1]) {
-			var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1].at[0].a);
-		} else {
-			var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1]);
-		}
-	} else {
-		var reminderDate = biz_vnc_crm_client.isDefine(ans.alarm);
-		var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm);
-	}
+    if(ans.alarm) {
+        var reminderValue = ans.alarm[0].trigger[0].abs[0].d;
+        var reminder = AjxDateUtil.parseServerDateTime(reminderValue);
+        var reminderDate = reminder.getTime();
+        reminderDate = new Date(reminderDate);
+        if(ans.alarm[1]) {
+            var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1].at[0].a);
+        } else {
+            var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm[1]);
+        }
+    } else {
+        var reminderDate = biz_vnc_crm_client.isDefine(ans.alarm);
+        var reminderEmail = biz_vnc_crm_client.isDefine(ans.alarm);
+    }
     var subject = biz_vnc_crm_client.isDefine(ans.name);
     var taskLocation = biz_vnc_crm_client.isDefine(ans.loc);
     var organizer = biz_vnc_crm_client.isDefine(ans.or.a);
     var taskStatus = biz_vnc_crm_client.statusParse(ans.status);
     var percentComplete = biz_vnc_crm_client.isDefine(ans.percentComplete);
     var priority = biz_vnc_crm_client.priorityParse(ans.priority);
-	if(ans.s) {
-		var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
-	} else {
-		var startDate = "---";
-	}
-	if(ans.e) {
-		var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
-	} else {
-		var endDate = "---";
-	}
-	var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
-    
-	var leadTaskDetailsWindow = Ext.create('widget.window', {
+    if(ans.s) {
+        var startDate = biz_vnc_crm_client.reverseDateFormat(ans.s[0].d);
+    } else {
+        var startDate = "---";
+    }
+    if(ans.e) {
+        var endDate = biz_vnc_crm_client.reverseDateFormat(ans.e[0].d);
+    } else {
+        var endDate = "---";
+    }
+    var fragment = biz_vnc_crm_client.fragmentParse(ans.descHtml[0]._content);
+
+    var leadTaskDetailsWindow = Ext.create('widget.window', {
         height: 300,
         width: 600,
         title: biz_vnc_crm_client.windowTaskDetails,
@@ -6871,11 +6871,11 @@ biz_vnc_crm_client.viewTaskDetails = function(taskId){
                         forId: 'lblTaskDetailsPercentCompleteLabel',
                         anchor: '100%'
                     },{
-						xtype: 'label',
+                        xtype: 'label',
                         text: biz_vnc_crm_client.windowDescription,
                         forId: 'lblTaskDetailsFragmentLabel',
                         anchor: '100%'
-					}]
+                    }]
                 }, {
                     columnWidth: .7,
                     border: false,
@@ -7038,74 +7038,74 @@ biz_vnc_crm_client.setPrecision = function(value) {
 }
 
 biz_vnc_crm_client.reverseDateFormat = function(endDate) {
-	if(endDate) {
-		var year = endDate.substring(0,4);
-		var month = endDate.substring(4,6);
-		var day = endDate.substring(6,8);
-		endDate = month + "/" + day + "/" + year;
-		return endDate;
-	} else {
-		return "---";
-	}
+    if(endDate) {
+        var year = endDate.substring(0,4);
+        var month = endDate.substring(4,6);
+        var day = endDate.substring(6,8);
+        endDate = month + "/" + day + "/" + year;
+        return endDate;
+    } else {
+        return "---";
+    }
 }
 
 biz_vnc_crm_client.priorityParse = function(priority) {
-	if(priority == "1"){
-		return biz_vnc_crm_client.priorityHigh;
-	} else if(priority == "5") {
-		return biz_vnc_crm_client.priorityNormal;
-	} else if(priority == "9") {
-		return biz_vnc_crm_client.priorityLow;
-	}
+    if(priority == "1"){
+        return biz_vnc_crm_client.priorityHigh;
+    } else if(priority == "5") {
+        return biz_vnc_crm_client.priorityNormal;
+    } else if(priority == "9") {
+        return biz_vnc_crm_client.priorityLow;
+    }
 }
 
 biz_vnc_crm_client.statusParse = function(status) {
-	if(status == "NEED") {
-		return biz_vnc_crm_client.statusNotStarted;
-	} else if(status == "COMP") {
-		return biz_vnc_crm_client.statusCompleted;
-	} else if(status == "INPR") {
-		return biz_vnc_crm_client.statusInProgress;
-	} else if(status == "WAITING") {
-		return biz_vnc_crm_client.statusWaiting;
-	} else if(status == "DEFERRED") {
-		return biz_vnc_crm_client.statusDeferred;
-	}
+    if(status == "NEED") {
+        return biz_vnc_crm_client.statusNotStarted;
+    } else if(status == "COMP") {
+        return biz_vnc_crm_client.statusCompleted;
+    } else if(status == "INPR") {
+        return biz_vnc_crm_client.statusInProgress;
+    } else if(status == "WAITING") {
+        return biz_vnc_crm_client.statusWaiting;
+    } else if(status == "DEFERRED") {
+        return biz_vnc_crm_client.statusDeferred;
+    }
 }
 
 biz_vnc_crm_client.fragmentParse = function(content) {
-	if(content == '<html><body></body></html>') {
-		return '<html><body>---</body></html>';
-	}
-	return content;
+    if(content == '<html><body></body></html>') {
+        return '<html><body>---</body></html>';
+    }
+    return content;
 }
 
 biz_vnc_crm_client.parseDisplay = function(fba) {
-	if(fba == "F"){
-		return biz_vnc_crm_client.displayFree;
-	} else if(fba == "B") {
-		return biz_vnc_crm_client.displayBusy;
-	} else if(fba == "T") {
-		return biz_vnc_crm_client.displayTentative;
-	} else if(fba == "O") {
-		return biz_vnc_crm_client.displayOutOfOffice;
-	}
+    if(fba == "F"){
+        return biz_vnc_crm_client.displayFree;
+    } else if(fba == "B") {
+        return biz_vnc_crm_client.displayBusy;
+    } else if(fba == "T") {
+        return biz_vnc_crm_client.displayTentative;
+    } else if(fba == "O") {
+        return biz_vnc_crm_client.displayOutOfOffice;
+    }
 }
 
 biz_vnc_crm_client.reminderParse = function(alarm) {
-	if(alarm) {
-		return ZmCalendarApp.getReminderSummary(alarm[0].trigger[0].rel[0].m);
-	} else {
-		return "---";
-	}
+    if(alarm) {
+        return ZmCalendarApp.getReminderSummary(alarm[0].trigger[0].rel[0].m);
+    } else {
+        return "---";
+    }
 }
 
 biz_vnc_crm_client.reminderEmailParse = function(alarm) {
     if(alarm) {
-		if(alarm[1]) {
-        	return alarm[1].at[0].a;
-		}
-		return "---";
+        if(alarm[1]) {
+            return alarm[1].at[0].a;
+        }
+        return "---";
     } else {
         return "---";
     }

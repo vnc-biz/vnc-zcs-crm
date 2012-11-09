@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (<http://www.vnc.biz>).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 */
 
 var ZmReportView = function() {}
+
 ZmReportView.prototype.constructor = ZmReportView;
 
 ZmReportView.prototype.toString = function () {
@@ -345,7 +346,7 @@ ZmReportView.createForm = function(app) {
                     id: 'toggleButtonLead',
                     enableToggle: true,
                     scale: 'large',
-                    rowspan: 3, 
+                    rowspan: 3,
                     iconCls: 'btnLead32',
                         iconAlign: 'top',
                     toggleHandler: function(btn, pressedStatus){
@@ -361,7 +362,7 @@ ZmReportView.createForm = function(app) {
                     id: 'toggleButtonOpp',
                     enableToggle: true,
                     scale: 'large',
-                    rowspan: 3, 
+                    rowspan: 3,
                     iconCls: 'btnOpportunity32',
                     iconAlign: 'top',
                     toggleHandler: function(btn, pressedStatus){
@@ -767,7 +768,7 @@ ZmReportView.getDateRangeOfWeek = function(weekNo) {
     var weeksInTheFuture = eval( weekNo - weekNoToday );
     tempDate.setDate(tempDate.getDate() + eval( 7 * weeksInTheFuture ));
     var rangeIsFrom =  tempDate.getFullYear() + "/" + eval(tempDate.getMonth()+1)   +"/"  +  tempDate.getDate();
-    tempDate.setDate(tempDate.getDate() + 6);        
+    tempDate.setDate(tempDate.getDate() + 6);
     var rangeIsTo = tempDate.getFullYear() + "/" + eval(tempDate.getMonth()+1) + "/" +  tempDate.getDate();
     return rangeIsFrom + " to "+ rangeIsTo;
 }

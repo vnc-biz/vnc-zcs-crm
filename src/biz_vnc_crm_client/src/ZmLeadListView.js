@@ -616,7 +616,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             if (Ext.getCmp('dateopened').getValue() != null) {
                                 var dayopen = Math.ceil(((new Date().getTime()) - (Ext.getCmp('dateopened').getValue())) / (1000 * 60 * 60 * 24));
                                 Ext.getCmp('txtleadday2open').setValue(dayopen);
-                            } else { 
+                            } else {
                                 Ext.getCmp('txtleadday2open').setValue(0);
                             }
                             if (Ext.getCmp('dateclosed').getValue() != null) {
@@ -845,8 +845,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
-							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
-							appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
+                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
+                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }
@@ -897,9 +897,9 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             }
                         }),
                         listeners: {
-							select: function(box, record, index) {
-								var selname = Ext.getCmp('cmbpartner').getValue();
-								ZmLeadListView.selectedLeadPartnerName = selname;
+                            select: function(box, record, index) {
+                                var selname = Ext.getCmp('cmbpartner').getValue();
+                                ZmLeadListView.selectedLeadPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);

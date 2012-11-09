@@ -107,8 +107,6 @@ ZaCRMadminCompanyListView.prototype._createItemHtml = function (item) {
         html[idx++] = "<td align=left height=20px width=" + this._headerList[10]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_companyWritedate];
         html[idx++] = "</td>";
-
-
     } else {
         html[idx++] = "<td width=100%>";
         html[idx++] = AjxStringUtil.htmlEncode(item);

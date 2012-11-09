@@ -178,7 +178,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                                 relevantBehavior: _DISABLE_
                             }, {
                                 type: _CELLSPACER_
-                            }, {    
+                            }, {
                                 type: _DWT_BUTTON_,
                                 label: ZaMsg.DLXV_ButtonRemove,
                                 width: 120,

@@ -72,6 +72,6 @@ Build date: 2012-04-20 14:10:47 (19f55ab932145a3443b228045fa80950dfeaf9cc)
         isDevelopment = true;
     }
 
-    document.write('<script type="text/javascript" charset="UTF-8" src="' + 
+    document.write('<script type="text/javascript" charset="UTF-8" src="' +
         path + 'ext-all' + (isDevelopment ? '-dev' : '') + '.js"></script>');
 })();

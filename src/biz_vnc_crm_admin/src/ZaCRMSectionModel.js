@@ -114,7 +114,6 @@ ZaCRMSectionModel.prototype.doDelete = function (idArray) {
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
     this.getForm().parent.setDirty(true);
     this.getForm().refresh();
-
 }
 
 ZaCRMSectionModel.closeButtonListener = function () {
@@ -123,7 +122,6 @@ ZaCRMSectionModel.closeButtonListener = function () {
     this.parent.setDirty(false);
     DBG.println(AjxDebug.DBG3, "Cancel button Listener");
     this.refresh();
-
 }
 
 ZaCRMSectionModel.editButtonListener = function () {

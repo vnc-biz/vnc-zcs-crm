@@ -125,7 +125,6 @@ ZaCRMStageModel.closeButtonListener = function () {
     this.parent.setDirty(false);
     DBG.println(AjxDebug.DBG3, "Cancel button Listener");
     this.refresh();
-
 }
 
 ZaCRMStageModel.editButtonListener = function () {

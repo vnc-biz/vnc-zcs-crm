@@ -59,7 +59,6 @@ ZaCRMadminSectionListView.prototype._createItemHtml = function (item) {
     if (this._headerList) {
         var cnt = this._headerList.length;
 
-
         html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
         html[idx++] = item[ZaCRMadmin.A_sectionId];
         html[idx++] = "</td>";
