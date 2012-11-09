@@ -94,6 +94,7 @@ ZmOpportunityListView.prototype.toString = function () {
     return "ZmOpportunityListView";
 };
 
+ZmOpportunityListView.selectedOppPartnerName = null;
 ZmOpportunityListView.createForm = function (rec, contactList, app) {
     var toolbar = app.getToolbar();
     toolbar.setVisibility(false);
@@ -614,6 +615,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         listeners: {
                             select: function (box, record, index) {
                                 var selname = Ext.getCmp('cmbOpppartner').getValue();
+								ZmOpportunityListView.selectedOppPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -1606,7 +1608,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     var nextAction = Ext.getCmp('txtOppNextAction').getValue();
                     var sectionId = Ext.getCmp('cmbOppsection').getValue();
                     var categoryId = Ext.getCmp('cmbOppcategory').getValue();
-                    var partnerName = Ext.getCmp('cmbOpppartner').getValue();
+                    var partnerName = ZmOpportunityListView.selectedOppPartnerName;
                     var leadDescription = Ext.getCmp('txtOppDetails').getValue();
                     var contactName = Ext.getCmp('txtOppContact').getValue();
                     var email = Ext.getCmp('txtOppEmail').getValue();

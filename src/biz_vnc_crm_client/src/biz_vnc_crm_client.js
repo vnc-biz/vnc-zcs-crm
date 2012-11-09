@@ -49,6 +49,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.temp = "";
     biz_vnc_crm_client.mailData = "";
     biz_vnc_crm_client.apptData = "";
+	biz_vnc_crm_client.selectedPartnerName = null;
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
 
     biz_vnc_crm_client.responsePriority = "";
@@ -2422,7 +2423,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                             var sectionId = Ext.getCmp('cmbsection').getValue();
                             var categoryId = Ext.getCmp('cmbcategory').getValue();
-                            var partnerName = Ext.getCmp('cmbpartner').getValue();
+                            var partnerName = biz_vnc_crm_client.selectedPartnerName; 
                             var dayopen = Ext.getCmp('txtleadday2open').getValue();
                             var dayclose = Ext.getCmp('txtleadday2close').getValue();
                             var referredBy = Ext.getCmp('txtleadreferredby').getValue();
@@ -2562,6 +2563,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         listeners: {
                             select: function (box, record, index) {
 								var selname = Ext.getCmp('cmbpartner').getValue();
+								biz_vnc_crm_client.selectedPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -3499,7 +3501,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                     var sectionId = Ext.getCmp('cmbsection').getValue();
                     var categoryId = Ext.getCmp('cmbcategory').getValue();
-                    var partnerName = Ext.getCmp('cmbpartner').getValue();
+                    var partnerName = biz_vnc_crm_client.selectedPartnerName;
                     var dayopen = Ext.getCmp('txtleadday2open').getValue();
                     var dayclose = Ext.getCmp('txtleadday2close').getValue();
                     var referredBy = Ext.getCmp('txtleadreferredby').getValue();
@@ -3866,8 +3868,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
                 Ext.getCmp('cmbpartner').getStore().load({
                     callback: function () {
-                        Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
-                    }
+						Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
+					}
                 });
                 Ext.getCmp('cmbstage').getStore().load({
                     callback: function () {
@@ -4755,6 +4757,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         listeners: {
                             select: function (box, record, index) {
 								var selname = Ext.getCmp('cmbOpppartner').getValue();
+								biz_vnc_crm_client.selectedPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -5732,7 +5735,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var nextAction = Ext.getCmp('txtOppNextAction').getValue();
                     var sectionId = Ext.getCmp('cmbOppsection').getValue();
                     var categoryId = Ext.getCmp('cmbOppcategory').getValue();
-                    var partnerName = Ext.getCmp('cmbOpppartner').getValue();
+                    var partnerName = biz_vnc_crm_client.selectedPartnerName;
                     var leadDescription = Ext.getCmp('txtOppDetails').getValue();
                     var contactName = Ext.getCmp('txtOppContact').getValue();
                     var email = Ext.getCmp('txtOppEmail').getValue();

@@ -206,6 +206,7 @@ ZmLeadListView._mySaveListener = function (app) {
     return true;
 }
 
+ZmLeadListView.selectedLeadPartnerName = null;
 ZmLeadListView.createForm = function (rec, contactList, app) {
     var toolbar = app.getToolbar();
     toolbar.setVisibility(false);
@@ -761,7 +762,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                             var sectionId = Ext.getCmp('cmbsection').getValue();
                             var categoryId = Ext.getCmp('cmbcategory').getValue();
-                            var partnerName = Ext.getCmp('cmbpartner').getValue();
+                            var partnerName = ZmLeadListView.selectedLeadPartnerName;
                             var dayopen = Ext.getCmp('txtleadday2open').getValue();
                             var dayclose = Ext.getCmp('txtleadday2close').getValue();
                             var referredBy = Ext.getCmp('txtleadreferredby').getValue();
@@ -898,6 +899,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         listeners: {
 							select: function(box, record, index) {
 								var selname = Ext.getCmp('cmbpartner').getValue();
+								ZmLeadListView.selectedLeadPartnerName = selname;
                                 for (var i = 0; i < biz_vnc_crm_client.contactList.length; i++) {
                                     if (biz_vnc_crm_client.contactList[i].id == selname) {
                                         var contactName = ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.firstName) + " " + ZmLeadListView.CheckField(biz_vnc_crm_client.contactList[i]._attrs.lastName);
@@ -1873,7 +1875,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     var leadClassId = Ext.getCmp('cmbleadClass').getValue();
                     var sectionId = Ext.getCmp('cmbsection').getValue();
                     var categoryId = Ext.getCmp('cmbcategory').getValue();
-                    var partnerName = Ext.getCmp('cmbpartner').getValue();
+                    var partnerName = ZmLeadListView.selectedLeadPartnerName;
                     var dayopen = Ext.getCmp('txtleadday2open').getValue();
                     var dayclose = Ext.getCmp('txtleadday2close').getValue();
                     var referredBy = Ext.getCmp('txtleadreferredby').getValue();
