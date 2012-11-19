@@ -20,18 +20,18 @@
 ##############################################################################
 */
 
-var headerList_category = new Array();
-headerList_category[0] = new ZaListHeaderItem(ZaCRMadmin.A_categoryId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_categoryId, true, true);
-headerList_category[1] = new ZaListHeaderItem(ZaCRMadmin.A_categoryName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_categoryName, true, true);
-headerList_category[2] = new ZaListHeaderItem(ZaCRMadmin.A_sales_team_id, biz_vnc_crm_admin.HDR_sales_team_id, null, "150px", true, ZaCRMadmin.A_sales_team_id, true, true);
-headerList_category[3] = new ZaListHeaderItem(ZaCRMadmin.A_categoryStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_categoryStatus, true, true);
-headerList_category[4] = new ZaListHeaderItem(ZaCRMadmin.A_categoryCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_categoryCreatedby, true, true);
-headerList_category[5] = new ZaListHeaderItem(ZaCRMadmin.A_categoryCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "200px", true, ZaCRMadmin.A_categorycreateddate, true, true);
-headerList_category[6] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_categoryWriteby, true, true);
-headerList_category[7] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_categoryWritedate, true, true);
+biz_vnc_crm_admin.headerList_category = new Array();
+biz_vnc_crm_admin.headerList_category[0] = new ZaListHeaderItem(ZaCRMadmin.A_categoryId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_categoryId, true, true);
+biz_vnc_crm_admin.headerList_category[1] = new ZaListHeaderItem(ZaCRMadmin.A_categoryName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_categoryName, true, true);
+biz_vnc_crm_admin.headerList_category[2] = new ZaListHeaderItem(ZaCRMadmin.A_sales_team_id, biz_vnc_crm_admin.HDR_sales_team_id, null, "150px", true, ZaCRMadmin.A_sales_team_id, true, true);
+biz_vnc_crm_admin.headerList_category[3] = new ZaListHeaderItem(ZaCRMadmin.A_categoryStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_categoryStatus, true, true);
+biz_vnc_crm_admin.headerList_category[4] = new ZaListHeaderItem(ZaCRMadmin.A_categoryCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_categoryCreatedby, true, true);
+biz_vnc_crm_admin.headerList_category[5] = new ZaListHeaderItem(ZaCRMadmin.A_categoryCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "200px", true, ZaCRMadmin.A_categorycreateddate, true, true);
+biz_vnc_crm_admin.headerList_category[6] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_categoryWriteby, true, true);
+biz_vnc_crm_admin.headerList_category[7] = new ZaListHeaderItem(ZaCRMadmin.A_categoryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_categoryWritedate, true, true);
 
 var ZaCRMadminCategoryListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_category);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_category);
 }
 
 ZaCRMadminCategoryListView.prototype = new ZaListView;

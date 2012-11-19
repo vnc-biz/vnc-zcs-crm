@@ -549,7 +549,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                     preserveSelection: false,
                     multiselect: true,
                     cssClass: "DLSource",
-                    headerList: headerList_category,
+                    headerList: biz_vnc_crm_admin.headerList_category,
                     widgetClass: ZaCRMadminCategoryListView,
                     onSelection: ZaCRMCategoryModel.categorySelectionListener,
                     onChange: ZaCRMxFormView.currentFieldChanged,
