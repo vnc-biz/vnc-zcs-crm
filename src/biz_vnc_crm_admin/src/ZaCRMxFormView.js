@@ -478,7 +478,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                     preserveSelection: false,
                     multiselect: true,
                     cssClass: "DLSource",
-                    headerList: headerList_priority,
+                    headerList: biz_vnc_crm_admin.headerList_priority,
                     widgetClass: ZaCRMadminPriorityListView,
                     onSelection: ZaCRMPriorityModel.prioritySelectionListener,
                     onChange: ZaCRMxFormView.currentFieldChanged,

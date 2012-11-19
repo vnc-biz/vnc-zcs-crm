@@ -20,18 +20,18 @@
 ##############################################################################
 */
 
-var headerList_priority = new Array();
-headerList_priority[0] = new ZaListHeaderItem(ZaCRMadmin.A_priorityId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_priorityId, true, true);
-headerList_priority[1] = new ZaListHeaderItem(ZaCRMadmin.A_priorityName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_priorityName, true, true);
-headerList_priority[2] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCode, biz_vnc_crm_admin.HDR_code, null, "150px", true, ZaCRMadmin.A_priorityCode, true, true);
-headerList_priority[3] = new ZaListHeaderItem(ZaCRMadmin.A_priorityStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_priorityStatus, true, true);
-headerList_priority[4] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_priorityCreatedby, true, true);
-headerList_priority[5] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_prioritycreateddate, true, true);
-headerList_priority[6] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_priorityWriteby, true, true);
-headerList_priority[7] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_priorityWritedate, true, true);
+biz_vnc_crm_admin.headerList_priority = new Array();
+biz_vnc_crm_admin.headerList_priority[0] = new ZaListHeaderItem(ZaCRMadmin.A_priorityId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_priorityId, true, true);
+biz_vnc_crm_admin.headerList_priority[1] = new ZaListHeaderItem(ZaCRMadmin.A_priorityName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_priorityName, true, true);
+biz_vnc_crm_admin.headerList_priority[2] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCode, biz_vnc_crm_admin.HDR_code, null, "150px", true, ZaCRMadmin.A_priorityCode, true, true);
+biz_vnc_crm_admin.headerList_priority[3] = new ZaListHeaderItem(ZaCRMadmin.A_priorityStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_priorityStatus, true, true);
+biz_vnc_crm_admin.headerList_priority[4] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_priorityCreatedby, true, true);
+biz_vnc_crm_admin.headerList_priority[5] = new ZaListHeaderItem(ZaCRMadmin.A_priorityCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_prioritycreateddate, true, true);
+biz_vnc_crm_admin.headerList_priority[6] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_priorityWriteby, true, true);
+biz_vnc_crm_admin.headerList_priority[7] = new ZaListHeaderItem(ZaCRMadmin.A_priorityWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_priorityWritedate, true, true);
 
 var ZaCRMadminPriorityListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_priority);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_priority);
 }
 
 ZaCRMadminPriorityListView.prototype = new ZaListView;
