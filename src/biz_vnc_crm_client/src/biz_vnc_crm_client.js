@@ -1253,7 +1253,7 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachMailDialog = function (lead
     tabKeys = [];
     tabKeys.push(this.attachMailTabView.addTab(biz_vnc_crm_client.attach_mail_dialog_tab, this.attachMailTabPage));
 
-    canvas = new OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_mail_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okMailAttach, [this]));
+    canvas = new biz_vnc_crm_client.OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_mail_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okMailAttach, [this]));
     canvas.popup();
 }
 
@@ -1270,7 +1270,7 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachAppointmentDialog = functio
     tabKeys = [];
     tabKeys.push(this.attachApptTabView.addTab(biz_vnc_crm_client.attach_appt_dialog_tab, this.attachApptTabPage));
 
-    this.attachApptDialog = new OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_appt_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okAppointmentAttach, [this]));
+    this.attachApptDialog = new biz_vnc_crm_client.OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_appt_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okAppointmentAttach, [this]));
     this.attachApptDialog.popup();
 }
 
@@ -1287,7 +1287,7 @@ biz_vnc_crm_client_HandlerObject.prototype.showAttachTaskDialog = function (lead
 
     tabKeys = [];
     tabKeys.push(this.attachTaskTabView.addTab(biz_vnc_crm_client.attach_task_dialog_tab, this.attachTaskTabPage));
-    this.attachTaskDialog = new OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_task_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okTaskAttach, [this]));
+    this.attachTaskDialog = new biz_vnc_crm_client.OpenDialog(appCtxt.getShell(), biz_vnc_crm_client.attach_task_dialog_title, view, leadId, flag, new AjxListener(this, biz_vnc_crm_client.okTaskAttach, [this]));
     this.attachTaskDialog.popup();
 }
 
@@ -1423,7 +1423,7 @@ biz_vnc_crm_client.okTaskAttach = function () {
     }
 }
 
-var OpenDialog = function(parent, title, view, leadId, flag, listener) {
+biz_vnc_crm_client.OpenDialog = function(parent, title, view, leadId, flag, listener) {
     if (arguments.length == 0) return;
     biz_vnc_crm_client.leadId = leadId;
     biz_vnc_crm_client.flag = flag;
@@ -1438,8 +1438,8 @@ var OpenDialog = function(parent, title, view, leadId, flag, listener) {
     this.setView(view);
 };
 
-OpenDialog.prototype = new ZmDialog;
-OpenDialog.prototype.constructor = OpenDialog;
+biz_vnc_crm_client.OpenDialog.prototype = new ZmDialog;
+biz_vnc_crm_client.OpenDialog.prototype.constructor = biz_vnc_crm_client.OpenDialog;
 
 biz_vnc_crm_client.okMailAttach = function () {
     if (0 == biz_vnc_crm_client_AttachMailTabView._tabAttachMailView.getSelectionCount()) {
