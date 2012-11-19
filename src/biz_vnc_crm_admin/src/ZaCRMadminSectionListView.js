@@ -20,21 +20,21 @@
 ##############################################################################
 */
 
-var headerList_section = new Array();
-headerList_section[0] = new ZaListHeaderItem(ZaCRMadmin.A_sectionId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_sectionId, true, true);
-headerList_section[1] = new ZaListHeaderItem(ZaCRMadmin.A_sectionName, biz_vnc_crm_admin.HDR_name, null, "150px", true, ZaCRMadmin.A_sectionName, true, true);
-headerList_section[2] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCode, biz_vnc_crm_admin.HDR_code, null, "100px", true, ZaCRMadmin.A_sectionCode, true, true);
-headerList_section[3] = new ZaListHeaderItem(ZaCRMadmin.A_sectionManagerId, biz_vnc_crm_admin.HDR_sectionManagerId, null, "150px", true, ZaCRMadmin.A_sectionManagerId, true, true);
-headerList_section[4] = new ZaListHeaderItem(ZaCRMadmin.A_sectionLeaderId, biz_vnc_crm_admin.HDR_sectionLeaderId, null, "150px", true, ZaCRMadmin.A_sectionLeaderId, true, true);
-headerList_section[5] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWatcherId, biz_vnc_crm_admin.HDR_sectionWatcherId, null, "150px", true, ZaCRMadmin.A_sectionWatcherId, true, true);
-headerList_section[6] = new ZaListHeaderItem(ZaCRMadmin.A_sectionStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_sectionStatus, true, true);
-headerList_section[7] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "150px", true, ZaCRMadmin.A_sectionCreatedby, true, true);
-headerList_section[8] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_stateCreateddate, true, true);
-headerList_section[9] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_A_sectionWriteby, true, true);
-headerList_section[10] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_sectionWritedate, true, true);
+biz_vnc_crm_admin.headerList_section = new Array();
+biz_vnc_crm_admin.headerList_section[0] = new ZaListHeaderItem(ZaCRMadmin.A_sectionId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_sectionId, true, true);
+biz_vnc_crm_admin.headerList_section[1] = new ZaListHeaderItem(ZaCRMadmin.A_sectionName, biz_vnc_crm_admin.HDR_name, null, "150px", true, ZaCRMadmin.A_sectionName, true, true);
+biz_vnc_crm_admin.headerList_section[2] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCode, biz_vnc_crm_admin.HDR_code, null, "100px", true, ZaCRMadmin.A_sectionCode, true, true);
+biz_vnc_crm_admin.headerList_section[3] = new ZaListHeaderItem(ZaCRMadmin.A_sectionManagerId, biz_vnc_crm_admin.HDR_sectionManagerId, null, "150px", true, ZaCRMadmin.A_sectionManagerId, true, true);
+biz_vnc_crm_admin.headerList_section[4] = new ZaListHeaderItem(ZaCRMadmin.A_sectionLeaderId, biz_vnc_crm_admin.HDR_sectionLeaderId, null, "150px", true, ZaCRMadmin.A_sectionLeaderId, true, true);
+biz_vnc_crm_admin.headerList_section[5] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWatcherId, biz_vnc_crm_admin.HDR_sectionWatcherId, null, "150px", true, ZaCRMadmin.A_sectionWatcherId, true, true);
+biz_vnc_crm_admin.headerList_section[6] = new ZaListHeaderItem(ZaCRMadmin.A_sectionStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_sectionStatus, true, true);
+biz_vnc_crm_admin.headerList_section[7] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "150px", true, ZaCRMadmin.A_sectionCreatedby, true, true);
+biz_vnc_crm_admin.headerList_section[8] = new ZaListHeaderItem(ZaCRMadmin.A_sectionCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_stateCreateddate, true, true);
+biz_vnc_crm_admin.headerList_section[9] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_A_sectionWriteby, true, true);
+biz_vnc_crm_admin.headerList_section[10] = new ZaListHeaderItem(ZaCRMadmin.A_sectionWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_sectionWritedate, true, true);
 
 var ZaCRMadminSectionListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_section);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_section);
 }
 
 ZaCRMadminSectionListView.prototype = new ZaListView;
