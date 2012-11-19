@@ -20,17 +20,17 @@
 ##############################################################################
 */
 
-var headerList_leadClass = new Array();
-headerList_leadClass[0] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_leadClassId, true, true);
-headerList_leadClass[1] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_leadClassName, true, true);
-headerList_leadClass[2] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_leadClassStatus, true, true);
-headerList_leadClass[3] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_leadClassCreatedby, true, true);
-headerList_leadClass[4] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_leadClasscreateddate, true, true);
-headerList_leadClass[5] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_leadClassWriteby, true, true);
-headerList_leadClass[6] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_leadClassWritedate, true, true);
+biz_vnc_crm_admin.headerList_leadClass = new Array();
+biz_vnc_crm_admin.headerList_leadClass[0] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_leadClassId, true, true);
+biz_vnc_crm_admin.headerList_leadClass[1] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_leadClassName, true, true);
+biz_vnc_crm_admin.headerList_leadClass[2] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_leadClassStatus, true, true);
+biz_vnc_crm_admin.headerList_leadClass[3] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_leadClassCreatedby, true, true);
+biz_vnc_crm_admin.headerList_leadClass[4] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_leadClasscreateddate, true, true);
+biz_vnc_crm_admin.headerList_leadClass[5] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_leadClassWriteby, true, true);
+biz_vnc_crm_admin.headerList_leadClass[6] = new ZaListHeaderItem(ZaCRMadmin.A_leadClassWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_leadClassWritedate, true, true);
 
 var ZaCRMadminLeadClassListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_leadClass);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_leadClass);
 }
 
 ZaCRMadminLeadClassListView.prototype = new ZaListView;
