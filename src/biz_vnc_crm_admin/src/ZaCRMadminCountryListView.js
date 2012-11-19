@@ -20,18 +20,18 @@
 ##############################################################################
 */
 
-var headerList_cont = new Array();
-headerList_cont[0] = new ZaListHeaderItem(ZaCRMadmin.A_countryId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_countryId, true, true);
-headerList_cont[1] = new ZaListHeaderItem(ZaCRMadmin.A_countryName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_countryName, true, true);
-headerList_cont[2] = new ZaListHeaderItem(ZaCRMadmin.A_countryCode, biz_vnc_crm_admin.HDR_code, null, "150px", true, ZaCRMadmin.A_countryCode, true, true);
-headerList_cont[3] = new ZaListHeaderItem(ZaCRMadmin.A_countryStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_countryStatus, true, true);
-headerList_cont[4] = new ZaListHeaderItem(ZaCRMadmin.A_countryCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_countryCreatedby, true, true);
-headerList_cont[5] = new ZaListHeaderItem(ZaCRMadmin.A_countryCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "200px", true, ZaCRMadmin.A_countryCreateddate, true, true);
-headerList_cont[6] = new ZaListHeaderItem(ZaCRMadmin.A_countryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_countryWriteby, true, true);
-headerList_cont[7] = new ZaListHeaderItem(ZaCRMadmin.A_countryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_countryWritedate, true, true);
+biz_vnc_crm_admin.headerList_cont = new Array();
+biz_vnc_crm_admin.headerList_cont[0] = new ZaListHeaderItem(ZaCRMadmin.A_countryId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_countryId, true, true);
+biz_vnc_crm_admin.headerList_cont[1] = new ZaListHeaderItem(ZaCRMadmin.A_countryName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_countryName, true, true);
+biz_vnc_crm_admin.headerList_cont[2] = new ZaListHeaderItem(ZaCRMadmin.A_countryCode, biz_vnc_crm_admin.HDR_code, null, "150px", true, ZaCRMadmin.A_countryCode, true, true);
+biz_vnc_crm_admin.headerList_cont[3] = new ZaListHeaderItem(ZaCRMadmin.A_countryStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_countryStatus, true, true);
+biz_vnc_crm_admin.headerList_cont[4] = new ZaListHeaderItem(ZaCRMadmin.A_countryCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_countryCreatedby, true, true);
+biz_vnc_crm_admin.headerList_cont[5] = new ZaListHeaderItem(ZaCRMadmin.A_countryCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "200px", true, ZaCRMadmin.A_countryCreateddate, true, true);
+biz_vnc_crm_admin.headerList_cont[6] = new ZaListHeaderItem(ZaCRMadmin.A_countryWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_countryWriteby, true, true);
+biz_vnc_crm_admin.headerList_cont[7] = new ZaListHeaderItem(ZaCRMadmin.A_countryWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "200px", true, ZaCRMadmin.A_countryWritedate, true, true);
 
 var ZaCRMadminCountryListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_cont);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_cont);
 }
 
 ZaCRMadminCountryListView.prototype = new ZaListView;
