@@ -20,17 +20,17 @@
 ##############################################################################
 */
 
-var headerList_channel = new Array();
-headerList_channel[0] = new ZaListHeaderItem(ZaCRMadmin.A_channelId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_channelId, true, true);
-headerList_channel[1] = new ZaListHeaderItem(ZaCRMadmin.A_channelName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_channelName, true, true);
-headerList_channel[2] = new ZaListHeaderItem(ZaCRMadmin.A_channelStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_channelStatus, true, true);
-headerList_channel[3] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_channelCreatedby, true, true);
-headerList_channel[4] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_channelcreateddate, true, true);
-headerList_channel[5] = new ZaListHeaderItem(ZaCRMadmin.A_channelWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_channelWriteby, true, true);
-headerList_channel[6] = new ZaListHeaderItem(ZaCRMadmin.A_channelWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_channelWritedate, true, true);
+biz_vnc_crm_admin.headerList_channel = new Array();
+biz_vnc_crm_admin.headerList_channel[0] = new ZaListHeaderItem(ZaCRMadmin.A_channelId, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_channelId, true, true);
+biz_vnc_crm_admin.headerList_channel[1] = new ZaListHeaderItem(ZaCRMadmin.A_channelName, biz_vnc_crm_admin.HDR_name, null, "200px", true, ZaCRMadmin.A_channelName, true, true);
+biz_vnc_crm_admin.headerList_channel[2] = new ZaListHeaderItem(ZaCRMadmin.A_channelStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_channelStatus, true, true);
+biz_vnc_crm_admin.headerList_channel[3] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "200px", true, ZaCRMadmin.A_channelCreatedby, true, true);
+biz_vnc_crm_admin.headerList_channel[4] = new ZaListHeaderItem(ZaCRMadmin.A_channelCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "150px", true, ZaCRMadmin.A_channelcreateddate, true, true);
+biz_vnc_crm_admin.headerList_channel[5] = new ZaListHeaderItem(ZaCRMadmin.A_channelWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "200px", true, ZaCRMadmin.A_channelWriteby, true, true);
+biz_vnc_crm_admin.headerList_channel[6] = new ZaListHeaderItem(ZaCRMadmin.A_channelWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "150px", true, ZaCRMadmin.A_channelWritedate, true, true);
 
 var ZaCRMadminChannelListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_channel);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_channel);
 }
 
 ZaCRMadminChannelListView.prototype = new ZaListView;
