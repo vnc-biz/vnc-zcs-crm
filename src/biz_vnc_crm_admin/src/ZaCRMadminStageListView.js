@@ -20,23 +20,23 @@
 ##############################################################################
 */
 
-var headerList_stage = new Array();
-headerList_stage[0] = new ZaListHeaderItem(ZaCRMadmin.A_id, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_stageId, true, true);
-headerList_stage[1] = new ZaListHeaderItem(ZaCRMadmin.A_name, biz_vnc_crm_admin.HDR_name, null, "150px", true, ZaCRMadmin.A_stageName, true, true);
-headerList_stage[2] = new ZaListHeaderItem(ZaCRMadmin.A_stageSequence, biz_vnc_crm_admin.HDR_stageSequence, null, "70px", true, ZaCRMadmin.A_stageSequence, true, true);
-headerList_stage[3] = new ZaListHeaderItem(ZaCRMadmin.A_stageType, biz_vnc_crm_admin.HDR_stageType, null, "100px", true, ZaCRMadmin.A_stageType, true, true);
-headerList_stage[4] = new ZaListHeaderItem(ZaCRMadmin.A_stageState, biz_vnc_crm_admin.HDR_stageState, null, "100px", true, ZaCRMadmin.A_stageState, true, true);
-headerList_stage[5] = new ZaListHeaderItem(ZaCRMadmin.A_stageProbability, biz_vnc_crm_admin.HDR_stageProb, null, "80px", true, ZaCRMadmin.A_stageProbability, true, true);
-headerList_stage[6] = new ZaListHeaderItem(ZaCRMadmin.A_stageDescription, biz_vnc_crm_admin.HDR_stageDesc, null, "200px", true, ZaCRMadmin.A_stageDescription, true, true);
-headerList_stage[7] = new ZaListHeaderItem(ZaCRMadmin.A_stageAuto, biz_vnc_crm_admin.HDR_stageAuto, null, "50px", true, ZaCRMadmin.A_stageAuto, true, true);
-headerList_stage[8] = new ZaListHeaderItem(ZaCRMadmin.A_stageStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_stageStatus, true, true);
-headerList_stage[9] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "150px", true, ZaCRMadmin.A_stageCreatedby, true, true);
-headerList_stage[10] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "125px", true, ZaCRMadmin.A_stagecreateddate, true, true);
-headerList_stage[11] = new ZaListHeaderItem(ZaCRMadmin.A_stageWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_stageWriteby, true, true);
-headerList_stage[12] = new ZaListHeaderItem(ZaCRMadmin.A_stageWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "125px", true, ZaCRMadmin.A_stageWritedate, true, true);
+biz_vnc_crm_admin.headerList_stage = new Array();
+biz_vnc_crm_admin.headerList_stage[0] = new ZaListHeaderItem(ZaCRMadmin.A_id, biz_vnc_crm_admin.HDR_id, null, "50px", true, ZaCRMadmin.A_stageId, true, true);
+biz_vnc_crm_admin.headerList_stage[1] = new ZaListHeaderItem(ZaCRMadmin.A_name, biz_vnc_crm_admin.HDR_name, null, "150px", true, ZaCRMadmin.A_stageName, true, true);
+biz_vnc_crm_admin.headerList_stage[2] = new ZaListHeaderItem(ZaCRMadmin.A_stageSequence, biz_vnc_crm_admin.HDR_stageSequence, null, "70px", true, ZaCRMadmin.A_stageSequence, true, true);
+biz_vnc_crm_admin.headerList_stage[3] = new ZaListHeaderItem(ZaCRMadmin.A_stageType, biz_vnc_crm_admin.HDR_stageType, null, "100px", true, ZaCRMadmin.A_stageType, true, true);
+biz_vnc_crm_admin.headerList_stage[4] = new ZaListHeaderItem(ZaCRMadmin.A_stageState, biz_vnc_crm_admin.HDR_stageState, null, "100px", true, ZaCRMadmin.A_stageState, true, true);
+biz_vnc_crm_admin.headerList_stage[5] = new ZaListHeaderItem(ZaCRMadmin.A_stageProbability, biz_vnc_crm_admin.HDR_stageProb, null, "80px", true, ZaCRMadmin.A_stageProbability, true, true);
+biz_vnc_crm_admin.headerList_stage[6] = new ZaListHeaderItem(ZaCRMadmin.A_stageDescription, biz_vnc_crm_admin.HDR_stageDesc, null, "200px", true, ZaCRMadmin.A_stageDescription, true, true);
+biz_vnc_crm_admin.headerList_stage[7] = new ZaListHeaderItem(ZaCRMadmin.A_stageAuto, biz_vnc_crm_admin.HDR_stageAuto, null, "50px", true, ZaCRMadmin.A_stageAuto, true, true);
+biz_vnc_crm_admin.headerList_stage[8] = new ZaListHeaderItem(ZaCRMadmin.A_stageStatus, biz_vnc_crm_admin.HDR_status, null, "50px", true, ZaCRMadmin.A_stageStatus, true, true);
+biz_vnc_crm_admin.headerList_stage[9] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreatedby, biz_vnc_crm_admin.HDR_createdBy, null, "150px", true, ZaCRMadmin.A_stageCreatedby, true, true);
+biz_vnc_crm_admin.headerList_stage[10] = new ZaListHeaderItem(ZaCRMadmin.A_stageCreateddate, biz_vnc_crm_admin.HDR_createdDate, null, "125px", true, ZaCRMadmin.A_stagecreateddate, true, true);
+biz_vnc_crm_admin.headerList_stage[11] = new ZaListHeaderItem(ZaCRMadmin.A_stageWriteby, biz_vnc_crm_admin.HDR_writeBy, null, "150px", true, ZaCRMadmin.A_stageWriteby, true, true);
+biz_vnc_crm_admin.headerList_stage[12] = new ZaListHeaderItem(ZaCRMadmin.A_stageWritedate, biz_vnc_crm_admin.HDR_writeDate, null, "125px", true, ZaCRMadmin.A_stageWritedate, true, true);
 
 var ZaCRMadminStageListView = function(parent, className, posStyle) {
-    ZaListView.call(this, parent, className, posStyle, headerList_stage);
+    ZaListView.call(this, parent, className, posStyle, biz_vnc_crm_admin.headerList_stage);
 }
 
 ZaCRMadminStageListView.prototype = new ZaListView;
