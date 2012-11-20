@@ -742,7 +742,7 @@ ZmReportView.groupByWeek = function(pressedStatus, str) {
         var response = jsonParse(ZmReportView.responseLead.text);
         for(var i=0; i < response.length ; i++){
             date = response[i].createDate.split(" ")[0];
-            var weekNo = new Date(date).getWeek();
+            var weekNo = ZmReportView.getWeek(new Date(date));
             var weekRange = ZmReportView.getDateRangeOfWeek(weekNo);
             response[i].createDate = "[ " + biz_vnc_crm_client.reportWeek + ": " + weekNo + "] -" + " " + weekRange;
         }
@@ -755,16 +755,16 @@ ZmReportView.groupByWeek = function(pressedStatus, str) {
     }
 }
 
-Date.prototype.getWeek = function() {
-    var onejan = new Date(this.getFullYear(),0,1);
-    return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
+ZmReportView.getWeek = function(date) {
+    var onejan = new Date(date.getFullYear(),0,1);
+    return Math.ceil((((date - onejan) / 86400000) + onejan.getDay()+1)/7);
 }
 
 ZmReportView.getDateRangeOfWeek = function(weekNo) {
     var tempDate = new Date();
     numOfdaysPastSinceLastMonday = eval(tempDate.getDay()- 1);
     tempDate.setDate(tempDate.getDate() - numOfdaysPastSinceLastMonday);
-    var weekNoToday = tempDate.getWeek();
+    var weekNoToday = ZmReportView.getWeek(tempDate);
     var weeksInTheFuture = eval( weekNo - weekNoToday );
     tempDate.setDate(tempDate.getDate() + eval( 7 * weeksInTheFuture ));
     var rangeIsFrom =  tempDate.getFullYear() + "/" + eval(tempDate.getMonth()+1)   +"/"  +  tempDate.getDate();
