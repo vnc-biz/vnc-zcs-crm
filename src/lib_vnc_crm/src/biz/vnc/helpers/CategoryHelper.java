@@ -43,8 +43,8 @@ public class CategoryHelper implements InterfaceHelper {
 	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
 	@Override
-	public String listView() {
-		String strOfAllRecords = gson.toJson(getAllRecords());
+	public String listView(String username) {
+		String strOfAllRecords = gson.toJson(getAllRecords(username));
 		return strOfAllRecords;
 	}
 
@@ -122,7 +122,7 @@ public class CategoryHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllRecords() {
+	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.sectionId = s.sectionId;" ;
 		try {
@@ -215,7 +215,7 @@ public class CategoryHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveRecords() {
+	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select categoryId,categoryName,s.sectionName,c.status,c.createBy, c.createDate, c.writeBy, c.writeDate from tbl_crm_category c join tbl_crm_section s where c.status = ? AND c.sectionId = s.sectionId;" ;
 		try {
@@ -246,23 +246,23 @@ public class CategoryHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public String listClientView() {
-		String strOfAllRecords = gson.toJson(getAllActiveRecords());
+	public String listClientView(String username) {
+		String strOfAllRecords = gson.toJson(getAllActiveRecords(username));
 		return strOfAllRecords;
 	}
 
 	@Override
-	public String filterView(String array) {
+	public String filterView(String array, String username) {
 		return null;
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
+	public List<AbstractBean> getAllActiveFilterRecords(String str, String field, String username) {
 		return null;
 	}
 
 	@Override
-	public String filterByContact(String Array) {
+	public String filterByContact(String Array, String username) {
 		return null;
 	}
 

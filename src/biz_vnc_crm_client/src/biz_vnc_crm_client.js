@@ -71,6 +71,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.apptData = "";
     biz_vnc_crm_client.selectedPartnerName = null;
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
+    biz_vnc_crm_client.username = appCtxt.getUsername();
 
     biz_vnc_crm_client.responsePriority = "";
     biz_vnc_crm_client.responseCategory = "";
@@ -294,15 +295,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
     // ------------------------------------------------------------------------------------------------------------
-
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
+    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var mailOppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
+    json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -843,14 +843,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
 
     // ------------------------------------------------------------------------------------------------------------
 
-    var json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+    var json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var contactOppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
-    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -1151,7 +1151,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                         record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
                                         idArray.push(record);
                                     }
-                                    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+                                    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
                                     var reqJson = AjxStringUtil.urlEncode(json);
                                     var contactLeadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -1266,7 +1266,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                         idArray.push(record);
                                     }
 
-                                    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+                                    json = "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
                                     var reqJson = AjxStringUtil.urlEncode(json);
                                     var contactLeadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
@@ -1740,7 +1740,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     var idArray = [];
     idArray = biz_vnc_crm_client.getFilterItems(app);
 
-    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -4089,7 +4089,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     var idArray = [];
     idArray = biz_vnc_crm_client.getFilterItems(app);
 
-    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };

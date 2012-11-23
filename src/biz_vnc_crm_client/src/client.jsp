@@ -61,7 +61,7 @@ try {
 			String AllResult = "[";
 			for(int i=0;i<object.length;i++){
 				interfaceHelper = Utility.callHelper(object[i]);
-				result = interfaceHelper.listClientView();
+				result = interfaceHelper.listClientView("");
 				if(i == object.length-1) {
 					AllResult += "{\"" + object[i] + "\":" + result + "}]";
 				} else {
@@ -74,26 +74,29 @@ try {
 		}
 	} else if(actionType.equals("FULLLIST")) {
 		try{
-			String result = interfaceHelper.listView();
+			String username = k.get("username").getAsString();
+			String result = interfaceHelper.listView(username);
 			out.println(result);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in full listing", e);
 		}
 	} else if(actionType.equals("LIST")) {
 		try {
-			String result = interfaceHelper.listClientView();
+			String username = k.get("username").getAsString();
+			String result = interfaceHelper.listClientView(username);
 			out.println(result);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in listing", e);
 		}
 	} else if(actionType.equals("FILTER")) {
 		try {
+			String username = k.get("username").getAsString();
 			String array1 = k.get("array").getAsString();
 			if(array1.equals("")) {
-				String result = interfaceHelper.listClientView();
+				String result = interfaceHelper.listClientView(username);
 				out.println(result);
 			} else {
-				String result = interfaceHelper.filterView(array1);
+				String result = interfaceHelper.filterView(array1,username);
 				out.println(result);
 			}
 		} catch(Exception e) {
@@ -101,12 +104,13 @@ try {
 		}
 	} else if(actionType.equals("CONTACT")) {
 		try {
+			String username = k.get("username").getAsString();
 			String array2 = k.get("array").getAsString();
 			if(array2.equals("")) {
-				String result = interfaceHelper.listClientView();
+				String result = interfaceHelper.listClientView(username);
 				out.println(result);
 			} else {
-				String result = interfaceHelper.filterByContact(array2);
+				String result = interfaceHelper.filterByContact(array2,username);
 				out.println(result);
 			}
 		} catch(Exception e) {

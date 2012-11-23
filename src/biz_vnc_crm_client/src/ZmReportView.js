@@ -227,7 +227,7 @@ ZmReportView.createForm = function(app) {
         }]
     });
 
-    var json = "jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\"}";
+    var json = "jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };

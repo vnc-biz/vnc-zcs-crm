@@ -53,8 +53,8 @@ public class OpportunityHelper implements InterfaceHelper {
 	DBUtility dbu = new DBUtility();
 
 	@Override
-	public String listView() {
-		String strOfAllRecords = gson.toJson(getAllRecords());
+	public String listView(String username) {
+		String strOfAllRecords = gson.toJson(getAllRecords(username));
 		return strOfAllRecords;
 	}
 
@@ -193,11 +193,12 @@ public class OpportunityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllRecords() {
+	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead;" ;
+		String query = "select * from tbl_crm_lead where userId = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in OpportunityHelper", e);
 		}
@@ -297,12 +298,13 @@ public class OpportunityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveRecords() {
+	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 1 and status = ?;" ;
+		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
+			preparedStatement.setString(2, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in OpportunityHelper", e);
 		}
@@ -370,18 +372,19 @@ public class OpportunityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public String listClientView() {
-		String strOfAllRecords = gson.toJson(getAllActiveRecords());
+	public String listClientView(String username) {
+		String strOfAllRecords = gson.toJson(getAllActiveRecords(username));
 		return strOfAllRecords;
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveFilterRecords(String array,String field) {
+	public List<AbstractBean> getAllActiveFilterRecords(String array,String field, String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 1 and status = ? and " + field + " IN (" + array + ");";
+		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ? and " + field + " IN (" + array + ");";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
+			preparedStatement.setString(2, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in OpportunityHelper", e);
 		}
@@ -449,16 +452,16 @@ public class OpportunityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public String filterView(String array) {
+	public String filterView(String array, String username) {
 		String field = "leadState";
-		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(array,field));
+		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(array,field, username));
 		return strOfAllRecords;
 	}
 
 	@Override
-	public String filterByContact(String Array) {
+	public String filterByContact(String Array, String username) {
 		String field = "partnerName";
-		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(Array,field));
+		String strOfAllRecords = gson.toJson(getAllActiveFilterRecords(Array,field, username));
 		return strOfAllRecords;
 	}
 

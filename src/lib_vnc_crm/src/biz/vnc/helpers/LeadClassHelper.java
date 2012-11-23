@@ -44,14 +44,14 @@ public class LeadClassHelper  implements InterfaceHelper {
 	DBUtility dbu = new DBUtility();
 
 	@Override
-	public String listClientView() {
-		String strOfAllRecords = gson.toJson(getAllActiveRecords());
+	public String listClientView(String username) {
+		String strOfAllRecords = gson.toJson(getAllActiveRecords(username));
 		return strOfAllRecords;
 	}
 
 	@Override
-	public String listView() {
-		String strOfAllRecords = gson.toJson(getAllRecords());
+	public String listView(String username) {
+		String strOfAllRecords = gson.toJson(getAllRecords(username));
 		return strOfAllRecords;
 	}
 
@@ -141,7 +141,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllRecords() {
+	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_leadClass;" ;
 		try {
@@ -218,7 +218,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveRecords() {
+	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
 		String query = "select * from tbl_crm_leadClass where status = ?;" ;
 		try {
@@ -248,17 +248,17 @@ public class LeadClassHelper  implements InterfaceHelper {
 	}
 
 	@Override
-	public List<AbstractBean> getAllActiveFilterRecords(String str, String field) {
+	public List<AbstractBean> getAllActiveFilterRecords(String str, String field, String username) {
 		return null;
 	}
 
 	@Override
-	public String filterView(String array) {
+	public String filterView(String array, String username) {
 		return null;
 	}
 
 	@Override
-	public String filterByContact(String Array) {
+	public String filterByContact(String Array, String username) {
 		return null;
 	}
 

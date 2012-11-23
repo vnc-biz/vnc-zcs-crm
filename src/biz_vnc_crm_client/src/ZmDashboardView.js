@@ -40,7 +40,7 @@ ZmDashboardView.dashboard = function (app) {
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
     // pie chart start--------------------------------------------------------------------------------------------
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\"}";
+    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -137,7 +137,7 @@ ZmDashboardView.dashboard = function (app) {
 
     // ---------------opp Chart start------------------------------
 
-    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\"}";
+    var json = "jsonobj={\"action\":\"LIST\",\"object\":\"opp\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -290,13 +290,13 @@ ZmDashboardView.dashboard = function (app) {
     var str = "'" + "In Progress" + "'";
     idArray.push(str);
 
-    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+    var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
     var reqJson = AjxStringUtil.urlEncode(json);
     var oppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-    var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+    var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
     var reqHeader = {
         "Content-Type": "application/x-www-form-urlencoded"
     };
@@ -584,7 +584,7 @@ ZmDashboardView.dashboard = function (app) {
                                 var str = "'" + "In Progress" + "'";
                                 idArray.push(str);
 
-                                var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\"}";
+                                var json = "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
 
                                 var reqJson = AjxStringUtil.urlEncode(json);
                                 var oppResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
@@ -712,7 +712,7 @@ ZmDashboardView.dashboard = function (app) {
                                 var str = "'" + "In Progress" + "'";
                                 idArray.push(str);
 
-                                var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\"}";
+                                var json1 = "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
                                 var reqJson = AjxStringUtil.urlEncode(json1);
                                 var leadResponse = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
