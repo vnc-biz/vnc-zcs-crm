@@ -125,7 +125,12 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
     var _tab1 = 1;
     var _tab2 = 2;
     var newTab = ++this.TAB_INDEX;
-
+    var browser = navigator.userAgent.toLowerCase();
+    if(browser.indexOf("msie") > -1) {
+        var urlAlign = "padding-left: 75%;";
+    } else {
+        var urlAlign = "padding-left: 44%;";
+    }
     xFormObject.items = [{
         type: _TAB_BAR_,
         ref: ZaModel.currentTab,
@@ -814,7 +819,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
             }, {
                 type:_OUTPUT_, label: null, value:biz_vnc_crm_admin.vncurl, labelLocation:_LEFT_, cssStyle:"font-size:10pt;font-weight: bold;text-align: center;"
             }, {
-                type:_GROUP_, numCols:2, cssStyle: "padding-left: 44%;",
+                type:_GROUP_, numCols:2, cssStyle: urlAlign,
                 items: [{
                     type:_ANCHOR_, cssStyle:"font-size:12px;", showInNewWindow:true, labelLocation:_CENTER_, label: biz_vnc_crm_admin.changelog, href:('"' + biz_vnc_crm_admin.changeLogUrl + '"')
                 }, {
