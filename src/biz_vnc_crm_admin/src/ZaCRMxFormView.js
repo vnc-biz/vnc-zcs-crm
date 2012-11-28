@@ -188,7 +188,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_company,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1500",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -259,7 +259,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_country,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1300",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -330,8 +330,8 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_state,
                     type: _DWT_LIST_,
-                    height: "300px",
-                    width: "1350px",
+                    height: "300",
+                    width: "1350",
                     forceUpdate: true,
                     preserveSelection: false,
                     multiselect: true,
@@ -401,7 +401,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_channel,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1200",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -472,7 +472,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_priority,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1200",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -543,7 +543,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_category,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1300",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -614,7 +614,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_section,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1550",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -682,7 +682,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 items: [{
                     ref: ZaCRMadmin.A_stage,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1450",
                     forceUpdate: true,
                     preserveSelection: false,
@@ -751,7 +751,7 @@ ZaCRMxFormView.myXFormModifier = function (xFormObject) {
                 {
                     ref: ZaCRMadmin.A_leadClass,
                     type: _DWT_LIST_,
-                    height: "300px",
+                    height: "300",
                     width: "1200",
                     forceUpdate: true,
                     preserveSelection: false,
