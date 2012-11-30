@@ -314,7 +314,30 @@ ZmReportView.createForm = function(app) {
             summaryRenderer: function(value, summaryData, dataIndex){
                 return (biz_vnc_crm_client.reportMax + ': ' + value);
             }
-        }]
+        }],
+        listeners: {
+            dblclick: {
+                element: 'body',
+                fn: function (grid, rowIndex, colIndex) {
+	
+                    var toolbar = app.getToolbar();
+                    toolbar.setVisibility(true);
+                    var rec = Ext.getCmp('leadPanel').getSelectionModel().getSelection();
+                    Ext.each(rec, function (item) {
+                        rec = item;
+                    });
+                    if (rec.data.type == "1") {
+                        var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
+                        app.setContent(content);
+                        ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
+                    } else if(rec.data.type == "0") {
+                        var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
+                        app.setContent(content);
+                        ZmLeadListView.prototype.getContacts(0, [], rec, app);
+                    }
+                }
+            }
+        }
     });
 
     Ext.create('Ext.panel.Panel', {

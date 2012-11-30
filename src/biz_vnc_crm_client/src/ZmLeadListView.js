@@ -210,6 +210,8 @@ ZmLeadListView.selectedLeadPartnerName = null;
 ZmLeadListView.createForm = function (rec, contactList, app) {
     var toolbar = app.getToolbar();
     toolbar.setVisibility(false);
+    biz_vnc_crm_client._leadTypeFlag = 0;
+    biz_vnc_crm_client.overviewTreeItemSelection(1);
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
@@ -835,8 +837,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
-                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
-                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
+                            biz_vnc_crm_client._flag = 1;
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }
@@ -1876,13 +1877,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             partnerName: partnerName
                         });
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
-                        if (response.text == 1) {
-                            Ext.example.msg('', biz_vnc_crm_client.msgEdit);
-                            biz_vnc_crm_client.initLeadGrid(app);
-                        } else {
-                            Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
-                            biz_vnc_crm_client.initLeadGrid(app);
-                        }
                     } else {
                         var leadId = 0;
                         var j = JSON.stringify({
@@ -1931,16 +1925,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             partnerName: partnerName
                         });
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
-                        if (response.text == 1) {
-                            Ext.example.msg('', biz_vnc_crm_client.msgSave);
-                            biz_vnc_crm_client.initLeadGrid(app);
-
-                        } else {
-                            Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
-                            biz_vnc_crm_client.initLeadGrid(app);
-                        }
                     }
                 }
+                if (response.text == 1) {
+                    Ext.example.msg('', biz_vnc_crm_client.msgSave);
+                } else {
+                    Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
+                }
+                biz_vnc_crm_client.switchingView(app);
             }
         }, {
             text: biz_vnc_crm_client.btnCancel,
@@ -1949,7 +1941,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             height: 25,
             iconCls: 'cancel',
             handler: function () {
-                biz_vnc_crm_client.initLeadGrid(app);
+                biz_vnc_crm_client.switchingView(app);
             }
         }]
     });

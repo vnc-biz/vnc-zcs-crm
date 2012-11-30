@@ -74,6 +74,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     }
     biz_vnc_crm_client.getContacts(0, [], rec);
     biz_vnc_crm_client._flag = 2;
+    biz_vnc_crm_client._leadTypeFlag = null;
     biz_vnc_crm_client.contactList = "";
     biz_vnc_crm_client.temp = "";
     biz_vnc_crm_client.mailData = "";
@@ -2502,8 +2503,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             });
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                             app.setContent(content);
-                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[1]._setSelected(false);
-                            appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children._array[2]._setSelected(true);
+                            biz_vnc_crm_client._flag = 1;
                             ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
                         }
                     }
@@ -3533,11 +3533,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     if (response.text == 1) {
                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
-                        biz_vnc_crm_client.initLeadGrid(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
-                        biz_vnc_crm_client.initLeadGrid(app);
                     }
+                    biz_vnc_crm_client.switchingView(app);
                 }
             }
         }]
@@ -3934,6 +3933,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     toolbar.setVisibility(true);
 
     biz_vnc_crm_client._flag = 1;
+
     Ext.Loader.setConfig({
         enabled: true
     });
@@ -5752,11 +5752,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     if (response.text == 1) {
                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
-                        biz_vnc_crm_client.initOpportunityGrid(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
-                        biz_vnc_crm_client.initOpportunityGrid(app);
                     }
+                    biz_vnc_crm_client.switchingView(app);
                 }
             }
         }]
@@ -6998,3 +6997,40 @@ biz_vnc_crm_client.rpc = function(json) {
     );
 }
 
+biz_vnc_crm_client.switchingView = function(app) {
+    if(biz_vnc_crm_client._leadTypeFlag == 0) {
+        if(biz_vnc_crm_client._flag == 0) {
+            biz_vnc_crm_client.initLeadGrid(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(1);
+        } else if(biz_vnc_crm_client._flag == 2) {
+            ZmDashboardView.dashboard(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(0);
+        } else if(biz_vnc_crm_client._flag == 3) {
+            ZmReportView.createForm(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(3);
+        }
+    } else {
+        if(biz_vnc_crm_client._flag == 1) {
+            biz_vnc_crm_client.initOpportunityGrid(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(2);
+        } else if(biz_vnc_crm_client._flag == 2) {
+            ZmDashboardView.dashboard(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(0);
+        } else if(biz_vnc_crm_client._flag == 3) {
+            ZmReportView.createForm(app);
+            biz_vnc_crm_client.overviewTreeItemSelection(3);
+        }
+    }
+}
+
+biz_vnc_crm_client.overviewTreeItemSelection = function(flag) {
+    var overviewCount = appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children.size();
+    var overviewTree = appCtxt.getCurrentApp()._overviewPanelContent._children._array[1]._children;
+    for(var i=0;i<overviewCount;i++) {
+        if(i == flag) {
+            overviewTree._array[i]._setSelected(true);
+        } else {
+            overviewTree._array[i]._setSelected(false);
+        }
+    }
+}
