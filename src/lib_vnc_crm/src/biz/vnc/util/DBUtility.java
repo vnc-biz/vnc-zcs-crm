@@ -32,6 +32,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import biz.vnc.zimbra.util.ZLog;
+import biz.vnc.zimbra.util.LocalDB;
 
 public class DBUtility {
 
@@ -41,18 +42,7 @@ public class DBUtility {
 
 	static {
 		try{
-			String cmd[] = {"/bin/sh","-c","/opt/zimbra/bin/zmlocalconfig -s | /bin/grep zimbra_mysql_password | /usr/bin/cut -d\" \" -f 3"};
-			Runtime r = Runtime.getRuntime();
-			Process p = r.exec(cmd);
-			InputStream stdin = p.getInputStream();
-			InputStreamReader isr = new InputStreamReader(stdin);
-			BufferedReader br = new BufferedReader(isr);
-			MYSQL_PASSWORD = br.readLine();
-
-			Class.forName("com.mysql.jdbc.Driver");
-			String dbUrl = "jdbc:mysql://localhost:7306/vnccrm?zeroDateTimeBehavior=convertToNull&autoReconnect=true";
-			String dbUsername = "zimbra";
-			connection = DriverManager.getConnection(dbUrl, dbUsername, MYSQL_PASSWORD);
+			connection = LocalDB.connect("vnccrm");
 			statement = connection.createStatement();
 			ZLog.info("VNC CRM for Zimbra","Connection Established Successfully.");
 		} catch(Exception e) {
