@@ -105,7 +105,7 @@ biz_vnc_crm_client_AttachTask.prototype._createHtml1 = function () {
 
     var params = {
         parent: appCtxt.getShell(),
-        className: "AttachTasksTabBox AttachTasksList",
+        className: "biz_vnc_crm_client_AttachTasksTabBox biz_vnc_crm_client_AttachTasksList",
         posStyle: DwtControl.ABSOLUTE_STYLE,
         view: ZmId.VIEW_BRIEFCASE_ICON,
         type: ZmItem.ATT
@@ -230,7 +230,7 @@ biz_vnc_crm_client_AttachTask.prototype._setOverview = function (params) {
     if (!overview) {
         var ovParams = {
             overviewId: overviewId,
-            overviewClass: "AttachTasksTabBox",
+            overviewClass: "biz_vnc_crm_client_AttachTasksTabBox",
             headerClass: "DwtTreeItem",
             noTooltips: true,
             treeIds: params.treeIds

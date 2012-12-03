@@ -272,7 +272,7 @@ ZmReportView.createForm = function(app) {
             hideable: false,
             width: 150,
             dataIndex: 'subjectName',
-            tdCls: 'leadOpp',
+            tdCls: 'biz_vnc_crm_client_leadOpp',
             summaryType: 'count',
             summaryRenderer: function(value, summaryData, dataIndex) {
                 return ((value === 0 || value > 1) ? '(' + value + ' Records)' : '(1 Record)');

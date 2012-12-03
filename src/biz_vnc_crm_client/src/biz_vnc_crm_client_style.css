@@ -20,7 +20,7 @@
 ##############################################################################
 */
 
-.leadOpp .x-grid-cell-inner {
+.biz_vnc_crm_client_leadOpp .x-grid-cell-inner {
 	padding-left: 15px;
 }
 
@@ -29,14 +29,14 @@
 	font-size: 11px;
 }
 
-.AttachMailTabBox
+.biz_vnc_crm_client_AttachMailTabBox
 {
 	background-color:#FDFCFA;
 	height:227px!important;
 	width:385px!important;
 }
 
-.AttachMailTabBox .AttachMailList
+.biz_vnc_crm_client_AttachMailTabBox .biz_vnc_crm_client_AttachMailList
 {
 	width:385px;
 }
@@ -97,19 +97,7 @@
 	overflow:hidden;
 }
 
-.LinkedInText
-{
-	color:blue;
-	font-size:12px;
-	font-weight:700;
-}
-
-.LinkedInHeader
-{
-	border-right:gray solid 1px;
-}
-
-.AttachTasksTabBox
+.biz_vnc_crm_client_AttachTasksTabBox
 {
 	margin-top:10px;
 	background-color:#FDFCFA;
@@ -117,7 +105,7 @@
 	width:385px!important;
 }
 
-.AttachTasksTabBox .AttachTasksList
+.biz_vnc_crm_client_AttachTasksTabBox .biz_vnc_crm_client_AttachTasksList
 {
 	width:385px!important;
 }

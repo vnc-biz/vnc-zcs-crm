@@ -12,7 +12,7 @@
 	<include>ZmOpportunityListView.js</include>
 	<include>ZmDashboardView.js</include>
 	<include>json-minified.js</include>
-	<includeCSS>My.css</includeCSS>
+	<includeCSS>biz_vnc_crm_client_style.css</includeCSS>
 	<includeCSS>ext-all.css</includeCSS>
 	<includeCSS>example.css</includeCSS>
 	<includeCSS>toolbars.css</includeCSS>
