@@ -117,7 +117,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
 biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, toolbar, controller, view) {
     /* supporting Z7 as well as Z8 */
     if (
-        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CNS")) ||
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLV" || view == "TV")) ||
         (( biz_vnc_crm_client.ZIMBRA8) && (view == "CLV" || view == "CLV-main" || view == "TV" || view == "TV-main"))
         ) {
         var menu = controller.getActionMenu();
@@ -144,11 +144,11 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
             image: "tabIcon" // icon
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
-        button.addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
+        button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
     } else if (
         /** supporting Z7 as well as Z8 */
-        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLV")) ||
+        ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CNS")) ||
         (( biz_vnc_crm_client.ZIMBRA8) && (view == "CNS" || view == "CNS-main"))
         ) {
         var menu = controller.getActionMenu();
@@ -176,8 +176,8 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
             image: "tabIcon"
         };
         var button = toolbar.createOp(biz_vnc_crm_client.lead_window_title, buttonArgs);
-        button.addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
-        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleBtnClick, [controller, app]));
+        button.addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
+        menu.getMenuItem(biz_vnc_crm_client.crmclient_label).addSelectionListener(new AjxListener(this, this._handleToolbarBtnClick, [controller, app]));
     } else if (
         /* supporting Z7 as well as Z8 */
         ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CLD" || view == "CLWW" || view == "CLM" || view == "CLW" || view == "CLL" || view == "CLS")) ||
