@@ -145,34 +145,35 @@ ZmDashboardView.dashboard = function (app) {
     var responseOpp = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
 
     var oppData = jsonParse(responseOpp.text);
-    var date;
+    var date, month;
     var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
     for (var i = 0; i < oppData.length; i++) {
         date = oppData[i].createDate;
         date = date.split(" ");
-        if (new Date(date[0]).getMonth() == 0) {
+        month = AjxDateFormat.parse("yyyy-MM-dd", date[0]).getMonth();
+        if (month === 0) {
             jan += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 1) {
+        } else if (month == 1) {
             feb += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 2) {
+        } else if (month == 2) {
             march += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 3) {
+        } else if (month == 3) {
             april += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 4) {
+        } else if (month == 4) {
             may += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 5) {
+        } else if (month == 5) {
             jun += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 6) {
+        } else if (month == 6) {
             jul += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 7) {
+        } else if (month == 7) {
             aug += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 8) {
+        } else if (month == 8) {
             sep += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 9) {
+        } else if (month == 9) {
             oct += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 10) {
+        } else if (month == 10) {
             nov += parseInt(oppData[i].valuation);
-        } else if (new Date(date[0]).getMonth() == 11) {
+        } else if (month == 11) {
             dec += parseInt(oppData[i].valuation);
         }
     }
