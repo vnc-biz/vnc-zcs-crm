@@ -63,6 +63,10 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     // create the tab application
     this._tabAppName = this.createApp(biz_vnc_crm_client.crmclient_label, "tabIcon", biz_vnc_crm_client.crmclient_tooltip);
     var rec;
+    var browser = navigator.userAgent.toLowerCase();
+    if(browser.indexOf("msie") > -1) {
+        document.createStyleSheet().addRule(".rvml", "behavior:url(#default#VML)");
+    }
     biz_vnc_crm_client.getContacts(0, [], rec);
     biz_vnc_crm_client._flag = 2;
     biz_vnc_crm_client.contactList = "";
