@@ -480,7 +480,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     fieldLabel: biz_vnc_crm_client.subject,
                     id: 'txtleadsubjectName',
                     allowBlank: false,
-                    anchor: '95%'
+                    anchor: '95%',
+                    maxLength: 128
                 }, {
                     xtype: 'combo',
                     mode: 'local',
@@ -723,9 +724,10 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            var leadEmptyField = [];
-                            leadEmptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
-                            Ext.example.msg('', leadEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
+                        }
+                        var form = Ext.getCmp('formLead').getForm();
+                        if (form.hasInvalidField()) {
+                            Ext.example.msg('', biz_vnc_crm_client.msgInvalidField);
                         } else {
                             var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                             var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -934,13 +936,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.contactName,
                         id: 'txtleadcontactName',
-                        anchor: '100%'
+                        anchor: '100%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.email,
                         id: 'txtleademail',
                         vtype: 'email',
-                        anchor: '100%'
+                        anchor: '100%',
+                        maxLength: 64
                     }, {
                         xtype: 'textareafield',
                         grow: false,
@@ -973,17 +977,20 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.street1,
                         id: 'txtleadstreet1',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.street2,
                         id: 'txtleadstreet2',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.city,
                         id: 'txtleadcity',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 64
                     }, {
                         xtype: 'combo',
                         mode: 'local',
@@ -1040,7 +1047,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.zipCode,
                         id: 'txtleadzip',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 8
                     }]
                 }, {
                     columnWidth: .32,
@@ -1050,22 +1058,26 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.phone,
                         id: 'txtleadphone',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.workPhone,
                         id: 'txtleadworkPhone',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.mobile,
                         id: 'txtleadmobile',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtleadfax',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }]
                 }]
 
@@ -1620,7 +1632,8 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         fieldLabel: biz_vnc_crm_client.referredBy,
                         id: 'txtleadreferredby',
                         name: 'last',
-                        anchor: '60%'
+                        anchor: '60%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.daystoOpen,
@@ -1767,9 +1780,10 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    var emptyField = [];
-                    emptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
-                    Ext.example.msg('', emptyField + " " + biz_vnc_crm_client.msgEmptyField);
+                }
+                var form = Ext.getCmp('formLead').getForm();
+                if(form.hasInvalidField()) {
+                    Ext.example.msg('', biz_vnc_crm_client.msgInvalidField);
                 } else {
                     var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                     var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -1926,13 +1940,13 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         });
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     }
+                    if (response.text == 1) {
+                        Ext.example.msg('', biz_vnc_crm_client.msgSave);
+                        biz_vnc_crm_client.switchingView(app);
+                    } else {
+                        Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
+                    }
                 }
-                if (response.text == 1) {
-                    Ext.example.msg('', biz_vnc_crm_client.msgSave);
-                } else {
-                    Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
-                }
-                biz_vnc_crm_client.switchingView(app);
             }
         }, {
             text: biz_vnc_crm_client.btnCancel,

@@ -2144,7 +2144,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     id: 'txtleadsubjectName',
                     allowBlank: false,
                     tabIndex: 1,
-                    anchor: '95%'
+                    anchor: '95%',
+                    maxLength: 128
                 }, {
                     xtype: 'combo',
                     mode: 'local',
@@ -2385,9 +2386,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                             Ext.getCmp('txtleadsubjectName').validate(false);
                             Ext.getCmp('txtleadsubjectName').focus(true);
-                            var leadEmptyField = [];
-                            leadEmptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
-                            Ext.example.msg('', leadEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
+                        }
+                        var leadFooterForm = Ext.getCmp('formLead').getForm();
+                        if(leadFooterForm.hasInvalidField()) {
+                            Ext.example.msg('', biz_vnc_crm_client.msgInvalidField);
                         } else {
                             var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                             var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -2601,7 +2603,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.contactName,
                         id: 'txtleadcontactName',
-                        anchor: '100%'
+                        anchor: '100%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.email,
@@ -2642,17 +2645,20 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.street1,
                         id: 'txtleadstreet1',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.street2,
                         id: 'txtleadstreet2',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.city,
                         id: 'txtleadcity',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 64
                     }, {
                         xtype: 'combo',
                         mode: 'local',
@@ -2709,7 +2715,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.zipCode,
                         id: 'txtleadzip',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 8
                     }]
                 }, {
                     columnWidth: .32,
@@ -2719,22 +2726,26 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.phone,
                         id: 'txtleadphone',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.workPhone,
                         id: 'txtleadworkPhone',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.mobile,
                         id: 'txtleadmobile',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtleadfax',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }]
                 }]
             }, {
@@ -3277,7 +3288,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         fieldLabel: biz_vnc_crm_client.referredBy,
                         id: 'txtleadreferredby',
                         name: 'last',
-                        anchor: '60%'
+                        anchor: '60%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.daystoOpen,
@@ -3421,9 +3433,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 if (Ext.getCmp('txtleadsubjectName').getValue() == "") {
                     Ext.getCmp('txtleadsubjectName').validate(false);
                     Ext.getCmp('txtleadsubjectName').focus(true);
-                    var emptyField = [];
-                    emptyField.push(Ext.getCmp('txtleadsubjectName').fieldLabel);
-                    Ext.example.msg('', emptyField + " " + biz_vnc_crm_client.msgEmptyField);
+                }
+                var leadFooterForm = Ext.getCmp('formLead').getForm();
+                if (leadFooterForm.hasInvalidField()) {
+                    Ext.example.msg('', biz_vnc_crm_client.msgInvalidField);
                 } else {
                     var subjectName = Ext.getCmp('txtleadsubjectName').getValue();
                     var leadDescription = Ext.getCmp('txtleadleadDescription').getValue();
@@ -4428,6 +4441,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
     var OpportunityFooterPanel = Ext.create('Ext.form.Panel', {
         title: null,
+        id: 'formOpportunity',
         bodyStyle: 'padding:5px',
         width: '100%',
         height: '100%',
@@ -4449,12 +4463,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     id: 'txtOppOpportunity',
                     fieldLabel: biz_vnc_crm_client.opportunity,
                     allowBlank: false,
-                    anchor: '95%'
+                    anchor: '95%',
+                    maxLength: 128
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppExpectedRevenue',
                     fieldLabel: biz_vnc_crm_client.expectedRevenue,
-                    anchor: '95%'
+                    anchor: '95%',
+                    maxLength: 64
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppNextActionDate',
@@ -4571,7 +4587,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     xtype: 'textfield',
                     id: 'txtOppNextAction',
                     fieldLabel: biz_vnc_crm_client.nextAction,
-                    anchor: '95%'
+                    anchor: '95%',
+                    maxLength: 255
                 }, {
                     xtype: 'textfield',
                     id: 'txtOppState',
@@ -4764,17 +4781,20 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         xtype: 'textfield',
                         id: 'txtOppContact',
                         fieldLabel: biz_vnc_crm_client.contactName,
-                        anchor: '100%'
+                        anchor: '100%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppEmail',
                         fieldLabel: biz_vnc_crm_client.email,
+                        vtype: 'email',
                         anchor: '100%'
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppPhone',
                         fieldLabel: biz_vnc_crm_client.phone,
-                        anchor: '100%'
+                        anchor: '100%',
+                        maxLength: 16
                     }]
 
                 }, {
@@ -4869,27 +4889,32 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         xtype: 'textfield',
                         id: 'txtOppStreet1',
                         fieldLabel: biz_vnc_crm_client.street1,
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppStreet2',
                         fieldLabel: biz_vnc_crm_client.street2,
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 256
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppCity',
                         fieldLabel: biz_vnc_crm_client.city,
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 64
                     }, {
                         xtype: 'textfield',
                         id: 'txtOppZip',
                         fieldLabel: 'Zip',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 8
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.workPhone,
                         id: 'txtOppWorkPhone',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }]
                 }, {
                     columnWidth: .33,
@@ -4899,12 +4924,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.mobile,
                         id: 'txtOppMobile',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'textfield',
                         fieldLabel: biz_vnc_crm_client.fax,
                         id: 'txtOppFax',
-                        anchor: '95%'
+                        anchor: '95%',
+                        maxLength: 16
                     }, {
                         xtype: 'combo',
                         mode: 'local',
@@ -5529,7 +5556,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         fieldLabel: biz_vnc_crm_client.referredBy,
                         id: 'txtOppReferredBy',
                         name: 'last',
-                        anchor: '60%'
+                        anchor: '60%',
+                        maxLength: 64
                     }]
                 }]
             }],
@@ -5626,9 +5654,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 if (Ext.getCmp('txtOppOpportunity').getValue() == "") {
                     Ext.getCmp('txtOppOpportunity').validate(false);
                     Ext.getCmp('txtOppOpportunity').focus(true);
-                    var oppEmptyField = [];
-                    oppEmptyField.push(Ext.getCmp('txtOppOpportunity').fieldLabel);
-                    Ext.example.msg('', oppEmptyField + " " + biz_vnc_crm_client.msgEmptyField);
+                }
+                var oppFooterForm = Ext.getCmp('formOpportunity').getForm();
+                if (oppFooterForm.hasInvalidField()) {
+                    Ext.example.msg('', biz_vnc_crm_client.msgInvalidField);
                 } else {
                     var subjectName = Ext.getCmp('txtOppOpportunity').getValue();
                     var stageId = Ext.getCmp('cmbOppstage').getValue();
