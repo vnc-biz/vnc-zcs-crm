@@ -67,6 +67,11 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     if(browser.indexOf("msie") > -1) {
         document.createStyleSheet().addRule(".rvml", "behavior:url(#default#VML)");
     }
+    if(browser.indexOf("msie") > -1) {
+        biz_vnc_crm_client.toolbarHeight = 40;
+    } else {
+        biz_vnc_crm_client.toolbarHeight = 30;
+    }
     biz_vnc_crm_client.getContacts(0, [], rec);
     biz_vnc_crm_client._flag = 2;
     biz_vnc_crm_client.contactList = "";
@@ -3677,7 +3682,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         },
         tbar: [{
             xtype: 'buttongroup',
-            height:30,
+            height: biz_vnc_crm_client.toolbarHeight,
             items: [{
                 tooltip: 'Create new lead.',
                 cls: 'btncreate',
@@ -3758,6 +3763,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 fieldLabel: biz_vnc_crm_client.quick_search,
                 id: 'txtleadsearch',
                 cls: 'searchTextField',
+                width: '300px',
                 listeners: {
                 change: {
                     fn:function(field, newVal, oldVal){
@@ -5951,7 +5957,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         },
         tbar: [{
             xtype: 'buttongroup',
-            height:30,
+            height:biz_vnc_crm_client.toolbarHeight,
             items: [{
                 tooltip: 'Create new opportunity.',
                 cls: 'btncreate',
@@ -6036,6 +6042,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 fieldLabel: biz_vnc_crm_client.quick_search,
                 id: 'txtoppsearch',
                 cls: 'searchTextField',
+                width: '300px',
                 listeners: {
                 change: {
                     fn:function(field, newVal, oldVal){
