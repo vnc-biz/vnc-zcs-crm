@@ -350,7 +350,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
     });
 
     var historyGrid;
-    var tab2 = Ext.create('Ext.form.Panel', {
+    var tabOpp = Ext.create('Ext.form.Panel', {
         title: biz_vnc_crm_client.lblOpportunityForm,
         bodyStyle: 'padding:5px',
         id: 'formOpportunity',
@@ -1743,7 +1743,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
             }
         }]
     });
-    tab2.render("OpportunityForm");
+    tabOpp.render("OpportunityForm");
     if (rec != null) {
         Ext.getCmp('oppTask').setDisabled(false);
         Ext.getCmp('oppAppointment').setDisabled(false);
@@ -1752,6 +1752,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('cmbOpppartner').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbOpppartner').setValue(rec.get('partnerName'));
+                ZmOpportunityListView.selectedOppPartnerName = Ext.getCmp('cmbOpppartner').getValue();
             }
         });
         Ext.getCmp('cmbOppstage').getStore().load({

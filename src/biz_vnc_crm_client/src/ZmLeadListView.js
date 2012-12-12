@@ -450,7 +450,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }
     });
 
-    var tab2 = Ext.create('Ext.form.Panel', {
+    var tabLead = Ext.create('Ext.form.Panel', {
         title: biz_vnc_crm_client.titleLead,
         id: 'formLead',
         bodyStyle: 'padding:5px',
@@ -1959,7 +1959,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             }
         }]
     });
-    tab2.render('LeadForm');
+    tabLead.render('LeadForm');
 
     if (rec != null) {
         Ext.getCmp('btnConvertToOpp').enable();

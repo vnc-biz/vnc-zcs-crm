@@ -1659,6 +1659,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     toolbar.setVisibility(true);
 
     biz_vnc_crm_client._flag = 0;
+    biz_vnc_crm_client._leadTypeFlag = 0;
 
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
@@ -3546,10 +3547,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     if (response.text == 1) {
                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                        biz_vnc_crm_client.switchingView(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                     }
-                    biz_vnc_crm_client.switchingView(app);
                 }
             }
         }]
@@ -3946,6 +3947,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     toolbar.setVisibility(true);
 
     biz_vnc_crm_client._flag = 1;
+    biz_vnc_crm_client._leadTypeFlag = 1;
 
     Ext.Loader.setConfig({
         enabled: true
@@ -5781,10 +5783,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     if (response.text == 1) {
                         Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                        biz_vnc_crm_client.switchingView(app);
                     } else {
                         Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                     }
-                    biz_vnc_crm_client.switchingView(app);
                 }
             }
         }]
