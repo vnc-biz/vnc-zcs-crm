@@ -292,7 +292,7 @@ biz_vnc_crm_client_HandlerObject.prototype._addSlide = function () {
 };
 
 biz_vnc_crm_client_HandlerObject.prototype._getTooltipBGHtml = function () {
-    return AjxTemplate.expand("biz_vnc_crm_client.templates.LinkedIn#Frame");
+    return AjxTemplate.expand("biz_vnc_crm_client.templates.biz_vnc_crm_client_mouseHover#Frame");
 };
 
 

@@ -8,7 +8,7 @@
 	<include>ZmCRMComposeController.js</include>
 	<include>ZmLeadListView.js</include>
 	<include>ZmReportView.js</include>
-	<include>templates/LinkedIn.template.js</include>
+	<include>templates/biz_vnc_crm_client_mouseHover.template.js</include>
 	<include>ZmOpportunityListView.js</include>
 	<include>ZmDashboardView.js</include>
 	<include>json-minified.js</include>
