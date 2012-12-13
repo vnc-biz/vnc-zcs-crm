@@ -30,7 +30,7 @@ var ZaCRMxFormView = function(parent) {
     this._localXForm.setController(ZaApp.getInstance());
 }
 
-ZaCRMxFormView.prototype = new ZaTabView;
+ZaCRMxFormView.prototype = new ZaTabView();
 ZaCRMxFormView.prototype.constructor = ZaCRMxFormView;
 
 ZaCRMxFormView.prototype.toString = function () {
