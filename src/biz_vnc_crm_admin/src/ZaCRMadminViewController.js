@@ -20,13 +20,10 @@
 ##############################################################################
 */
 
-ZaEvent.S_CRM = i++;
-
 var ZaCRMadminViewController = function(appCtxt, container) {
     ZaXFormViewController.call(this, appCtxt, container, "ZaCRMadminViewController");
     this._UICreated = false;
     this._app = appCtxt.getAppController().getApp(ZaZimbraAdmin.ADMIN_APP);
-    this.objType = ZaEvent.S_CRM;
     this.tabConstructor = ZaCRMxFormView;
 }
 
