@@ -119,7 +119,10 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                 }, {
                     ref: ZaCRMadmin.A_sectionStatus,
                     type: _ZA_CHECKBOX_,
-                    label: biz_vnc_crm_admin.HDR_status,
+                    label: biz_vnc_crm_admin.HDR_status + ":",
+                    labelLocation: _LEFT_,
+                    labelCssStyle: "text-align: right;",
+                    align: _LEFT_,
                     trueValue: true,
                     falseValue: false,
                     visibilityChecks: [],
