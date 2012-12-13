@@ -24,6 +24,20 @@ function biz_vnc_crm_admin() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
 
+/* FIXME: add automtic zimbra version detection here */
+biz_vnc_crm_admin.ZIMBRA8 = false;
+
+/* initialize zimbra-specific data */
+if (biz_vnc_crm_admin.ZIMBRA8) {
+    /* Zimbra 8 */
+    biz_vnc_crm_admin.changeLogUrl = biz_vnc_crm_admin.Z8_changeLogUrl;
+    biz_vnc_crm_admin.documentationUrl = biz_vnc_crm_admin.Z8_documentationUrl;
+} else {
+    /* Zimbra 7 */
+    biz_vnc_crm_admin.changeLogUrl = biz_vnc_crm_admin.Z7_changeLogUrl;
+    biz_vnc_crm_admin.documentationUrl = biz_vnc_crm_admin.Z7_documentationUrl;
+}
+
 /*
     Adding node to tree in Admin UI
 */
