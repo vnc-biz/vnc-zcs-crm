@@ -711,12 +711,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     iconCls: 'convert',
                     anchor: '95%',
                     handler: function () {
-                        var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}";
-                        var reqHeader = {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        };
-                        var reqJson = AjxStringUtil.urlEncode(json);
-                        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                        var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}");
 
                         if (response.text == 2){
                             Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
@@ -835,12 +830,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     probability: probability,
                                     partnerName: partnerName
                                 });
-                                var json = "jsonobj=" + j;
-                                var reqHeader = {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                };
-                                var reqJson = AjxStringUtil.urlEncode(json);
-                                var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                             }
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
@@ -1113,21 +1103,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     });
 
                                     var leadId = rec.get('leadId')
-                                    var json = "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
-                                    var reqHeader = {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    };
-                                    var reqJson = AjxStringUtil.urlEncode(json);
-                                    var responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
 
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                        var reqHeader = {
-                                            "Content-Type": "application/x-www-form-urlencoded"
-                                        };
-                                        var reqJson = AjxStringUtil.urlEncode(json);
-                                        var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                        var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                         var msgArray = [];
                                         var item;
                                         var msgArray = (responseMailHistory.text).split(",");
@@ -1162,12 +1142,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                var reqHeader = {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                };
-                                var reqJson = AjxStringUtil.urlEncode(json);
-                                var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                 var msgArray = [];
                                 var item;
                                 var msgArray = (responseMailHistory.text).split(",");
@@ -1273,20 +1248,10 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         idArray.push("'" + item.data.appointmentId + "'");
                                     });
                                     var leadId = rec.get('leadId')
-                                    var json = "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
-                                    var reqHeader = {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    };
-                                    var reqJson = AjxStringUtil.urlEncode(json);
-                                    var responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                        var reqHeader = {
-                                            "Content-Type": "application/x-www-form-urlencoded"
-                                        };
-                                        var reqJson = AjxStringUtil.urlEncode(json);
-                                        var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                        var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                         var msgArray = [];
                                         var item;
                                         var msgArray = (responseMailHistory.text).split(",");
@@ -1320,12 +1285,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                var reqHeader = {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                };
-                                var reqJson = AjxStringUtil.urlEncode(json);
-                                var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                 var msgArray = [];
                                 var item;
                                 var msgArray = (responseMailHistory.text).split(",");
@@ -1433,22 +1393,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         idArray.push("'" + item.data.taskId + "'");
                                     });
                                     var leadId = rec.get('leadId');
-                                    var json = "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}";
-                                    var reqHeader = {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    };
-                                    var reqJson = AjxStringUtil.urlEncode(json);
-                                    var responseUser = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
 
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                        var reqHeader = {
-                                            "Content-Type": "application/x-www-form-urlencoded"
-                                        };
-                                        var reqJson = AjxStringUtil.urlEncode(json);
-                                        var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
+                                        var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                         var newtaskArray = (responseTaskList.text).split(",");
 
                                         var allTask = appCtxt.getTaskManager()._rawTasks;
@@ -1509,13 +1458,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                                var reqHeader = {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                };
-                                var reqJson = AjxStringUtil.urlEncode(json);
-                                var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
+                                var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                                 var newtaskArray = (responseTaskList.text).split(",");
 
                                 var allTask = appCtxt.getTaskManager()._rawTasks;
@@ -1735,12 +1678,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadApptGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var json = "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                            var reqHeader = {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            };
-                            var reqJson = AjxStringUtil.urlEncode(json);
-                            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                             var msgArray = [];
                             var item;
                             var msgArray = (responseMailHistory.text).split(",");
@@ -1756,13 +1694,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadTaskGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                            var reqHeader = {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            };
-                            var reqJson = AjxStringUtil.urlEncode(json);
-                            var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
-
+                            var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                             var newtaskArray = (responseTaskList.text).split(",");
 
                             var allTask = appCtxt.getTaskManager()._rawTasks;
@@ -1806,12 +1738,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadMailGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-                            var reqHeader = {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            };
-                            var reqJson = AjxStringUtil.urlEncode(json);
-                            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
                             var msgArray = [];
                             var item;
                             var msgArray = (responseMailHistory.text).split(",");
@@ -1948,12 +1875,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             probability: probability,
                             partnerName: partnerName
                         });
-                        var json = "jsonobj=" + j;
-                        var reqHeader = {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        };
-                        var reqJson = AjxStringUtil.urlEncode(json);
-                        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                        var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                         if (response.text == 1) {
                             Ext.example.msg('', biz_vnc_crm_client.msgEdit);
                             biz_vnc_crm_client.initLeadGrid(app);
@@ -2008,12 +1930,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             probability: probability,
                             partnerName: partnerName
                         });
-                        var json = "jsonobj=" + j;
-                        var reqHeader = {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        };
-                        var reqJson = AjxStringUtil.urlEncode(json);
-                        var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+                        var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                         if (response.text == 1) {
                             Ext.example.msg('', biz_vnc_crm_client.msgSave);
                             biz_vnc_crm_client.initLeadGrid(app);

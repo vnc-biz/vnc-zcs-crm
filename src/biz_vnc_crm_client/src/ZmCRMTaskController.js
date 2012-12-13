@@ -52,20 +52,10 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
         query: query,
         "types": "task"
     });
-    var json = "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"leadId\":\"" + this.leadId + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"leadId\":\"" + this.leadId + "\"}");
     if (response.text == 1) {
         if (biz_vnc_crm_client.flag == 0) {
-            var json = "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + this.leadId + "\"}";
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + this.leadId + "\"}");
             var newtaskArray = (responseTaskList.text).split(",");
             var allTask = searchResponse.getArray();
             var taskArray = [];
@@ -105,12 +95,7 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
             Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
             Ext.getCmp('leadTaskGrid').getView().refresh();
         } else if (biz_vnc_crm_client.flag == 1) {
-            var json = "jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + this.leadId + "\"}";
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var responseTaskList = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"opp\",\"leadId\":\"" + this.leadId + "\"}");
             var newtaskArray = (responseTaskList.text).split(",");
             var allTask = searchResponse.getArray();
             var taskArray = [];

@@ -57,22 +57,12 @@ function(draftType, msg, callback, result) {
 
     appCtxt.getCurrentApp().pushView(this._crmViewId);
     var mailId = resp.m[0].id;
-    var json = "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"leadId\":\"" + this.leadId + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"leadId\":\"" + this.leadId + "\"}");
     if (response.text == 1) {
         Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
         if (biz_vnc_crm_client.flag == 0) {
             var leadId = biz_vnc_crm_client.leadId;
-            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}";
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
             var msgArray = [];
             var item;
             var msgArray = (responseMailHistory.text).split(",");
@@ -87,12 +77,7 @@ function(draftType, msg, callback, result) {
 
         } else if (biz_vnc_crm_client.flag == 1) {
             var leadId = biz_vnc_crm_client.leadId;
-            var json = "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}";
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var responseMailHistory = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}");
             var msgArray = [];
             var item;
             var msgArray = (responseMailHistory.text).split(",");

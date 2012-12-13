@@ -227,12 +227,7 @@ ZmReportView.createForm = function(app) {
         }]
     });
 
-    var json = "jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    ZmReportView.responseLead = AjxRpc.invoke(reqJson, "/service/zimlet/biz_vnc_crm_client/client.jsp", reqHeader, null, false);
+    ZmReportView.responseLead = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
     ZmReportView.response = jsonParse(ZmReportView.responseLead.text);
     var store = Ext.create('Ext.data.JsonStore', {
         model: 'data',
