@@ -32,18 +32,31 @@ import biz.vnc.beans.LeadBean;
 import biz.vnc.beans.LeadClassBean;
 import biz.vnc.beans.PriorityBean;
 import biz.vnc.beans.SectionBean;
+import biz.vnc.beans.SharedItemBean;
 import biz.vnc.beans.StageBean;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
+import biz.vnc.zimbra.util.MailDump;
 import biz.vnc.zimbra.util.ZLog;
 import com.google.gson.Gson;
+import com.zimbra.common.service.ServiceException;
+import com.zimbra.cs.account.Account;
+import com.zimbra.cs.account.AuthTokenException;
+import com.zimbra.cs.account.soap.SoapProvisioning;
+import com.zimbra.cs.account.soap.SoapProvisioning.Options;
+import com.zimbra.cs.account.ZimbraAuthToken;
+import com.zimbra.cs.zclient.ZMailbox;
+import com.zimbra.cs.zclient.ZMessage;
+import java.text.SimpleDateFormat;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 public class LeadHelper implements InterfaceHelper {
 
@@ -51,6 +64,7 @@ public class LeadHelper implements InterfaceHelper {
 	int operationStatus=0;
 	PreparedStatement preparedStatement;
 	DBUtility dbu = new DBUtility();
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	@Override
 	public String listView(String username) {
@@ -302,11 +316,12 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ?;" ;
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ?  or leadId IN(select leadId from tbl_crm_share where userId = ?);" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -389,11 +404,12 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array, String field, String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ");";
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ") or leadId IN(select leadId from tbl_crm_share where userId = ?);";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -469,14 +485,15 @@ public class LeadHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int addHistory(String array, String leadId) {
+	public int addHistory(String array, String leadId, String userId) {
 		String[] str = array.split(",");
 for(String messageId : str) {
-			String query = "insert into tbl_crm_lead_mailHistory values (?,?);";
+			String query = "insert into tbl_crm_lead_mailHistory values (?,?,?);";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
 				preparedStatement.setString(2, messageId);
+				preparedStatement.setString(3, userId);
 			} catch(Exception e) {
 				ZLog.err("VNC CRM for Zimbra","Error in addHistory Lead Helper Class", e);
 			}
@@ -487,7 +504,7 @@ for(String messageId : str) {
 
 	@Override
 	public String listHistory(String leadId) {
-		String query = "select messageId from tbl_crm_lead_mailHistory where leadId = ?;";
+		String query = "select messageId, userId from tbl_crm_lead_mailHistory where leadId = ?;";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -495,21 +512,60 @@ for(String messageId : str) {
 			ZLog.err("VNC CRM for Zimbra","Error in addHistory Lead Helper Class", e);
 		}
 		ResultSet rs = dbu.select(preparedStatement);
-		String str;
-		String msgArray = null;
+		String AllResult = "[";
 		try {
+			Account account = null;
+			Options options = new Options();
+			options.setLocalConfigAuth(true);
+			SoapProvisioning provisioning = new SoapProvisioning(options);
 			while(rs.next()) {
-				str = rs.getString("messageId");
-				if(msgArray == null) {
-					msgArray = str;
-				} else
-					msgArray = msgArray + "," + str;
+				account = provisioning.getAccount(rs.getString("userId"));
+				ZimbraAuthToken authToken = new ZimbraAuthToken(account);
+				String eAuthToken = authToken.getEncoded();
+				ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
+				ZMessage msg = mailbox.getMessageById(rs.getString("messageId"));
+				Vector<String> from =  MailDump.getFrom(msg);
+				Vector<String> to =  MailDump.getTo(msg);
+				StringBuffer sb = new StringBuffer();
+				Boolean resp =  MailDump.dumpBodyHTML(msg, sb);
+				if(rs.isLast()) {
+					AllResult += "{\"mailId\":\"" + rs.getString("messageId") + "\",\"userId\":\"" + rs.getString("userId") + "\",\"date\":\"" + dateFormat.format(new Date(msg.getReceivedDate())) + "\",\"from\":\"" + from.get(0).toString() + "\",\"to\":\"" + to.get(0).toString() + "\",\"subject\":\"" + msg.getSubject().toString() + "\",\"message\":\"" + sb.toString().substring(5,sb.toString().length()-6).replaceAll("[\\n\\t]"," ") + "\"}]";
+				} else {
+					AllResult += "{\"mailId\":\"" + rs.getString("messageId") + "\",\"userId\":\"" + rs.getString("userId") + "\",\"date\":\"" + dateFormat.format(new Date(msg.getReceivedDate())) + "\",\"from\":\"" + from.get(0).toString() + "\",\"to\":\"" + to.get(0).toString() + "\",\"subject\":\"" + msg.getSubject().toString() + "\",\"message\":\"" + sb.toString().substring(5,sb.toString().length()-6).replaceAll("[\\n\\t]"," ") + "\"},";
+				}
 			}
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (ServiceException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (AuthTokenException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return msgArray;
+		return AllResult;
 	}
+
+	@Override
+	public String showMail(String userId, String mailId) {
+		StringBuffer sb = new StringBuffer();
+		try {
+			Account account = null;
+			Options options = new Options();
+			options.setLocalConfigAuth(true);
+			SoapProvisioning provisioning = new SoapProvisioning(options);
+			account = provisioning.getAccount(userId);
+			ZimbraAuthToken authToken = new ZimbraAuthToken(account);
+			String eAuthToken = authToken.getEncoded();
+			ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
+			ZMessage msg = mailbox.getMessageById(mailId);
+			Boolean resp =  MailDump.dumpBodyHTML(msg, sb);
+		} catch (ServiceException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (AuthTokenException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		}
+		return sb.toString();
+	}
+
 
 	@Override
 	public int deleteHistory(String array,String leadId) {
@@ -643,5 +699,63 @@ for(String taskId : str) {
 		if(operationStatus >= Limits.max_limit)
 			return 2;
 		return 0;
+	}
+
+	@Override
+	public String listSharedItems(String leadId) {
+		List<SharedItemBean> returnValue = new ArrayList<SharedItemBean>();
+		String query = "select * from tbl_crm_share where leadId = ?;";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in listSharedItems in LeadHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
+		SharedItemBean sharedItemBean = null;
+		try {
+			while(rs.next()) {
+				sharedItemBean = new SharedItemBean();
+				sharedItemBean.setLeadId(rs.getInt("leadId"));
+				sharedItemBean.setUserId(rs.getString("userId"));
+				sharedItemBean.setWriteAccess(rs.getBoolean("writeAccess"));
+				returnValue.add(sharedItemBean);
+			}
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra","Error listSharedItems result set in Lead Helper Class", e);
+		}
+		return gson.toJson(returnValue);
+	}
+
+	@Override
+	public int addSharedItems(String userArray, String accessArray, String leadId) {
+		String[] users = userArray.split(",");
+		String[] wAccess = accessArray.split(",");
+		for(int i = 0; i<users.length; i++) {
+			String query = "insert into tbl_crm_share values (?,?,?);";
+			try {
+				preparedStatement = DBUtility.connection.prepareStatement(query);
+				preparedStatement.setString(1, leadId);
+				preparedStatement.setString(2, users[i]);
+				preparedStatement.setString(3, wAccess[i]);
+			} catch (SQLException e) {
+				ZLog.err("VNC CRM for Zimbra", "Error in addShareItems in LeadHelper", e);
+			}
+			operationStatus = dbu.insert(preparedStatement);
+		}
+		return operationStatus;
+	}
+
+	@Override
+	public int deleteSharedItems(String leadId) {
+		String query = "delete from tbl_crm_share where leadId = ?;";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteSharedItems in LeadHelper", e);
+		}
+		operationStatus = dbu.delete(preparedStatement);
+		return operationStatus;
 	}
 }

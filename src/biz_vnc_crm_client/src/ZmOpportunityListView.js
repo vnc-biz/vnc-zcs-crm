@@ -267,6 +267,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         }, {
             name: 'message',
             type: 'string'
+        }, {
+            name: 'to',
+            type: 'string'
+        }, {
+            name: 'userId',
+            type: 'string'
         }]
     });
     Ext.define('oppTaskModel', {
@@ -948,17 +954,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
 
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}");
-                                        var msgArray = [];
-                                        var item;
-                                        var msgArray = (responseMailHistory.text).split(",");
-                                        if (msgArray != "null") {
-                                            biz_vnc_crm_client.requestMailList(msgArray);
-                                        } else {
-                                            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                        }
-                                        Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                        Ext.getCmp('oppMailGrid').getView().refresh();
+                                        biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                                         Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                     }
                                 }
@@ -980,17 +976,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}");
-                                var msgArray = [];
-                                var item;
-                                var msgArray = (responseMailHistory.text).split(",");
-                                if (msgArray != "null") {
-                                    biz_vnc_crm_client.requestMailList(msgArray);
-                                } else {
-                                    biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                }
-                                Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                Ext.getCmp('oppMailGrid').getView().refresh();
+                                biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                             }
                         }
                     }]
@@ -1019,8 +1005,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 170,
-                        dataIndex: 'date',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'date'
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -1045,8 +1030,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         el:{
                             dblclick: function(){
                                 var rec = Ext.getCmp('oppMailGrid').getSelectionModel().selected;
-                                var mailID = rec.items[0].data.mailId;
-                                ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                biz_vnc_crm_client.mailInfowindow(rec);
                             }
                         }
                     }
@@ -1521,19 +1505,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('oppMailGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}");
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestMailList(msgArray);
-
-                                Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                Ext.getCmp('oppMailGrid').getView().refresh();
-                            } else {
-                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                            }
+                            biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                         }
                     }
                 }

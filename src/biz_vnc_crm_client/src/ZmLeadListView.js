@@ -388,6 +388,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         }, {
             name: 'message',
             type: 'string'
+        }, {
+            name: 'to',
+            type: 'string'
+        }, {
+            name: 'userId',
+            type: 'string'
         }]
     });
 
@@ -1115,18 +1121,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                        var msgArray = [];
-                                        var item;
-                                        var msgArray = (responseMailHistory.text).split(",");
-
-                                        if (msgArray != "null") {
-                                            biz_vnc_crm_client.requestMailList(msgArray);
-                                        } else {
-                                            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                        }
-                                        Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                        Ext.getCmp('leadMailGrid').getView().refresh();
+                                        biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                                         Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                     }
                                 }
@@ -1150,17 +1145,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                var msgArray = [];
-                                var item;
-                                var msgArray = (responseMailHistory.text).split(",");
-                                if (msgArray != "null") {
-                                    biz_vnc_crm_client.requestMailList(msgArray);
-                                } else {
-                                    biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                }
-                                Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                Ext.getCmp('leadMailGrid').getView().refresh();
+                                biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                             }
                         }
                     }]
@@ -1189,8 +1174,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 170,
-                        dataIndex: 'date',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'date'
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -1215,8 +1199,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         el:{
                                 dblclick: function(){
                                     var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
-                                    var mailID = rec.items[0].data.mailId;
-                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                    biz_vnc_crm_client.mailInfowindow(rec);
                                 }
                         }
                     }
@@ -1747,19 +1730,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadMailGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestMailList(msgArray);
-
-                                Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                Ext.getCmp('leadMailGrid').getView().refresh();
-                            } else {
-                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                            }
+                            biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                         }
                     }
                 }

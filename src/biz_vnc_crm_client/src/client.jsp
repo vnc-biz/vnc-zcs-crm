@@ -166,10 +166,26 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.addHistory(array,leadId);
+			String userId = k.get("userId").getAsString();
+			operationStatus = interfaceHelper.addHistory(array,leadId,userId);
 			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in history", e);
+		}
+	} else if(actionType.equals("ADDSHAREITEM")) {
+		try {
+			String userArray = k.get("userArray").getAsString();
+			String accessArray = k.get("accessArray").getAsString();
+			String leadId = k.get("leadId").getAsString();
+			int status = interfaceHelper.deleteSharedItems(leadId);
+			if(userArray.equals("null")) {
+				out.println(1);
+			} else {
+				operationStatus = interfaceHelper.addSharedItems(userArray, accessArray, leadId);
+				out.println(operationStatus);
+			}
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in add SharedItems", e);
 		}
 	} else if(actionType.equals("CALHISTORY")) {
 		try {
@@ -205,6 +221,23 @@ try {
 			out.print(result);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in list history", e);
+		}
+	} else if(actionType.equals("SHOWMAIL")) {
+		try {
+			String userId = k.get("userId").getAsString();
+			String msgId = k.get("mailId").getAsString();
+			String result = interfaceHelper.showMail(userId, msgId);
+			out.print(result);
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in show mail info.", e);
+		}
+	} else if(actionType.equals("LISTSHAREITEMS")) {
+		try {
+			String leadId = k.get("leadId").getAsString();
+			String result = interfaceHelper.listSharedItems(leadId);
+			out.print(result);
+		} catch(Exception e) {
+			ZLog.err("CRM CLIENT","Error in list share items", e);
 		}
 	} else if(actionType.equals("listTask")) {
 		try {

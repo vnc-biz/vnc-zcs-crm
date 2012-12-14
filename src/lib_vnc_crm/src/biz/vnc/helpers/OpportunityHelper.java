@@ -300,11 +300,12 @@ public class OpportunityHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ?;" ;
+		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ? or leadId IN(select leadId from tbl_crm_share where userId = ?);" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in OpportunityHelper", e);
 		}
@@ -380,11 +381,12 @@ public class OpportunityHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array,String field, String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ? and " + field + " IN (" + array + ");";
+		String query = "select * from tbl_crm_lead where type = 1 and status = ? and userId = ? and " + field + " IN (" + array + ") or leadId IN(select leadId from tbl_crm_share where userId = ?);";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in OpportunityHelper", e);
 		}
@@ -466,14 +468,15 @@ public class OpportunityHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int addHistory(String array, String leadId) {
+	public int addHistory(String array, String leadId, String userId) {
 		String[] str = array.split(",");
 for(String messageId : str) {
-			String query = "insert into tbl_crm_lead_mailHistory values (?,?);";
+			String query = "insert into tbl_crm_lead_mailHistory values (?,?,?);";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
 				preparedStatement.setString(2, messageId);
+				preparedStatement.setString(3, userId);
 			} catch(Exception e) {
 				ZLog.err("VNC CRM for Zimbra","Error in addHistory Opportunity Helper Class", e);
 			}
@@ -506,6 +509,11 @@ for(String messageId : str) {
 			ZLog.err("VNC CRM for Zimbra","Error in Opportunity Helper Class", e);
 		}
 		return msgArray;
+	}
+
+	@Override
+	public String showMail(String userId, String mailId) {
+		return null;
 	}
 
 	@Override
@@ -639,6 +647,35 @@ for(String taskId : str) {
 		operationStatus = dbu.clientCounter(tableName, 1);
 		if(operationStatus >= Limits.max_limit)
 			return 2;
+		return 0;
+	}
+
+	@Override
+	public String listSharedItems(String leadId) {
+		return null;
+	}
+
+	@Override
+	public int addSharedItems(String userArray, String accessArray, String leadId) {
+		String[] users = userArray.split(",");
+		String[] wAccess = accessArray.split(",");
+		for(int i = 0; i<users.length; i++) {
+			String query = "insert into tbl_crm_share values (?,?,?);";
+			try {
+				preparedStatement = DBUtility.connection.prepareStatement(query);
+				preparedStatement.setString(1, leadId);
+				preparedStatement.setString(2, users[i]);
+				preparedStatement.setString(3, wAccess[i]);
+			} catch (SQLException e) {
+				ZLog.err("VNC CRM for Zimbra", "Error in addShareItems in LeadHelper", e);
+			}
+			operationStatus = dbu.insert(preparedStatement);
+		}
+		return operationStatus;
+	}
+
+	@Override
+	public int deleteSharedItems(String leadId) {
 		return 0;
 	}
 }

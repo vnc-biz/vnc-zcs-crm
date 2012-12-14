@@ -41,7 +41,7 @@ public interface InterfaceHelper {
 	public List<AbstractBean> getAllActiveFilterRecords(String str, String field, String username);
 	public String filterView(String array, String username);
 	public String filterByContact(String Array, String username);
-	public int addHistory(String array, String leadId);
+	public int addHistory(String array, String leadId, String userId);
 	public String listHistory(String leadId);
 	public int deleteHistory(String array,String leadId);
 	public int addAppointment(String array, String leadId);
@@ -51,4 +51,8 @@ public interface InterfaceHelper {
 	public String listTask(String leadId);
 	public int deleteTask(String array,String leadId);
 	public int recordCounter();
+	public String listSharedItems(String leadId);
+	public String showMail(String userId, String mailId);
+	public int addSharedItems(String userArray, String accessArray, String leadId);
+	public int deleteSharedItems(String leadId);
 }

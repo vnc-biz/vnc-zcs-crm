@@ -101,6 +101,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.responseLeadClass = "";
     biz_vnc_crm_client.responseUser = "";
     biz_vnc_crm_client.response = "";
+    biz_vnc_crm_client.responseShareUser = [];
 
     var jspurl = "/service/zimlet/biz_vnc_crm_client/vnccrmmonitoring.jsp";
     var response = AjxRpc.invoke(null,jspurl,null,null,true);
@@ -129,6 +130,12 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
         false,
         2000
     );
+    var temp = jsonParse(biz_vnc_crm_client.responseUser.text);
+    for(var i=0;i<temp.length;i++) {
+        if(temp[i].label != biz_vnc_crm_client.username) {
+            biz_vnc_crm_client.responseShareUser.push(temp[i]);
+        }
+    }
 };
 
 // Intializing the toolbar for putting zimbraCRM button in the toolbar
@@ -570,8 +577,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                         msgids[k++] = selmsg[i].id;
                                     }
                                 }
+                                userId = appCtxt.getUsername();
                                 var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"leadId\":\"" + leadId + "\"}"
+                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
                                 if (response.text == 1) {
                                     Ext.example.msg('',biz_vnc_crm_client.msgEmailAttach);
@@ -724,8 +732,9 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                         msgids[k++] = selmsg[i].id;
                                     }
                                 }
+                                userId = appCtxt.getUsername();
                                 var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"leadId\":\"" + leadId + "\"}"
+                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
                                 if (response.text == 1) {
                                     Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
@@ -1487,8 +1496,9 @@ biz_vnc_crm_client.okMailAttach = function () {
         array.push(bcView.getSelection()[i].id);
     }
     if (i == count) {
+        userId = appCtxt.getUsername(); 
         var response = biz_vnc_crm_client.rpc(
-            "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
+            "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
         );
         if (response.text == 1) {
             Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
@@ -1502,34 +1512,10 @@ biz_vnc_crm_client.okMailAttach = function () {
         var responseMailHistory = biz_vnc_crm_client.rpc(
             "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
         );
-        var msgArray = [];
-        var item;
-        var msgArray = (responseMailHistory.text).split(",");
-
-        if (msgArray != "null") {
-            biz_vnc_crm_client.requestMailList(msgArray);
-        } else {
-            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-        }
-        Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-        Ext.getCmp('leadMailGrid').getView().refresh();
-
+        biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
     } else if (biz_vnc_crm_client.flag == 1) {
         var leadId = biz_vnc_crm_client.leadId;
-        var responseMailHistory = biz_vnc_crm_client.rpc(
-            "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}"
-        );
-        var msgArray = [];
-        var item;
-        var msgArray = (responseMailHistory.text).split(",");
-
-        if (msgArray != "null") {
-            biz_vnc_crm_client.requestMailList(msgArray);
-        } else {
-            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-        }
-        Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-        Ext.getCmp('oppMailGrid').getView().refresh();
+        biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
     }
 };
 
@@ -1664,6 +1650,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
     biz_vnc_crm_client._flag = 0;
     biz_vnc_crm_client._leadTypeFlag = 0;
+
+    Ext.Loader.setConfig({
+        enabled: true
+    });
 
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
@@ -2048,6 +2038,12 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'string'
         }, {
             name: 'message',
+            type: 'string'
+        }, {
+            name: 'to',
+            type: 'string'
+        }, {
+            name: 'userId',
             type: 'string'
         }]
     });
@@ -2790,22 +2786,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     var responseUser = biz_vnc_crm_client.rpc(
                                         "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-
-                                    var responseMailHistory = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-                                    );
-                                    var msgArray = [];
-                                    var item;
-                                    var msgArray = (responseMailHistory.text).split(",");
-
-
-                                    if (msgArray != "null") {
-                                        biz_vnc_crm_client.requestMailList(msgArray);
-                                    } else {
-                                        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                    }
-                                    Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                    Ext.getCmp('leadMailGrid').getView().refresh();
+                                    biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                                     Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
@@ -2825,20 +2806,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         itemId: 'refresh',
                         handler: function () {
                             var leadId = biz_vnc_crm_client.leadId;
-                            var responseMailHistory = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-                            );
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestMailList(msgArray);
-                            } else {
-                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                            }
-                            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                            Ext.getCmp('leadMailGrid').getView().refresh();
+                            biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                         }
                     }]
                 }, {
@@ -2866,8 +2834,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 120,
-                        dataIndex: 'date',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'date'
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -2881,7 +2848,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     }, {
                         text: biz_vnc_crm_client.message,
                         width: 500,
-                        sortable: true,
+                        sortable: false,
                         dataIndex: 'message'
                     }],
                     title: null,
@@ -2892,8 +2859,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         el:{
                                 dblclick: function(){
                                     var rec = Ext.getCmp('leadMailGrid').getSelectionModel().selected;
-                                    var mailID = rec.items[0].data.mailId;
-                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                    biz_vnc_crm_client.mailInfowindow(rec);	
                                 }
                         }
                     }
@@ -3408,21 +3374,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     } else if (tab.id == 'leadComm') {
                         Ext.getCmp('leadMailGrid').getStore().removeAll();
                         var leadId = biz_vnc_crm_client.leadId;
-                        var responseMailHistory = biz_vnc_crm_client.rpc(
-                            "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-                        );
-                        var msgArray = [];
-                        var item;
-                        var msgArray = (responseMailHistory.text).split(",");
-
-                        if (msgArray != "null") {
-                            biz_vnc_crm_client.requestMailList(msgArray);
-
-                            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                            Ext.getCmp('leadMailGrid').getView().refresh();
-                        } else {
-                            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                        }
+                        biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
                     }
                 }
             }
@@ -3729,6 +3681,26 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.LeadForm#LeadFormMain");
                         app.setContent(content);
                         ZmLeadListView.prototype.getContacts(0, [], rec, app);
+                    }
+                }]
+            }, {
+                sortable: false,
+                xtype: 'actioncolumn',
+                width: 25,
+                icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png",
+                items: [{
+                    icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png", // Use a URL in the icon config
+                    tooltip: biz_vnc_crm_client.btnEdit,
+                    handler: function (grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        biz_vnc_crm_client.leadId  = rec.get('leadId');
+                        if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                            Ext.example.msg('', biz_vnc_crm_client.msgShareNotAllow);
+                        } else {
+                            var responseShareHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTSHAREITEMS\",\"object\":\"lead\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}");
+                            var respData = jsonParse(responseShareHistory.text);
+                            biz_vnc_crm_client.sharewindow(respData);
+                        }
                     }
                 }]
             }, {
@@ -4383,6 +4355,12 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }, {
             name: 'message',
+            type: 'string'
+        }, {
+            name: 'to',
+            type: 'string'
+        }, {
+            name: 'userId',
             type: 'string'
         }]
     });
@@ -5053,19 +5031,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     var responseUser = biz_vnc_crm_client.rpc(
                                         "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-                                    var responseMailHistory = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}"
-                                    );
-                                    var msgArray = [];
-                                    var item;
-                                    var msgArray = (responseMailHistory.text).split(",");
-                                    if (msgArray != "null") {
-                                        biz_vnc_crm_client.requestMailList(msgArray);
-                                    } else {
-                                        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                                    }
-                                    Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                                    Ext.getCmp('oppMailGrid').getView().refresh();
+                                    biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                                     Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
                                 }
                             };
@@ -5085,19 +5051,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         itemId: 'refresh',
                         handler: function () {
                             var leadId = biz_vnc_crm_client.leadId;
-                            var responseMailHistory = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}"
-                            );
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestMailList(msgArray);
-                            } else {
-                                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                            }
-                            Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                            Ext.getCmp('oppMailGrid').getView().refresh();
+                            biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                         }
                     }]
                 }, {
@@ -5125,8 +5079,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 120,
-                        dataIndex: 'date',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'date'
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -5151,8 +5104,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         el:{
                                 dblclick: function(){
                                     var rec = Ext.getCmp('oppMailGrid').getSelectionModel().selected;
-                                    var mailID = rec.items[0].data.mailId;
-                                    ZmMailMsgView.rfc822Callback(mailID, null, ZmId.VIEW_CONV);
+                                    biz_vnc_crm_client.mailInfowindow(rec);
                                 }
                         }
                     }
@@ -5630,21 +5582,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     } else if (tab.id == 'oppComm') {
                         Ext.getCmp('oppMailGrid').getStore().removeAll();
                         var leadId = biz_vnc_crm_client.leadId;
-                        var responseMailHistory = biz_vnc_crm_client.rpc(
-                            "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}"
-                        );
-                        var msgArray = [];
-                        var item;
-                        var msgArray = (responseMailHistory.text).split(",");
-
-                        if (msgArray != "null") {
-                            biz_vnc_crm_client.requestMailList(msgArray);
-
-                            Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-                            Ext.getCmp('oppMailGrid').getView().refresh();
-                        } else {
-                            biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-                        }
+                        biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
                     }
                 }
             }
@@ -5822,12 +5760,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 scale: 'medium',
                 handler: function () {
                     var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}");
-
                     if (response.text == 2){
                         Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
                         return;
                     }
-
                     biz_vnc_crm_client.mailData = "";
                     var toolbar = app.getToolbar();
                     toolbar.visible = true;
@@ -5966,6 +5902,26 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
                         app.setContent(content);
                         ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
+                    }
+                }]
+            }, {
+                sortable: false,
+                xtype: 'actioncolumn',
+                width: 25,
+                icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png",
+                items: [{
+                    icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png", // Use a URL in the icon config
+                    tooltip: biz_vnc_crm_client.btnEdit,
+                    handler: function (grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        biz_vnc_crm_client.leadId  = rec.get('leadId');
+                        if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                            Ext.example.msg('', biz_vnc_crm_client.msgShareNotAllow);
+                        } else {
+                            var responseShareHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTSHAREITEMS\",\"object\":\"lead\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}");
+                            var respData = jsonParse(responseShareHistory.text);
+                            biz_vnc_crm_client.sharewindow(respData);
+                        }
                     }
                 }]
             }, {
@@ -6189,32 +6145,17 @@ biz_vnc_crm_client.add_contact = function(flag) {
     contactController.getCurrentToolbar().addSelectionListener(ZmOperation.SAVE, new AjxListener(this, ZmLeadListView._mySaveListener, [biz_vnc_crm_client._app]));
 }
 
-biz_vnc_crm_client.requestMailList = function (msgArray) {
-    biz_vnc_crm_client.mailData = "[";
-    var soapDoc = AjxSoapDoc.create("BatchRequest", "urn:zimbra");
-    soapDoc.setMethodAttribute("onerror", "continue");
-    for (var j = 0; j < msgArray.length; j++) {
-        var getMsgRequest = soapDoc.set("GetMsgRequest", null, null, "urn:zimbraMail");
-        var action = soapDoc.set("m");
-        action.setAttribute("html", 0);
-        action.setAttribute("needExp", 1);
-        action.setAttribute("id", msgArray[j]);
-        getMsgRequest.appendChild(action);
+biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
+    response = biz_vnc_crm_client.rpc(
+        "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
+    );
+    if(response.text == '['){
+        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+    } else {
+        biz_vnc_crm_client.mailData = response.text;
     }
-    var bc = appCtxt.getAppController().sendRequest({
-        soapDoc: soapDoc,
-        asyncMode: false
-    });
-    var msgResp = bc.BatchResponse.GetMsgResponse;
-    var respLen = msgResp.length;
-    for (var i = 0; i < respLen; i++) {
-        var resp = msgResp[i].m[0];
-        if (i == respLen - 1) {
-            biz_vnc_crm_client.mailData += "{\"mailId\":\"" + msgArray[i] + "\",\"date\":\"" + new Date(resp.d) + "\",\"from\":\"" + resp.e[0].a + "\",\"subject\":\"" + resp.su + "\",\"message\":\"" + resp.fr + "\"}]";
-        } else {
-            biz_vnc_crm_client.mailData += "{\"mailId\":\"" + msgArray[i] + "\",\"date\":\"" + new Date(resp.d) + "\",\"from\":\"" + resp.e[0].a + "\",\"subject\":\"" + resp.su + "\",\"message\":\"" + resp.fr + "\"},";
-        }
-    }
+    Ext.getCmp(gridId).getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
+    Ext.getCmp(gridId).getView().refresh();
 }
 
 biz_vnc_crm_client.requestApptList = function (msgArray) {
@@ -7075,4 +7016,193 @@ biz_vnc_crm_client.overviewTreeItemSelection = function(flag) {
             overviewTree._array[i]._setSelected(false);
         }
     }
+}
+
+biz_vnc_crm_client.sharewindow = function (respData) {
+    Ext.define('Ext.ux.CheckColumn', {
+        extend: 'Ext.grid.column.Column',
+        alias: 'widget.checkcolumn',
+    
+        constructor: function() {
+            this.addEvents('checkchange');
+            this.callParent(arguments);
+        },
+
+        processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+            if (type == 'mousedown' || (type == 'keydown' && (e.getKey() == e.ENTER || e.getKey() == e.SPACE))) {
+                var record = view.panel.store.getAt(recordIndex),
+                dataIndex = this.dataIndex,
+                checked = !record.get(dataIndex);          
+                record.set(dataIndex, checked);
+                this.fireEvent('checkchange', this, recordIndex, checked);
+                return false;
+            } else {
+                return this.callParent(arguments);
+            }
+        },
+
+        renderer : function(value){
+            var cssPrefix = Ext.baseCSSPrefix,
+            cls = [cssPrefix + 'grid-checkheader'];
+            if (value) {
+                cls.push(cssPrefix + 'grid-checkheader-checked');
+            }
+            return '<div class="' + cls.join(' ') + '">&#160;</div>';
+        }
+    });
+
+    var shareGridSM  = Ext.create('Ext.selection.CheckboxModel', {
+        listeners: {
+            selectionchange: function (shareGridSM, selections) { }
+        }
+    });
+
+    Ext.define('model_shareItem', {
+        extend: 'Ext.data.Model',
+        fields: [{
+            name: 'value',
+            type: 'string'
+        }, {
+            name: 'writeAccess',
+            type: 'bool'
+        }]
+    });
+
+    var shareUserGridWindow = Ext.create('widget.window', {
+        maxWidth: 465,
+        maxHeight: 360,
+        minWidth: 465,
+        minHeight: 360,
+        shrinkWrap: true,
+        titleCollapse: true,
+        toFrontOnShow: true,
+        title: null,
+        closable: true,
+        modal: true,
+        collapsible: true,
+        items: [shareItemsPanel = Ext.create('Ext.form.Panel', {
+            width: 460,
+            height: 325,
+            title: biz_vnc_crm_client.lblShareItems,
+            id: 'shareItemsPanel',
+            defaults: {
+                autoRender: true
+            },
+            bodyBorder: true,
+            items: [{
+                xtype: 'grid',
+                width: 450,
+                height: 270,
+                selModel: shareGridSM,
+                loadMask: false,
+                id: 'shareItemsGrid',
+                renderTo: Ext.getBody(),
+                defaults: {
+                    autoRender: true,
+                    overflowY: 'auto'
+                },
+                store: Ext.create('Ext.data.Store', {
+                    model: 'model_shareItem',
+                    proxy: {
+                        type: 'memory',
+                        data: biz_vnc_crm_client.responseShareUser
+                    },
+                    actionMethods: {
+                        read: 'POST'
+                    }
+                }),
+                viewConfig: {
+                    stripeRows: true
+                },
+                columns: [{
+                    header: "User Id",
+                    width: 300,
+                    dataIndex: 'value',
+                    sortable: true
+                }, {
+                    xtype: 'checkcolumn',
+                    header: "WriteAccess",
+                    width: 100,
+                    dataIndex: 'writeAccess',
+                    sortable: true
+                }]
+            }],
+            buttons: [{
+                text: biz_vnc_crm_client.btnShare,
+                id: 'btnShare',
+                width: 130,
+                height: 25,
+                iconCls: 'share',
+                handler: function () {
+                    var items = Ext.getCmp('shareItemsGrid').getSelectionModel().selected.items
+                    var userArray = [];
+                    var accessArray = [];
+                    for(i=0; i<items.length;i++) {
+                        userArray.push(items[i].data.value);
+                        if(items[i].data.writeAccess) {
+                            accessArray.push(1);
+                        } else {
+                            accessArray.push(0);
+                        }
+                    }
+                    if(items.length==0) {
+                        userArray = "null";
+                    }
+                    var response = biz_vnc_crm_client.rpc(
+                        "jsonobj={\"action\":\"ADDSHAREITEM\",\"object\":\"lead\",\"userArray\":\"" + userArray + "\",\"accessArray\":\"" + accessArray + "\", \"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
+                    );
+                    if (response.text == 1) {
+                        Ext.example.msg('', biz_vnc_crm_client.msgShare);
+                        shareUserGridWindow.close();
+                    } else {
+                        Ext.example.msg('', biz_vnc_crm_client.msgNotShare);
+                        shareUserGridWindow.close();
+                    }
+                }
+            }]
+
+        })]
+    });
+    shareUserGridWindow.show();
+    Ext.getCmp('shareItemsGrid').getStore().load();
+    for(var i=0;i<respData.length;i++) {
+        grid = Ext.getCmp('shareItemsGrid');
+        var temp = grid.getStore().findRecord('value', AjxStringUtil.trim(respData[i].userId));
+        if(temp!= null) {
+            grid.getSelectionModel().select(temp.index, true);
+            var record = grid.getStore().getAt(temp.index);
+            record.set('writeAccess', respData[i].writeAccess);
+            record.commit();
+        }
+    }
+};
+
+biz_vnc_crm_client.mailInfowindow = function (rec) {
+    response = biz_vnc_crm_client.rpc(
+        "jsonobj={\"action\":\"SHOWMAIL\",\"object\":\"lead\",\"mailId\":\"" + rec.items[0].data.mailId + "\",\"userId\":\"" + rec.items[0].data.userId + "\"}"
+    );
+
+    var html = "<p><b>"+ biz_vnc_crm_client.from +" : </b>" +rec.items[0].data.from + "</br></br><b>"+ biz_vnc_crm_client.to +" :     </b>" +rec.items[0].data.to + "</br></br><b>"+ biz_vnc_crm_client.date +" :     </b>" +rec.items[0].data.date + "</br></br><b>"+ biz_vnc_crm_client.subject +" : </b>"+rec.items[0].data.subject +"</br></br><hr>"+ response.text +"</br></br></p>";
+    mailInfoWindow = Ext.create('widget.window', {
+        maxWidth: 665,
+        maxHeight: 460,
+        minWidth: 665,
+        minHeight: 460,
+        shrinkWrap: true,
+        titleCollapse: true,
+        toFrontOnShow: true,
+        title: null,
+        closable: true,
+        modal: true,
+        collapsible: true,
+        items: [{
+            title: biz_vnc_crm_client.lblMailDetail,
+            html: html,
+            frame: true,
+            autoScroll: true,
+            width: 660,
+            height: 425
+        }]
+    });
+    mailInfoWindow.show();
 }

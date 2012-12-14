@@ -285,12 +285,17 @@ public class CompanyHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int addHistory(String array, String leadId) {
+	public int addHistory(String array, String leadId, String userId) {
 		return 0;
 	}
 
 	@Override
 	public String listHistory(String leadId) {
+		return null;
+	}
+
+	@Override
+	public String showMail(String userId, String mailId) {
 		return null;
 	}
 
@@ -335,6 +340,21 @@ public class CompanyHelper implements InterfaceHelper {
 		operationStatus = dbu.adminCounter(tableName);
 		if(operationStatus >= Limits.max_limit)
 			return 2;
+		return 0;
+	}
+
+	@Override
+	public String listSharedItems(String leadId) {
+		return null;
+	}
+
+	@Override
+	public int addSharedItems(String userArray, String accessArray, String leadId) {
+		return 0;
+	}
+
+	@Override
+	public int deleteSharedItems(String leadId) {
 		return 0;
 	}
 }
