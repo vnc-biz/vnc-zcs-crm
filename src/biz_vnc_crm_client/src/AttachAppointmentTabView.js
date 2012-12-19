@@ -111,19 +111,8 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype._createErView = function (
     this.crm_apt_end_date_container_id = Dwt.getNextId();
     this.crm_apt_search_button_id = Dwt.getNextId();
     this.crm_apt_list_id = Dwt.getNextId();
-    var i = 0;
-    var html = new Array();
-    html[i++] = "<table style='width:500px'><tr><td><div>";
-    html[i++] = "<input type='text' id='" + this.crm_apt_start_date_id + "' style='height:24px;float:left;'/>";
-    html[i++] = "<div id='" + this.crm_apt_start_date_container_id + "' style='margin-right:6px;width:21px;float:left;'></div>";
-    html[i++] = "<input type='text' id='" + this.crm_apt_end_date_id + "' style='height:24px;float:left;'/>";
-    html[i++] = "<div id='" + this.crm_apt_end_date_container_id + "' style='width:21px;margin-right:6px;float:left'></div>";
-    html[i++] = "<div id='" + this.crm_apt_search_button_id + "' style='float:left;'></div>";
-    html[i++] = "</div></td></tr>";
-    html[i++] = "<tr><td>";
-    html[i++] = "<div id='" + this.crm_apt_list_id + "'style='height:240px;'></div>";
-    html[i++] = "</td></tr></table>";
-    this.getContentHtmlElement().innerHTML = html.join("");
+    var dataArray = {startDate: this.crm_apt_start_date_id, startDateContainer: this.crm_apt_start_date_container_id, endDate: this.crm_apt_end_date_id, endDateContainer: this.crm_apt_end_date_container_id, searchButtonId: this.crm_apt_search_button_id, listId: this.crm_apt_list_id};
+    this.getContentHtmlElement().innerHTML = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachAppointment#AttachApptData",dataArray);
 };
 
 biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function () {

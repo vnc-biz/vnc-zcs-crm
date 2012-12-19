@@ -90,17 +90,8 @@ biz_vnc_crm_client_AttachMailTabView.prototype._createHtml1 = function () {
     this._tableID = Dwt.getNextId();
     this._folderTreeCellId = Dwt.getNextId();
     this._folderListId = Dwt.getNextId();
-    var html = [];
-    var idx = 0;
-
-    html[idx++] = '<div>';
-    html[idx++] = '<div style="float:left; position:relative; width:100px;" id="' + this._folderTreeCellId + '">';
-    html[idx++] = '</div>';
-    html[idx++] = '<div style="float:left;position:relative; width:360px;" id="' + this._folderListId + '">';
-    html[idx++] = '</div>';
-
-    html[idx++] = '</div>';
-    this._contentEl.innerHTML = html.join("");
+    var dataArray = {treecellid: this._folderTreeCellId, listid: this._folderListId};
+    this._contentEl.innerHTML = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachMail#AttachMailLeft",dataArray);
     this.showAttachMailTreeView();
     var params = {
         parent: appCtxt.getShell(),
@@ -352,23 +343,16 @@ ZmAttachMailListView.prototype._getCellContents = function (htmlArr, idx, item, 
     if (item.hasAttach) {
         attachCell = "<td width='16px'><div class='ImgAttachment' /></td>";
     }
-    htmlArr[idx++] = "<DIV style=\"height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;\">";
-    htmlArr[idx++] = "<TABLE width=100%><tr> ";
-    htmlArr[idx++] = attachCell;
-    htmlArr[idx++] = "<td  align=left><span style=\"font-weight:bold;font-size:14px;\"> ";
-    htmlArr[idx++] = from;
-    htmlArr[idx++] = "</SPAN></td><td align=right>";
-    htmlArr[idx++] = AjxDateUtil.computeDateStr(params.now || new Date(), item.date);
-    htmlArr[idx++] = "</td></tr></TABLE>";
     var subject = item.subject;
     if (subject == undefined) subject = "<no subject>";
     else if (subject.length > 35) {
         subject = subject.substring(0, 32) + "...";
     }
-
-    htmlArr[idx++] = "<span style=\"font-weight:bold;\"> " + subject + "</SPAN>";
     if (fragment != "") {
-        htmlArr[idx++] = "<span style=\"color:gray\"> - " + fragment + "</SPAN></DIV>";
+        fragmentHtml = "<span style=\"color:gray\"> - " + fragment + "</SPAN></DIV>";
     }
+    var dateFormat = AjxDateUtil.computeDateStr(params.now || new Date(), item.date);
+    var dataArray = {attachCell: attachCell, from: from, dateFormat: dateFormat, subject: subject, fragmentHtml: fragmentHtml};
+    htmlArr[idx++] = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachMail#AttachMailRight",dataArray); 
     return idx;
 };

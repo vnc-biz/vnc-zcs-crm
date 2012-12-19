@@ -91,16 +91,8 @@ biz_vnc_crm_client_AttachTask.prototype._createHtml1 = function () {
     this._folderListId = Dwt.getNextId();
     var html = [];
     var idx = 0;
-
-    html[idx++] = '<div>';
-    html[idx++] = '<div style="float:left; position:relative; width:100px;" id="' + this._folderTreeCellId + '">';
-    html[idx++] = '</div>';
-    html[idx++] = '<div style="float:left;position:relative; width:360px;" id="' + this._folderListId + '">';
-    html[idx++] = '</div>';
-
-    html[idx++] = '</div>';
-    this._contentEl.innerHTML = html.join("");
-
+    var dataArray = {treecellid: this._folderTreeCellId, listid: this._folderListId};
+    this._contentEl.innerHTML = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachTask#AttachTaskLeft",dataArray);
     this.showAttachMailTreeView();
 
     var params = {
@@ -340,21 +332,7 @@ ZmAttachTasksListView.prototype._getCellContents = function (htmlArr, idx, item,
         status=ZmCalItem.getLabelForStatus(item.status);
     }
 
-    var percentComplete ="";
-    if(item.percentComplete = ""){
-        percentComplete=item.percentComplete;
-    }
-    var attachCell = item.loc;
-    htmlArr[idx++] = "<DIV style=\"height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;\">";
-    htmlArr[idx++] = "<TABLE width=100%><tr> ";
-    htmlArr[idx++] = attachCell;
-    htmlArr[idx++] = "<td  align=left><span style=\"font-weight:bold;font-size:14px;\"> ";
-    htmlArr[idx++] = subject;
-    htmlArr[idx++] = "</SPAN></td><td align=right>";
-    htmlArr[idx++] = dueDate;
-    htmlArr[idx++] = "</td></tr></TABLE>";
-
-    htmlArr[idx++] = "<span style=\"font-weight:bold;\">"+ status +"</SPAN>";
-    htmlArr[idx++] = "<span style=\"color:gray\">"+ percentComplete +"</SPAN></DIV>";
+    var dataArray = {subject: subject, dueDate: dueDate, status: status};
+    htmlArr[idx++] = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachTask#AttachTaskRight",dataArray);
     return idx;
 };

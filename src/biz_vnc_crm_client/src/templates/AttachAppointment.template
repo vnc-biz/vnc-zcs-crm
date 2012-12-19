@@ -1,0 +1,20 @@
+<template id="AttachApptData">
+    <table style='width:500px'>
+		<tr>
+			<td>
+				<div>
+					<input type='text' id='<$=data.startDate $>' style='height:24px;float:left;'/>
+					<div id='<$=data.startDateContainer $>' style='margin-right:6px;width:21px;float:left;'></div>
+					<input type='text' id='<$=data.endDate $>' style='height:24px;float:left;'/>
+					<div id='<$=data.endDateContainer $>' style='width:21px;margin-right:6px;float:left'></div>
+					<div id='<$=data.searchButtonId $>' style='float:left;'></div>
+				</div>
+			</td>
+		</tr>
+    	<tr>
+			<td>
+    			<div id='<$=data.listId $>' style='height:240px;'></div>
+		    </td>
+		</tr>
+	</table>
+</template>

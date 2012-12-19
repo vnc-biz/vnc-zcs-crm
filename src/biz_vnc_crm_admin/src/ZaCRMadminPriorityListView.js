@@ -49,54 +49,17 @@ ZaCRMadminPriorityListView.prototype._createItemHtml = function (item) {
     div.className = div[DwtListView._STYLE_CLASS];
     this.associateItemWithElement(item, div, DwtListView.TYPE_LIST_ITEM);
 
-    var idx = 0;
-    html[idx++] = "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
-
-    html[idx++] = "<tr>";
-    if (this._headerList) {
-        var cnt = this._headerList.length;
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityId];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[1]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityName];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[2]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityCode];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[3]._width + ">";
-        if (item[ZaCRMadmin.A_priorityStatus] == true) {
-            html[idx++] = AjxImg.getImageHtml("Check");
-        } else {
-            html[idx++] = AjxImg.getImageHtml("Delete");
-        }
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[4]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityCreatedby];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[5]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityCreateddate];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[6]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityWriteby];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[7]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_priorityWritedate];
-        html[idx++] = "</td>";
-    } else {
-        html[idx++] = "<td width=100%>";
-        html[idx++] = AjxStringUtil.htmlEncode(item);
-        html[idx++] = "</td>";
+    if (item[ZaCRMadmin.A_priorityStatus] == true) {
+        var image = AjxImg.getImageHtml("Check");
+    } else if (item[ZaCRMadmin.A_priorityStatus] == false) {
+        var image = AjxImg.getImageHtml("Delete");
     }
-
+    var dataArray = {item: item, headerList: this._headerList, checkImage: image};
+    var idx = 0;
+    html[idx++] = AjxTemplate.expand("biz_vnc_crm_admin.templates.ListView#listViewStart");
+    if (this._headerList) {
+        html[idx++] = AjxTemplate.expand("biz_vnc_crm_admin.templates.ListView#priorityListViewEnd",dataArray);
+    }
     html[idx++] = "</tr></table>";
     div.innerHTML = html.join("");
     return div;

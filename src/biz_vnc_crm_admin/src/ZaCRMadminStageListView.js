@@ -54,82 +54,27 @@ ZaCRMadminStageListView.prototype._createItemHtml = function (item) {
     div.className = div[DwtListView._STYLE_CLASS];
     this.associateItemWithElement(item, div, DwtListView.TYPE_LIST_ITEM);
 
-    var idx = 0;
-    html[idx++] = "<table border='0' width='100%' cellspacing='0' cellpadding='0'>";
-
-    html[idx++] = "<tr>";
-    if (this._headerList) {
-        var cnt = this._headerList.length;
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[0]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageId];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[1]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageName];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[2]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageSequence];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[3]._width + ">";
-        if (item[ZaCRMadmin.A_stageType] == 0) {
-            html[idx++] = "Lead";
-        } else if (item[ZaCRMadmin.A_stageType] == 1) {
-            html[idx++] = "Opportunity";
-        }
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[4]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageState];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[5]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageProbability];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[6]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageDescription];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[7]._width + ">";
-        if (item[ZaCRMadmin.A_stageAuto] == true) {
-            html[idx++] = AjxImg.getImageHtml("Check");
-        } else {
-            html[idx++] = AjxImg.getImageHtml("Delete");
-        }
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[8]._width + ">";
-        if (item[ZaCRMadmin.A_stageStatus] == true) {
-            html[idx++] = AjxImg.getImageHtml("Check");
-        } else {
-            html[idx++] = AjxImg.getImageHtml("Delete");
-        }
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[9]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageCreatedby];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[10]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageCreateddate];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[11]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageWriteby];
-        html[idx++] = "</td>";
-
-        html[idx++] = "<td align=left height=20px width=" + this._headerList[12]._width + ">";
-        html[idx++] = item[ZaCRMadmin.A_stageWritedate];
-        html[idx++] = "</td>";
-    } else {
-        html[idx++] = "<td width=100%>";
-        html[idx++] = AjxStringUtil.htmlEncode(item);
-        html[idx++] = "</td>";
+    if (item[ZaCRMadmin.A_leadClassStatus] == true) {
+        var image = AjxImg.getImageHtml("Check");
+    } else if (item[ZaCRMadmin.A_leadClassStatus] == false) {
+        var image = AjxImg.getImageHtml("Delete");
     }
-
+    if (item[ZaCRMadmin.A_stageType] == 0) {
+        var type = "Lead";
+    } else if (item[ZaCRMadmin.A_stageType] == 1) {
+        var type = "Opportunity";
+    }
+    if (item[ZaCRMadmin.A_stageAuto] == true) {
+        var auto = AjxImg.getImageHtml("Check");
+    } else {
+        var auto = AjxImg.getImageHtml("Delete");
+    }
+    var dataArray = {item: item, headerList: this._headerList, checkImage: image, type: type, auto: auto};
+    var idx = 0;
+    html[idx++] = AjxTemplate.expand("biz_vnc_crm_admin.templates.ListView#listViewStart");
+    if (this._headerList) {
+        html[idx++] = AjxTemplate.expand("biz_vnc_crm_admin.templates.ListView#stageListViewEnd",dataArray);
+    }
     html[idx++] = "</tr></table>";
     div.innerHTML = html.join("");
     return div;

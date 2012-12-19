@@ -1,0 +1,340 @@
+<template id="listViewStart">
+    <table border='0' width='100%' cellspacing='0' cellpadding='0'>
+    <tr>
+</template>
+
+<template id="categoryListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_sales_team_id] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryCreateddate] $>
+    </td>
+	
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_categoryWritedate] $>
+    </td>
+</template>
+
+<template id="companyListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width$>">
+        <$=data.item[ZaCRMadmin.A_companyId] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyName] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyAddress] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyPhone] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyFax] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyEmail] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.checkImage $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyCreatedby] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[8]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyCreateddate] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[9]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyWriteby] $>
+    </td>
+    <td align=left height=20px width="<$=data.headerList[10]._width $>">
+        <$=data.item[ZaCRMadmin.A_companyWritedate] $>
+    </td>
+</template>
+
+<template id="countryListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryCode] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.item[ZaCRMadmin.A_countryWritedate] $>
+    </td>
+</template>
+
+<template id="leadClassListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_leadClassWritedate] $>
+    </td>
+</template>
+
+<template id="stageListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageSequence] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.type $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageState] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageProbability] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageDescription] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.auto $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[8]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[9]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[10]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[11]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[12]._width $>">
+        <$=data.item[ZaCRMadmin.A_stageWritedate] $>
+    </td>
+</template>
+
+<template id="channelListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_channelWritedate] $>
+    </td>
+</template>
+
+<template id="stateListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateCode] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateCountryName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[8]._width $>">
+        <$=data.item[ZaCRMadmin.A_stateWritedate] $>
+    </td>
+</template>
+
+<template id="priorityListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityCode] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.item[ZaCRMadmin.A_priorityWritedate] $>
+    </td>
+</template>
+
+<template id="sectionListViewEnd">
+    <td align=left height=20px width="<$=data.headerList[0]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[1]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionName] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[2]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionCode] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[3]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionManagerId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[4]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionLeaderId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[5]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionWatcherId] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[6]._width $>">
+        <$=data.checkImage $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[7]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionCreatedby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[8]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionCreateddate] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[9]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionWriteby] $>
+    </td>
+
+    <td align=left height=20px width="<$=data.headerList[10]._width $>">
+        <$=data.item[ZaCRMadmin.A_sectionWritedate] $>
+    </td>
+</template>

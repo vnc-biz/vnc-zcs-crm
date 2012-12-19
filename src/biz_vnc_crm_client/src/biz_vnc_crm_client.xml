@@ -3,6 +3,9 @@
 	<include>templates/SimpleOpportunity.template.js</include>
 	<include>templates/LeadForm.template.js</include>
 	<include>templates/OpportunityForm.template.js</include>
+	<include>templates/AttachTask.template.js</include>
+	<include>templates/AttachAppointment.template.js</include>
+	<include>templates/AttachMail.template.js</include>
 	<include>ext-all.js</include>
 	<include>json-minified.js</include>
 	<include>examples.js</include>
