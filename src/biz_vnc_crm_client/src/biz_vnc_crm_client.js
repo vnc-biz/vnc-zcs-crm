@@ -139,6 +139,7 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
                 text: biz_vnc_crm_client.lead_window_title
             });
         }
+        menu.addPopupListener(new AjxListener(this, biz_vnc_crm_client.onRightClick, [controller, menu]));
         if (toolbar.getOp(biz_vnc_crm_client.lead_window_title)) {
             return;
         }
@@ -163,6 +164,12 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
         ((!biz_vnc_crm_client.ZIMBRA8) && (view == "CNS")) ||
         (( biz_vnc_crm_client.ZIMBRA8) && (view == "CNS" || view == "CNS-main"))
         ) {
+        if (biz_vnc_crm_client.ZIMBRA8) {
+            /* Zimbra 8 */
+            controller = AjxDispatcher.run("GetContactListController");
+            toolbar = controller.getCurrentToolbar();
+            controller._initializeActionMenu();
+        }
         var menu = controller.getActionMenu();
         if (!menu.getMenuItem(biz_vnc_crm_client.crmclient_label)) {
             menu.createMenuItem(biz_vnc_crm_client.crmclient_label, {
@@ -202,7 +209,7 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
                 text: biz_vnc_crm_client.lead_window_title
             });
         }
-        menu.addPopupListener(new AjxListener(this, biz_vnc_crm_client.onRightClickCal, [controller, menu]));
+        menu.addPopupListener(new AjxListener(this, biz_vnc_crm_client.onRightClick, [controller, menu]));
         if (toolbar.getOp(biz_vnc_crm_client.lead_window_title)) {
             return;
         }
@@ -258,21 +265,17 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
 };
 
 biz_vnc_crm_client.onRightClick = function (controller, actionMenu) {
-    var selected = controller.getCurrentView().getDnDSelection();
+    if(biz_vnc_crm_client.ZIMBRA8) {
+        /* Zimbra 8 */
+        var selected = controller.getSelection();
+    } else {
+        /* Zimbra 7 */
+        var selected = controller.getCurrentView().getDnDSelection();
+    }
     selected = (selected instanceof Array) ? selected : [selected];
     selected = selected.length;
     // default behaviour is disable for more than one, changed here
     actionMenu.enable([biz_vnc_crm_client.crmclient_label], selected > 0);
-
-};
-
-biz_vnc_crm_client.onRightClickCal = function (controller, actionMenu) {
-    var selected = controller.getCurrentView().getSelection();
-    selected = (selected instanceof Array) ? selected : [selected];
-    selected = selected.length;
-    // default behaviour is disable for more than one, changed here
-    actionMenu.enable([biz_vnc_crm_client.crmclient_label], selected > 0);
-
 };
 
 // ---- Tool Tip begins ---------------------------------------------------------------------------------
@@ -6248,7 +6251,13 @@ biz_vnc_crm_client.requestApptList = function (msgArray) {
  */
 
 biz_vnc_crm_client_HandlerObject.prototype.appActive = function (appName, active) {
-    appCtxt.getAppViewMgr()._isTransient[appName] = false;
+    if(biz_vnc_crm_client.ZIMBRA8) {
+        /* Zimbra 8 */
+        appCtxt.getAppViewMgr()._view[appName].isTransient = false;
+    } else {
+        /* Zimbra 7 */
+        appCtxt.getAppViewMgr()._isTransient[appName] = false;
+    }
     switch (appName) {
     case this._tabAppName:
         {

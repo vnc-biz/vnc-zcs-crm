@@ -42,16 +42,35 @@ if (biz_vnc_crm_admin.ZIMBRA8) {
     Adding node to tree in Admin UI
 */
 biz_vnc_crm_admin.versionCheckTreeModifier = function (tree) {
-    if (ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.BACKUP_VIEW] || ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.CARTE_BLANCHE_UI]) {
-        this._crmTi = new DwtTreeItem({
-            parent: this._toolsTi,
-            className: "AdminTreeItem"
-        });
-        this._crmTi.setText(biz_vnc_crm_admin.CRM_tab_title);
-        this._crmTi.setImage("Zimlet");
-        this._crmTi.setData(ZaOverviewPanelController._TID, ZaZimbraAdmin._CRM_ADMIN_VIEW);
-        if (ZaOverviewPanelController.overviewTreeListeners) {
-            ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;
+    if (!biz_vnc_crm_admin.ZIMBRA8) {
+        /* Zimbra 7 */
+        if (ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.BACKUP_VIEW] || ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.CARTE_BLANCHE_UI]) {
+            this._crmTi = new DwtTreeItem({
+                parent: this._toolsTi,
+                className: "AdminTreeItem"
+            });
+            this._crmTi.setText(biz_vnc_crm_admin.CRM_tab_title);
+            this._crmTi.setImage("Zimlet");
+            this._crmTi.setData(ZaOverviewPanelController._TID, ZaZimbraAdmin._CRM_ADMIN_VIEW);
+            if (ZaOverviewPanelController.overviewTreeListeners) {
+                ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;
+            }
+        } 
+    } else {
+        /* Zimbra 8 */
+        var overviewPanelController = this ;
+        if (!overviewPanelController) throw new Exception("ZaClientUploader.versionCheckTreeModifier: Overview Panel Controller is not set.");
+        if (ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.BACKUP_VIEW] || ZaSettings.ENABLED_UI_COMPONENTS[ZaSettings.CARTE_BLANCHE_UI]) {
+            var parentPath = ZaTree.getPathByArray([ZaMsg.OVP_home, ZaMsg.OVP_toolMig]);
+            var ti = new ZaTreeItemData({
+                parent:parentPath,
+                id:ZaId.getTreeItemId(ZaId.PANEL_APP,"magHV",null, "VNCCRMHV"),
+                text: biz_vnc_crm_admin.CRM_tab_title,
+                mappingId: ZaZimbraAdmin._CRM_ADMIN_VIEW});
+    	        tree.addTreeItemData(ti);
+            if (ZaOverviewPanelController.overviewTreeListeners) {
+                ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;
+            }
         }
     }
 }
