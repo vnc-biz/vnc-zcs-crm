@@ -3825,6 +3825,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 Ext.getCmp('cmbpartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
+                        biz_vnc_crm_client.selectedPartnerName = Ext.getCmp('cmbpartner').getValue();
                     }
                 });
                 Ext.getCmp('cmbstage').getStore().load({
