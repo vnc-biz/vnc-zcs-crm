@@ -195,10 +195,11 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where userId = ?;" ;
+		String query = "select * from tbl_crm_lead where status = ? and userId = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
-			preparedStatement.setString(1, username);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setString(2, username);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in LeadHelper", e);
 		}
