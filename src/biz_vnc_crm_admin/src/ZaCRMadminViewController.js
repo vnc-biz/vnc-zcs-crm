@@ -32,6 +32,8 @@ ZaCRMadminViewController.prototype.constructor = ZaCRMadminViewController;
 ZaController.setViewMethods["ZaCRMadminViewController"] = [];
 
 ZaCRMadminViewController.setViewMethod = function (entry) {
+    AjxPackage.require("vnc.json.json2");
+    AjxPackage.require("vnc.json.json-minified");
     if(biz_vnc_crm_admin.ZIMBRA8) {
         /* Zimbra 8 */
         if (!this._UICreated) {
