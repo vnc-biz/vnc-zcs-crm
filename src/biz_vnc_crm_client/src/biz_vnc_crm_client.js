@@ -44,6 +44,10 @@ biz_vnc_crm_client.ZIMBRA8 = false;
 
 biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, controller, view) {
 
+    AjxPackage.require("vnc.json.json-minified");
+    AjxPackage.require("vnc.extjs.ext-all");
+    AjxPackage.require("vnc.extjs.bootstrap");
+    AjxPackage.require("vnc.extjs.examples");
     // FIX ME: need to add zimbra version detection here
 
     if (biz_vnc_crm_client.ZIMBRA8) {
