@@ -142,30 +142,36 @@ ZmDashboardView.dashboard = function (app) {
         date = oppData[i].createDate;
         date = date.split(" ");
         month = AjxDateFormat.parse("yyyy-MM-dd", date[0]).getMonth();
+        var expectedValue = oppData[i].valuation;
+        if(expectedValue == "") {
+            expectedValue = 0;
+        } else {
+            expectedValue = parseInt(expectedValue);
+        }
         if (month === 0) {
-            jan += parseInt(oppData[i].valuation);
+            jan += expectedValue;
         } else if (month == 1) {
-            feb += parseInt(oppData[i].valuation);
+            feb += expectedValue;
         } else if (month == 2) {
-            march += parseInt(oppData[i].valuation);
+            march += expectedValue;
         } else if (month == 3) {
-            april += parseInt(oppData[i].valuation);
+            april += expectedValue;
         } else if (month == 4) {
-            may += parseInt(oppData[i].valuation);
+            may += expectedValue;
         } else if (month == 5) {
-            jun += parseInt(oppData[i].valuation);
+            jun += expectedValue;
         } else if (month == 6) {
-            jul += parseInt(oppData[i].valuation);
+            jul += expectedValue;
         } else if (month == 7) {
-            aug += parseInt(oppData[i].valuation);
+            aug += expectedValue;
         } else if (month == 8) {
-            sep += parseInt(oppData[i].valuation);
+            sep += expectedValue;
         } else if (month == 9) {
-            oct += parseInt(oppData[i].valuation);
+            oct += expectedValue;
         } else if (month == 10) {
-            nov += parseInt(oppData[i].valuation);
+            nov += expectedValue;
         } else if (month == 11) {
-            dec += parseInt(oppData[i].valuation);
+            dec += expectedValue;
         }
     }
 
