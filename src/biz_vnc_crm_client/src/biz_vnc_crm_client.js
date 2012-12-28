@@ -39,8 +39,11 @@ biz_vnc_crm_client_HandlerObject.prototype.constructor = biz_vnc_crm_client_Hand
  */
 biz_vnc_crm_client._app = null;
 
-/* FIX ME: should be automatically detected instead of hardcoded */
-biz_vnc_crm_client.ZIMBRA8 = false;
+if(ZmCsfeCommand.clientVersion.substring(0,1) == "7") {
+    biz_vnc_crm_client.ZIMBRA8 = false;
+} else {
+    biz_vnc_crm_client.ZIMBRA8 = true;
+}
 
 biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, controller, view) {
 

@@ -24,8 +24,11 @@ function biz_vnc_crm_admin() {}
 
 ZaZimbraAdmin._CRM_ADMIN_VIEW = ZaZimbraAdmin.VIEW_INDEX++;
 
-/* FIXME: add automtic zimbra version detection here */
-biz_vnc_crm_admin.ZIMBRA8 = false;
+if(ZaServerVersionInfo.version.substring(0,1) == "7") {
+    biz_vnc_crm_admin.ZIMBRA8 = false;
+} else {
+    biz_vnc_crm_admin.ZIMBRA8 = true;
+}
 
 /* initialize zimbra-specific data */
 if (biz_vnc_crm_admin.ZIMBRA8) {
