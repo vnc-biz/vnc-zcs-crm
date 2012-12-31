@@ -477,7 +477,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                 layout: 'anchor',
                 items: [{
                     xtype: 'textfield',
-                    fieldLabel: biz_vnc_crm_client.subject,
+                    fieldLabel: '<font color="red" size="2">* </font>' + biz_vnc_crm_client.subject,
                     id: 'txtleadsubjectName',
                     allowBlank: false,
                     anchor: '95%',

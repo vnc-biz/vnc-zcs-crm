@@ -372,7 +372,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 items: [{
                     xtype: 'textfield',
                     id: 'txtOppOpportunity',
-                    fieldLabel: biz_vnc_crm_client.opportunity,
+                    fieldLabel: '<font color="red" size="2">* </font>' + biz_vnc_crm_client.opportunity,
                     allowBlank: false,
                     anchor: '95%',
                     maxLength: 128
