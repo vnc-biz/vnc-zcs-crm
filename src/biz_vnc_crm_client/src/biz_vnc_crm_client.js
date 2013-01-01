@@ -272,13 +272,7 @@ biz_vnc_crm_client_HandlerObject.prototype.initializeToolbar = function (app, to
 };
 
 biz_vnc_crm_client.onRightClick = function (controller, actionMenu) {
-    if(biz_vnc_crm_client.ZIMBRA8) {
-        /* Zimbra 8 */
-        var selected = controller.getSelection();
-    } else {
-        /* Zimbra 7 */
-        var selected = controller.getCurrentView().getDnDSelection();
-    }
+    var selected = controller.getSelection();
     selected = (selected instanceof Array) ? selected : [selected];
     selected = selected.length;
     // default behaviour is disable for more than one, changed here
