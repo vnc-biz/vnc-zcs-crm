@@ -265,7 +265,7 @@ ZmReportView.createForm = function(app) {
             flex: 1,
             sortable: true,
             hideable: false,
-            width: 150,
+            width: 200,
             dataIndex: 'subjectName',
             tdCls: 'biz_vnc_crm_client_leadOpp',
             summaryType: 'count',
@@ -273,13 +273,36 @@ ZmReportView.createForm = function(app) {
                 return ((value === 0 || value > 1) ? '(' + value + ' Records)' : '(1 Record)');
             }
         }, {
+            header: biz_vnc_crm_client.reportType,
+            width: 100,
+            dataIndex: 'type',
+            sortable: true,
+            renderer: function(value) {
+                return ((value == "0") ? 'Lead' : 'Opportunity');
+            }
+        }, {
+            header: biz_vnc_crm_client.salesman,
+            width: 150,
+            dataIndex: 'userId',
+            sortable: true
+        }, {
             header: biz_vnc_crm_client.customer,
             width: 150,
             dataIndex: 'contactName',
             sortable: true
         }, {
+            header: biz_vnc_crm_client.stage,
+            width: 100,
+            dataIndex: 'stageName',
+            sortable: true
+        }, {
+            header: biz_vnc_crm_client.leadState,
+            width: 100,
+            dataIndex: 'leadState',
+            sortable: true
+        }, {
             header: biz_vnc_crm_client.expectedRevenue,
-            width: 150,
+            width: 100,
             dataIndex: 'valuation',
             sortable: true,
             summaryType: 'sum',
@@ -288,7 +311,7 @@ ZmReportView.createForm = function(app) {
             }
         }, {
             header: biz_vnc_crm_client.probability,
-               width: 150,
+            width: 100,
             dataIndex: 'probability',
             sortable: true,
             summaryType: 'average',
@@ -298,7 +321,7 @@ ZmReportView.createForm = function(app) {
             }
         }, {
             header: biz_vnc_crm_client.reportDayOpen,
-            width: 150,
+            width: 100,
             dataIndex: 'dayOpen',
             sortable: true,
             summaryType: 'max',
@@ -307,7 +330,7 @@ ZmReportView.createForm = function(app) {
             }
         }, {
             header: biz_vnc_crm_client.reportDayClose,
-            width: 150,
+            width: 100,
             dataIndex: 'dayClose',
             sortable: true,
             summaryType: 'max',
