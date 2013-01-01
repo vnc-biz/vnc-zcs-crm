@@ -50,7 +50,7 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.showMe = function () {
         parent: this
     });
     button.setText(biz_vnc_crm_client.search);
-    button.addSelectionListener(new AjxListener(this, this.search_appt));
+    button.addSelectionListener(new AjxListener(this, this.search_appt, false));
     document.getElementById(this.crm_apt_search_button_id).appendChild(button.getHtmlElement());
 
     var listHeaders = [];
@@ -87,6 +87,7 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.showMe = function () {
     this.searchResult.setUI(null, true); // renders headers and empty list
     this.searchResult._initialized = true;
     this._isLoaded = true;
+    this.search_appt(true);
 }
 
 var CRMAppointmentListView = function (params) {
@@ -115,9 +116,16 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype._createErView = function (
     this.getContentHtmlElement().innerHTML = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachAppointment#AttachApptData",dataArray);
 };
 
-biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function () {
-    var start_date = document.getElementById(this.crm_apt_start_date_id).value;
-    var end_date = document.getElementById(this.crm_apt_end_date_id).value;
+biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function (initFlagForAppt) {
+    if (initFlagForAppt) {
+        var end_date = new Date().getTime();
+        var start_date = end_date - 31622400000;
+        start_date = (new Date(start_date).getMonth()+1) + "/" + new Date(start_date).getDay() + "/" + new Date(start_date).getFullYear();
+        end_date = (new Date(end_date).getMonth()+1) + "/" + new Date(end_date).getDay() + "/" + new Date(end_date).getFullYear();
+    } else {
+        var start_date = document.getElementById(this.crm_apt_start_date_id).value;
+        var end_date = document.getElementById(this.crm_apt_end_date_id).value;
+    }
     if (start_date.trim() == "") {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_start_date_msg);
         return;
