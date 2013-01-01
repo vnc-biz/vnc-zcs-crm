@@ -494,6 +494,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     displayField: 'sectionName',
                     valueField: 'sectionId',
                     queryMode: 'local',
+                    value: Ext.getCmp('cmbsection').getStore().data.first(),
                     store: Ext.create('Ext.data.Store', {
                         model: 'section',
                         proxy: {
@@ -556,7 +557,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     displayField: 'priorityName',
                     valueField: 'priorityId',
                     queryMode: 'local',
-                    autoSelect: true,
+                    value: Ext.getCmp('cmbpriority').getStore().data.first(),
                     store: Ext.create('Ext.data.Store', {
                         model: 'priority',
                         proxy: {
@@ -690,12 +691,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             read: 'POST'
                         }
                     }),
-                    queryMode: 'local',
-                    listConfig: {
-                        getInnerTpl: function () {
-                            return '<div data-qtip="{label}. {name}">{label}</div>';
-                        }
-                    },
                     anchor: '95%'
                 }]
             }, {
@@ -2038,5 +2033,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('dateupdatedate').setValue(rec.get('writeDate'));
         Ext.getCmp('dateopened').setValue(rec.get('dateOpen'));
         Ext.getCmp('dateclosed').setValue(rec.get('dateClose'));
+    } else {
+        Ext.getCmp('cmbsalesman').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbsalesman').setValue(appCtxt.getUsername());
+            }
+        });
     }
 };
