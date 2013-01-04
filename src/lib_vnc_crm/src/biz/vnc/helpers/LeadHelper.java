@@ -40,6 +40,7 @@ import biz.vnc.util.Limits;
 import biz.vnc.zimbra.util.MailDump;
 import biz.vnc.zimbra.util.ZLog;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AuthTokenException;
@@ -48,14 +49,17 @@ import com.zimbra.cs.account.soap.SoapProvisioning.Options;
 import com.zimbra.cs.account.ZimbraAuthToken;
 import com.zimbra.cs.zclient.ZMailbox;
 import com.zimbra.cs.zclient.ZMessage;
-import java.text.SimpleDateFormat;
+import com.zimbra.cs.zclient.ZSearchHit;
+import com.zimbra.cs.zclient.ZSearchParams;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Vector;
 
 public class LeadHelper implements InterfaceHelper {
@@ -566,7 +570,6 @@ for(String messageId : str) {
 		return sb.toString();
 	}
 
-
 	@Override
 	public int deleteHistory(String array,String leadId) {
 		String query = "delete from tbl_crm_lead_mailHistory where leadId = ? and messageId IN (" + array + ");";
@@ -581,14 +584,15 @@ for(String messageId : str) {
 	}
 
 	@Override
-	public int addAppointment(String array, String leadId) {
+	public int addAppointment(String array, String leadId, String userId) {
 		String[] str = array.split(",");
 for(String appointmentId : str) {
-			String query = "insert into tbl_crm_lead_calendar values (?,?);";
+			String query = "insert into tbl_crm_lead_calendar values (?,?,?);";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
 				preparedStatement.setString(2, appointmentId);
+				preparedStatement.setString(3, userId);
 			} catch (SQLException e) {
 				ZLog.err("VNC CRM for Zimbra", "Error in addAppointment in LeadHelper", e);
 			}
@@ -599,7 +603,7 @@ for(String appointmentId : str) {
 
 	@Override
 	public String listAppointment(String leadId) {
-		String query = "select appointmentId from tbl_crm_lead_calendar where leadId = ?;";
+		String query = "select userId, GROUP_CONCAT(appointmentid SEPARATOR ',') as appointmentid from tbl_crm_lead_calendar where leadId = ? GROUP BY userId;";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -607,25 +611,42 @@ for(String appointmentId : str) {
 			ZLog.err("VNC CRM for Zimbra", "Error in list appointment in LeadHelper", e);
 		}
 		ResultSet rs = dbu.select(preparedStatement);
-		String str;
-		String msgArray = null;
+		String AllResult = "[";
 		try {
+			Account account = null;
+			Options options = new Options();
+			options.setLocalConfigAuth(true);
+			SoapProvisioning provisioning = new SoapProvisioning(options);
+			JsonObject resultData = new JsonObject();
 			while(rs.next()) {
-				str = rs.getString("appointmentId");
-				if(msgArray == null) {
-					msgArray = str;
-				} else
-					msgArray = msgArray + "," + str;
+				account = provisioning.getAccount(rs.getString("userId"));
+				ZimbraAuthToken authToken = new ZimbraAuthToken(account);
+				String eAuthToken = authToken.getEncoded();
+				ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
+				ZSearchParams searchParam = new ZSearchParams("item:"+rs.getString("appointmentid"));
+				searchParam.setTypes(ZSearchParams.TYPE_APPOINTMENT);
+				searchParam.setTimeZone(TimeZone.getDefault());
+				List<ZSearchHit> result = mailbox.search(searchParam).getHits();
+for(ZSearchHit appt : result) {
+					AllResult += appt.toZJSONObject().put("organizer", rs.getString("userId")).toString() +",";
+				}
 			}
+			AllResult = AllResult.substring(0,AllResult.length()-1)+"]";
+		} catch (ServiceException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (AuthTokenException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (Exception e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return msgArray;
+		return AllResult;
 	}
 
 	@Override
 	public int deleteAppointment(String array,String leadId) {
-		String query = "delete from tbl_crm_lead_calendar where leadId = ? and appointmentId IN (" + array + ");";
+		String query = "delete from tbl_crm_lead_calendar where leadId = ? and appointmentId IN (" + array + "); ";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -640,7 +661,7 @@ for(String appointmentId : str) {
 	public int addTask(String array, String leadId) {
 		String[] str = array.split(",");
 for(String taskId : str) {
-			String query = "insert into tbl_crm_lead_task values (?,?);";
+			String query = "insert into tbl_crm_lead_task values (?,?); ";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
@@ -655,7 +676,7 @@ for(String taskId : str) {
 
 	@Override
 	public String listTask(String leadId) {
-		String query = "select taskId from tbl_crm_lead_task where leadId = ?;";
+		String query = "select taskId from tbl_crm_lead_task where leadId = ?; ";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -681,7 +702,7 @@ for(String taskId : str) {
 
 	@Override
 	public int deleteTask(String array,String leadId) {
-		String query = "delete from tbl_crm_lead_task where leadId = ? and taskId IN (" + array + ");";
+		String query = "delete from tbl_crm_lead_task where leadId = ? and taskId IN (" + array + "); ";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -704,7 +725,7 @@ for(String taskId : str) {
 	@Override
 	public String listSharedItems(String leadId) {
 		List<SharedItemBean> returnValue = new ArrayList<SharedItemBean>();
-		String query = "select * from tbl_crm_share where leadId = ?;";
+		String query = "select * from tbl_crm_share where leadId = ?; ";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -732,7 +753,7 @@ for(String taskId : str) {
 		String[] users = userArray.split(",");
 		String[] wAccess = accessArray.split(",");
 		for(int i = 0; i<users.length; i++) {
-			String query = "insert into tbl_crm_share values (?,?,?);";
+			String query = "insert into tbl_crm_share values (?,?,?); ";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
@@ -748,7 +769,7 @@ for(String taskId : str) {
 
 	@Override
 	public int deleteSharedItems(String leadId) {
-		String query = "delete from tbl_crm_share where leadId = ?;";
+		String query = "delete from tbl_crm_share where leadId = ?; ";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);

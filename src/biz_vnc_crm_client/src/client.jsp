@@ -191,7 +191,8 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.addAppointment(array,leadId);
+			String userId = k.get("userId").getAsString();
+			operationStatus = interfaceHelper.addAppointment(array,leadId,userId);
 			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in cal history", e);

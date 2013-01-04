@@ -1242,17 +1242,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                        var msgArray = [];
-                                        var item;
-                                        var msgArray = (responseMailHistory.text).split(",");
-                                        if (msgArray != "null") {
-                                            biz_vnc_crm_client.requestApptList(msgArray);
-                                        } else {
-                                            biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
-                                        }
-                                        Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
-                                        Ext.getCmp('leadApptGrid').getView().refresh();
+                                        biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
                                         Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
                                     }
                                 }
@@ -1276,17 +1266,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                var msgArray = [];
-                                var item;
-                                var msgArray = (responseMailHistory.text).split(",");
-                                if (msgArray != "null") {
-                                    biz_vnc_crm_client.requestApptList(msgArray);
-                                } else {
-                                    biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
-                                }
-                                Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
-                                Ext.getCmp('leadApptGrid').getView().refresh();
+                                biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
                             }
                         }
                     }]
@@ -1670,17 +1650,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadApptGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                            var msgArray = [];
-                            var item;
-                            var msgArray = (responseMailHistory.text).split(",");
-                            if (msgArray != "null") {
-                                biz_vnc_crm_client.requestApptList(msgArray);
-                                Ext.getCmp('leadApptGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.apptData), false);
-                                Ext.getCmp('leadApptGrid').getView().refresh();
-                            } else {
-                                biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
-                            }
+                            biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
                         }
                     } else if (tab.id == 'leadTask') {
                         if (rec != null) {

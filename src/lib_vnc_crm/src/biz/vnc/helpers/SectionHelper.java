@@ -330,7 +330,7 @@ public class SectionHelper implements InterfaceHelper {
 	}
 
 	@Override
-	public int addAppointment(String array, String leadId) {
+	public int addAppointment(String array, String leadId, String userId) {
 		return 0;
 	}
 

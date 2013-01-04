@@ -530,14 +530,15 @@ for(String messageId : str) {
 	}
 
 	@Override
-	public int addAppointment(String array, String leadId) {
+	public int addAppointment(String array, String leadId, String userId) {
 		String[] str = array.split(",");
 for(String appointmentId : str) {
-			String query = "insert into tbl_crm_lead_calendar values (?,?);";
+			String query = "insert into tbl_crm_lead_calendar values (?,?,?);";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
 				preparedStatement.setString(2, appointmentId);
+				preparedStatement.setString(3, userId);
 			} catch (SQLException e) {
 				ZLog.err("VNC CRM for Zimbra", "Error in addAppointment in OpportunityHelper", e);
 			}

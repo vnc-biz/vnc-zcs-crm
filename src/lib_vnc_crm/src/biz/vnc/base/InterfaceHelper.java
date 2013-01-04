@@ -44,7 +44,7 @@ public interface InterfaceHelper {
 	public int addHistory(String array, String leadId, String userId);
 	public String listHistory(String leadId);
 	public int deleteHistory(String array,String leadId);
-	public int addAppointment(String array, String leadId);
+	public int addAppointment(String array, String leadId, String userId);
 	public String listAppointment(String leadId);
 	public int deleteAppointment(String array,String leadId);
 	public int addTask(String array, String leadId);

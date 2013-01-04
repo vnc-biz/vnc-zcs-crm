@@ -199,3 +199,7 @@ leadId Integer REFERENCES tbl_crm_lead(leadId),
 userId varchar(255),
 writeAccess Boolean
 );
+
+ALTER TABLE tbl_crm_lead_mailHistory ADD COLUMN userId varchar(255);
+ALTER TABLE tbl_crm_lead_calendar ADD COLUMN userId varchar(255);
+

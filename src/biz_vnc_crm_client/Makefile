@@ -8,6 +8,7 @@ JSP_BUILD_JARS=\
 	$(ZIMBRA_BUILD_ROOT)/lib/jars/zcs-lib-vnc-common.jar	\
 	$(ZIMBRA_BUILD_ROOT)/lib/jars/zcs-lib-vnc-pro.jar	\
 	$(ZIMBRA_BUILD_ROOT)/lib/jars/zimbrastore.jar	\
+	$(ZIMBRA_BUILD_ROOT)/lib/jars/json.jar	\
 	$(ZIMBRA_BUILD_ROOT)/lib/jars/zimbracommon.jar
 
 include $(TOPDIR)/common.mk
