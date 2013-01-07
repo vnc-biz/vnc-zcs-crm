@@ -201,7 +201,8 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.addTask(array,leadId);
+			String userId = k.get("userId").getAsString();
+			operationStatus = interfaceHelper.addTask(array,leadId,userId);
 			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in task history", e);

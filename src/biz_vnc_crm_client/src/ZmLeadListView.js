@@ -340,23 +340,33 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     Ext.define('taskModel', {
         extend: 'Ext.data.Model',
         fields: [{
-            name: 'taskId',
+            name: 'inviteId',
             type: 'string'
         }, {
-            name: 'subject',
+            name: 'name',
             type: 'string'
         }, {
             name: 'status',
             type: 'string'
         }, {
-            name: 'complete',
+            name: 'percentComplete',
             type: 'string'
         }, {
-            name: 'dueDate',
+            name: 'startTime',
             type: 'date'
-        }
-
-        ]
+        }, {
+            name: 'location',
+            type: 'string'
+        }, {
+            name: 'organizer',
+            type: 'string'
+        }, {
+            name: 'priority',
+            type: 'string'
+        }, {
+            name: 'fragment',
+            type: 'string'
+        }]
     });
 
     Ext.define('contact1', {
@@ -412,22 +422,37 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     Ext.define('leadApptModel', {
         extend: 'Ext.data.Model',
         fields: [{
-            name: 'appointmentId',
+            name: 'inviteId',
             type: 'string'
         }, {
-            name: 'subject',
+            name: 'name',
             type: 'string'
         }, {
-            name: 'location1',
+            name: 'organizer',
+            type: 'string'
+        }, {
+            name: 'location',
             type: 'string'
         }, {
             name: 'status',
             type: 'string'
         }, {
-            name: 'calendar',
+            name: 'folderId',
             type: 'string'
         }, {
-            name: 'startdate',
+            name: 'startTime',
+            type: 'long'
+        }, {
+            name: 'freeBusyActual',
+            type: 'string'
+        }, {
+            name: 'allDay',
+            type: 'string'
+        }, {
+            name: 'alarm',
+            type: 'string'
+        }, {
+            name: 'fragment',
             type: 'string'
         }]
     });
@@ -1236,7 +1261,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
 
-                                        idArray.push("'" + item.data.appointmentId + "'");
+                                        idArray.push("'" + item.data.inviteId + "'");
                                     });
                                     var leadId = rec.get('leadId')
                                     var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
@@ -1295,23 +1320,20 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 400,
-                        dataIndex: 'subject'
+                        dataIndex: 'name'
                     }, {
                         text: biz_vnc_crm_client.locations,
                         sortable: false,
                         width: 250,
-                        dataIndex: 'location1'
-                    },{
-                        text: biz_vnc_crm_client.calendar,
-                        width: 100,
-                        sortable: true,
-                        dataIndex: 'calendar'
+                        dataIndex: 'location'
                     }, {
                         text: biz_vnc_crm_client.start_date,
                         sortable: false,
                         width: 200,
-                        dataIndex: 'startdate',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'startTime',
+                        renderer: function(value) {
+                            return new Date(value).toUTCString();
+                        }
                     }],
                     title: null,
                     viewConfig: {
@@ -1321,8 +1343,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         el: {
                             dblclick: function(){
                                 var rec = Ext.getCmp('leadApptGrid').getSelectionModel().selected;
-                                var apptId = rec.items[0].data.appointmentId;
-                                biz_vnc_crm_client.viewApptDetails(apptId);
+                                biz_vnc_crm_client.viewApptDetails(rec);
                             }
                         }
                     }
@@ -1361,52 +1382,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     var rec1 = Ext.getCmp('leadTaskGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
-                                        idArray.push("'" + item.data.taskId + "'");
+                                        idArray.push("'" + item.data.inviteId + "'");
                                     });
                                     var leadId = rec.get('leadId');
                                     var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
 
                                     if (rec != null) {
                                         var leadId = rec.get('leadId');
-                                        var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                        var newtaskArray = (responseTaskList.text).split(",");
-
-                                        var allTask = appCtxt.getTaskManager()._rawTasks;
-
-                                        var taskArray = [];
-                                        if (newtaskArray != null) {
-
-                                            var k = 0;
-                                            for (var i = 0; i < allTask.length; i++) {
-                                                for (var j = 0; j < newtaskArray.length; j++) {
-                                                    if (allTask[i].invId == newtaskArray[j]) {
-                                                        taskArray[k++] = newtaskArray[j];
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        if (taskArray.length <= 0) {
-                                            leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-                                        } else {
-                                            leadTaskListData = "[";
-                                            var flag = 0;
-                                            for (var i = 0; i < allTask.length; i++) {
-                                                var temp = allTask[i];
-                                                for (var j = 0; j < taskArray.length; j++) {
-                                                    if (temp.invId == taskArray[j]) {
-                                                        if (flag == taskArray.length - 1) {
-                                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-                                                        } else {
-                                                            leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-                                                            flag++;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
                                         Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
-                                        Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
-                                        Ext.getCmp('leadTaskGrid').getView().refresh();
                                     }
                                 }
                             };
@@ -1429,45 +1413,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         handler: function () {
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                                var newtaskArray = (responseTaskList.text).split(",");
-
-                                var allTask = appCtxt.getTaskManager()._rawTasks;
-
-                                var taskArray = [];
-                                if (newtaskArray != null) {
-
-                                    var k = 0;
-                                    for (var i = 0; i < allTask.length; i++) {
-                                        for (var j = 0; j < newtaskArray.length; j++) {
-                                            if (allTask[i].invId == newtaskArray[j]) {
-                                                taskArray[k++] = newtaskArray[j];
-                                            }
-                                        }
-                                    }
-                                }
-                                if (taskArray.length <= 0) {
-                                    leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-                                } else {
-                                    leadTaskListData = "[";
-                                    var flag = 0;
-                                    for (var i = 0; i < allTask.length; i++) {
-                                        var temp = allTask[i];
-                                        for (var j = 0; j < taskArray.length; j++) {
-                                            if (temp.invId == taskArray[j]) {
-                                                if (flag == taskArray.length - 1) {
-                                                    leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-                                                } else {
-                                                    leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-                                                    flag++;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
-                                Ext.getCmp('leadTaskGrid').getView().refresh();
+                                biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
                             }
                         }
                     }]
@@ -1496,7 +1442,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.subject,
                         sortable: false,
                         width: 600,
-                        dataIndex: 'subject'
+                        dataIndex: 'name'
                     }, {
                         text: biz_vnc_crm_client.status,
                         width: 200,
@@ -1506,13 +1452,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.complete,
                         width: 100,
                         sortable: true,
-                        dataIndex: 'complete'
+                        dataIndex: 'percentComplete'
                     }, {
                         text: biz_vnc_crm_client.dueDate,
                         sortable: false,
                         width: 200,
-                        dataIndex: 'dueDate',
-                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
+                        dataIndex: 'startTime',
+                        renderer:  function(value) {
+                            return new Date(value).toUTCString();
+                        }
                     }],
                     title: null,
                     viewConfig: {
@@ -1522,8 +1470,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         el: {
                             dblclick: function(){
                                 var rec = Ext.getCmp('leadTaskGrid').getSelectionModel().selected;
-                                var taskId = rec.items[0].data.taskId;
-                                biz_vnc_crm_client.viewTaskDetails(taskId);
+                                biz_vnc_crm_client.viewTaskDetails(rec);
                             }
                         }
                     }
@@ -1656,44 +1603,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         if (rec != null) {
                             Ext.getCmp('leadTaskGrid').getStore().removeAll();
                             var leadId = rec.get('leadId');
-                            var responseTaskList = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-                            var newtaskArray = (responseTaskList.text).split(",");
-
-                            var allTask = appCtxt.getTaskManager()._rawTasks;
-
-                            var taskArray = [];
-                            if (newtaskArray != null) {
-
-                                var k = 0;
-                                for (var i = 0; i < allTask.length; i++) {
-                                    for (var j = 0; j < newtaskArray.length; j++) {
-                                        if (allTask[i].invId == newtaskArray[j]) {
-                                            taskArray[k++] = newtaskArray[j];
-                                        }
-                                    }
-                                }
-                            }
-                            if (taskArray.length <= 0) {
-                                leadTaskListData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";
-                            } else {
-                                leadTaskListData = "[";
-                                var flag = 0;
-                                for (var i = 0; i < allTask.length; i++) {
-                                    var temp = allTask[i];
-                                    for (var j = 0; j < taskArray.length; j++) {
-                                        if (temp.invId == taskArray[j]) {
-                                            if (flag == taskArray.length - 1) {
-                                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"}]";
-                                            } else {
-                                                leadTaskListData += "{\"taskId\":\"" + temp.invId + "\",\"subject\":\"" + temp.name + "\",\"status\":\"" + ZmCalItem.getLabelForStatus(temp.status) + "\",\"complete\":\"" + temp.percentComplete + "\",\"dueDate\":\"" + new Date(temp.d) + "\"},";
-                                                flag++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            Ext.getCmp('leadTaskGrid').getStore().loadData(jsonParse(leadTaskListData), false);
-                            Ext.getCmp('leadTaskGrid').getView().refresh();
+                            biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
                         }
 
                     } else if (tab.id == 'leadComm') {

@@ -587,14 +587,15 @@ for(String appointmentId : str) {
 	}
 
 	@Override
-	public int addTask(String array, String leadId) {
+	public int addTask(String array, String leadId, String userId) {
 		String[] str = array.split(",");
 for(String taskId : str) {
-			String query = "insert into tbl_crm_lead_task values (?,?);";
+			String query = "insert into tbl_crm_lead_task values (?,?,?);";
 			try {
 				preparedStatement = DBUtility.connection.prepareStatement(query);
 				preparedStatement.setString(1, leadId);
 				preparedStatement.setString(2, taskId);
+				preparedStatement.setString(3, userId);
 			} catch (SQLException e) {
 				ZLog.err("VNC CRM for Zimbra", "Error in addTask in OpportunityHelper", e);
 			}

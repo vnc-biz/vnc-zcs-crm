@@ -47,7 +47,7 @@ public interface InterfaceHelper {
 	public int addAppointment(String array, String leadId, String userId);
 	public String listAppointment(String leadId);
 	public int deleteAppointment(String array,String leadId);
-	public int addTask(String array, String leadId);
+	public int addTask(String array, String leadId, String userId);
 	public String listTask(String leadId);
 	public int deleteTask(String array,String leadId);
 	public int recordCounter();

@@ -298,7 +298,7 @@ public class LeadClassHelper  implements InterfaceHelper {
 	}
 
 	@Override
-	public int addTask(String array, String leadId) {
+	public int addTask(String array, String leadId, String userId) {
 		return 0;
 	}
 

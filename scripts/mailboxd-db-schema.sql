@@ -202,4 +202,4 @@ writeAccess Boolean
 
 ALTER TABLE tbl_crm_lead_mailHistory ADD COLUMN userId varchar(255);
 ALTER TABLE tbl_crm_lead_calendar ADD COLUMN userId varchar(255);
-
+ALTER TABLE tbl_crm_lead_task ADD COLUMN userId varchar(255);
