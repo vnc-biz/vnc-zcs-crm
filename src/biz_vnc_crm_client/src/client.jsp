@@ -47,6 +47,7 @@ try {
 	AbstractBean abstractBean = null;
 	Gson gson = new Gson();
 	String jString = request.getParameter("jsonobj");
+	String us = request.getRemoteUser();
 	JsonObject k  = new JsonParser().parse(jString).getAsJsonObject();
 	String actionType = k.get("action").getAsString();
 	String objectType = k.get("object").getAsString();
@@ -125,8 +126,15 @@ try {
 		}
 	} else if(actionType.equals("UPDATE")) {
 		try {
-			operationStatus = interfaceHelper.update(abstractBean);
-			out.println(operationStatus);
+			String leadId = k.get("leadId").getAsString();
+			String userId = k.get("curUserId").getAsString();
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);	
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.update(abstractBean);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in Update", e);
 		}
@@ -157,8 +165,14 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.deleteHistory(array,leadId);
-			out.println(operationStatus);
+			String userId = k.get("curUserId").getAsString();
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.deleteHistory(array,leadId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in Delete history", e);
 		}
@@ -167,8 +181,13 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			operationStatus = interfaceHelper.addHistory(array,leadId,userId);
-			out.println(operationStatus);
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.addHistory(array,leadId,userId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in history", e);
 		}
@@ -192,8 +211,13 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			operationStatus = interfaceHelper.addAppointment(array,leadId,userId);
-			out.println(operationStatus);
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.addAppointment(array,leadId,userId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in cal history", e);
 		}
@@ -202,8 +226,13 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			operationStatus = interfaceHelper.addTask(array,leadId,userId);
-			out.println(operationStatus);
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.addTask(array,leadId,userId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in task history", e);
 		}
@@ -211,8 +240,14 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.deleteTask(array,leadId);
-			out.println(operationStatus);
+			String userId = k.get("curUserId").getAsString();
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.deleteTask(array,leadId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in delete task", e);
 		}
@@ -253,8 +288,14 @@ try {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
-			operationStatus = interfaceHelper.deleteAppointment(array,leadId);
-			out.println(operationStatus);
+			String userId = k.get("curUserId").getAsString();
+			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
+			if(write == false) {
+				out.println(20);
+			} else {
+				operationStatus = interfaceHelper.deleteAppointment(array,leadId);
+				out.println(operationStatus);
+			}
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in delete appointment", e);
 		}

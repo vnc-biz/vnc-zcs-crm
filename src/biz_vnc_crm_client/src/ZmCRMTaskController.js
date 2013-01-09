@@ -54,16 +54,13 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
     });
     userId = appCtxt.getUsername();
     var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + this.leadId + "\"}");
-    if (response.text == 1) {
+    biz_vnc_crm_client.msgNotification(response.text);
+    if (response.text == 8) {
         if (biz_vnc_crm_client.flag == 0) {
             biz_vnc_crm_client.requestTaskList(this.leadId, "leadTaskGrid");
-            Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
         } else if (biz_vnc_crm_client.flag == 1) {
             biz_vnc_crm_client.requestTaskList(this.leadId, "oppTaskGrid");
-            Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
         }
-    } else {
-        Ext.example.msg('',biz_vnc_crm_client.msgTaskNotAttach);
     }
 }
 

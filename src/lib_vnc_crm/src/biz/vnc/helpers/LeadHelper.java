@@ -37,6 +37,7 @@ import biz.vnc.beans.StageBean;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
+import biz.vnc.util.Notification;
 import biz.vnc.zimbra.util.MailDump;
 import biz.vnc.zimbra.util.ZLog;
 import com.google.gson.Gson;
@@ -127,7 +128,11 @@ public class LeadHelper implements InterfaceHelper {
 			ZLog.err("VNC CRM for Zimbra", "Error in insert operation in LeadHelper", e);
 		}
 		operationStatus = dbu.insert(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.record_saved;
+		} else {
+			return Notification.record_not_saved;
+		}
 	}
 
 	@Override
@@ -178,7 +183,11 @@ public class LeadHelper implements InterfaceHelper {
 			ZLog.err("VNC CRM for Zimbra", "Error in update operation in LeadHelper", e);
 		}
 		operationStatus = dbu.insert(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.record_update;
+		} else {
+			return Notification.record_not_update;
+		}
 	}
 
 	@Override
@@ -192,7 +201,11 @@ public class LeadHelper implements InterfaceHelper {
 			ZLog.err("VNC CRM for Zimbra", "Error in delete operation in LeadHelper", e);
 		}
 		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.record_delete;
+		} else {
+			return Notification.record_not_delete;
+		}
 	}
 
 	@Override
@@ -207,17 +220,23 @@ public class LeadHelper implements InterfaceHelper {
 			ZLog.err("VNC CRM for Zimbra", "Error in deleteByIds in LeadHelper", e);
 		}
 		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.record_delete;
+		} else {
+			return Notification.record_not_delete;
+		}
 	}
 
 	@Override
 	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where status = ? and userId = ?;" ;
+		String query = "select * from tbl_crm_lead where status = ? and userId = ? UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and status = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, username);
+			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in LeadHelper", e);
 		}
@@ -320,12 +339,13 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ?  or leadId IN(select leadId from tbl_crm_share where userId = ?);" ;
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and type = 0 and status = ?;";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
 			preparedStatement.setString(3, username);
+			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -408,12 +428,13 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array, String field, String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ") or leadId IN(select leadId from tbl_crm_share where userId = ?);";
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ") UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and type = 0 and status = ? and " + field + " IN (" + array + ");";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
 			preparedStatement.setString(3, username);
+			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -503,7 +524,11 @@ for(String messageId : str) {
 			}
 			operationStatus = dbu.insert(preparedStatement);
 		}
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.mail_attach;
+		} else {
+			return Notification.mail_not_attach;
+		}
 	}
 
 	@Override
@@ -580,7 +605,11 @@ for(String messageId : str) {
 			ZLog.err("VNC CRM for Zimbra", "Error in deleteHistory in LeadHelper", e);
 		}
 		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.mail_detached;
+		} else {
+			return Notification.mail_not_detached;
+		}
 	}
 
 	@Override
@@ -598,7 +627,11 @@ for(String appointmentId : str) {
 			}
 			operationStatus = dbu.insert(preparedStatement);
 		}
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.appt_attach;
+		} else {
+			return Notification.appt_not_attach;
+		}
 	}
 
 	@Override
@@ -654,7 +687,11 @@ for(ZSearchHit appt : result) {
 			ZLog.err("VNC CRM for Zimbra", "Error in deleteAppointment in LeadHelper", e);
 		}
 		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.appt_detached;
+		} else {
+			return Notification.appt_not_detached;
+		}
 	}
 
 	@Override
@@ -672,7 +709,11 @@ for(String taskId : str) {
 			}
 			operationStatus = dbu.insert(preparedStatement);
 		}
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.task_attach;
+		} else {
+			return Notification.task_not_attach;
+		}
 	}
 
 	@Override
@@ -728,7 +769,11 @@ for(ZSearchHit appt : result) {
 			ZLog.err("VNC CRM for Zimbra", "Error in deleteTask in LeadHelper", e);
 		}
 		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.task_detached;
+		} else {
+			return Notification.task_not_detached;
+		}
 	}
 
 	@Override
@@ -782,7 +827,11 @@ for(ZSearchHit appt : result) {
 			}
 			operationStatus = dbu.insert(preparedStatement);
 		}
-		return operationStatus;
+		if (operationStatus == 1) {
+			return Notification.record_shared;
+		} else {
+			return Notification.record_not_shared;
+		}
 	}
 
 	@Override
@@ -796,5 +845,26 @@ for(ZSearchHit appt : result) {
 		}
 		operationStatus = dbu.delete(preparedStatement);
 		return operationStatus;
+	}
+
+	@Override
+	public boolean checkWriteAccess(String leadId, String userId) {
+		String query = "select writeAccess from tbl_crm_share where leadId = ? AND userId = ?; ";
+		try {
+			preparedStatement = DBUtility.connection.prepareStatement(query);
+			preparedStatement.setString(1, leadId);
+			preparedStatement.setString(2, userId);
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra", "Error in deleteSharedItems in LeadHelper", e);
+		}
+		ResultSet rs = dbu.select(preparedStatement);
+		try {
+			while(rs.next()) {
+				return rs.getBoolean("writeAccess");
+			}
+		} catch (SQLException e) {
+			ZLog.err("VNC CRM for Zimbra","Error listSharedItems result set in Lead Helper Class", e);
+		}
+		return true;
 	}
 }

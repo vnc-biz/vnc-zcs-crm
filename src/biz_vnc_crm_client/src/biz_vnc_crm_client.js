@@ -581,11 +581,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-                                if (response.text == 1) {
-                                    Ext.example.msg('',biz_vnc_crm_client.msgEmailAttach);
-                                } else {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (
                                 /** supporting Z7 as well as Z8 */
@@ -611,11 +607,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + appids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-                                if (response.text == 1) {
-                                    Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
-                                } else {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
                                 var rec = grid.getStore().getAt(rowIndex);
@@ -630,12 +622,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-
-                                if (response.text == 1) {
-                                    Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
-                                } else {
-                                    Ext.example.msg('',biz_vnc_crm_client.msgTaskNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             }
                         }
@@ -737,11 +724,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-                                if (response.text == 1) {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
-                                } else {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (
                                 /** supporting Z7 as well as Z8 */
@@ -767,11 +750,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + appids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-                                if (response.text == 1) {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgApptAttach);
-                                } else {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
                                 var rec = grid.getStore().getAt(rowIndex);
@@ -786,11 +765,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                 var response = biz_vnc_crm_client.rpc(
                                     "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
                                 );
-                                if (response.text == 1) {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskAttach);
-                                } else {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskNotAttach);
-                                }
+                                biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             }
                         }
@@ -1129,28 +1104,30 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                         handler: function (grid, rowIndex, colIndex) {
                             var rec = grid.getStore().getAt(rowIndex);
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
-
                             function showResult(btn) {
                                 if (btn == "yes") {
                                     var name = appCtxt.getUsername();
                                     var didArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"writeBy\":\"" + name + "\"}"
-                                    );
-                                    var count = appCtxt.getCurrentController().getSelection().length;
-                                    var record;
-                                    var idArray = [];
-                                    for (var i = 0; i < count; i++) {
-                                        record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
-                                        idArray.push(record);
+                                    if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                                        Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+                                    } else {
+                                        var response = biz_vnc_crm_client.rpc(
+                                            "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
+                                        );
+                                        biz_vnc_crm_client.msgNotification(response.text);
+                                        var count = appCtxt.getCurrentController().getSelection().length;
+                                        var record;
+                                        var idArray = [];
+                                        for (var i = 0; i < count; i++) {
+                                            record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
+                                            idArray.push(record);
+                                        }
+                                        var contactLeadResponse = biz_vnc_crm_client.rpc(
+                                            "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
+                                        );
+                                        Ext.getCmp('contactOpportunityGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
+                                        Ext.getCmp('contactOpportunityGrid').getView().refresh();
                                     }
-                                    var contactLeadResponse = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-                                    );
-
-                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                    Ext.getCmp('contactOpportunityGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
-                                    Ext.getCmp('contactOpportunityGrid').getView().refresh();
                                 }
                             };
                         }
@@ -1244,23 +1221,27 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                             Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                             function showResult(btn) {
                                 if (btn == "yes") {
-                                    var name = appCtxt.getUsername();
-                                    var didArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"writeBy\":\"" + name + "\"}"
-                                    );
-                                    var record;
-                                    var idArray = [];
-                                    for (var i = 0; i < count; i++) {
-                                        record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
-                                        idArray.push(record);
+                                    if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                                        Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+                                    } else {
+                                        var name = appCtxt.getUsername();
+                                        var didArray = rec.get('leadId');
+                                        var response = biz_vnc_crm_client.rpc(
+                                            "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
+                                        );
+                                        biz_vnc_crm_client.msgNotification(response.text);
+                                        var record;
+                                        var idArray = [];
+                                        for (var i = 0; i < count; i++) {
+                                            record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
+                                            idArray.push(record);
+                                        }
+                                        var contactLeadResponse = biz_vnc_crm_client.rpc(
+                                            "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
+                                        );
+                                        Ext.getCmp('contactLeadGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
+                                        Ext.getCmp('contactLeadGrid').getView().refresh();
                                     }
-                                    var contactLeadResponse = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-                                    );
-                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                    Ext.getCmp('contactLeadGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
-                                    Ext.getCmp('contactLeadGrid').getView().refresh();
                                 }
                             };
                         }
@@ -1361,12 +1342,7 @@ biz_vnc_crm_client.okTaskAttach = function () {
     var response = biz_vnc_crm_client.rpc(
         "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
     );
-    if (response.text == 1) {
-        Ext.example.msg('', biz_vnc_crm_client.msgTaskAttach);
-    } else {
-        Ext.example.msg('', biz_vnc_crm_client.msgTaskNotAttach);
-    }
-
+    biz_vnc_crm_client.msgNotification(response.text);
     if (biz_vnc_crm_client.flag == 0) {
         biz_vnc_crm_client.requestTaskList(biz_vnc_crm_client.leadId, "leadTaskGrid");
     } else if (biz_vnc_crm_client.flag == 1) {	
@@ -1410,18 +1386,11 @@ biz_vnc_crm_client.okMailAttach = function () {
         var response = biz_vnc_crm_client.rpc(
             "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
         );
-        if (response.text == 1) {
-            Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
-        } else {
-            Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
-        }
+        biz_vnc_crm_client.msgNotification(response.text);
     }
     canvas.popdown();
     if (biz_vnc_crm_client.flag == 0) {
         var leadId = biz_vnc_crm_client.leadId;
-        var responseMailHistory = biz_vnc_crm_client.rpc(
-            "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-        );
         biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
     } else if (biz_vnc_crm_client.flag == 1) {
         var leadId = biz_vnc_crm_client.leadId;
@@ -1443,13 +1412,9 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
     var response = biz_vnc_crm_client.rpc(
         "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
     );
-    if (response.text == 1) {
-        Ext.example.msg('', biz_vnc_crm_client.msgApptAttach);
-    } else {
-        Ext.example.msg('', biz_vnc_crm_client.msgApptNotAttach);
-    }
-    if (1 == response.text) {
-        this.attachApptDialog.popdown();
+    biz_vnc_crm_client.msgNotification(response.text);
+    this.attachApptDialog.popdown();
+    if (12 == response.text) {
         if (biz_vnc_crm_client.flag == 0) {
             var leadId = biz_vnc_crm_client.leadId;
             biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");	
@@ -2368,6 +2333,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var leadId = biz_vnc_crm_client.leadId;
                             var j = JSON.stringify({
                                 action: "UPDATE",
+                                curUserId: appCtxt.getUsername(),
                                 object: "lead",
                                 leadId: leadId,
                                 subjectName: subjectName,
@@ -2698,11 +2664,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-                                    biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
+                                    }
                                 }
                             };
                         }
@@ -2813,11 +2782,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                         idArray.push("'" + item.data.inviteId + "'");
                                     });
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-                                    biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
+                                    }
                                 }
                             };
                         }
@@ -2875,7 +2847,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         width: 200,
                         dataIndex: 'startTime',
                         renderer: function(value) {
-                            return new Date(value).toUTCString();
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         }
                     }],
                     title: null,
@@ -2928,13 +2904,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                         idArray.push("'" + item.data.inviteId + "'");
                                     });
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-
-                                    var leadId = biz_vnc_crm_client.leadId;
-                                    biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
+                                    }
                                 }
                             };
                         }
@@ -3000,7 +2977,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         width: 170,
                         dataIndex: 'startTime',
                         renderer: function(value) {
-                            return new Date(value).toUTCString();
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         } 
                     }],
                     title: null,
@@ -3227,6 +3208,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
                     var j = JSON.stringify({
                         action: "UPDATE",
+                        curUserId: appCtxt.getUsername(),
                         object: "lead",
                         leadId: leadId,
                         subjectName: subjectName,
@@ -3271,12 +3253,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         partnerName: partnerName
                     });
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
-                    if (response.text == 1) {
-                        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                    biz_vnc_crm_client.msgNotification(response.text);
+                    if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
-                    } else {
-                        Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
-                    }
+                    } 
                 }
             }
         }]
@@ -3348,18 +3328,25 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 handler: function () {
                     var rec = Ext.getCmp('leadGrid').getSelectionModel().getSelection();
                     var idArray = [];
+                    var flag = 0;
                     Ext.each(rec, function (item) {
-                        idArray.push(item.data.leadId);
+                        if(item.data.userId == biz_vnc_crm_client.username) {
+                            idArray.push(item.data.leadId);
+                        } else {
+                            flag=1;
+                        }
                     });
+                    if (flag == 1) {
+                        Ext.example.msg('', biz_vnc_crm_client.msgAccessDeniedOnRecord);
+                    }
                     Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
-
                     function showResult(btn) {
                         if (btn == "yes") {
                             var name = appCtxt.getUsername();
                             var response = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}"
+                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
                             );
-                            Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+                            biz_vnc_crm_client.msgNotification(response.text);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
                     };
@@ -3460,7 +3447,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png",
                 items: [{
                     icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png", // Use a URL in the icon config
-                    tooltip: biz_vnc_crm_client.btnEdit,
+                    tooltip: biz_vnc_crm_client.btnShare,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
                         biz_vnc_crm_client.leadId  = rec.get('leadId');
@@ -3532,11 +3519,15 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}"
-                                );
-                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                biz_vnc_crm_client.initLeadGrid(app);
+                                if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                                    Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+                                } else {
+                                    var response = biz_vnc_crm_client.rpc(
+                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
+                                    );
+                                    biz_vnc_crm_client.msgNotification(response.text);
+                                    biz_vnc_crm_client.initLeadGrid(app);
+                                }
                             }
                         };
                     }
@@ -4824,11 +4815,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-                                    biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
+                                    }
                                 }
                             };
                         }
@@ -4940,11 +4934,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-                                    biz_vnc_crm_client.requestApptList(leadId, "oppApptGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestApptList(leadId, "oppApptGrid");
+                                    }
                                 }
                             };
                         }
@@ -5003,7 +5000,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         width: 200,
                         dataIndex: 'startTime',
                         renderer: function(value) {
-                            return new Date(value).toUTCString();
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         }
                     }],
                     title: null,
@@ -5058,20 +5059,21 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
+                                    var curUserId = appCtxt.getUsername();
                                     var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}"
+                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
                                     );
-
-                                    var leadId = biz_vnc_crm_client.leadId;
-                                    biz_vnc_crm_client.requestTaskList(leadId, "oppTaskGrid");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        biz_vnc_crm_client.requestTaskList(leadId, "oppTaskGrid");
+                                    }
                                 }
                             };
                         }
                     }, {
                         iconCls: 'task',
                         text: biz_vnc_crm_client.btnNew,
-                        id: 'newappoint',
+                        id: 'newTask',
                         handler: function () {
                             biz_vnc_crm_client.flag = 1;
                             var leadId = biz_vnc_crm_client.leadId;
@@ -5130,7 +5132,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         width: 170,
                         dataIndex: 'startTime',
                         renderer: function(value) {
-                            return new Date(value).toUTCString();
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         }
                     }],
                     title: null,
@@ -5324,6 +5330,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     var leadId = biz_vnc_crm_client.leadId;
                     var j = JSON.stringify({
                         action: "UPDATE",
+                        curUserId: appCtxt.getUsername(),
                         object: "opp",
                         leadId: leadId,
                         subjectName: subjectName,
@@ -5368,11 +5375,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         partnerName: partnerName
                     });
                     var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
-                    if (response.text == 1) {
-                        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+                    biz_vnc_crm_client.msgNotification(response.text);
+                    if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
-                    } else {
-                        Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);
                     }
                 }
             }
@@ -5446,22 +5451,27 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 handler: function () {
                     var rec = Ext.getCmp('opportunityGrid').getSelectionModel().getSelection();
                     var idArray = [];
+                    var flag =0;
                     Ext.each(rec, function (item) {
-                        idArray.push(item.data.leadId);
+                        if(item.data.userId == biz_vnc_crm_client.username) {
+                            idArray.push(item.data.leadId);
+                        } else { 
+                            flag = 1;
+                        }
                     });
-
+                    if (flag == 1) {
+                        Ext.example.msg('', biz_vnc_crm_client.msgAccessDeniedOnRecord);
+                    }
                     Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
-
                     function showResult(btn) {
                         if (btn == "yes") {
                             var name = appCtxt.getUsername();
                             var response = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}"
+                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
                             );
-                            Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+                            biz_vnc_crm_client.msgNotification(response.text);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
-
                     };
                 }
             }, {
@@ -5555,7 +5565,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png",
                 items: [{
                     icon: "/service/zimlet/biz_vnc_crm_client/default/btn/share1.png", // Use a URL in the icon config
-                    tooltip: biz_vnc_crm_client.btnEdit,
+                    tooltip: biz_vnc_crm_client.btnShare,
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
                         biz_vnc_crm_client.leadId  = rec.get('leadId');
@@ -5644,18 +5654,21 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     handler: function (grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
                         Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
-
                         function showResult(btn) {
                             if (btn == "yes") {
-                                var name = appCtxt.getUsername();
-                                var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}"
-                                );
-                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                biz_vnc_crm_client.initOpportunityGrid(app);
-                            }
-                        };
+                                 var name = appCtxt.getUsername();
+                                 var idArray = rec.get('leadId');
+                                 if(rec.get('userId')!=biz_vnc_crm_client.username) {
+                                     Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+                                 } else {
+                                    var response = biz_vnc_crm_client.rpc(
+                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
+                                     );
+                                     biz_vnc_crm_client.msgNotification(response.text);
+                                     biz_vnc_crm_client.initOpportunityGrid(app);
+                                }
+                            };
+                        }
                     }
                 }]
             }]
@@ -5794,7 +5807,7 @@ biz_vnc_crm_client.requestTaskList = function (leadId, gridId) {
         "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
     );
     if(response.text == ']'){
-        biz_vnc_crm_client.taskData = "[{'taskId':'','subject':'','status':'','complete':'','dueDate':''}]";        
+        biz_vnc_crm_client.taskData = "[{'taskId':'','subject':'','status':'','complete':'','startTime':''}]";        
     } else {
         biz_vnc_crm_client.taskData = response.text;
     }
@@ -6334,7 +6347,7 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
             "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"lead\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + calItem.leadId + "\"}"
         );
         if (response.text == 0) {
-            Ext.example.msg('',biz_vnc_crm_client.msgApptNotAttach);
+            biz_vnc_crm_client.msgNotification(response.text);
         } else {
             if (biz_vnc_crm_client.flag == 0) {
                 var leadId = biz_vnc_crm_client.leadId;
@@ -6343,7 +6356,7 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
                 var leadId = biz_vnc_crm_client.leadId;
 				biz_vnc_crm_client.requestApptList(leadId, "oppApptGrid");
             }
-            Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
+            biz_vnc_crm_client.msgNotification(response.text);
         }
     }
 };
@@ -6605,13 +6618,8 @@ biz_vnc_crm_client.sharewindow = function (respData) {
                     var response = biz_vnc_crm_client.rpc(
                         "jsonobj={\"action\":\"ADDSHAREITEM\",\"object\":\"lead\",\"userArray\":\"" + userArray + "\",\"accessArray\":\"" + accessArray + "\", \"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
                     );
-                    if (response.text == 1) {
-                        Ext.example.msg('', biz_vnc_crm_client.msgShare);
-                        shareUserGridWindow.close();
-                    } else {
-                        Ext.example.msg('', biz_vnc_crm_client.msgNotShare);
-                        shareUserGridWindow.close();
-                    }
+                    biz_vnc_crm_client.msgNotification(response.text);
+                    shareUserGridWindow.close();
                 }
             }]
 
@@ -6661,3 +6669,48 @@ biz_vnc_crm_client.mailInfowindow = function (rec) {
     mailInfoWindow.show();
 }
 
+biz_vnc_crm_client.msgNotification = function (notification) {
+    if (notification == 0) {
+        Ext.example.msg('', biz_vnc_crm_client.msgSave);
+    } else if (notification == 1) {
+        Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
+    } else if(notification == 2) {
+        Ext.example.msg('', biz_vnc_crm_client.msgEdit);
+    } else if (notification == 3) {
+        Ext.example.msg('', biz_vnc_crm_client.msgNotEdit);	
+    } else if (notification == 4) {
+        Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+    } else if (notification == 5) {
+        Ext.example.msg('', biz_vnc_crm_client.msgNotDelete);
+    } else if (notification == 6) {
+        Ext.example.msg('', biz_vnc_crm_client.msgShare);
+    } else if (notification == 7) {
+        Ext.example.msg('', biz_vnc_crm_client.msgNotShare);
+    } else if (notification == 8) {
+        Ext.example.msg('',biz_vnc_crm_client.msgTaskAttach);
+    } else if (notification == 9) {
+       Ext.example.msg('',biz_vnc_crm_client.msgTaskNotAttach);
+    } else if (notification == 10) {
+       Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
+    } else if (notification == 11) {
+       Ext.example.msg('', biz_vnc_crm_client.msgTaskNotDelete);
+    } else if (notification == 12) {
+       Ext.example.msg('',biz_vnc_crm_client.msgApptAttach);
+    } else if (notification == 13) {
+       Ext.example.msg('',biz_vnc_crm_client.msgApptNotAttach);
+    } else if (notification == 14) {
+       Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+    } else if (notification == 15) {
+       Ext.example.msg('', biz_vnc_crm_client.msgApptNotDelete);
+    } else if (notification == 16) {
+       Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
+    } else if (notification == 17) {
+       Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
+    } else if (notification == 18) {
+       Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+    } else if (notification == 19) {
+       Ext.example.msg('', biz_vnc_crm_client.msgEmailNotDelete);
+    }  else if (notification == 20) {
+       Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+    }
+}

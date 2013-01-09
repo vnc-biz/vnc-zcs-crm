@@ -55,4 +55,5 @@ public interface InterfaceHelper {
 	public String showMail(String userId, String mailId);
 	public int addSharedItems(String userArray, String accessArray, String leadId);
 	public int deleteSharedItems(String leadId);
+	public boolean checkWriteAccess(String leadId, String UserId);
 }

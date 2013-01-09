@@ -335,4 +335,9 @@ public class LeadClassHelper  implements InterfaceHelper {
 	public int deleteSharedItems(String leadId) {
 		return 0;
 	}
+
+	@Override
+	public boolean checkWriteAccess(String leadId, String userId) {
+		return false;
+	}
 }

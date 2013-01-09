@@ -818,6 +818,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                 var j = JSON.stringify({
                                     action: "UPDATE",
                                     object: "lead",
+                                    curUserId: appCtxt.getUsername(),
                                     leadId: leadId,
                                     subjectName: subjectName,
                                     stageId: stageId,
@@ -1141,13 +1142,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         idArray.push(item.data.mailId);
                                     });
 
-                                    var leadId = rec.get('leadId')
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
-
-                                    if (rec != null) {
-                                        var leadId = rec.get('leadId');
-                                        biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
-                                        Ext.example.msg('', biz_vnc_crm_client.msgEmailDelete);
+                                    var leadId = rec.get('leadId');
+                                    var curUserId = appCtxt.getUsername();
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        if (rec != null) {
+                                            var leadId = rec.get('leadId');
+                                            biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
+                                        }
                                     }
                                 }
                             };
@@ -1263,12 +1266,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                                         idArray.push("'" + item.data.inviteId + "'");
                                     });
-                                    var leadId = rec.get('leadId')
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
-                                    if (rec != null) {
-                                        var leadId = rec.get('leadId');
-                                        biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
-                                        Ext.example.msg('', biz_vnc_crm_client.msgApptDelete);
+                                    var leadId = rec.get('leadId');
+                                    var curUserId = appCtxt.getUsername();
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        if (rec != null) {
+                                            var leadId = rec.get('leadId');
+                                            biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
+                                        }
                                     }
                                 }
                             };
@@ -1332,7 +1338,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         width: 200,
                         dataIndex: 'startTime',
                         renderer: function(value) {
-                            return new Date(value).toUTCString();
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         }
                     }],
                     title: null,
@@ -1385,13 +1395,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                         idArray.push("'" + item.data.inviteId + "'");
                                     });
                                     var leadId = rec.get('leadId');
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"leadId\":\"" + leadId + "\"}");
-
-                                    if (rec != null) {
-                                        var leadId = rec.get('leadId');
-                                        biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
-                                        Ext.example.msg('', biz_vnc_crm_client.msgTaskDelete);
-                                    }
+                                    var curUserId = appCtxt.getUsername();
+                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    biz_vnc_crm_client.msgNotification(responseUser.text);
+                                    if (responseUser.text != 20) {
+                                        if (rec != null) {
+                                            var leadId = rec.get('leadId');
+                                            biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
+                                        }
+                                    } 
                                 }
                             };
                         }
@@ -1458,8 +1470,12 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         sortable: false,
                         width: 200,
                         dataIndex: 'startTime',
-                        renderer:  function(value) {
-                            return new Date(value).toUTCString();
+                        renderer: function(value) {
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
                         }
                     }],
                     title: null,
@@ -1694,6 +1710,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         var j = JSON.stringify({
                             action: "UPDATE",
                             object: "lead",
+                            curUserId: appCtxt.getUsername(),
                             leadId: leadId,
                             subjectName: subjectName,
                             stageId: stageId,
@@ -1786,11 +1803,9 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         });
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     }
-                    if (response.text == 1) {
-                        Ext.example.msg('', biz_vnc_crm_client.msgSave);
+                    biz_vnc_crm_client.msgNotification(response.text);
+                    if (response.text == 0) {
                         biz_vnc_crm_client.switchingView(app);
-                    } else {
-                        Ext.example.msg('', biz_vnc_crm_client.msgNotSave);
                     }
                 }
             }

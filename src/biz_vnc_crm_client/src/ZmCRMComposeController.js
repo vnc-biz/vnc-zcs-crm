@@ -57,41 +57,17 @@ function(draftType, msg, callback, result) {
 
     appCtxt.getCurrentApp().pushView(this._crmViewId);
     var mailId = resp.m[0].id;
-    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"leadId\":\"" + this.leadId + "\"}");
-    if (response.text == 1) {
-        Ext.example.msg('', biz_vnc_crm_client.msgEmailAttach);
+    userId = appCtxt.getUsername();
+    var leadId = biz_vnc_crm_client.leadId;
+    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}");
+    biz_vnc_crm_client.msgNotification(response.text);
+    if (response.text == 16) {
         if (biz_vnc_crm_client.flag == 0) {
-            var leadId = biz_vnc_crm_client.leadId;
-            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}");
-            var msgArray = [];
-            var item;
-            var msgArray = (responseMailHistory.text).split(",");
-
-            if (msgArray != "null") {
-                biz_vnc_crm_client.requestMailList(msgArray);
-            } else {
-                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-            }
-            Ext.getCmp('leadMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-            Ext.getCmp('leadMailGrid').getView().refresh();
-
+            biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
         } else if (biz_vnc_crm_client.flag == 1) {
             var leadId = biz_vnc_crm_client.leadId;
-            var responseMailHistory = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"opp\",\"leadId\":\"" + leadId + "\"}");
-            var msgArray = [];
-            var item;
-            var msgArray = (responseMailHistory.text).split(",");
-
-            if (msgArray != "null") {
-                biz_vnc_crm_client.requestMailList(msgArray);
-            } else {
-                biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
-            }
-            Ext.getCmp('oppMailGrid').getStore().loadData(jsonParse(biz_vnc_crm_client.mailData), false);
-            Ext.getCmp('oppMailGrid').getView().refresh();
+            biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
         }
-    } else {
-           Ext.example.msg('', biz_vnc_crm_client.msgEmailNotAttach);
     }
 };
 
