@@ -1720,7 +1720,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     var leadStore = Ext.create('Ext.data.Store', {
         model: 'model_1',
         storeId: 'leadStore',
-        remoteSort: true,
         pageSize: biz_vnc_crm_client.pageSize,
         proxy: {
             type: 'pagingmemory',
@@ -1731,6 +1730,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         },
         actionMethods: {
             read: 'POST'
+        },
+        sorters: {
+            property: 'leadId',
+            direction: 'DESC'
         }
     });
     var sm = Ext.create('Ext.selection.CheckboxModel', {
@@ -3928,7 +3931,6 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     var oppStore = Ext.create('Ext.data.Store', {
         model: 'model_1',
         storeId: 'oppStore',
-        remoteSort: true,
         pageSize: biz_vnc_crm_client.pageSize,
         proxy: {
             type: 'pagingmemory',
@@ -3939,6 +3941,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         },
         actionMethods: {
             read: 'POST'
+        },
+        sorters: {
+            property: 'leadId',
+            direction: 'DESC'
         }
     });
 
