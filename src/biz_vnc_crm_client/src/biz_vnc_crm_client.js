@@ -89,6 +89,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client.selectedPartnerName = null;
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
     biz_vnc_crm_client.username = appCtxt.getUsername();
+    biz_vnc_crm_client.pageSize = 5;
 
     biz_vnc_crm_client.responsePriority = "";
     biz_vnc_crm_client.responseCategory = "";
@@ -1507,7 +1508,9 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         enabled: true
     });
 
-    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border']);
+    Ext.Loader.setPath('Ext.ux', '../service/zimlet/biz_vnc_crm_client/ux/');
+
+    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.ux.data.PagingMemoryProxy', 'Ext.toolbar.Paging']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
@@ -1538,6 +1541,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
+        idProperty: 'leadId',
         fields: [{
             name: 'leadId',
             type: 'int'
@@ -1713,6 +1717,22 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }]
     });
 
+    var leadStore = Ext.create('Ext.data.Store', {
+        model: 'model_1',
+        storeId: 'leadStore',
+        remoteSort: true,
+        pageSize: biz_vnc_crm_client.pageSize,
+        proxy: {
+            type: 'pagingmemory',
+            data: jsonParse(response.text),
+            reader: {
+                type: 'json'
+            }
+        },
+        actionMethods: {
+            read: 'POST'
+        }
+    });
     var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm, selections) {
@@ -3388,6 +3408,12 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 buffer: 100,
                 scope: this
                 }}
+            }, {
+                xtype: 'pagingtoolbar',
+                pageSize: biz_vnc_crm_client.pageSize,
+                store: leadStore,
+                displayInfo: true,
+                style: { "margin-left": '100px' }
             }]
         }],
         items: [{
@@ -3418,17 +3444,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 autoRender: true,
                 autoScroll: true
             },
-            store: Ext.create('Ext.data.Store', {
-                model: 'model_1',
-                storeId: 'leadStore',
-                proxy: {
-                    type: 'memory',
-                    data: jsonParse(response.text)
-                },
-                actionMethods: {
-                    read: 'POST'
-                }
-            }),
+            store: leadStore, 
             viewConfig: {
                 stripeRows: true
             },
@@ -3543,6 +3559,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         }],
         renderTo: 'datagrid'
     });
+
+    Ext.getStore('leadStore').load();
 
     var grid = Ext.getCmp('leadGrid');
     grid.on('viewready', function(){
@@ -3698,7 +3716,9 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         enabled: true
     });
 
-    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.tip.QuickTipManager']);
+    Ext.Loader.setPath('Ext.ux', '../service/zimlet/biz_vnc_crm_client/ux/');
+
+    Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.MessageBox', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.tip.QuickTipManager', 'Ext.ux.data.PagingMemoryProxy', 'Ext.toolbar.Paging']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
@@ -3729,6 +3749,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
+        idProperty: 'leadId',
         fields: [{
             name: 'leadId',
             type: 'int'
@@ -3903,6 +3924,24 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'string'
         }]
     });
+
+    var oppStore = Ext.create('Ext.data.Store', {
+        model: 'model_1',
+        storeId: 'oppStore',
+        remoteSort: true,
+        pageSize: biz_vnc_crm_client.pageSize,
+        proxy: {
+            type: 'pagingmemory',
+            data: jsonParse(responseOpp.text),
+            reader: {
+                type: 'json'
+            }
+        },
+        actionMethods: {
+            read: 'POST'
+        }
+    });
+
     var sm1 = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
             selectionchange: function (sm1, selections) {
@@ -5518,6 +5557,12 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 buffer: 100,
                 scope: this
                 }}
+            }, {
+                xtype: 'pagingtoolbar',
+                pageSize: biz_vnc_crm_client.pageSize,
+                store: oppStore,
+                displayInfo: true,
+                style: { "margin-left": '100px' }
             }]
         }],
         items: [{
@@ -5543,17 +5588,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 autoRender: true,
                 autoScroll: true
             },
-            store: Ext.create('Ext.data.Store', {
-                model: 'model_1',
-                storeId: 'oppStore',
-                proxy: {
-                    type: 'memory',
-                    data: jsonParse(responseOpp.text)
-                },
-                actionMethods: {
-                    read: 'POST'
-                }
-            }),
+            store: oppStore, 
             viewConfig: {
                 stripeRows: true
             },
@@ -5689,6 +5724,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         }],
         renderTo: 'datagridOpportunity'
     });
+
+    Ext.getStore('oppStore').load();
 
     var grid = Ext.getCmp('opportunityGrid');
     grid.on('viewready', function(){

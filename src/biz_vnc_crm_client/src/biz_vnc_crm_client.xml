@@ -22,4 +22,5 @@
 	<includeCSS>example.css</includeCSS>
 	<includeCSS>toolbars.css</includeCSS>
 	<include>biz_vnc_crm_client_AttachMailTabView.js</include>
+	<include>ux/data/PagingMemoryProxy.js</include>
 </zimlet>
