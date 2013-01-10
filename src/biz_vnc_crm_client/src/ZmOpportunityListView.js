@@ -1590,7 +1590,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     }
                     biz_vnc_crm_client.msgNotification(response.text);
-                    if (response.text == 0) {
+                    if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
                     }
                 }

@@ -863,11 +863,15 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                 });
                                 var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                             }
-                            Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
-                            var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
-                            app.setContent(content);
-                            biz_vnc_crm_client._flag = 1;
-                            ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
+                            if(response.text == 2) {
+                                Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
+                                var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
+                                app.setContent(content);
+                                biz_vnc_crm_client._flag = 1;
+                                ZmOpportunityListView.prototype.getContacts(0, [], rec, app);
+                            } else {
+                                biz_vnc_crm_client.msgNotification(response.text);
+                            }
                         }
                     }
                 }]
@@ -1804,7 +1808,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     }
                     biz_vnc_crm_client.msgNotification(response.text);
-                    if (response.text == 0) {
+                    if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
                     }
                 }
