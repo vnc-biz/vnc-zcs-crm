@@ -3416,7 +3416,44 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 pageSize: biz_vnc_crm_client.pageSize,
                 store: leadStore,
                 displayInfo: true,
-                style: { "margin-left": '100px' }
+                style: { "margin-left": '100px', "border": '0px' }
+            }, {
+                xtype: 'buttongroup',
+                id: 'buttongroupPageSizeLead',
+                items: [{
+                    id: 'pageSizeLead5',
+                    text: '5',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeLead',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(5);
+                    }
+                },{
+                    id: 'pageSizeLead10',
+                    text: '10',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeLead',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(10);
+                    }
+                },{
+                    id: 'pageSizeLead20',
+                    text: '20',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeLead',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(20);
+                    }
+                },{
+                    id: 'pageSizeLeadAll',
+                    text: 'All',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeLead',
+                    handler: function() {
+                        var size = jsonParse(response.text).length;
+                        biz_vnc_crm_client.setPageSize(size);
+                    }
+                }]
             }]
         }],
         items: [{
@@ -3563,6 +3600,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         renderTo: 'datagrid'
     });
 
+    biz_vnc_crm_client.disablePageSizeButtons(biz_vnc_crm_client.pageSize);
     Ext.getStore('leadStore').load();
 
     var grid = Ext.getCmp('leadGrid');
@@ -5568,7 +5606,44 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 pageSize: biz_vnc_crm_client.pageSize,
                 store: oppStore,
                 displayInfo: true,
-                style: { "margin-left": '100px' }
+                style: { "margin-left": '100px', "border": '0px' }
+            }, {
+                xtype: 'buttongroup',
+                id: 'buttongroupPageSizeOpp',
+                items: [{
+                    id: 'pageSizeOpp5',
+                    text: '5',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeOpp',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(5);
+                    }
+                },{
+                    id: 'pageSizeOpp10',
+                    text: '10',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeOpp',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(10);
+                    }
+                },{
+                    id: 'pageSizeOpp20',
+                    text: '20',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeOpp',
+                    handler: function() {
+                        biz_vnc_crm_client.setPageSize(20);
+                    }
+                },{
+                    id: 'pageSizeOppAll',
+                    text: 'All',
+                    enableToggle: true,
+                    toggleGroup: 'toggleGroupPageSizeOpp',
+                    handler: function() {
+                        var size = jsonParse(responseOpp.text).length;
+                        biz_vnc_crm_client.setPageSize(size);
+                    }
+                }]
             }]
         }],
         items: [{
@@ -5731,6 +5806,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         renderTo: 'datagridOpportunity'
     });
 
+    biz_vnc_crm_client.disablePageSizeButtons(biz_vnc_crm_client.pageSize);
     Ext.getStore('oppStore').load();
 
     var grid = Ext.getCmp('opportunityGrid');
@@ -6769,5 +6845,70 @@ biz_vnc_crm_client.msgNotification = function (notification) {
        Ext.example.msg('', biz_vnc_crm_client.msgEmailNotDelete);
     }  else if (notification == 20) {
        Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
+    }
+}
+
+biz_vnc_crm_client.setPageSize = function(pageSize) {
+    if(pageSize == 5) {
+        biz_vnc_crm_client.pageSize = 5;
+    } else if(pageSize == 10) {
+        biz_vnc_crm_client.pageSize = 10;
+    } else if(pageSize == 20) {
+        biz_vnc_crm_client.pageSize = 20;
+    } else {
+        biz_vnc_crm_client.pageSize = pageSize;
+    }
+    if(biz_vnc_crm_client._leadTypeFlag == 0) {
+        biz_vnc_crm_client.initLeadGrid(biz_vnc_crm_client._app);
+    } else if(biz_vnc_crm_client._leadTypeFlag == 1) {
+        biz_vnc_crm_client.initOpportunityGrid(biz_vnc_crm_client._app);
+    }
+}
+
+biz_vnc_crm_client.disablePageSizeButtons = function(pageSize) {
+    if(biz_vnc_crm_client._leadTypeFlag == 0) {
+        if(pageSize == 5) {
+            Ext.getCmp('pageSizeLead5').disable(true);
+            Ext.getCmp('pageSizeLead10').enable(true);
+            Ext.getCmp('pageSizeLead20').enable(true);
+            Ext.getCmp('pageSizeLeadAll').enable(true);
+        } else if(pageSize == 10) {
+            Ext.getCmp('pageSizeLead10').disable(true);
+            Ext.getCmp('pageSizeLead5').enable(true);
+            Ext.getCmp('pageSizeLead20').enable(true);
+            Ext.getCmp('pageSizeLeadAll').enable(true);
+        } else if(pageSize == 20) {
+            Ext.getCmp('pageSizeLead20').disable(true);
+            Ext.getCmp('pageSizeLead5').enable(true);
+            Ext.getCmp('pageSizeLead10').enable(true);
+            Ext.getCmp('pageSizeLeadAll').enable(true);
+        } else {
+            Ext.getCmp('pageSizeLeadAll').disable(true);
+            Ext.getCmp('pageSizeLead5').enable(true);
+            Ext.getCmp('pageSizeLead10').enable(true);
+            Ext.getCmp('pageSizeLead20').enable(true);
+        }
+    } else if(biz_vnc_crm_client._leadTypeFlag == 1) {
+        if(pageSize == 5) {
+            Ext.getCmp('pageSizeOpp5').disable(true);
+            Ext.getCmp('pageSizeOpp10').enable(true);
+            Ext.getCmp('pageSizeOpp20').enable(true);
+            Ext.getCmp('pageSizeOppAll').enable(true);
+        } else if(pageSize == 10) {
+            Ext.getCmp('pageSizeOpp10').disable(true);
+            Ext.getCmp('pageSizeOpp5').enable(true);
+            Ext.getCmp('pageSizeOpp20').enable(true);
+            Ext.getCmp('pageSizeOppAll').enable(true);
+        } else if(pageSize == 20) {
+            Ext.getCmp('pageSizeOpp20').disable(true);
+            Ext.getCmp('pageSizeOpp5').enable(true);
+            Ext.getCmp('pageSizeOpp10').enable(true);
+            Ext.getCmp('pageSizeOppAll').enable(true);
+        } else {
+            Ext.getCmp('pageSizeOppAll').disable(true);
+            Ext.getCmp('pageSizeOpp5').enable(true);
+            Ext.getCmp('pageSizeOpp10').enable(true);
+            Ext.getCmp('pageSizeOpp20').enable(true);
+        }
     }
 }
