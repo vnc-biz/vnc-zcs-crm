@@ -1493,7 +1493,7 @@ biz_vnc_crm_client.mailController = null;
 biz_vnc_crm_client.initLeadGrid = function (app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
-        biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
+        biz_vnc_crm_client.mailData = "[{'id':'','date':'','sender':'','subject':'','fragment':''}]";
     }
     var content = AjxTemplate.expand("biz_vnc_crm_client.templates.Simple#MainLead");
     app.setContent(content);
@@ -1892,11 +1892,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     Ext.define('leadMailModel', {
         extend: 'Ext.data.Model',
         fields: [{
-            name: 'mailId',
+            name: 'id',
             type: 'string'
         }, {
             name: 'date',
-            type: 'string'
+            type: 'long'
         }, {
             name: 'from',
             type: 'string'
@@ -1904,7 +1904,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             name: 'subject',
             type: 'string'
         }, {
-            name: 'message',
+            name: 'fragment',
             type: 'string'
         }, {
             name: 'to',
@@ -2660,7 +2660,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
-                                        idArray.push(item.data.mailId);
+                                        idArray.push(item.data.id);
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
@@ -2718,7 +2718,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 120,
-                        dataIndex: 'date'
+                        dataIndex: 'date',
+                        renderer: function(value) {
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
+                        }
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -2733,7 +2740,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         text: biz_vnc_crm_client.message,
                         width: 500,
                         sortable: false,
-                        dataIndex: 'message'
+                        dataIndex: 'fragment'
                     }],
                     title: null,
                     viewConfig: {
@@ -4113,11 +4120,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     Ext.define('oppMailModel', {
         extend: 'Ext.data.Model',
         fields: [{
-            name: 'mailId',
+            name: 'id',
             type: 'string'
         }, {
             name: 'date',
-            type: 'string'
+            type: 'long'
         }, {
             name: 'from',
             type: 'string'
@@ -4125,7 +4132,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             name: 'subject',
             type: 'string'
         }, {
-            name: 'message',
+            name: 'fragment',
             type: 'string'
         }, {
             name: 'to',
@@ -4811,7 +4818,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                                     var rec1 = Ext.getCmp('oppMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
-                                        idArray.push(item.data.mailId);
+                                        idArray.push(item.data.id);
                                     });
 
                                     var leadId = biz_vnc_crm_client.leadId;
@@ -4869,7 +4876,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 120,
-                        dataIndex: 'date'
+                        dataIndex: 'date',
+						renderer: function(value) {
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
+                        }
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -4884,7 +4898,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         text: biz_vnc_crm_client.message,
                         width: 500,
                         sortable: true,
-                        dataIndex: 'message'
+                        dataIndex: 'fragment'
                     }],
                     title: null,
                     viewConfig: {
@@ -5819,8 +5833,8 @@ biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
     response = biz_vnc_crm_client.rpc(
         "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
     );
-    if(response.text == "[" || response.text == "]"){
-        biz_vnc_crm_client.mailData = "[{'mailId':'','date':'','from':'','subject':'','message':''}]";
+    if(response.text == []){
+        biz_vnc_crm_client.mailData = "[{'id':'','date':'','sender':'','subject':'','fragment':''}]";
     } else {
         biz_vnc_crm_client.mailData = response.text;
     }
@@ -6044,7 +6058,7 @@ biz_vnc_crm_client.viewApptDetails = function(rec){
     var displayFreeBusy = biz_vnc_crm_client.parseDisplay(rec.items[0].data.freeBusyActual);
     var organizer = biz_vnc_crm_client.isDefine(rec.items[0].data.organizer);
     var appointmentAllDay = biz_vnc_crm_client.isDefine(rec.items[0].data.allDay);
-    var startDate = biz_vnc_crm_client.isDefine(rec.items[0].data.startTime);
+    var startDate = biz_vnc_crm_client.isDefine(new Date(rec.items[0].data.startTime).toUTCString());
     var subject = biz_vnc_crm_client.isDefine(rec.items[0].data.name);
     var organizer = biz_vnc_crm_client.isDefine(rec.items[0].data.organizer);
     var fragment = biz_vnc_crm_client.fragmentParse(rec.items[0].data.fragment);
@@ -6204,7 +6218,7 @@ biz_vnc_crm_client.viewAboutUsDetails = function(){
 
 biz_vnc_crm_client.viewTaskDetails = function(rec){
     var fragment = biz_vnc_crm_client.fragmentParse(rec.items[0].data.fragment);
-    var startDate = biz_vnc_crm_client.isDefine(rec.items[0].data.startTime);
+    var startDate = biz_vnc_crm_client.isDefine(new Date(rec.items[0].data.startTime).toUTCString());
     var subject = biz_vnc_crm_client.isDefine(rec.items[0].data.name);
     var taskLocation = biz_vnc_crm_client.isDefine(rec.items[0].data.location);
     var organizer = biz_vnc_crm_client.isDefine(rec.items[0].data.organizer);
@@ -6641,10 +6655,10 @@ biz_vnc_crm_client.sharewindow = function (respData) {
 
 biz_vnc_crm_client.mailInfowindow = function (rec) {
     response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"SHOWMAIL\",\"object\":\"lead\",\"mailId\":\"" + rec.items[0].data.mailId + "\",\"userId\":\"" + rec.items[0].data.userId + "\"}"
+        "jsonobj={\"action\":\"SHOWMAIL\",\"object\":\"lead\",\"mailId\":\"" + rec.items[0].data.id + "\",\"userId\":\"" + rec.items[0].data.userId + "\"}"
     );
 
-    var html = "<p><b>"+ biz_vnc_crm_client.from +" : </b>" +rec.items[0].data.from + "</br></br><b>"+ biz_vnc_crm_client.to +" :     </b>" +rec.items[0].data.to + "</br></br><b>"+ biz_vnc_crm_client.date +" :     </b>" +rec.items[0].data.date + "</br></br><b>"+ biz_vnc_crm_client.subject +" : </b>"+rec.items[0].data.subject +"</br></br><hr>"+ response.text +"</br></br></p>";
+    var html = "<p><b>"+ biz_vnc_crm_client.from +" : </b>" +rec.items[0].data.from + "</br></br><b>"+ biz_vnc_crm_client.to +" :     </b>" +rec.items[0].data.to + "</br></br><b>"+ biz_vnc_crm_client.date +" :     </b>" + new Date(rec.items[0].data.date).toUTCString()+ "</br></br><b>"+ biz_vnc_crm_client.subject +" : </b>"+rec.items[0].data.subject +"</br></br><hr>"+ response.text +"</br></br></p>";
     mailInfoWindow = Ext.create('widget.window', {
         maxWidth: 665,
         maxHeight: 460,

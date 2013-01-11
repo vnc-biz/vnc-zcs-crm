@@ -388,7 +388,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             type: 'string'
         }, {
             name: 'date',
-            type: 'string'
+            type: 'long'
         }, {
             name: 'from',
             type: 'string'
@@ -1143,7 +1143,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     var rec1 = Ext.getCmp('leadMailGrid').getSelectionModel().getSelection();
                                     var idArray = [];
                                     Ext.each(rec1, function (item) {
-                                        idArray.push(item.data.mailId);
+                                        idArray.push(item.data.id);
                                     });
 
                                     var leadId = rec.get('leadId');
@@ -1206,7 +1206,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.date,
                         sortable: false,
                         width: 170,
-                        dataIndex: 'date'
+                        dataIndex: 'date',
+                        renderer: function(value) {
+                            if (value) {
+                                return new Date(value).toUTCString();
+                            } else {
+                                return value;
+                            }
+                        }
                     }, {
                         text: biz_vnc_crm_client.from,
                         sortable: false,
@@ -1808,9 +1815,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
                     }
                     biz_vnc_crm_client.msgNotification(response.text);
-                    if (response.text == 2) {
-                        biz_vnc_crm_client.switchingView(app);
-                    }
+                    biz_vnc_crm_client.switchingView(app);
                 }
             }
         }, {

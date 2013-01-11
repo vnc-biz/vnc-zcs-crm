@@ -38,30 +38,19 @@ import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
 import biz.vnc.util.Notification;
-import biz.vnc.zimbra.util.MailDump;
+import biz.vnc.zimbra.util.JSPUtil;
 import biz.vnc.zimbra.util.ZLog;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.zimbra.common.service.ServiceException;
-import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AuthTokenException;
-import com.zimbra.cs.account.soap.SoapProvisioning;
-import com.zimbra.cs.account.soap.SoapProvisioning.Options;
-import com.zimbra.cs.account.ZimbraAuthToken;
-import com.zimbra.cs.zclient.ZMailbox;
-import com.zimbra.cs.zclient.ZMessage;
-import com.zimbra.cs.zclient.ZSearchHit;
-import com.zimbra.cs.zclient.ZSearchParams;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.Vector;
+import org.json.JSONException;
 
 public class LeadHelper implements InterfaceHelper {
 
@@ -533,7 +522,7 @@ for(String messageId : str) {
 
 	@Override
 	public String listHistory(String leadId) {
-		String query = "select messageId, userId from tbl_crm_lead_mailHistory where leadId = ?;";
+		String query = "select userId, GROUP_CONCAT(messageid SEPARATOR ',') as messageid from tbl_crm_lead_mailHistory where leadId = ? GROUP BY userId;";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, leadId);
@@ -541,58 +530,40 @@ for(String messageId : str) {
 			ZLog.err("VNC CRM for Zimbra","Error in addHistory Lead Helper Class", e);
 		}
 		ResultSet rs = dbu.select(preparedStatement);
-		String AllResult = "[";
+		List<String> allMailResultList = new ArrayList<String>();
 		try {
-			Account account = null;
-			Options options = new Options();
-			options.setLocalConfigAuth(true);
-			SoapProvisioning provisioning = new SoapProvisioning(options);
 			while(rs.next()) {
-				account = provisioning.getAccount(rs.getString("userId"));
-				ZimbraAuthToken authToken = new ZimbraAuthToken(account);
-				String eAuthToken = authToken.getEncoded();
-				ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
-				ZMessage msg = mailbox.getMessageById(rs.getString("messageId"));
-				Vector<String> from =  MailDump.getFrom(msg);
-				Vector<String> to =  MailDump.getTo(msg);
-				StringBuffer sb = new StringBuffer();
-				Boolean resp =  MailDump.dumpBodyHTML(msg, sb);
-				if(rs.isLast()) {
-					AllResult += "{\"mailId\":\"" + rs.getString("messageId") + "\",\"userId\":\"" + rs.getString("userId") + "\",\"date\":\"" + dateFormat.format(new Date(msg.getReceivedDate())) + "\",\"from\":\"" + from.get(0).toString() + "\",\"to\":\"" + to.get(0).toString() + "\",\"subject\":\"" + msg.getSubject().toString() + "\",\"message\":\"" + sb.toString().substring(5,sb.toString().length()-6).replaceAll("[\\n\\t]"," ") + "\"}]";
-				} else {
-					AllResult += "{\"mailId\":\"" + rs.getString("messageId") + "\",\"userId\":\"" + rs.getString("userId") + "\",\"date\":\"" + dateFormat.format(new Date(msg.getReceivedDate())) + "\",\"from\":\"" + from.get(0).toString() + "\",\"to\":\"" + to.get(0).toString() + "\",\"subject\":\"" + msg.getSubject().toString() + "\",\"message\":\"" + sb.toString().substring(5,sb.toString().length()-6).replaceAll("[\\n\\t]"," ") + "\"},";
+				List<String> result = new ArrayList<String>();
+				result = JSPUtil.fetchMailByUser(rs.getString("userId"),rs.getString("messageid"));
+for(String mail : result) {
+					allMailResultList.add(mail);
 				}
 			}
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		} catch (ServiceException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (JSONException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		} catch (AuthTokenException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return AllResult;
+		return allMailResultList.toString();
 	}
 
 	@Override
 	public String showMail(String userId, String mailId) {
-		StringBuffer sb = new StringBuffer();
+		String showMail = null;
 		try {
-			Account account = null;
-			Options options = new Options();
-			options.setLocalConfigAuth(true);
-			SoapProvisioning provisioning = new SoapProvisioning(options);
-			account = provisioning.getAccount(userId);
-			ZimbraAuthToken authToken = new ZimbraAuthToken(account);
-			String eAuthToken = authToken.getEncoded();
-			ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
-			ZMessage msg = mailbox.getMessageById(mailId);
-			Boolean resp =  MailDump.dumpBodyHTML(msg, sb);
-		} catch (ServiceException e) {
-			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+			showMail =  JSPUtil.fetchMailBodyByUser(userId, mailId);
+		} catch(JSONException e) {
+			ZLog.err("VNC CRM For Zimbra", "Error in Lead Helper Class", e);
 		} catch (AuthTokenException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
+		} catch (ServiceException e) {
+			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return sb.toString();
+		return showMail;
 	}
 
 	@Override
@@ -644,27 +615,15 @@ for(String appointmentId : str) {
 			ZLog.err("VNC CRM for Zimbra", "Error in list appointment in LeadHelper", e);
 		}
 		ResultSet rs = dbu.select(preparedStatement);
-		String AllResult = "[";
+		List<String> allAppointmentResultList = new ArrayList<String>();
 		try {
-			Account account = null;
-			Options options = new Options();
-			options.setLocalConfigAuth(true);
-			SoapProvisioning provisioning = new SoapProvisioning(options);
-			JsonObject resultData = new JsonObject();
 			while(rs.next()) {
-				account = provisioning.getAccount(rs.getString("userId"));
-				ZimbraAuthToken authToken = new ZimbraAuthToken(account);
-				String eAuthToken = authToken.getEncoded();
-				ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
-				ZSearchParams searchParam = new ZSearchParams("item:"+rs.getString("appointmentid"));
-				searchParam.setTypes(ZSearchParams.TYPE_APPOINTMENT);
-				searchParam.setTimeZone(TimeZone.getDefault());
-				List<ZSearchHit> result = mailbox.search(searchParam).getHits();
-for(ZSearchHit appt : result) {
-					AllResult += appt.toZJSONObject().put("organizer", rs.getString("userId")).toString() +",";
+				List<String> result = new ArrayList<String>();
+				result = JSPUtil.fetchAppointmentByUser(rs.getString("userId"),rs.getString("appointmentid"));
+for(String appt : result) {
+					allAppointmentResultList.add(appt);
 				}
 			}
-			AllResult = AllResult.substring(0,AllResult.length()-1)+"]";
 		} catch (ServiceException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		} catch (AuthTokenException e) {
@@ -674,7 +633,7 @@ for(ZSearchHit appt : result) {
 		} catch (Exception e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return AllResult;
+		return allAppointmentResultList.toString();
 	}
 
 	@Override
@@ -726,27 +685,15 @@ for(String taskId : str) {
 			ZLog.err("VNC CRM for Zimbra", "Error in listTask in LeadHelper", e);
 		}
 		ResultSet rs = dbu.select(preparedStatement);
-		String AllResult = "[";
+		List<String> allTaskResultList = new ArrayList<String>();
 		try {
-			Account account = null;
-			Options options = new Options();
-			options.setLocalConfigAuth(true);
-			SoapProvisioning provisioning = new SoapProvisioning(options);
-			JsonObject resultData = new JsonObject();
 			while(rs.next()) {
-				account = provisioning.getAccount(rs.getString("userId"));
-				ZimbraAuthToken authToken = new ZimbraAuthToken(account);
-				String eAuthToken = authToken.getEncoded();
-				ZMailbox mailbox = ZMailbox.getByAuthToken(eAuthToken,SoapProvisioning.getLocalConfigURI());
-				ZSearchParams searchParam = new ZSearchParams("item:"+rs.getString("taskid"));
-				searchParam.setTypes(ZSearchParams.TYPE_TASK);
-				searchParam.setTimeZone(TimeZone.getDefault());
-				List<ZSearchHit> result = mailbox.search(searchParam).getHits();
-for(ZSearchHit appt : result) {
-					AllResult += appt.toZJSONObject().put("organizer", rs.getString("userId")).toString() +",";
+				List<String> result = new ArrayList<String>();
+				result = JSPUtil.fetchTaskByUser(rs.getString("userId"),rs.getString("taskid"));
+for(String task : result) {
+					allTaskResultList.add(task);
 				}
 			}
-			AllResult = AllResult.substring(0,AllResult.length()-1)+"]";
 		} catch (ServiceException e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		} catch (AuthTokenException e) {
@@ -756,7 +703,7 @@ for(ZSearchHit appt : result) {
 		} catch (Exception e) {
 			ZLog.err("VNC CRM for Zimbra","Error in Lead Helper Class", e);
 		}
-		return AllResult;
+		return allTaskResultList.toString();
 	}
 
 	@Override

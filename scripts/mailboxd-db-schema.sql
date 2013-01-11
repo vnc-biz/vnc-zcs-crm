@@ -200,6 +200,10 @@ userId varchar(255),
 writeAccess Boolean
 );
 
-ALTER TABLE tbl_crm_lead_mailHistory ADD COLUMN userId varchar(255);
-ALTER TABLE tbl_crm_lead_calendar ADD COLUMN userId varchar(255);
-ALTER TABLE tbl_crm_lead_task ADD COLUMN userId varchar(255);
+ALTER TABLE tbl_crm_lead_mailHistory ADD COLUMN userId varchar(255) default NULL;
+ALTER TABLE tbl_crm_lead_calendar ADD COLUMN userId varchar(255) default NULL;
+ALTER TABLE tbl_crm_lead_task ADD COLUMN userId varchar(255) default NULL;
+
+DELETE FROM tbl_crm_lead_mailHistory where userId IS NULL;
+DELETE FROM tbl_crm_lead_calendar where userId IS NULL;
+DELETE FROM tbl_crm_lead_task where userId IS NULL;
