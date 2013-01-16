@@ -1734,6 +1734,13 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         sorters: {
             property: 'leadId',
             direction: 'DESC'
+        },
+        listeners: {
+            load: function(records, success, eOpts) {
+                if(success) {
+                    Ext.getCmp('leadGrid').getSelectionModel().select(0);
+                }
+            }
         }
     });
     var sm = Ext.create('Ext.selection.CheckboxModel', {
@@ -3604,10 +3611,6 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     Ext.getStore('leadStore').load();
 
     var grid = Ext.getCmp('leadGrid');
-    grid.on('viewready', function(){
-        if(grid.store.load().count()>0)
-            grid.getSelectionModel().select(0);
-    });
 
     grid.getSelectionModel().on('selectionchange', function (sm, selectedRecord) {
         if (selectedRecord.length) {
@@ -3983,6 +3986,13 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         sorters: {
             property: 'leadId',
             direction: 'DESC'
+        },
+        listeners: {
+            load: function(records, success, eOpts) {
+                if(success) {
+                    Ext.getCmp('opportunityGrid').getSelectionModel().select(0);
+                }
+            }
         }
     });
 
@@ -5810,10 +5820,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     Ext.getStore('oppStore').load();
 
     var grid = Ext.getCmp('opportunityGrid');
-    grid.on('viewready', function(){
-        if(grid.store.load().count()>0)
-            grid.getSelectionModel().select(0);
-    });
+    
     grid.getSelectionModel().on('selectionchange', function (sm, selectedRecord) {
         if (selectedRecord.length) {
             Ext.getCmp('footerOppPanel').show();
