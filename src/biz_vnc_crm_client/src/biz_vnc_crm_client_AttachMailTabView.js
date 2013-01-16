@@ -350,6 +350,8 @@ ZmAttachMailListView.prototype._getCellContents = function (htmlArr, idx, item, 
     }
     if (fragment != "") {
         fragmentHtml = "<span style=\"color:gray\"> - " + fragment + "</SPAN></DIV>";
+    } else {
+        fragmentHtml = "<span style=\"color:gray\"> - " + fragment + "</SPAN></DIV>";
     }
     var dateFormat = AjxDateUtil.computeDateStr(params.now || new Date(), item.date);
     var dataArray = {attachCell: attachCell, from: from, dateFormat: dateFormat, subject: subject, fragmentHtml: fragmentHtml};
