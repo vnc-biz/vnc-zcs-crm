@@ -168,10 +168,11 @@ public class CategoryHelper implements InterfaceHelper {
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_category where categoryId = ?;" ;
+		String query = "select * from tbl_crm_category where categoryId = ? and status = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
+			preparedStatement.setBoolean(2, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in recordById in CategoryHelper", e);
 		}

@@ -174,10 +174,11 @@ public class StateHelper implements InterfaceHelper {
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_state where stateId = ?;" ;
+		String query = "select * from tbl_crm_state where stateId = ? and status = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
+			preparedStatement.setBoolean(2, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in recordById in StateHelper", e);
 		}

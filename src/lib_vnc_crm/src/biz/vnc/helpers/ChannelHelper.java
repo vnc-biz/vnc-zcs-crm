@@ -164,10 +164,11 @@ public class ChannelHelper implements InterfaceHelper {
 
 	@Override
 	public AbstractBean getRecordById(String id) {
-		String query = "select * from tbl_crm_channel where channelId = ?;" ;
+		String query = "select * from tbl_crm_channel where channelId = ? and status = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
+			preparedStatement.setBoolean(2, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in recordById in ChannelHelper", e);
 		}
