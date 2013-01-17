@@ -131,7 +131,7 @@ ZaCRMLeadClassModel.editButtonListener = function () {
     if (instance.leadClass_list_cache && instance.leadClass_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editleadClassDlg) {
-            formPage.editleadClassDlg = new ZaEditLeadClassXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Edit leadClass");
+            formPage.editleadClassDlg = new ZaEditLeadClassXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_edit_leadClass);
             formPage.editleadClassDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMLeadClassModel.updateleadClass, this.getForm(), null);
             formPage.editleadClassDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMLeadClassModel.closeButtonListener, this.getForm(), null);
         }
@@ -207,7 +207,7 @@ ZaCRMLeadClassModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_leadClassName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("LeadClass already exists" + " : " + obj[ZaCRMadmin.A_leadClassName]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_leadClass + " : " + obj[ZaCRMadmin.A_leadClassName]));
         }
 
         instance[ZaCRMadmin.A_leadClass] = ZaCRMLeadClassModel.display();
@@ -219,7 +219,7 @@ ZaCRMLeadClassModel.addPerson = function () {
 ZaCRMLeadClassModel.addButtonListener = function () {
     var formPage = this.getForm().parent;
     if (!formPage.addleadClassDlg) {
-        formPage.addleadClassDlg = new ZaEditLeadClassXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new LeadClass");
+        formPage.addleadClassDlg = new ZaEditLeadClassXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_add_leadClass);
         formPage.addleadClassDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMLeadClassModel.addPerson, this.getForm(), null);
     }
 

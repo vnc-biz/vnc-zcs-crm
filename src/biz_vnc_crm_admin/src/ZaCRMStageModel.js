@@ -133,7 +133,7 @@ ZaCRMStageModel.editButtonListener = function () {
     if (instance.stage_list_cache && instance.stage_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editStageDlg) {
-            formPage.editStageDlg = new ZaEditStageXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "400px", "220px", "Edit Stage");
+            formPage.editStageDlg = new ZaEditStageXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "400px", "220px", biz_vnc_crm_admin.HDR_edit_stage);
             formPage.editStageDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMStageModel.updateStage, this.getForm(), null);
             formPage.editStageDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMStageModel.closeButtonListener, this.getForm(), null);
         }
@@ -248,7 +248,7 @@ ZaCRMStageModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_stageName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Channel already exists" + " : " + obj[ZaCRMadmin.A_stageName]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_stage + " : " + obj[ZaCRMadmin.A_stageName]));
         }
         instance[ZaCRMadmin.A_stage] = ZaCRMStageModel.display();
         this.parent.setDirty(true);
@@ -271,7 +271,7 @@ ZaCRMStageModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addStageDlg) {
-        formPage.addStageDlg = new ZaEditStageXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "400px", "220px", "Add new stage");
+        formPage.addStageDlg = new ZaEditStageXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "400px", "220px", biz_vnc_crm_admin.HDR_add_stage);
         formPage.addStageDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMStageModel.addPerson, this.getForm(), null);
     }
 
@@ -280,8 +280,8 @@ ZaCRMStageModel.addButtonListener = function () {
     obj[ZaCRMadmin.A_stageId] = 0;
     obj[ZaCRMadmin.A_stageName] = "";
     obj[ZaCRMadmin.A_stageSequence] = "";
-    obj[ZaCRMadmin.A_stageType] = "Select type";
-    obj[ZaCRMadmin.A_stageState] = "Select state";
+    obj[ZaCRMadmin.A_stageType] = biz_vnc_crm_admin.LBL_select_type;
+    obj[ZaCRMadmin.A_stageState] = biz_vnc_crm_admin.LBL_select_state;
     obj[ZaCRMadmin.A_stageProbability] = "";
     obj[ZaCRMadmin.A_stageDescription] = "";
     obj[ZaCRMadmin.A_stageAuto] = true;

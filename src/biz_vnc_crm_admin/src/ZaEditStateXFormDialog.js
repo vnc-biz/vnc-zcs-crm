@@ -84,8 +84,7 @@ ZaEditStateXFormDialog.prototype.getMyXForm = function () {
             }, {
                 ref: ZaCRMadmin.A_stateCountryName,
                 type: _OSELECT1_,
-                msgName: "countries",
-                label: "Select Country",
+                label: biz_vnc_crm_admin.LBL_select_country,
                 labelLocation: _LEFT_,
                 choices: ZaEditStateXFormDialog.countryChoices,
                 width: "150px",

@@ -80,7 +80,6 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                 }, {
                     ref: ZaCRMadmin.A_sectionManagerId,
                     type: _OSELECT1_,
-                    msgName: "sections",
                     label: biz_vnc_crm_admin.HDR_sectionManagerId + ":",
                     labelLocation: _LEFT_,
                     choices: ZaEditSectionXFormDialog.userChoices,
@@ -92,7 +91,6 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                 }, {
                     ref: ZaCRMadmin.A_sectionLeaderId,
                     type: _OSELECT1_,
-                    msgName: "sections",
                     label: biz_vnc_crm_admin.HDR_sectionLeaderId + ":",
                     labelLocation: _LEFT_,
                     choices: ZaEditSectionXFormDialog.userChoices,
@@ -104,7 +102,6 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                 }, {
                     ref: ZaCRMadmin.A_sectionWatcherId,
                     type: _OSELECT1_,
-                    msgName: "sections",
                     label: biz_vnc_crm_admin.HDR_sectionWatcherId + ":",
                     labelLocation: _LEFT_,
                     choices: ZaEditSectionXFormDialog.userChoices,
@@ -148,7 +145,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                         type: _ZACENTER_GROUPER_,
                         numCols: 1,
                         width: "100%",
-                        label: "Selected users list",
+                        label: biz_vnc_crm_admin.LBL_selected_user,
                         items: [{
                             ref: ZaCRMadmin.A_sectionSalesTeamIds,
                             type: _DWT_LIST_,
@@ -206,7 +203,7 @@ ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
                         type: _ZACENTER_GROUPER_,
                         numCols: 1,
                         width: "98%",
-                        label: "Common users list",
+                        label: biz_vnc_crm_admin.LBL_all_user,
                         items: [{
                             ref: ZaCRMadmin.A_sectionCommonSalesTeamIds,
                             type: _DWT_LIST_,

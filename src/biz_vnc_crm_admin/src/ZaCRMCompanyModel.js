@@ -128,7 +128,7 @@ ZaCRMCompanyModel.editButtonListener = function () {
     if (instance.company_list_cache && instance.company_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editCompanyDlg) {
-            formPage.editCompanyDlg = new ZaEditCompanyXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "180px", "Edit Company");
+            formPage.editCompanyDlg = new ZaEditCompanyXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "180px", biz_vnc_crm_admin.HDR_edit_company);
             formPage.editCompanyDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCompanyModel.updateCompany, this.getForm(), null);
             formPage.editCompanyDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMCompanyModel.closeButtonListener, this.getForm(), null);
         }
@@ -226,7 +226,7 @@ ZaCRMCompanyModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_companyName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Company already exists" + " : " + obj[ZaCRMadmin.A_companyName] + " OR " + obj[ZaCRMadmin.A_companyCode]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_company + " : " + obj[ZaCRMadmin.A_companyName]));
         }
 
         instance[ZaCRMadmin.A_company] = ZaCRMCompanyModel.display();
@@ -250,7 +250,7 @@ ZaCRMCompanyModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addCompanyDlg) {
-        formPage.addCompanyDlg = new ZaEditCompanyXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "180px", "Add new company");
+        formPage.addCompanyDlg = new ZaEditCompanyXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "180px", biz_vnc_crm_admin.HDR_add_company);
         formPage.addCompanyDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCompanyModel.addPerson, this.getForm(), null);
     }
 

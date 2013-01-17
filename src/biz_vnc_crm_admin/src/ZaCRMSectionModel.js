@@ -129,7 +129,7 @@ ZaCRMSectionModel.editButtonListener = function () {
     if (instance.section_list_cache && instance.section_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editSectionDlg) {
-            formPage.editSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", "Edit Section");
+            formPage.editSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", biz_vnc_crm_admin.HDR_edit_section);
             formPage.editSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.updateSection, this.getForm(), null);
             formPage.editSectionDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMSectionModel.closeButtonListener, this.getForm(), null);
         }
@@ -276,7 +276,7 @@ ZaCRMSectionModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_sectionName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Country already exists" + " : " + obj[ZaCRMadmin.A_sectionName] + " OR " + obj[ZaCRMadmin.A_sectionCode]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_section + " : " + obj[ZaCRMadmin.A_sectionName] + " OR " + obj[ZaCRMadmin.A_sectionCode]));
         }
 
         instance[ZaCRMadmin.A_section] = ZaCRMSectionModel.display();
@@ -304,7 +304,7 @@ ZaCRMSectionModel.addButtonListener = function () {
     obj[ZaCRMadmin.A_common_user_selection] = "";
 
     if (!formPage.addSectionDlg) {
-        formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", "Add new section");
+        formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", biz_vnc_crm_admin.HDR_add_section);
         formPage.addSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.addPerson, this.getForm(), null);
     }
     var json, reqHeader, reqJson, response;

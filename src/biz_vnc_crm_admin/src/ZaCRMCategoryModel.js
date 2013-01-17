@@ -130,7 +130,7 @@ ZaCRMCategoryModel.editButtonListener = function () {
     if (instance.category_list_cache && instance.category_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editcategoryDlg) {
-            formPage.editcategoryDlg = new ZaEditCategoryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Edit category");
+            formPage.editcategoryDlg = new ZaEditCategoryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_edit_category);
             formPage.editcategoryDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCategoryModel.updatecategory, this.getForm(), null);
             formPage.editcategoryDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMCategoryModel.closeButtonListener, this.getForm(), null);
         }
@@ -220,7 +220,7 @@ ZaCRMCategoryModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_categoryName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Category already exists" + " : " + obj[ZaCRMadmin.A_categoryName]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_category + " : " + obj[ZaCRMadmin.A_categoryName]));
         }
         instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
         this.parent.setDirty(true);
@@ -244,7 +244,7 @@ ZaCRMCategoryModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addcategoryDlg) {
-        formPage.addcategoryDlg = new ZaEditCategoryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new category");
+        formPage.addcategoryDlg = new ZaEditCategoryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_add_category);
         formPage.addcategoryDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCategoryModel.addPerson, this.getForm(), null);
     }
 
@@ -253,7 +253,7 @@ ZaCRMCategoryModel.addButtonListener = function () {
     obj[ZaCRMadmin.A_categoryId] = 0;
     obj[ZaCRMadmin.A_categoryName] = "";
     obj[ZaCRMadmin.A_categoryStatus] = true;
-    obj[ZaCRMadmin.A_sales_team_id] = "Select Section";
+    obj[ZaCRMadmin.A_sales_team_id] = biz_vnc_crm_admin.LBL_select_section;
     obj[ZaCRMadmin.A_categoryCreatedby] = ZaZimbraAdmin.currentUserName;
     obj[ZaCRMadmin.A_categoryWriteby] = ZaZimbraAdmin.currentUserName;
 

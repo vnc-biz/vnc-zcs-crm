@@ -130,7 +130,7 @@ ZaCRMStateModel.editButtonListener = function () {
     if (instance.state_list_cache && instance.state_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editStateDlg) {
-            formPage.editStateDlg = new ZaEditStateXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "120px", "Edit State");
+            formPage.editStateDlg = new ZaEditStateXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "120px", biz_vnc_crm_admin.HDR_edit_state);
             formPage.editStateDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMStateModel.updateState, this.getForm(), null);
             formPage.editStateDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMStateModel.closeButtonListener, this.getForm(), null);
         }
@@ -229,7 +229,7 @@ ZaCRMStateModel.addPerson = function () {
             }
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_stateName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("State already exists" + " : " + obj[ZaCRMadmin.A_stateName] + " OR " + obj[ZaCRMadmin.A_stateCode]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_state + " : " + obj[ZaCRMadmin.A_stateName] + " OR " + obj[ZaCRMadmin.A_stateCode]));
         }
 
         instance[ZaCRMadmin.A_state] = ZaCRMStateModel.display();
@@ -253,7 +253,7 @@ ZaCRMStateModel.addButtonListener_state = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addStateDlg) {
-        formPage.addStateDlg = new ZaEditStateXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "120px", "Add new State");
+        formPage.addStateDlg = new ZaEditStateXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "120px", biz_vnc_crm_admin.HDR_add_state);
         formPage.addStateDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMStateModel.addPerson, this.getForm(), null);
     }
 
@@ -261,7 +261,7 @@ ZaCRMStateModel.addButtonListener_state = function () {
     obj[ZaCRMadmin.A_stateId] = 0;
     obj[ZaCRMadmin.A_stateName] = "";
     obj[ZaCRMadmin.A_stateCode] = "";
-    obj[ZaCRMadmin.A_stateCountryName] = "Select Country";
+    obj[ZaCRMadmin.A_stateCountryName] = biz_vnc_crm_admin.LBL_select_country;
     obj[ZaCRMadmin.A_stateCountryStatus] = true;
     obj[ZaCRMadmin.A_stateCreatedby] = ZaZimbraAdmin.currentUserName;
     obj[ZaCRMadmin.A_stateWriteby] = ZaZimbraAdmin.currentUserName;

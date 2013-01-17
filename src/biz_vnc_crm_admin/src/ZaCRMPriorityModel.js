@@ -134,7 +134,7 @@ ZaCRMPriorityModel.editButtonListener = function () {
     if (instance.priority_list_cache && instance.priority_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editpriorityDlg) {
-            formPage.editpriorityDlg = new ZaEditPriorityXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Edit priority");
+            formPage.editpriorityDlg = new ZaEditPriorityXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_edit_priority);
             formPage.editpriorityDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMPriorityModel.updatepriority, this.getForm(), null);
             formPage.editpriorityDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMPriorityModel.closeButtonListener, this.getForm(), null);
         }
@@ -223,7 +223,7 @@ ZaCRMPriorityModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_priorityName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Priority already exists" + " : " + obj[ZaCRMadmin.A_priorityName] + " OR " + obj[ZaCRMadmin.A_priorityCode]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_priority + " : " + obj[ZaCRMadmin.A_priorityName] + " OR " + obj[ZaCRMadmin.A_priorityCode]));
         }
 
         instance[ZaCRMadmin.A_priority] = ZaCRMPriorityModel.display();
@@ -247,7 +247,7 @@ ZaCRMPriorityModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addpriorityDlg) {
-        formPage.addpriorityDlg = new ZaEditPriorityXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new priority");
+        formPage.addpriorityDlg = new ZaEditPriorityXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_add_priority);
         formPage.addpriorityDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMPriorityModel.addPerson, this.getForm(), null);
     }
 

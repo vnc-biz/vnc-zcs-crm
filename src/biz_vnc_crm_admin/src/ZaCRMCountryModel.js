@@ -129,7 +129,7 @@ ZaCRMCountryModel.editButtonListener = function () {
     if (instance.country_list_cache && instance.country_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editCountryDlg) {
-            formPage.editCountryDlg = new ZaEditCountryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Edit Country");
+            formPage.editCountryDlg = new ZaEditCountryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_edit_country);
             formPage.editCountryDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCountryModel.updateCountry, this.getForm(), null);
             formPage.editCountryDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMCountryModel.closeButtonListener, this.getForm(), null);
         }
@@ -217,7 +217,7 @@ ZaCRMCountryModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_countryName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Country already exists" + " : " + obj[ZaCRMadmin.A_countryName] + " OR " + obj[ZaCRMadmin.A_countryCode]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_country + " : " + obj[ZaCRMadmin.A_countryName] + " OR " + obj[ZaCRMadmin.A_countryCode]));
         }
 
         instance[ZaCRMadmin.A_country] = ZaCRMCountryModel.display();
@@ -241,7 +241,7 @@ ZaCRMCountryModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addCountryDlg) {
-        formPage.addCountryDlg = new ZaEditCountryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new country");
+        formPage.addCountryDlg = new ZaEditCountryXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_add_country);
         formPage.addCountryDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMCountryModel.addPerson, this.getForm(), null);
     }
 

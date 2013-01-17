@@ -135,7 +135,7 @@ ZaCRMChannelModel.editButtonListener = function () {
     if (instance.channel_list_cache && instance.channel_list_cache[0]) {
         var formPage = this.getForm().parent;
         if (!formPage.editchannelDlg) {
-            formPage.editchannelDlg = new ZaEditChannelXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Edit channel");
+            formPage.editchannelDlg = new ZaEditChannelXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_edit_channel);
             formPage.editchannelDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMChannelModel.updatechannel, this.getForm(), null);
             formPage.editchannelDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMChannelModel.closeButtonListener, this.getForm(), null);
         }
@@ -222,7 +222,7 @@ ZaCRMChannelModel.addPerson = function () {
             var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_channelName]));
         } else {
-            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format("Channel already exists" + " : " + obj[ZaCRMadmin.A_channelName]));
+            ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_channel + " : " + obj[ZaCRMadmin.A_channelName]));
         }
 
         instance[ZaCRMadmin.A_channel] = ZaCRMChannelModel.display();
@@ -246,7 +246,7 @@ ZaCRMChannelModel.addButtonListener = function () {
 
     var formPage = this.getForm().parent;
     if (!formPage.addchannelDlg) {
-        formPage.addchannelDlg = new ZaEditChannelXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", "Add new channel");
+        formPage.addchannelDlg = new ZaEditChannelXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "350px", "100px", biz_vnc_crm_admin.HDR_add_channel);
         formPage.addchannelDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMChannelModel.addPerson, this.getForm(), null);
     }
 
