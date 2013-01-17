@@ -154,7 +154,7 @@ public class PriorityHelper implements InterfaceHelper {
 
 	@Override
 	public int deleteByIds(String arrayIds,String user) {
-		String query = "update tbl_crm_stage set status = ?, writeBy = ?, writeDate = ? where priorityId IN (" + arrayIds + ");";
+		String query = "update tbl_crm_priority set status = ?, writeBy = ?, writeDate = ? where priorityId IN (" + arrayIds + ");";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, false);
