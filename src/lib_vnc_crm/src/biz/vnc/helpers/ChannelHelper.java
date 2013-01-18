@@ -27,6 +27,7 @@ import biz.vnc.base.InterfaceHelper;
 import biz.vnc.beans.ChannelBean;
 import biz.vnc.util.DBUtility;
 import biz.vnc.util.Limits;
+import biz.vnc.zimbra.util.ZLog;
 import com.google.gson.Gson;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import biz.vnc.zimbra.util.ZLog;
 
 public class ChannelHelper implements InterfaceHelper {
 

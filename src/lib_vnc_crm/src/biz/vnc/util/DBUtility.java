@@ -22,6 +22,8 @@
 
 package biz.vnc.util;
 
+import biz.vnc.zimbra.util.LocalDB;
+import biz.vnc.zimbra.util.ZLog;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,8 +33,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import biz.vnc.zimbra.util.ZLog;
-import biz.vnc.zimbra.util.LocalDB;
 
 public class DBUtility {
 

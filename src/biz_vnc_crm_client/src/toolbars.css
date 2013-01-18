@@ -22,77 +22,77 @@
 
 .btnLeadClass32
 {
-    background-image:url(./default/btn/LeadClass32.png)!important;
+	background-image:url(./default/btn/LeadClass32.png)!important;
 }
 
 .btnSalesman32
 {
-    background-image:url(./default/btn/Salesman32.png)!important;
+	background-image:url(./default/btn/Salesman32.png)!important;
 }
 
 .btnSalesTeam32
 {
-    background-image:url(./default/btn/SalesTeam32.png)!important;
+	background-image:url(./default/btn/SalesTeam32.png)!important;
 }
 
 .btnPartner32
 {
-    background-image:url(./default/btn/Partner32.png)!important;
+	background-image:url(./default/btn/Partner32.png)!important;
 }
 
 .btnCountry32
 {
-    background-image:url(./default/btn/Country32.png)!important;
+	background-image:url(./default/btn/Country32.png)!important;
 }
 
 .btnState32
 {
-    background-image:url(./default/btn/State32.png)!important;
+	background-image:url(./default/btn/State32.png)!important;
 }
 
 .btnCompany32
 {
-    background-image:url(./default/btn/Company32.png)!important;
+	background-image:url(./default/btn/Company32.png)!important;
 }
 
 .btnStage32
 {
-    background-image:url(./default/btn/Stage32.png)!important;
+	background-image:url(./default/btn/Stage32.png)!important;
 }
 
 .btnPriority32
 {
-    background-image:url(./default/btn/Priority32.png)!important;
+	background-image:url(./default/btn/Priority32.png)!important;
 }
 
 .btnChannel32
 {
-    background-image:url(./default/btn/Channel32.png)!important;
+	background-image:url(./default/btn/Channel32.png)!important;
 }
 
 .btnYear32
 {
-    background-image:url(./default/btn/Year32.png)!important;
+	background-image:url(./default/btn/Year32.png)!important;
 }
 
 .btnMonth32
 {
-    background-image:url(./default/btn/Month32.png)!important;
+	background-image:url(./default/btn/Month32.png)!important;
 }
 
 .btnWeek32
 {
-    background-image:url(./default/btn/Week32.png)!important;
+	background-image:url(./default/btn/Week32.png)!important;
 }
 
 .btnDay32
 {
-    background-image:url(./default/btn/Day32.png)!important;
+	background-image:url(./default/btn/Day32.png)!important;
 }
 
 .btnExpectedClosing32
 {
-    background-image:url(./default/btn/ExpectedClosing32.png)!important;
+	background-image:url(./default/btn/ExpectedClosing32.png)!important;
 }
 
 .btnOpportunity32
@@ -102,7 +102,7 @@
 
 .btnLead32
 {
-    background-image:url(./default/btn/Lead32.png)!important;
+	background-image:url(./default/btn/Lead32.png)!important;
 }
 
 .btnNew32
@@ -229,8 +229,6 @@
 .add24
 {
 	background-image:url(./default/btn/create.png)!important;
-	/*height:15px;
-	width:16px;*/
 }
 
 .delete
