@@ -305,6 +305,9 @@ ZmReportView.createForm = function(app) {
             width: 100,
             dataIndex: 'valuation',
             sortable: true,
+            renderer: function(value) {
+                return biz_vnc_crm_client.numberFormatRender(value);
+            },
             summaryType: 'sum',
             summaryRenderer: function(value, summaryData, dataIndex){
                 return (biz_vnc_crm_client.reportTotal + ': ' + value);

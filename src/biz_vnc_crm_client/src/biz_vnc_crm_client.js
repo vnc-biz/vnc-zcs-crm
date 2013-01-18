@@ -640,7 +640,10 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                     header: biz_vnc_crm_client.expectedRevenue,
                     width: 140,
                     dataIndex: 'valuation',
-                    sortable: true
+                    sortable: true,
+                    renderer: function(value) {
+                        return biz_vnc_crm_client.numberFormatRender(value);
+                    }
                 }, {
                     header: biz_vnc_crm_client.probability,
                     width: 100,
@@ -1077,7 +1080,10 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                     header: biz_vnc_crm_client.expectedRevenue,
                     width: 120,
                     dataIndex: 'valuation',
-                    sortable: true
+                    sortable: true,
+                    renderer: function(value) {
+                        return biz_vnc_crm_client.numberFormatRender(value);
+                    }
                 }, {
                     header: biz_vnc_crm_client.probability,
                     width: 75,
@@ -3474,7 +3480,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 text: biz_vnc_crm_client.creationDate,
                 width: 160,
                 dataIndex: 'createDate',
-                renderer: biz_vnc_crm_client.leadGridColumnRender
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.leadGridColumnRender(value);
+                    return value;
+               } 
             }, {
                 text: biz_vnc_crm_client.subject,
                 width: 160,
@@ -5631,7 +5641,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 120,
                 dataIndex: 'createDate',
                 sortable: true,
-                renderer: biz_vnc_crm_client.oppGridColumnRender
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    return biz_vnc_crm_client.oppGridColumnRender(value);
+                }
             }, {
                 header: biz_vnc_crm_client.opportunity,
                 width: 150,
@@ -5655,7 +5668,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 120,
                 dataIndex: 'nextActionDate',
                 sortable: true,
-                renderer: biz_vnc_crm_client.oppGridColumnRender
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.oppGridColumnRender(value);
+                    return value;
+                }
             }, {
                 header: biz_vnc_crm_client.nextAction,
                 width: 150,
@@ -5673,7 +5690,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 150,
                 dataIndex: 'valuation',
                 sortable: true,
-                renderer: biz_vnc_crm_client.oppGridColumnRender
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.numberFormatRender(value);
+                    return biz_vnc_crm_client.oppGridColumnRender(value);
+                }
             }, {
                 header: biz_vnc_crm_client.probability,
                 width: 110,
@@ -6656,4 +6676,19 @@ biz_vnc_crm_client.disablePageSizeButtons = function(pageSize) {
             Ext.getCmp('pageSizeOpp20').enable(true);
         }
     }
+}
+
+biz_vnc_crm_client.dateTimeRender = function(value) {
+    if(value) {
+        var date = value.match(/\d+/g);
+        var value = AjxDateFormat.getDateTimeInstance(AjxDateFormat.MEDIUM, AjxDateFormat.MEDIUM).format(new Date(date[0],date[1],date[2],date[3],date[4],date[5],date[6]));
+    }
+    return value;
+}
+
+biz_vnc_crm_client.numberFormatRender = function(value) {
+    if(value) {
+        return AjxNumberFormat.getNumberInstance().format(value);
+    }
+    return value;
 }

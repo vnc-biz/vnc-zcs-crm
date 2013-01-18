@@ -534,7 +534,10 @@ ZmDashboardView.dashboard = function (app) {
                 header: biz_vnc_crm_client.expectedRevenue,
                 width: 150,
                 dataIndex: 'valuation',
-                sortable: true
+                sortable: true,
+                renderer: function(value) {
+                    return biz_vnc_crm_client.numberFormatRender(value);
+                }
             }, {
                 header: biz_vnc_crm_client.probability,
                 width: 110,
