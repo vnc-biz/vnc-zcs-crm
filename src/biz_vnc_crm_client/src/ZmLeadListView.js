@@ -215,7 +215,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     var leadTaskListData = "[{'subject':'','status':'','complete':'','dueDate':''}]";
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
-        biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
+        biz_vnc_crm_client.mailData = "[{'id':'','date':'','sender':'','subject':'','fragment':''}]";
     }
     var json, responsePriority, responseCategory, responseStage, responseChannel, responseState, responseCountry, responseSection, responseUser, responseCompany;
     var reqHeader = {
@@ -396,7 +396,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
             name: 'subject',
             type: 'string'
         }, {
-            name: 'message',
+            name: 'fragment',
             type: 'string'
         }, {
             name: 'to',
@@ -1228,7 +1228,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                         text: biz_vnc_crm_client.message,
                         width: 500,
                         sortable: true,
-                        dataIndex: 'message'
+                        dataIndex: 'fragment'
                     }],
                     title: null,
                     viewConfig: {

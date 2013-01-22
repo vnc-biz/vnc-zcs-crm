@@ -3746,7 +3746,7 @@ biz_vnc_crm_client.oppGridColumnRender = function (v) {
 biz_vnc_crm_client.initOpportunityGrid = function (app) {
     biz_vnc_crm_client.apptData = "[{'subject':'','location1':'','calendar':'','startdate':''}]";
     if (biz_vnc_crm_client.mailData == "") {
-        biz_vnc_crm_client.mailData = "[{'date':'','from':'','subject':'','message':''}]";
+        biz_vnc_crm_client.mailData = "[{'id':'','date':'','sender':'','subject':'','fragment':''}]";
     }
     var content = AjxTemplate.expand("biz_vnc_crm_client.templates.SimpleOpportunity#MainOpportunity");
     app.setContent(content);
