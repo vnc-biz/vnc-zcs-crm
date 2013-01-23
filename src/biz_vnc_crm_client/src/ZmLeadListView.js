@@ -129,6 +129,7 @@ ZmLeadListView._mySaveResponseListener = function (result) {
         });
 
         Ext.getCmp('cmbOpppartner').setValue(set);
+        ZmOpportunityListView.selectedOppPartnerName = Ext.getCmp('cmbOpppartner').getValue();
         Ext.getCmp('txtOppMobile').setValue(mobilePhone);
         Ext.getCmp('txtOppContact').setValue(contactName);
         Ext.getCmp('txtOppZip').setValue(workPostalCode);
@@ -163,6 +164,7 @@ ZmLeadListView._mySaveResponseListener = function (result) {
             'label': company
         });
         Ext.getCmp('cmbpartner').setValue(set);
+        ZmLeadListView.selectedLeadPartnerName = Ext.getCmp('cmbpartner').getValue();
         Ext.getCmp('txtleadmobile').setValue(mobilePhone);
         Ext.getCmp('txtleadcontactName').setValue(contactName);
         Ext.getCmp('txtleadzip').setValue(workPostalCode);
