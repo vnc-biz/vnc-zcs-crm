@@ -584,7 +584,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                     displayField: 'priorityName',
                     valueField: 'priorityId',
                     queryMode: 'local',
-                    value: Ext.getCmp('cmbOpppriority').getStore().data.first(),
                     store: Ext.create('Ext.data.Store', {
                         model: 'priority',
                         proxy: {
@@ -763,7 +762,6 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         displayField: 'sectionName',
                         valueField: 'sectionId',
                         queryMode: 'local',
-                        value: Ext.getCmp('cmbOppsection').getStore().data.first(),
                         store: Ext.create('Ext.data.Store', {
                             model: 'section',
                             proxy: {
@@ -1703,6 +1701,16 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('cmbOppsalesman').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbOppsalesman').setValue(appCtxt.getUsername());
+            }
+        });
+        Ext.getCmp('cmbOpppriority').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbOpppriority').setValue(Ext.getCmp('cmbOpppriority').getStore().data.first());
+            }
+        });
+        Ext.getCmp('cmbOppsection').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbOppsection').setValue(Ext.getCmp('cmbOppsection').getStore().data.first());
             }
         });
     }

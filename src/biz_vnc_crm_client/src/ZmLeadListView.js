@@ -525,7 +525,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     displayField: 'sectionName',
                     valueField: 'sectionId',
                     queryMode: 'local',
-                    value: Ext.getCmp('cmbsection').getStore().data.first(),
                     store: Ext.create('Ext.data.Store', {
                         model: 'section',
                         proxy: {
@@ -588,7 +587,6 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     displayField: 'priorityName',
                     valueField: 'priorityId',
                     queryMode: 'local',
-                    value: Ext.getCmp('cmbpriority').getStore().data.first(),
                     store: Ext.create('Ext.data.Store', {
                         model: 'priority',
                         proxy: {
@@ -1912,6 +1910,16 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('cmbsalesman').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbsalesman').setValue(appCtxt.getUsername());
+            }
+        });
+        Ext.getCmp('cmbpriority').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbpriority').setValue(Ext.getCmp('cmbpriority').getStore().data.first());
+            }
+        });
+        Ext.getCmp('cmbsection').getStore().load({
+            callback: function () {
+                Ext.getCmp('cmbsection').setValue(Ext.getCmp('cmbsection').getStore().data.first());
             }
         });
     }
