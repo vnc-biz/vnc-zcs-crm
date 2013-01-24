@@ -1737,7 +1737,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
         },
         listeners: {
             load: function(records, success, eOpts) {
-                if(success) {
+                if(success && (records.totalCount > 0)) {
                     Ext.getCmp('leadGrid').getSelectionModel().select(0);
                 }
             }
@@ -3989,7 +3989,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
         },
         listeners: {
             load: function(records, success, eOpts) {
-                if(success) {
+                if(success && (records.totalCount > 0)) {
                     Ext.getCmp('opportunityGrid').getSelectionModel().select(0);
                 }
             }
