@@ -1133,10 +1133,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                             };
                         }
                     }]
-                }],
-                listeners: {
-                    dblclick: {}
-                }
+                }]
             }]
         }),
         ContactLeadPanel = Ext.create('Ext.form.Panel', {
@@ -1247,21 +1244,7 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                             };
                         }
                     }]
-                }],
-                listeners: {
-                    dblclick: {
-                        element: 'body', //bind to the underlying body property on the panel
-                        fn: function (grid, rowIndex, colIndex) {
-                            var rec = grid.getStore().getAt(rowIndex);
-                            var content = AjxTemplate.expand("biz_vnc_crm_client.templates.OpportunityForm#OpportunityFormMain");
-                            var app = biz_vnc_crm_client._app;
-                            contactOppGridWindow.hide();
-                            app.setContent(content);
-                            ZmLeadListView.prototype.getContacts(0, [], rec, app);
-                            app.pushView(app.getName());
-                        }
-                    }
-                }
+                }]
             }]
         })],
         renderTo: Ext.getBody()

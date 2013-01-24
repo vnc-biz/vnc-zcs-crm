@@ -1839,6 +1839,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('cmbpartner').getStore().load({
             callback: function () {
                 Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
+                ZmLeadListView.selectedLeadPartnerName = Ext.getCmp('cmbpartner').getValue();
             }
         });
         Ext.getCmp('cmbstage').getStore().load({
