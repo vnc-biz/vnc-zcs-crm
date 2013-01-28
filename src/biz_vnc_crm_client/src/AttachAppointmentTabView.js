@@ -120,8 +120,8 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function (in
     if (initFlagForAppt) {
         var end_date = new Date().getTime();
         var start_date = end_date - 31622400000;
-        start_date = (new Date(start_date).getMonth()+1) + "/" + new Date(start_date).getDay() + "/" + new Date(start_date).getFullYear();
-        end_date = (new Date(end_date).getMonth()+1) + "/" + new Date(end_date).getDay() + "/" + new Date(end_date).getFullYear();
+        start_date = (new Date(start_date).getMonth()+1) + "/" + new Date(start_date).getDate() + "/" + new Date(start_date).getFullYear();
+        end_date = (new Date(end_date).getMonth()+1) + "/" + new Date(end_date).getDate() + "/" + new Date(end_date).getFullYear();
     } else {
         var start_date = document.getElementById(this.crm_apt_start_date_id).value;
         var end_date = document.getElementById(this.crm_apt_end_date_id).value;
