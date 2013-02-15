@@ -32,7 +32,6 @@ import biz.vnc.beans.LeadBean;
 import biz.vnc.beans.LeadClassBean;
 import biz.vnc.beans.PriorityBean;
 import biz.vnc.beans.SectionBean;
-import biz.vnc.beans.SharedItemBean;
 import biz.vnc.beans.StageBean;
 import biz.vnc.beans.StateBean;
 import biz.vnc.util.DBUtility;
@@ -219,13 +218,11 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where status = ? and userId = ? UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and status = ?;" ;
+		String query = "select * from tbl_crm_lead where status = ? and userId = ?;" ;
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
-			preparedStatement.setString(3, username);
-			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all records in LeadHelper", e);
 		}
@@ -328,13 +325,11 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveRecords(String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and type = 0 and status = ?;";
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ?;";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
-			preparedStatement.setString(3, username);
-			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -417,13 +412,11 @@ public class LeadHelper implements InterfaceHelper {
 	@Override
 	public List<AbstractBean> getAllActiveFilterRecords(String array, String field, String username) {
 		List<AbstractBean> retValue = new ArrayList<AbstractBean>();
-		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ") UNION select * from tbl_crm_lead where leadId IN (select leadId from tbl_crm_share where userId = ?) and type = 0 and status = ? and " + field + " IN (" + array + ");";
+		String query = "select * from tbl_crm_lead where type = 0 and status = ? and userId = ? and " + field + " IN (" + array + ");";
 		try {
 			preparedStatement = DBUtility.connection.prepareStatement(query);
 			preparedStatement.setBoolean(1, true);
 			preparedStatement.setString(2, username);
-			preparedStatement.setString(3, username);
-			preparedStatement.setBoolean(4, true);
 		} catch (SQLException e) {
 			ZLog.err("VNC CRM for Zimbra", "Error in getting all active records in LeadHelper", e);
 		}
@@ -732,86 +725,4 @@ for(String task : result) {
 		return 0;
 	}
 
-	@Override
-	public String listSharedItems(String leadId) {
-		List<SharedItemBean> returnValue = new ArrayList<SharedItemBean>();
-		String query = "select * from tbl_crm_share where leadId = ?; ";
-		try {
-			preparedStatement = DBUtility.connection.prepareStatement(query);
-			preparedStatement.setString(1, leadId);
-		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra", "Error in listSharedItems in LeadHelper", e);
-		}
-		ResultSet rs = dbu.select(preparedStatement);
-		SharedItemBean sharedItemBean = null;
-		try {
-			while(rs.next()) {
-				sharedItemBean = new SharedItemBean();
-				sharedItemBean.setLeadId(rs.getInt("leadId"));
-				sharedItemBean.setUserId(rs.getString("userId"));
-				sharedItemBean.setWriteAccess(rs.getBoolean("writeAccess"));
-				returnValue.add(sharedItemBean);
-			}
-		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error listSharedItems result set in Lead Helper Class", e);
-		}
-		return gson.toJson(returnValue);
-	}
-
-	@Override
-	public int addSharedItems(String userArray, String accessArray, String leadId) {
-		String[] users = userArray.split(",");
-		String[] wAccess = accessArray.split(",");
-		for(int i = 0; i<users.length; i++) {
-			String query = "insert into tbl_crm_share values (?,?,?); ";
-			try {
-				preparedStatement = DBUtility.connection.prepareStatement(query);
-				preparedStatement.setString(1, leadId);
-				preparedStatement.setString(2, users[i]);
-				preparedStatement.setString(3, wAccess[i]);
-			} catch (SQLException e) {
-				ZLog.err("VNC CRM for Zimbra", "Error in addShareItems in LeadHelper", e);
-			}
-			operationStatus = dbu.insert(preparedStatement);
-		}
-		if (operationStatus == 1) {
-			return Notification.record_shared;
-		} else {
-			return Notification.record_not_shared;
-		}
-	}
-
-	@Override
-	public int deleteSharedItems(String leadId) {
-		String query = "delete from tbl_crm_share where leadId = ?; ";
-		try {
-			preparedStatement = DBUtility.connection.prepareStatement(query);
-			preparedStatement.setString(1, leadId);
-		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra", "Error in deleteSharedItems in LeadHelper", e);
-		}
-		operationStatus = dbu.delete(preparedStatement);
-		return operationStatus;
-	}
-
-	@Override
-	public boolean checkWriteAccess(String leadId, String userId) {
-		String query = "select writeAccess from tbl_crm_share where leadId = ? AND userId = ?; ";
-		try {
-			preparedStatement = DBUtility.connection.prepareStatement(query);
-			preparedStatement.setString(1, leadId);
-			preparedStatement.setString(2, userId);
-		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra", "Error in deleteSharedItems in LeadHelper", e);
-		}
-		ResultSet rs = dbu.select(preparedStatement);
-		try {
-			while(rs.next()) {
-				return rs.getBoolean("writeAccess");
-			}
-		} catch (SQLException e) {
-			ZLog.err("VNC CRM for Zimbra","Error listSharedItems result set in Lead Helper Class", e);
-		}
-		return true;
-	}
 }

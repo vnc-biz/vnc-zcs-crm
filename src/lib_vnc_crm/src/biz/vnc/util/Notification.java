@@ -30,9 +30,6 @@ public class Notification {
 	static public final int record_delete = 4;
 	static public final int record_not_delete = 5;
 
-	static public final int record_shared = 6;
-	static public final int record_not_shared = 7;
-
 	static public final int task_attach = 8;
 	static public final int task_not_attach = 9;
 	static public final int task_detached = 10;
@@ -48,5 +45,4 @@ public class Notification {
 	static public final int mail_detached = 18;
 	static public final int mail_not_detached = 19;
 
-	static public final int access_denite = 20;
 }

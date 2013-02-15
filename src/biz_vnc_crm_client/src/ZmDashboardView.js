@@ -557,20 +557,16 @@ ZmDashboardView.dashboard = function (app) {
                         Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
                             if (btn == "yes") {
-                                if(rec.get('userId')!=biz_vnc_crm_client.username) {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
-                                } else {
-                                    var name = appCtxt.getUsername();
-                                    var idArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
-                                    var idArray = [];
-                                    var str = "'" + "In Progress" + "'";
-                                    idArray.push(str);
-                                    var oppResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                    Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
-                                    Ext.getCmp('opportunityGrid').getView().refresh();
-                                }
+                                var name = appCtxt.getUsername();
+                                var idArray = rec.get('leadId');
+                                var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
+                                var idArray = [];
+                                var str = "'" + "In Progress" + "'";
+                                idArray.push(str);
+                                var oppResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+                                Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
+                                Ext.getCmp('opportunityGrid').getView().refresh();
                             }
                         };
                     }
@@ -678,20 +674,16 @@ ZmDashboardView.dashboard = function (app) {
                         Ext.MessageBox.confirm(biz_vnc_crm_client.msgConfirmHeader, biz_vnc_crm_client.msgConfirm, showResult);
                         function showResult(btn) {
                             if (btn == "yes") {
-                                if(rec.get('userId')!=biz_vnc_crm_client.username) {
-                                    Ext.example.msg('', biz_vnc_crm_client.msgAccessDenied);
-                                } else {
-                                    var name = appCtxt.getUsername();
-                                    var idArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
-                                    var idArray = [];
-                                    var str = "'" + "In Progress" + "'";
-                                    idArray.push(str);
-                                    var leadResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
-                                    Ext.example.msg('', biz_vnc_crm_client.msgDelete);
-                                    Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
-                                    Ext.getCmp('leadGrid').getView().refresh();
-                                }
+                                var name = appCtxt.getUsername();
+                                var idArray = rec.get('leadId');
+                                var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
+                                var idArray = [];
+                                var str = "'" + "In Progress" + "'";
+                                idArray.push(str);
+                                var leadResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+                                Ext.example.msg('', biz_vnc_crm_client.msgDelete);
+                                Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
+                                Ext.getCmp('leadGrid').getView().refresh();
                             }
                         };
                     }

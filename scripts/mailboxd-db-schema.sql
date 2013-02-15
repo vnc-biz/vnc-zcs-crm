@@ -194,12 +194,6 @@ writeDate timestamp default 0
 
 ALTER TABLE tbl_crm_lead ADD COLUMN leadClassId Integer REFERENCES tbl_crm_leadClass(leadClassId) AFTER leadState;
 
-CREATE TABLE IF NOT EXISTS tbl_crm_share (
-leadId Integer REFERENCES tbl_crm_lead(leadId),
-userId varchar(255),
-writeAccess Boolean
-);
-
 ALTER TABLE tbl_crm_lead_mailHistory ADD COLUMN userId varchar(255) default NULL;
 ALTER TABLE tbl_crm_lead_calendar ADD COLUMN userId varchar(255) default NULL;
 ALTER TABLE tbl_crm_lead_task ADD COLUMN userId varchar(255) default NULL;

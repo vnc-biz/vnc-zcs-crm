@@ -128,13 +128,8 @@ try {
 		try {
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("curUserId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);	
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.update(abstractBean);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.update(abstractBean);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in Update", e);
 		}
@@ -166,13 +161,8 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("curUserId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.deleteHistory(array,leadId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.deleteHistory(array,leadId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in Delete history", e);
 		}
@@ -181,43 +171,18 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.addHistory(array,leadId,userId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.addHistory(array,leadId,userId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in history", e);
-		}
-	} else if(actionType.equals("ADDSHAREITEM")) {
-		try {
-			String userArray = k.get("userArray").getAsString();
-			String accessArray = k.get("accessArray").getAsString();
-			String leadId = k.get("leadId").getAsString();
-			int status = interfaceHelper.deleteSharedItems(leadId);
-			if(userArray.equals("null")) {
-				out.println(1);
-			} else {
-				operationStatus = interfaceHelper.addSharedItems(userArray, accessArray, leadId);
-				out.println(operationStatus);
-			}
-		} catch(Exception e) {
-			ZLog.err("CRM CLIENT","Error in add SharedItems", e);
 		}
 	} else if(actionType.equals("CALHISTORY")) {
 		try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.addAppointment(array,leadId,userId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.addAppointment(array,leadId,userId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in cal history", e);
 		}
@@ -226,13 +191,8 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("userId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.addTask(array,leadId,userId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.addTask(array,leadId,userId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in task history", e);
 		}
@@ -241,13 +201,8 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("curUserId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.deleteTask(array,leadId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.deleteTask(array,leadId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in delete task", e);
 		}
@@ -268,14 +223,6 @@ try {
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in show mail info.", e);
 		}
-	} else if(actionType.equals("LISTSHAREITEMS")) {
-		try {
-			String leadId = k.get("leadId").getAsString();
-			String result = interfaceHelper.listSharedItems(leadId);
-			out.print(result);
-		} catch(Exception e) {
-			ZLog.err("CRM CLIENT","Error in list share items", e);
-		}
 	} else if(actionType.equals("listTask")) {
 		try {
 			String leadId = k.get("leadId").getAsString();
@@ -289,13 +236,8 @@ try {
 			String array = k.get("array").getAsString();
 			String leadId = k.get("leadId").getAsString();
 			String userId = k.get("curUserId").getAsString();
-			boolean write = interfaceHelper.checkWriteAccess(leadId, userId);
-			if(write == false) {
-				out.println(20);
-			} else {
-				operationStatus = interfaceHelper.deleteAppointment(array,leadId);
-				out.println(operationStatus);
-			}
+			operationStatus = interfaceHelper.deleteAppointment(array,leadId);
+			out.println(operationStatus);
 		} catch(Exception e) {
 			ZLog.err("CRM CLIENT","Error in delete appointment", e);
 		}

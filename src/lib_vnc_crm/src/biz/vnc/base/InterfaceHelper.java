@@ -51,9 +51,5 @@ public interface InterfaceHelper {
 	public String listTask(String leadId);
 	public int deleteTask(String array,String leadId);
 	public int recordCounter();
-	public String listSharedItems(String leadId);
 	public String showMail(String userId, String mailId);
-	public int addSharedItems(String userArray, String accessArray, String leadId);
-	public int deleteSharedItems(String leadId);
-	public boolean checkWriteAccess(String leadId, String UserId);
 }

@@ -374,23 +374,4 @@ public class SectionHelper implements InterfaceHelper {
 		return 0;
 	}
 
-	@Override
-	public String listSharedItems(String leadId) {
-		return null;
-	}
-
-	@Override
-	public int addSharedItems(String userArray, String accessArray, String leadId) {
-		return 0;
-	}
-
-	@Override
-	public int deleteSharedItems(String leadId) {
-		return 0;
-	}
-
-	@Override
-	public boolean checkWriteAccess(String leadId, String userId) {
-		return false;
-	}
 }
