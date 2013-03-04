@@ -52,7 +52,7 @@ ZaCRMadminCompanyListView.prototype._createItemHtml = function (item) {
     div[DwtListView._SELECTED_STYLE_CLASS] = div[DwtListView._STYLE_CLASS] + "-" + DwtCssStyle.SELECTED;
     div.className = div[DwtListView._STYLE_CLASS];
     this.associateItemWithElement(item, div, DwtListView.TYPE_LIST_ITEM);
-	
+
     if (item[ZaCRMadmin.A_companyStatus] == true) {
         var image = AjxImg.getImageHtml("Check");
     } else if (item[ZaCRMadmin.A_companyStatus] == false) {

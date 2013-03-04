@@ -355,6 +355,6 @@ ZmAttachMailListView.prototype._getCellContents = function (htmlArr, idx, item, 
     }
     var dateFormat = AjxDateUtil.computeDateStr(params.now || new Date(), item.date);
     var dataArray = {attachCell: attachCell, from: from, dateFormat: dateFormat, subject: subject, fragmentHtml: fragmentHtml};
-    htmlArr[idx++] = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachMail#AttachMailRight",dataArray); 
+    htmlArr[idx++] = AjxTemplate.expand("biz_vnc_crm_client.templates.AttachMail#AttachMailRight",dataArray);
     return idx;
 };

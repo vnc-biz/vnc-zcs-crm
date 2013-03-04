@@ -58,7 +58,7 @@ biz_vnc_crm_admin.versionCheckTreeModifier = function (tree) {
             if (ZaOverviewPanelController.overviewTreeListeners) {
                 ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;
             }
-        } 
+        }
     } else {
         /* Zimbra 8 */
         var overviewPanelController = this ;
@@ -70,7 +70,7 @@ biz_vnc_crm_admin.versionCheckTreeModifier = function (tree) {
                 id:ZaId.getTreeItemId(ZaId.PANEL_APP,"magHV",null, "VNCCRMHV"),
                 text: biz_vnc_crm_admin.CRM_tab_title,
                 mappingId: ZaZimbraAdmin._CRM_ADMIN_VIEW});
-    	        tree.addTreeItemData(ti);
+                tree.addTreeItemData(ti);
             if (ZaOverviewPanelController.overviewTreeListeners) {
                 ZaOverviewPanelController.overviewTreeListeners[ZaZimbraAdmin._CRM_ADMIN_VIEW] = ZaOverviewPanelController.crm_adminTreeListener;
             }

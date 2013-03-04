@@ -1,5 +1,5 @@
 <template id="AttachApptData">
-    <table style='width:500px'>
+	<table style='width:500px'>
 		<tr>
 			<td>
 				<div>
@@ -11,10 +11,10 @@
 				</div>
 			</td>
 		</tr>
-    	<tr>
+		<tr>
 			<td>
-    			<div id='<$=data.listId $>' style='height:240px;'></div>
-		    </td>
+				<div id='<$=data.listId $>' style='height:240px;'></div>
+			</td>
 		</tr>
 	</table>
 </template>

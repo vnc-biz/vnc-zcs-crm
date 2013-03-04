@@ -1,16 +1,16 @@
 <template id="AttachTaskLeft">
 	<div>
-    	<div style="float:left; position:relative; width:100px;" id="<$=data.treecellid $>">
-    	</div>
-    	<div style="float:left;position:relative; width:360px;" id="<$=data.listid $>">
+		<div style="float:left; position:relative; width:100px;" id="<$=data.treecellid $>">
 		</div>
-    </div>
+		<div style="float:left;position:relative; width:360px;" id="<$=data.listid $>">
+		</div>
+	</div>
 </template>
 <template id="AttachTaskRight">
-	<DIV style="height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;">
-		<TABLE width="100%">
+	<div style="height:70px;cursor:pointer;border-left:1px solid #E0E0E0; border-left:2px solid #E0E0E0; border-bottom:1px solid #E0E0E0; border-right:1px solid #E0E0E0; border-top:1px solid #E0E0E0;">
+		<table width="100%">
 			<tr>
-				<td  align="left">
+				<td align="left">
 					<span style="font-weight:bold;font-size:14px;">
 						<$=data.subject $>
 					</span>
@@ -19,7 +19,7 @@
 					<$=data.dueDate $>
 				</td>
 			</tr>
-		</TABLE>
-		<span style="font-weight:bold;"><$=data.status $></SPAN>
-	</DIV>
+		</table>
+		<span style="font-weight:bold;"><$=data.status $></span>
+	</div>
 </template>

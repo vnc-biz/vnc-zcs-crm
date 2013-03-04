@@ -342,7 +342,6 @@ ZmReportView.createForm = function(app) {
             dblclick: {
                 element: 'body',
                 fn: function (grid, rowIndex, colIndex) {
-	
                     var toolbar = app.getToolbar();
                     toolbar.setVisibility(true);
                     var rec = Ext.getCmp('leadPanel').getSelectionModel().getSelection();

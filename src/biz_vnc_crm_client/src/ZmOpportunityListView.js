@@ -1307,7 +1307,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                             } else {
                                 return value;
                             }
-                        } 
+                        }
                     }],
                     title: null,
                     viewConfig: {

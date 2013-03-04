@@ -1414,7 +1414,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                             var leadId = rec.get('leadId');
                                             biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
                                         }
-                                    } 
+                                    }
                                 }
                             };
                         }
