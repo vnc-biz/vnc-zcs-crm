@@ -1627,6 +1627,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
     });
     tabOpp.render("OpportunityForm");
     if (rec != null) {
+        biz_vnc_crm_client.toEmailAddress = rec.get('email');
         Ext.getCmp('oppTask').setDisabled(false);
         Ext.getCmp('oppAppointment').setDisabled(false);
         Ext.getCmp('oppComm').setDisabled(false);

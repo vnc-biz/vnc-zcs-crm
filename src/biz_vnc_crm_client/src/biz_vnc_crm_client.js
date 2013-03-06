@@ -90,6 +90,7 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     biz_vnc_crm_client._app = appCtxt.getApp(this._tabAppName);
     biz_vnc_crm_client.username = appCtxt.getUsername();
     biz_vnc_crm_client.pageSize = 5;
+    biz_vnc_crm_client.toEmailAddress = null;
 
     biz_vnc_crm_client.responsePriority = "";
     biz_vnc_crm_client.responseCategory = "";
@@ -3676,6 +3677,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             Ext.getCmp('leadTabPanel').setActiveTab(0);
             if (rec != null) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
+                biz_vnc_crm_client.toEmailAddress = rec.get('email');
                 Ext.getCmp('cmbpartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbpartner').setValue(rec.get('partnerName'));
@@ -5890,7 +5892,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             var rec = selectedRecord[0];
             if (rec != null) {
                 biz_vnc_crm_client.leadId = rec.get('leadId');
-
+                biz_vnc_crm_client.toEmailAddress = rec.get('email');
                 Ext.getCmp('cmbOpppartner').getStore().load({
                     callback: function () {
                         Ext.getCmp('cmbOpppartner').setValue(rec.get('partnerName'));
@@ -6532,7 +6534,7 @@ biz_vnc_crm_client.composeMail = function(leadId){
     if(!biz_vnc_crm_client.mailController) {
         biz_vnc_crm_client.mailController = new ZmCRMComposeController(appCtxt.getApp(ZmApp.MAIL)._container, appCtxt.getApp(ZmApp.MAIL), appCtxt.getCurrentViewId(), leadId);
     }
-    biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride:null, subjOverride:null, extraBodyText:null, callback:null});
+    biz_vnc_crm_client.mailController.doAction({action: ZmOperation.NEW_MESSAGE, inNewWindow: false, msg: new ZmMailMsg(), toOverride: biz_vnc_crm_client.toEmailAddress, subjOverride:null, extraBodyText:null, callback:null});
 };
 
 biz_vnc_crm_client.createAppointment = function() {

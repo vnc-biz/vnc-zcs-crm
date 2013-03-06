@@ -1852,6 +1852,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
     tabLead.render('LeadForm');
 
     if (rec != null) {
+        biz_vnc_crm_client.toEmailAddress = rec.get('email');
         Ext.getCmp('btnConvertToOpp').enable();
         Ext.getCmp('leadTask').setDisabled(false);
         Ext.getCmp('leadAppointment').setDisabled(false);
