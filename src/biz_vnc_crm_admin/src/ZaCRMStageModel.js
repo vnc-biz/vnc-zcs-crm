@@ -46,13 +46,12 @@ ZaCRMStageModel.isDeleteStageEnabled = function () {
 }
 
 ZaCRMStageModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"stage\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "stage"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -105,12 +104,13 @@ ZaCRMStageModel.prototype.doDelete = function (idArray) {
 
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"stage\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "stage",
+        array: idArray.toString(),
+        writeBy: name
+    });
+    var response = biz_vnc_crm_admin.rpc(json); 
     instance[ZaCRMadmin.A_stage] = ZaCRMStageModel.display();
 
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
@@ -165,12 +165,11 @@ ZaCRMStageModel.editButtonListener = function () {
 }
 
 ZaCRMStageModel.updateStage = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"stage\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "stage"
+    });
+    var response = biz_vnc_crm_admin.rpc(json); 
     if (this.parent.editStageDlg) {
         this.parent.editStageDlg.popdown();
         var obj = this.parent.editStageDlg.getObject();
@@ -182,7 +181,7 @@ ZaCRMStageModel.updateStage = function () {
             return;
         }
 
-        var j = JSON.stringify({
+        var json = JSON.stringify({
             action: "UPDATE",
             object: "stage",
             stageId: obj[ZaCRMadmin.A_stageId],
@@ -196,12 +195,7 @@ ZaCRMStageModel.updateStage = function () {
             status: obj[ZaCRMadmin.A_stageStatus],
             writeBy: obj[ZaCRMadmin.A_stageWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json); 
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_stageName]));
         instance[ZaCRMadmin.A_stage] = ZaCRMStageModel.display();
@@ -225,7 +219,7 @@ ZaCRMStageModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addStageDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "stage",
                 stageId: obj[ZaCRMadmin.A_stageId],
@@ -240,12 +234,7 @@ ZaCRMStageModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_stageCreatedby],
                 writeBy: obj[ZaCRMadmin.A_stageWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json); 
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_stageName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_stage + " : " + obj[ZaCRMadmin.A_stageName]));
@@ -257,12 +246,11 @@ ZaCRMStageModel.addPerson = function () {
 }
 
 ZaCRMStageModel.addButtonListener = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"stage\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({ 
+        action: "COUNT",
+        object: "stage"
+    });
+    var response = biz_vnc_crm_admin.rpc(json); 
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

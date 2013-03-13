@@ -63,18 +63,17 @@ ZaCRMxFormView.prototype.setObject = function (entry) {
     this._containedObject.name = entry.name;
     this._containedObject.type = entry.type;
 
-    var json, reqHeader, reqJson, response;
+    var json, response;
 
     if (entry.id) {
         this._containedObject.id = entry.id;
     }
 
-    json = "jsonobj={\"action\":\"ALLLIST\",\"object\":\"AllObject\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    json = JSON.stringify({
+        action: "ALLLIST",
+        object: "AllObject"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     var allAdminObject = jsonParse(response.text);
 
     this._containedObject[ZaCRMadmin.A_priority] = allAdminObject[0].priority;

@@ -46,13 +46,12 @@ ZaCRMPriorityModel.isDeletePriorityEnabled = function () {
 }
 
 ZaCRMPriorityModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"priority\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "priority"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -105,12 +104,13 @@ ZaCRMPriorityModel.prototype.doDelete = function (idArray) {
 
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"priority\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "priority",
+        array: idArray.toString(),
+        writeBy: name
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     instance[ZaCRMadmin.A_priority] = ZaCRMPriorityModel.display();
 
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
@@ -151,12 +151,11 @@ ZaCRMPriorityModel.editButtonListener = function () {
 }
 
 ZaCRMPriorityModel.updatepriority = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"priority\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "priority"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editpriorityDlg) {
         this.parent.editpriorityDlg.popdown();
         var obj = this.parent.editpriorityDlg.getObject();
@@ -167,7 +166,7 @@ ZaCRMPriorityModel.updatepriority = function () {
             return;
         }
 
-        var j = JSON.stringify({
+        var json= JSON.stringify({
             action: "UPDATE",
             object: "priority",
             priorityId: obj[ZaCRMadmin.A_priorityId],
@@ -176,12 +175,7 @@ ZaCRMPriorityModel.updatepriority = function () {
             status: obj[ZaCRMadmin.A_priorityStatus],
             writeBy: obj[ZaCRMadmin.A_priorityWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json);
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_priorityName]));
         instance[ZaCRMadmin.A_priority] = ZaCRMPriorityModel.display();
@@ -205,7 +199,7 @@ ZaCRMPriorityModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addpriorityDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "priority",
                 priorityId: obj[ZaCRMadmin.A_priorityId],
@@ -215,12 +209,7 @@ ZaCRMPriorityModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_priorityCreatedby],
                 writeBy: obj[ZaCRMadmin.A_priorityWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_priorityName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_priority + " : " + obj[ZaCRMadmin.A_priorityName] + " OR " + obj[ZaCRMadmin.A_priorityCode]));
@@ -233,12 +222,11 @@ ZaCRMPriorityModel.addPerson = function () {
 }
 
 ZaCRMPriorityModel.addButtonListener = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"priority\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "priority"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

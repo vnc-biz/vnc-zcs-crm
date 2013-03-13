@@ -47,13 +47,12 @@ ZaCRMLeadClassModel.isDeleteLeadClassEnabled = function () {
 }
 
 ZaCRMLeadClassModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"leadClass\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "leadClass"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -105,12 +104,13 @@ ZaCRMLeadClassModel.deleteButtonListener = function () {
 ZaCRMLeadClassModel.prototype.doDelete = function (idArray) {
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"leadClass\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "leadClass",
+        array: idArray.toString(),
+        writeBy: name
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     instance[ZaCRMadmin.A_leadClass] = ZaCRMLeadClassModel.display();
 
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
@@ -153,7 +153,7 @@ ZaCRMLeadClassModel.updateleadClass = function () {
         var instance = this.getInstance();
 
         obj[ZaCRMadmin.A_leadClassWriteby] = ZaZimbraAdmin.currentUserName;
-        var j = JSON.stringify({
+        var json = JSON.stringify({
             action: "UPDATE",
             object: "leadClass",
             leadClassId: obj[ZaCRMadmin.A_leadClassId],
@@ -161,12 +161,7 @@ ZaCRMLeadClassModel.updateleadClass = function () {
             status: obj[ZaCRMadmin.A_leadClassStatus],
             writeBy: obj[ZaCRMadmin.A_leadClassWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json);
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_leadClassName]));
 
         instance[ZaCRMadmin.A_leadClass] = ZaCRMLeadClassModel.display();
@@ -190,7 +185,7 @@ ZaCRMLeadClassModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addleadClassDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "leadClass",
                 leadClassId: obj[ZaCRMadmin.A_leadClassId],
@@ -199,12 +194,7 @@ ZaCRMLeadClassModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_leadClassCreatedby],
                 writeBy: obj[ZaCRMadmin.A_leadClassWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_leadClassName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_leadClass + " : " + obj[ZaCRMadmin.A_leadClassName]));

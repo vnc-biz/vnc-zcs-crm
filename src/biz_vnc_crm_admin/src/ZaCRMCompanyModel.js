@@ -47,13 +47,12 @@ ZaCRMCompanyModel.isDeleteCompanyEnabled = function () {
 }
 
 ZaCRMCompanyModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"company\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "company"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -102,12 +101,13 @@ ZaCRMCompanyModel.deleteButtonListener = function () {
 
 ZaCRMCompanyModel.prototype.doDelete = function (idArray) {
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"company\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "company",
+        array: idArray.toString(),
+        writeBy: name 
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     var instance = this.getInstance();
     instance[ZaCRMadmin.A_company] = ZaCRMCompanyModel.display();
 
@@ -147,12 +147,11 @@ ZaCRMCompanyModel.editButtonListener = function () {
 }
 
 ZaCRMCompanyModel.updateCompany = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"company\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "company"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editCompanyDlg) {
         this.parent.editCompanyDlg.popdown();
         var obj = this.parent.editCompanyDlg.getObject();
@@ -164,7 +163,7 @@ ZaCRMCompanyModel.updateCompany = function () {
             return;
         }
 
-        var j = JSON.stringify({
+        var json = JSON.stringify({
             action: "UPDATE",
             object: "company",
             companyId: obj[ZaCRMadmin.A_companyId],
@@ -176,12 +175,7 @@ ZaCRMCompanyModel.updateCompany = function () {
             status: obj[ZaCRMadmin.A_companyStatus],
             writeBy: obj[ZaCRMadmin.A_companyWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json);
 
         instance[ZaCRMadmin.A_company] = ZaCRMCompanyModel.display();
 
@@ -205,7 +199,7 @@ ZaCRMCompanyModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addCompanyDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "company",
                 companyId: obj[ZaCRMadmin.A_companyId],
@@ -218,12 +212,7 @@ ZaCRMCompanyModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_companyCreatedby],
                 writeBy: obj[ZaCRMadmin.A_companyWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_companyName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_company + " : " + obj[ZaCRMadmin.A_companyName]));
@@ -236,12 +225,11 @@ ZaCRMCompanyModel.addPerson = function () {
 }
 
 ZaCRMCompanyModel.addButtonListener = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"company\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "company"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

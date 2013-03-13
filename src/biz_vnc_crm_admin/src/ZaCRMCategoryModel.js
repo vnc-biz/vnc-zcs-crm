@@ -46,13 +46,12 @@ ZaCRMCategoryModel.isDeleteCategoryEnabled = function () {
 }
 
 ZaCRMCategoryModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"category\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "category"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -103,12 +102,13 @@ ZaCRMCategoryModel.deleteButtonListener = function () {
 ZaCRMCategoryModel.prototype.doDelete = function (idArray) {
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"category\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "category",
+        array: idArray.toString(),
+        writeBy: name
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
     this.getForm().parent.setDirty(true);
@@ -148,12 +148,11 @@ ZaCRMCategoryModel.editButtonListener = function () {
 }
 
 ZaCRMCategoryModel.updatecategory = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"category\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "category"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editcategoryDlg) {
 
         this.parent.editcategoryDlg.popdown();
@@ -165,7 +164,7 @@ ZaCRMCategoryModel.updatecategory = function () {
             return;
         }
 
-        var j = JSON.stringify({
+        var json = JSON.stringify({
             action: "UPDATE",
             object: "category",
             categoryId: obj[ZaCRMadmin.A_categoryId],
@@ -174,12 +173,7 @@ ZaCRMCategoryModel.updatecategory = function () {
             status: obj[ZaCRMadmin.A_categoryStatus],
             writeBy: obj[ZaCRMadmin.A_categoryWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json);
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_categoryName]));
         instance[ZaCRMadmin.A_category] = ZaCRMCategoryModel.display();
@@ -202,7 +196,7 @@ ZaCRMCategoryModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addcategoryDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "category",
                 categoryId: obj[ZaCRMadmin.A_categoryId],
@@ -212,12 +206,7 @@ ZaCRMCategoryModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_categoryCreatedby],
                 writeBy: obj[ZaCRMadmin.A_categoryWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_categoryName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_category + " : " + obj[ZaCRMadmin.A_categoryName]));
@@ -230,12 +219,11 @@ ZaCRMCategoryModel.addPerson = function () {
 }
 
 ZaCRMCategoryModel.addButtonListener = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"category\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "category"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

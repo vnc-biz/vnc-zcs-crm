@@ -53,7 +53,14 @@ ZmCRMTaskController.prototype._handleResponseSave = function (calItem, result) {
         "types": "task"
     });
     userId = appCtxt.getUsername();
-    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + this.leadId + "\"}");
+    var json = JSON.stringify({
+        action: "TASKHISTORY",
+        object: "lead",
+        array: taskids.toString(),
+        userId: userId,
+        leadId: this.leadId
+    });
+    var response = biz_vnc_crm_client.rpc(json);
     biz_vnc_crm_client.msgNotification(response.text);
     if (response.text == 8) {
         if (biz_vnc_crm_client.flag == 0) {

@@ -105,3 +105,13 @@ if (ZaOverviewPanelController.treeModifiers) {
     var response = AjxRpc.invoke(null,jspurl,null,null,true);
     ZaOverviewPanelController.treeModifiers.push(biz_vnc_crm_admin.versionCheckTreeModifier);
 }
+
+biz_vnc_crm_admin.rpc = function(json) {
+    return AjxRpc.invoke(
+        "jsonobj=" + AjxStringUtil.urlComponentEncode(json),
+        biz_vnc_crm_admin.jspUrl,
+        { "Content-Type": "application/x-www-form-urlencoded; charset=utf-8" },
+        null,
+        false        
+    );
+};

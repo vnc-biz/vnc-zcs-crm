@@ -34,14 +34,13 @@ ZaEditStateXFormDialog.prototype = new ZaXDialog;
 ZaEditStateXFormDialog.prototype.constructor = ZaEditStateXFormDialog;
 
 ZaEditStateXFormDialog.prototype.getMyXForm = function () {
-    var json, reqHeader, reqJson, response;
+    var json, response;
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"country\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    json = JSON.stringify({
+        action: "LIST",
+        object: "country"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
 
     this._containedObject[ZaCRMadmin.A_country] = jsonParse(response.text);
 

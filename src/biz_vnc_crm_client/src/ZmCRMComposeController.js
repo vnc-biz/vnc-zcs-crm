@@ -59,7 +59,14 @@ function(draftType, msg, callback, result) {
     var mailId = resp.m[0].id;
     userId = appCtxt.getUsername();
     var leadId = biz_vnc_crm_client.leadId;
-    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + mailId + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}");
+    var json = JSON.stringify({
+        action: "HISTORY",
+        object: "opp",
+        array: mailId,
+        userId: userId,
+        leadId: leadId
+    });
+    var response = biz_vnc_crm_client.rpc(json);
     biz_vnc_crm_client.msgNotification(response.text);
     if (response.text == 16) {
         if (biz_vnc_crm_client.flag == 0) {

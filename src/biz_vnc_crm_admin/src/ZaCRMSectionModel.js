@@ -46,13 +46,12 @@ ZaCRMSectionModel.isDeleteSectionEnabled = function () {
 }
 
 ZaCRMSectionModel.display = function () {
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json, response;
+    json = JSON.stringify({
+        action: "LIST",
+        object: "section"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     return (jsonParse(response.text));
 }
 
@@ -103,12 +102,13 @@ ZaCRMSectionModel.deleteButtonListener = function () {
 ZaCRMSectionModel.prototype.doDelete = function (idArray) {
     var instance = this.getInstance();
     var name = ZaZimbraAdmin.currentUserName;
-    var json = "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"section\",\"array\":\"" + idArray + "\",\"writeBy\":\"" + name + "\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "DELETEBYID",
+        object: "section",
+        array: idArray.toString(),
+        writeBy: name
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     instance[ZaCRMadmin.A_section] = ZaCRMSectionModel.display();
 
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
@@ -133,14 +133,12 @@ ZaCRMSectionModel.editButtonListener = function () {
             formPage.editSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.updateSection, this.getForm(), null);
             formPage.editSectionDlg.registerCallback(DwtDialog.CANCEL_BUTTON, ZaCRMSectionModel.closeButtonListener, this.getForm(), null);
         }
-        var json, reqHeader, reqJson, response;
 
-        json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-        reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        reqJson = AjxStringUtil.urlEncode(json);
-        response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var json = JSON.stringify({
+            action: "USER",
+            object: "section"
+        });
+        var response = biz_vnc_crm_admin.rpc(json);
         var chkListJson = eval(response.text);
 
         var commonuser = new Array();
@@ -173,12 +171,11 @@ ZaCRMSectionModel.editButtonListener = function () {
 }
 
 ZaCRMSectionModel.updateSection = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"section\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "section"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editSectionDlg) {
         this.parent.editSectionDlg.popdown();
         var obj = this.parent.editSectionDlg.getObject();
@@ -202,7 +199,7 @@ ZaCRMSectionModel.updateSection = function () {
             return;
         }
 
-        var j = JSON.stringify({
+        var json = JSON.stringify({
             action: "UPDATE",
             object: "section",
             sectionId: obj[ZaCRMadmin.A_sectionId],
@@ -215,12 +212,7 @@ ZaCRMSectionModel.updateSection = function () {
             status: obj[ZaCRMadmin.A_sectionStatus],
             writeBy: obj[ZaCRMadmin.A_sectionWriteby]
         });
-        var json = "jsonobj=" + j;
-        var reqHeader = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        };
-        var reqJson = AjxStringUtil.urlEncode(json);
-        var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+        var response = biz_vnc_crm_admin.rpc(json); 
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_sectionName]));
         instance[ZaCRMadmin.A_section] = ZaCRMSectionModel.display();
@@ -254,7 +246,7 @@ ZaCRMSectionModel.addPerson = function () {
         }
         if (flag == 0) {
             this.parent.addSectionDlg.popdown();
-            var j = JSON.stringify({
+            var json = JSON.stringify({
                 action: "ADD",
                 object: "section",
                 sectionId: obj[ZaCRMadmin.A_sectionId],
@@ -268,12 +260,7 @@ ZaCRMSectionModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_sectionCreatedby],
                 writeBy: obj[ZaCRMadmin.A_sectionWriteby]
             });
-            var json = "jsonobj=" + j;
-            var reqHeader = {
-                "Content-Type": "application/x-www-form-urlencoded"
-            };
-            var reqJson = AjxStringUtil.urlEncode(json);
-            var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+            var response = biz_vnc_crm_admin.rpc(json); 
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_sectionName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_section + " : " + obj[ZaCRMadmin.A_sectionName] + " OR " + obj[ZaCRMadmin.A_sectionCode]));
@@ -286,12 +273,11 @@ ZaCRMSectionModel.addPerson = function () {
 }
 
 ZaCRMSectionModel.addButtonListener = function () {
-    var json = "jsonobj={\"action\":\"COUNT\",\"object\":\"section\"}";
-    var reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    var reqJson = AjxStringUtil.urlEncode(json);
-    var response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "COUNT",
+        object: "section"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));
@@ -307,13 +293,11 @@ ZaCRMSectionModel.addButtonListener = function () {
         formPage.addSectionDlg = new ZaEditSectionXFormDialog(ZaApp.getInstance().getAppCtxt().getShell(), ZaApp.getInstance(), "800px", "500px", biz_vnc_crm_admin.HDR_add_section);
         formPage.addSectionDlg.registerCallback(DwtDialog.OK_BUTTON, ZaCRMSectionModel.addPerson, this.getForm(), null);
     }
-    var json, reqHeader, reqJson, response;
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    var json = JSON.stringify({
+        action: "USER",
+        object: "section"
+    });
+    var response = biz_vnc_crm_admin.rpc(json);
     var chkListJson = eval(response.text);
 
     var temp = new Array();

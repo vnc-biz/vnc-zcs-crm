@@ -34,14 +34,13 @@ ZaEditSectionXFormDialog.prototype = new ZaXDialog;
 ZaEditSectionXFormDialog.prototype.constructor = ZaEditSectionXFormDialog;
 
 ZaEditSectionXFormDialog.prototype.getMyXForm = function () {
-    var json, reqHeader, reqJson, response;
+    var json, response;
 
-    json = "jsonobj={\"action\":\"USER\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    json = JSON.stringify({
+        action: "USER",
+        object: "section"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     ZaEditSectionXFormDialog.humtum = [];
     var chkListJson = eval(response.text);
 

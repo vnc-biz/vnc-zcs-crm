@@ -34,14 +34,13 @@ ZaEditCategoryXFormDialog.prototype = new ZaXDialog;
 ZaEditCategoryXFormDialog.prototype.constructor = ZaEditCategoryXFormDialog;
 
 ZaEditCategoryXFormDialog.prototype.getMyXForm = function () {
-    var json, reqHeader, reqJson, response;
+    var json, response;
 
-    json = "jsonobj={\"action\":\"LIST\",\"object\":\"section\"}";
-    reqHeader = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    };
-    reqJson = AjxStringUtil.urlEncode(json);
-    response = AjxRpc.invoke(reqJson, biz_vnc_crm_admin.jspUrl, reqHeader, null, false);
+    json = JSON.stringify({
+        action: "LIST",
+        object: "section"
+    });
+    response = biz_vnc_crm_admin.rpc(json);
     this._containedObject[ZaCRMadmin.A_section] = jsonParse(response.text);
 
     var len = this._containedObject[ZaCRMadmin.A_section].length;

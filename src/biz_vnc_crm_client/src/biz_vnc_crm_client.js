@@ -106,9 +106,11 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
     var jspurl = "/service/zimlet/biz_vnc_crm_client/vnccrmmonitoring.jsp";
     var response = AjxRpc.invoke(null,jspurl,null,null,true);
 
-    biz_vnc_crm_client.response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"ALLLIST\",\"object\":\"AllObject\"}"
-    );
+    var json = JSON.stringify({
+        action: "ALLLIST",
+        object: "AllObject"
+    });
+    biz_vnc_crm_client.response = biz_vnc_crm_client.rpc(json);
 
     var allObject = jsonParse(biz_vnc_crm_client.response.text);
 
@@ -304,21 +306,24 @@ biz_vnc_crm_client_HandlerObject.prototype._getTooltipBGHtml = function () {
 
 // ---- Tool Tip ends ---------------------------------------------------------------------------------
 
-// ----------------------------------------------------------------------------------------------------
-
 biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controller, app) {
     Ext.require(['Ext.tab.*', 'Ext.window.*', 'Ext.tip.*', 'Ext.layout.container.Border', 'Ext.window.MessageBox', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.layout.container.Column', 'Ext.tab.Panel', 'Ext.panel.*', 'Ext.toolbar.*', 'Ext.button.*', 'Ext.container.ButtonGroup', 'Ext.layout.container.Table', 'Ext.selection.CheckboxModel', 'Ext.window.Window', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.chart.*']);
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-    // ------------------------------------------------------------------------------------------------------------
-    var mailOppResponse = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"LIST\",\"object\":\"opp\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "LIST",
+        object: "opp",
+        username: biz_vnc_crm_client.username
+    });
+    var mailOppResponse = biz_vnc_crm_client.rpc(json);
 
-    var mailLeadResponse = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"LIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    json = JSON.stringify({
+        action: "LIST",
+        object: "lead",
+        username: biz_vnc_crm_client.username
+    });
+    var mailLeadResponse = biz_vnc_crm_client.rpc(json);
 
     Ext.define('model_mailLead', {
         extend: 'Ext.data.Model',
@@ -572,9 +577,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     }
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "HISTORY",
+                                    object: "opp",
+                                    array: msgids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (
@@ -598,9 +608,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     appids[i] = selmsg[i].invId;
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + appids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "CALHISTORY",
+                                    object: "opp",
+                                    array: appids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
@@ -613,9 +628,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     taskids[i] = selmsg[i].invId;
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "TASKHISTORY",
+                                    object: "opp",
+                                    array: taskids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             }
@@ -718,9 +738,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     }
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + msgids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "HISTORY",
+                                    object: "opp",
+                                    array: msgids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (
@@ -744,9 +769,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     appids[i] = selmsg[i].invId;
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + appids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "CALHISTORY",
+                                    object: "opp",
+                                    array: appids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             } else if (view == "TKL") {
@@ -759,9 +789,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleBtnClick = function (controlle
                                     taskids[i] = selmsg[i].invId;
                                 }
                                 userId = appCtxt.getUsername();
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"lead\",\"array\":\"" + taskids + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + leadId + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "TASKHISTORY",
+                                    object: "lead",
+                                    array: taskids.toString(),
+                                    userId: userId,
+                                    leadId: leadId
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 mailOppGridWindow.hide();
                             }
@@ -816,14 +851,21 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
         idArray.push(record);
     }
 
-    // ------------------------------------------------------------------------------------------------------------
-    var contactOppResponse = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "CONTACT",
+        object: "opp",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
+    var contactOppResponse = biz_vnc_crm_client.rpc(json);
 
-    var contactLeadResponse = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    json = JSON.stringify({
+        action: "CONTACT",
+        object: "lead",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
+    var contactLeadResponse = biz_vnc_crm_client.rpc(json);
 
     Ext.define('model_lead', {
         extend: 'Ext.data.Model',
@@ -1108,9 +1150,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                 if (btn == "yes") {
                                     var name = appCtxt.getUsername();
                                     var didArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEBYID",
+                                        object: "lead",
+                                        array: didArray.toString(),
+                                        curUserId: name,
+                                        writeBy: name
+                                    });
+                                    var response = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(response.text);
                                     var count = appCtxt.getCurrentController().getSelection().length;
                                     var record;
@@ -1119,9 +1166,13 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                         record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
                                         idArray.push(record);
                                     }
-                                    var contactLeadResponse = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"CONTACT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-                                    );
+                                    json = JSON.stringify({
+                                        action: "CONTACT",
+                                        object: "opp",
+                                        array: idArray.toString(),
+                                        username: biz_vnc_crm_client.username
+                                    });
+                                    var contactLeadResponse = biz_vnc_crm_client.rpc(json);
                                     Ext.getCmp('contactOpportunityGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
                                     Ext.getCmp('contactOpportunityGrid').getView().refresh();
                                 }
@@ -1216,9 +1267,14 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                 if (btn == "yes") {
                                     var name = appCtxt.getUsername();
                                     var didArray = rec.get('leadId');
-                                    var response = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + didArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEBYID",
+                                        object: "lead",
+                                        array: didArray.toString(),
+                                        curUserId: name,
+                                        writeBy: name
+                                    });
+                                    var response = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(response.text);
                                     var record;
                                     var idArray = [];
@@ -1226,9 +1282,13 @@ biz_vnc_crm_client_HandlerObject.prototype._handleToolbarBtnClick = function (co
                                         record = "'" + (appCtxt.getCurrentController().getSelection())[i].id + "'";
                                         idArray.push(record);
                                     }
-                                    var contactLeadResponse = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"CONTACT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "CONTACT",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        username: biz_vnc_crm_client.username
+                                    });
+                                    var contactLeadResponse = biz_vnc_crm_client.rpc(json);
                                     Ext.getCmp('contactLeadGrid').getStore().loadData(jsonParse(contactLeadResponse.text), false);
                                     Ext.getCmp('contactLeadGrid').getView().refresh();
                                 }
@@ -1314,9 +1374,14 @@ biz_vnc_crm_client.okTaskAttach = function () {
         array.push(bcView.getSelection()[i].invId);
     }
     userId = appCtxt.getUsername();
-    var response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"TASKHISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "TASKHISTORY",
+        object: "opp",
+        array: array.toString(),
+        userId: userId,
+        leadId: biz_vnc_crm_client.leadId
+    });
+    var response = biz_vnc_crm_client.rpc(json);
     biz_vnc_crm_client.msgNotification(response.text);
     if (biz_vnc_crm_client.flag == 0) {
         biz_vnc_crm_client.requestTaskList(biz_vnc_crm_client.leadId, "leadTaskGrid");
@@ -1358,9 +1423,14 @@ biz_vnc_crm_client.okMailAttach = function () {
     }
     if (i == count) {
         userId = appCtxt.getUsername();
-        var response = biz_vnc_crm_client.rpc(
-            "jsonobj={\"action\":\"HISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
-        );
+        var json = JSON.stringify({
+            action: "HISTORY",
+            object: "opp",
+            array: array.toString(),
+            userId: userId,
+            leadId: biz_vnc_crm_client.leadId
+        });
+        var response = biz_vnc_crm_client.rpc(json);
         biz_vnc_crm_client.msgNotification(response.text);
     }
     canvas.popdown();
@@ -1384,9 +1454,14 @@ biz_vnc_crm_client.okAppointmentAttach = function () {
         array.push(records[i].itemid);
     }
     userId = appCtxt.getUsername();
-    var response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"opp\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + biz_vnc_crm_client.leadId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "CALHISTORY",
+        object: "opp",
+        array: array.toString(),
+        userId: userId,
+        leadId: biz_vnc_crm_client.leadId
+    });
+    var response = biz_vnc_crm_client.rpc(json);
     biz_vnc_crm_client.msgNotification(response.text);
     this.attachApptDialog.popdown();
     if (12 == response.text) {
@@ -1509,10 +1584,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
     var idArray = [];
     idArray = biz_vnc_crm_client.getFilterItems(app);
 
-    var response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "FILTER",
+        object: "lead",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
 
+    var response = biz_vnc_crm_client.rpc(json);
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
         idProperty: 'leadId',
@@ -2261,7 +2340,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     iconCls: 'convert',
                     anchor: '95%',
                     handler: function () {
-                        var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}");
+                        var json = JSON.stringify({
+                            action: "COUNT",
+                            object: "opp"
+                        });
+                        var response = biz_vnc_crm_client.rpc(json);
                         if (response.text == 2){
                             Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
                             return;
@@ -2335,7 +2418,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             var probability = 0;
 
                             var leadId = biz_vnc_crm_client.leadId;
-                            var j = JSON.stringify({
+                            var json = JSON.stringify({
                                 action: "UPDATE",
                                 curUserId: appCtxt.getUsername(),
                                 object: "lead",
@@ -2381,7 +2464,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                 probability: probability,
                                 partnerName: partnerName
                             });
-                            var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                            var response = biz_vnc_crm_client.rpc(json);
 
                             Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
                             var rec = Ext.getCmp('leadGrid').getSelectionModel().getSelection();
@@ -2669,9 +2752,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
 
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEHISTORY",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestMailList(leadId, "leadMailGrid");
@@ -2794,9 +2882,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     });
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEAPPT",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    }); 
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestApptList(leadId, "leadApptGrid");
@@ -2916,9 +3009,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                     });
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETETASK",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestTaskList(leadId, "leadTaskGrid");
@@ -3217,7 +3315,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     var probability = 0;
                     var leadId = biz_vnc_crm_client.leadId;
 
-                    var j = JSON.stringify({
+                    var json= JSON.stringify({
                         action: "UPDATE",
                         curUserId: appCtxt.getUsername(),
                         object: "lead",
@@ -3263,7 +3361,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                         probability: probability,
                         partnerName: partnerName
                     });
-                    var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                    var response = biz_vnc_crm_client.rpc(json);
                     biz_vnc_crm_client.msgNotification(response.text);
                     if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
@@ -3297,7 +3395,11 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 iconCls: 'add24',
                 scale: 'medium',
                 handler: function () {
-                    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"lead\"}");
+                    var json = JSON.stringify({
+                        action: "COUNT",
+                        object: "lead"
+                    });
+                    var response = biz_vnc_crm_client.rpc(json);
                     if (response.text == 2){
                         Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
                         return;
@@ -3346,9 +3448,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     function showResult(btn) {
                         if (btn == "yes") {
                             var name = appCtxt.getUsername();
-                            var response = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                            );
+                            var json = JSON.stringify({
+                                action: "DELETEBYID",
+                                object: "lead",
+                                array: idArray.toString(),
+                                curUserId: name,
+                                writeBy: name
+                            });
+                            var response = biz_vnc_crm_client.rpc(json);
                             biz_vnc_crm_client.msgNotification(response.text);
                             biz_vnc_crm_client.initLeadGrid(app);
                         }
@@ -3539,9 +3646,14 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "DELETEBYID",
+                                    object: "lead",
+                                    array: idArray.toString(),
+                                    curUserId: name,
+                                    writeBy: name
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 biz_vnc_crm_client.initLeadGrid(app);
                             }
@@ -3733,9 +3845,13 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
     var idArray = [];
     idArray = biz_vnc_crm_client.getFilterItems(app);
 
-    var responseOpp = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "FILTER",
+        object: "opp",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
+    var responseOpp = biz_vnc_crm_client.rpc(json);
 
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
@@ -4862,9 +4978,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEHISTORY",
+                                        object: "opp",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestMailList(leadId, "oppMailGrid");
@@ -4988,9 +5109,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETEAPPT",
+                                        object: "opp",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestApptList(leadId, "oppApptGrid");
@@ -5113,9 +5239,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                                     var leadId = biz_vnc_crm_client.leadId;
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc(
-                                        "jsonobj={\"action\":\"DELETETASK\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}"
-                                    );
+                                    var json = JSON.stringify({
+                                        action: "DELETETASK",
+                                        object: "opp",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         biz_vnc_crm_client.requestTaskList(leadId, "oppTaskGrid");
@@ -5381,7 +5512,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
 
                     var workPhone = Ext.getCmp('txtOppWorkPhone').getValue();
                     var leadId = biz_vnc_crm_client.leadId;
-                    var j = JSON.stringify({
+                    var json = JSON.stringify({
                         action: "UPDATE",
                         curUserId: appCtxt.getUsername(),
                         object: "opp",
@@ -5427,7 +5558,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                         probability: probability,
                         partnerName: partnerName
                     });
-                    var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                    var response = biz_vnc_crm_client.rpc(json);
                     biz_vnc_crm_client.msgNotification(response.text);
                     if (response.text == 2) {
                         biz_vnc_crm_client.switchingView(app);
@@ -5461,7 +5592,11 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 iconCls: 'add24',
                 scale: 'medium',
                 handler: function () {
-                    var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}");
+                    var json = JSON.stringify({
+                        action: "COUNT",
+                        object: "opp"
+                    });
+                    var response = biz_vnc_crm_client.rpc(json);
                     if (response.text == 2){
                         Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
                         return;
@@ -5511,9 +5646,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     function showResult(btn) {
                         if (btn == "yes") {
                             var name = appCtxt.getUsername();
-                            var response = biz_vnc_crm_client.rpc(
-                                "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                            );
+                            var json = JSON.stringify({
+                                action: "DELETEBYID",
+                                object: "lead",
+                                array: idArray.toString(),
+                                curUserId: name,
+                                writeBy: name
+                            });
+                            var response = biz_vnc_crm_client.rpc(json);
                             biz_vnc_crm_client.msgNotification(response.text);
                             biz_vnc_crm_client.initOpportunityGrid(app);
                         }
@@ -5726,9 +5866,14 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc(
-                                    "jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}"
-                                );
+                                var json = JSON.stringify({
+                                    action: "DELETEBYID",
+                                    object: "lead",
+                                    array: idArray.toString(),
+                                    curUserId: name,
+                                    writeBy: name
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 biz_vnc_crm_client.msgNotification(response.text);
                                 biz_vnc_crm_client.initOpportunityGrid(app);
                             };
@@ -5867,9 +6012,12 @@ biz_vnc_crm_client.add_contact = function(flag) {
 }
 
 biz_vnc_crm_client.requestTaskList = function (leadId, gridId) {
-    response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"listTask\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "listTask",
+        object: "lead",
+        leadId: leadId
+    });    
+    response = biz_vnc_crm_client.rpc(json);
     if(response.text == ']'){
         biz_vnc_crm_client.taskData = "[{'taskId':'','subject':'','status':'','complete':'','startTime':''}]";
     } else {
@@ -5880,9 +6028,12 @@ biz_vnc_crm_client.requestTaskList = function (leadId, gridId) {
 }
 
 biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
-    response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"LISTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "LISTHISTORY",  
+        object: "lead",  
+        leadId: leadId
+    });
+    response = biz_vnc_crm_client.rpc(json);
     if(response.text == []){
         biz_vnc_crm_client.mailData = "[{'id':'','date':'','sender':'','subject':'','fragment':''}]";
     } else {
@@ -5893,9 +6044,12 @@ biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
 }
 
 biz_vnc_crm_client.requestApptList = function (leadId, gridId) {
-    var responseApptHistory = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"LISTAPPTHISTORY\",\"object\":\"lead\",\"leadId\":\"" + leadId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "LISTAPPTHISTORY",  
+        object: "lead",  
+        leadId: leadId
+    });
+    var responseApptHistory = biz_vnc_crm_client.rpc(json);
     if(responseApptHistory.text == "]" || responseApptHistory.text == "[") {
         biz_vnc_crm_client.apptData = "[{'name':'','location':'','status':'','folderId':'','startdate':''}]";
     } else {
@@ -6407,9 +6561,14 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
         var array = [];
         array.push(response.invId);
         userId = appCtxt.getUsername();
-        var response = biz_vnc_crm_client.rpc(
-            "jsonobj={\"action\":\"CALHISTORY\",\"object\":\"lead\",\"array\":\"" + array + "\",\"userId\":\"" + userId + "\",\"leadId\":\"" + calItem.leadId + "\"}"
-        );
+        var json = JSON.stringify({
+            action: "CALHISTORY",
+            object: "lead",
+            array: array.toString(),
+            userId: userId,
+            leadId: calItem.leadId
+        }); 
+        var response = biz_vnc_crm_client.rpc(json);
         if (response.text == 0) {
             biz_vnc_crm_client.msgNotification(response.text);
         } else {
@@ -6497,9 +6656,9 @@ biz_vnc_crm_client.parseDisplay = function(fba) {
 
 biz_vnc_crm_client.rpc = function(json) {
     return AjxRpc.invoke(
-        AjxStringUtil.urlEncode(json),
+        "jsonobj=" + AjxStringUtil.urlComponentEncode(json),
         "/service/zimlet/biz_vnc_crm_client/client.jsp",
-        { "Content-Type": "application/x-www-form-urlencoded" },
+        { "Content-Type": "application/x-www-form-urlencoded; charset=utf-8" },
         null,
         false
     );
@@ -6544,9 +6703,13 @@ biz_vnc_crm_client.overviewTreeItemSelection = function(flag) {
 }
 
 biz_vnc_crm_client.mailInfowindow = function (rec) {
-    response = biz_vnc_crm_client.rpc(
-        "jsonobj={\"action\":\"SHOWMAIL\",\"object\":\"lead\",\"mailId\":\"" + rec.items[0].data.id + "\",\"userId\":\"" + rec.items[0].data.userId + "\"}"
-    );
+    var json = JSON.stringify({
+        action: "SHOWMAIL",
+        object: "lead",
+        mailId: rec.items[0].data.id,
+        userId: rec.items[0].data.userId
+    });
+    response = biz_vnc_crm_client.rpc(json);
 
     var html = "<p><b>"+ biz_vnc_crm_client.from +" : </b>" +rec.items[0].data.from + "</br></br><b>"+ biz_vnc_crm_client.to +" :     </b>" +rec.items[0].data.to + "</br></br><b>"+ biz_vnc_crm_client.date +" :     </b>" + new Date(rec.items[0].data.date).toUTCString()+ "</br></br><b>"+ biz_vnc_crm_client.subject +" : </b>"+rec.items[0].data.subject +"</br></br><hr>"+ response.text +"</br></br></p>";
     mailInfoWindow = Ext.create('widget.window', {

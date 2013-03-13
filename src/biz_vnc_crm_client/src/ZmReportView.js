@@ -227,7 +227,12 @@ ZmReportView.createForm = function(app) {
         }]
     });
 
-    ZmReportView.responseLead = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FULLLIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+    var json = JSON.stringify({
+        action: "FULLLIST",
+        object: "lead",
+        username: biz_vnc_crm_client.username
+    });
+    ZmReportView.responseLead = biz_vnc_crm_client.rpc(json);
     ZmReportView.response = jsonParse(ZmReportView.responseLead.text);
     var store = Ext.create('Ext.data.JsonStore', {
         model: 'data',

@@ -740,7 +740,11 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     iconCls: 'convert',
                     anchor: '95%',
                     handler: function () {
-                        var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"COUNT\",\"object\":\"opp\"}");
+                        var json = JSON.stringify({
+                            action: "COUNT",
+                            object: "opp"
+                        });
+                        var response = biz_vnc_crm_client.rpc(json);
 
                         if (response.text == 2){
                             Ext.Msg.alert(biz_vnc_crm_client.notification, biz_vnc_crm_client.usageLimitMessage);
@@ -815,7 +819,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             var probability = 0;
                             if (rec != null) {
                                 var leadId = rec.get('leadId');
-                                var j = JSON.stringify({
+                                var json = JSON.stringify({
                                     action: "UPDATE",
                                     object: "lead",
                                     curUserId: appCtxt.getUsername(),
@@ -861,7 +865,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     probability: probability,
                                     partnerName: partnerName
                                 });
-                                var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                                var response = biz_vnc_crm_client.rpc(json);
                             }
                             if(response.text == 2) {
                                 Ext.example.msg('', biz_vnc_crm_client.msgLeadToOpp);
@@ -1148,7 +1152,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
 
                                     var leadId = rec.get('leadId');
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEHISTORY\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    var json = JSON.stringify({
+                                        action: "DELETEHISTORY",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         if (rec != null) {
@@ -1279,7 +1290,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     });
                                     var leadId = rec.get('leadId');
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEAPPT\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    var json = JSON.stringify({
+                                        action: "DELETEAPPT",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         if (rec != null) {
@@ -1407,7 +1425,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                                     });
                                     var leadId = rec.get('leadId');
                                     var curUserId = appCtxt.getUsername();
-                                    var responseUser = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETETASK\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + curUserId + "\",\"leadId\":\"" + leadId + "\"}");
+                                    var json = JSON.stringify({
+                                        action: "DELETETASK",
+                                        object: "lead",
+                                        array: idArray.toString(),
+                                        curUserId: curUserId,
+                                        leadId: leadId
+                                    });
+                                    var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
                                         if (rec != null) {
@@ -1718,7 +1743,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     var probability = 0;
                     if (rec != null) {
                         var leadId = rec.get('leadId');
-                        var j = JSON.stringify({
+                        var json = JSON.stringify({
                             action: "UPDATE",
                             object: "lead",
                             curUserId: appCtxt.getUsername(),
@@ -1764,10 +1789,10 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             probability: probability,
                             partnerName: partnerName
                         });
-                        var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                        var response = biz_vnc_crm_client.rpc(json);
                     } else {
                         var leadId = 0;
-                        var j = JSON.stringify({
+                        var json = JSON.stringify({
                             action: "ADD",
                             object: "lead",
                             leadId: leadId,
@@ -1812,7 +1837,7 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                             probability: probability,
                             partnerName: partnerName
                         });
-                        var response = biz_vnc_crm_client.rpc("jsonobj=" + j);
+                        var response = biz_vnc_crm_client.rpc(json);
                     }
                     biz_vnc_crm_client.msgNotification(response.text);
                     biz_vnc_crm_client.switchingView(app);

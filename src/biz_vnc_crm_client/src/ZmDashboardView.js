@@ -40,8 +40,13 @@ ZmDashboardView.dashboard = function (app) {
     Ext.MessageBox.buttonText.yes = biz_vnc_crm_client.btnYes;
     Ext.MessageBox.buttonText.no = biz_vnc_crm_client.btnNo;
 
-    // pie chart start--------------------------------------------------------------------------------------------
-    var responseLead = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LIST\",\"object\":\"lead\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+    // pie chart start
+    var json = JSON.stringify({
+        action: "LIST",
+        object: "lead",
+        username: biz_vnc_crm_client.username
+    });
+    var responseLead = biz_vnc_crm_client.rpc(json);
 
     var leadData = jsonParse(responseLead.text);
     var closelead = inProgresslead = newlead = pendinglead = total = 0;
@@ -129,11 +134,16 @@ ZmDashboardView.dashboard = function (app) {
             items: leadChart
         });
 
-    // pie chart end--------------------------------------------------------------------------------------------
+    // pie chart end
 
-    // ---------------opp Chart start------------------------------
+    // opp Chart start
 
-    var responseOpp = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"LIST\",\"object\":\"opp\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+    var json = JSON.stringify({
+        action: "LIST",
+        object: "opp",
+        username: biz_vnc_crm_client.username
+    });
+    var responseOpp = biz_vnc_crm_client.rpc(json);
 
     var oppData = jsonParse(responseOpp.text);
     var date, month;
@@ -288,8 +298,21 @@ ZmDashboardView.dashboard = function (app) {
     var str = "'" + "In Progress" + "'";
     idArray.push(str);
 
-    var oppResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
-    var leadResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+    var json = JSON.stringify({
+        action: "FILTER",
+        object: "opp",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
+    var oppResponse = biz_vnc_crm_client.rpc(json);
+
+    json = JSON.stringify({
+        action: "FILTER",
+        object: "lead",
+        array: idArray.toString(),
+        username: biz_vnc_crm_client.username
+    });
+    var leadResponse = biz_vnc_crm_client.rpc(json);
 
     Ext.define('model_1', {
         extend: 'Ext.data.Model',
@@ -562,11 +585,24 @@ ZmDashboardView.dashboard = function (app) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
+                                var json = JSON.stringify({
+                                    action: "DELETEBYID",
+                                    object: "lead",
+                                    array: idArray,
+                                    curUserId: name,
+                                    writeBy: name
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 var idArray = [];
                                 var str = "'" + "In Progress" + "'";
                                 idArray.push(str);
-                                var oppResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"opp\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+                                json = JSON.stringify({
+                                    action: "FILTER",
+                                    object: "opp",
+                                    array: idArray.toString(),
+                                    username: biz_vnc_crm_client.username
+                                });
+                                var oppResponse = biz_vnc_crm_client.rpc(json);
                                 Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 Ext.getCmp('opportunityGrid').getStore().loadData(jsonParse(oppResponse.text), false);
                                 Ext.getCmp('opportunityGrid').getView().refresh();
@@ -679,11 +715,24 @@ ZmDashboardView.dashboard = function (app) {
                             if (btn == "yes") {
                                 var name = appCtxt.getUsername();
                                 var idArray = rec.get('leadId');
-                                var response = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"DELETEBYID\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"curUserId\":\"" + name + "\",\"writeBy\":\"" + name + "\"}");
+                                var json = JSON.stringify({
+                                    action: "DELETEBYID",
+                                    object: "lead",
+                                    array: idArray,
+                                    curUserId: name,
+                                    writeBy: name
+                                });
+                                var response = biz_vnc_crm_client.rpc(json);
                                 var idArray = [];
                                 var str = "'" + "In Progress" + "'";
                                 idArray.push(str);
-                                var leadResponse = biz_vnc_crm_client.rpc("jsonobj={\"action\":\"FILTER\",\"object\":\"lead\",\"array\":\"" + idArray + "\",\"username\":\"" + biz_vnc_crm_client.username + "\"}");
+                                json = JSON.stringify({
+                                    action: "FILTER",
+                                    object: "lead",
+                                    array: idArray.toString(),
+                                    username: biz_vnc_crm_client.username
+                                });
+                                var leadResponse = biz_vnc_crm_client.rpc(json);
                                 Ext.example.msg('', biz_vnc_crm_client.msgDelete);
                                 Ext.getCmp('leadGrid').getStore().loadData(jsonParse(leadResponse.text), false);
                                 Ext.getCmp('leadGrid').getView().refresh();
