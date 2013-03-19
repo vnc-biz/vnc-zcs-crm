@@ -992,16 +992,14 @@ ZmLeadListView.createForm = function (rec, contactList, app) {
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'image',
-                        imgCls:'add_contact',
-                        height: '26px',
-                        width: '26px',
-                        listeners: {
-                            render: function(c) {
-                                   c.getEl().on('click', function(e) {
-                                       biz_vnc_crm_client.add_contact(0);
-                                }, c);
-                            }
+                        xtype: 'button',
+                        id: 'btnLeadFormAddContact',
+                        style: { padding: '8px', top: '-2px', border: 'transparent' },
+                        cls:'add_contact',
+                        height: '24px',
+                        width: '24px',
+                        handler: function() {
+                            biz_vnc_crm_client.add_contact(0);
                         }
                     }]
                 }, {

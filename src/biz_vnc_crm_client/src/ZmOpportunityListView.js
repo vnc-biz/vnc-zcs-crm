@@ -730,20 +730,18 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         maxLength: 16
                     }]
                 }, {
-                    columnWidth: .10,
+                    columnWidth: .04,
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'image',
-                        imgCls:'add_contact',
-                        height: '26px',
-                        width: '26px',
-                        listeners: {
-                            render: function(c) {
-                                c.getEl().on('click', function(e) {
-                                    biz_vnc_crm_client.add_contact(1);
-                                }, c);
-                            }
+                        xtype: 'button',
+                        id: 'btnOppFormAddContact',
+                        style: { padding: '8px', top: '-2px', border: 'transparent' },
+                        cls:'add_contact',
+                        height: '24px',
+                        width: '24px',
+                        handler: function() {
+                            biz_vnc_crm_client.add_contact(1);
                         }
                     }]
                 }, {

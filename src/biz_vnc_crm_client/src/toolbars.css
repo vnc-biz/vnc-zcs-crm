@@ -345,3 +345,7 @@ h3
 {
 	background-color:#efefef;
 }
+
+#btnLeadAddContact, #btnOppAddContact, #btnLeadFormAddContact, #btnOppFormAddContact:hover {
+    background: transparent;
+}

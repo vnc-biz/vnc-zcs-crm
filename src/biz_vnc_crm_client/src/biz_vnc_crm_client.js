@@ -2591,18 +2591,15 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'image',
+                        xtype: 'button',
                         disabled: true,
                         id: 'btnLeadAddContact',
-                        imgCls:'add_contact',
-                        height: '26px',
-                        width: '26px',
-                        listeners: {
-                            render: function(c) {
-                                c.getEl().on('click', function(e) {
-                                    biz_vnc_crm_client.add_contact(0);
-                                }, c);
-                            }
+                        style: { padding: '8px', top: '-2px', border: 'transparent' },
+                        cls:'add_contact',
+                        height: '24px',
+                        width: '24px',
+                        handler: function() {
+                            biz_vnc_crm_client.add_contact(0);
                         }
                     }]
                 }, {
@@ -4731,22 +4728,19 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     }]
 
                 }, {
-                    columnWidth: .10,
+                    columnWidth: .04,
                     border: false,
                     layout: 'anchor',
                     items: [{
-                        xtype: 'image',
+                        xtype: 'button',
                         disabled: true,
                         id: 'btnOppAddContact',
-                        imgCls:'add_contact',
-                        height: '26px',
-                        width: '26px',
-                        listeners: {
-                            render: function(c) {
-                                c.getEl().on('click', function(e) {
-                                    biz_vnc_crm_client.add_contact(1);
-                                }, c);
-                            }
+                        style: { padding: '8px', top: '-2px', border: 'transparent' },
+                        cls:'add_contact',
+                        height: '24px',
+                        width: '24px',
+                        handler: function() {
+                            biz_vnc_crm_client.add_contact(1);
                         }
                     }]
                 }, {
