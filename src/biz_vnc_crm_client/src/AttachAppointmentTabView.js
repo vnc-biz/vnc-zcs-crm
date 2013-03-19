@@ -126,11 +126,11 @@ biz_vnc_crm_client_AttachAppointmentTabView.prototype.search_appt = function (in
         var start_date = document.getElementById(this.crm_apt_start_date_id).value;
         var end_date = document.getElementById(this.crm_apt_end_date_id).value;
     }
-    if (start_date.trim() == "") {
+    if (start_date == "") {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_start_date_msg);
         return;
     }
-    if (end_date.trim() == "") {
+    if (end_date == "") {
         appCtxt.setStatusMsg(biz_vnc_crm_client.select_end_date_msg);
         return;
     }
