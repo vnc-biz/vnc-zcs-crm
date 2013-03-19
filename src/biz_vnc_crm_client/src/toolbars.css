@@ -346,6 +346,26 @@ h3
 	background-color:#efefef;
 }
 
-#btnLeadAddContact, #btnOppAddContact, #btnLeadFormAddContact, #btnOppFormAddContact:hover {
-    background: transparent;
+#btnOppAddContact.x-btn-default-small .x-btn-inner {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
+}
+
+#btnLeadFormAddContact.x-btn-default-small .x-btn-inner {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
+}
+
+#btnOppFormAddContact.x-btn-default-small .x-btn-inner {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
+}
+
+#btnLeadAddContact.x-btn-default-small .x-btn-inner {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
 }

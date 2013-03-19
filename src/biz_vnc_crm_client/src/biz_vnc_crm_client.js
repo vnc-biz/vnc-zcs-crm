@@ -2592,12 +2592,8 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'button',
-                        disabled: true,
+                        text: "+",
                         id: 'btnLeadAddContact',
-                        style: { padding: '8px', top: '-2px', border: 'transparent' },
-                        cls:'add_contact',
-                        height: '24px',
-                        width: '24px',
                         handler: function() {
                             biz_vnc_crm_client.add_contact(0);
                         }
@@ -4733,12 +4729,8 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                     layout: 'anchor',
                     items: [{
                         xtype: 'button',
-                        disabled: true,
+                        text: "+",
                         id: 'btnOppAddContact',
-                        style: { padding: '8px', top: '-2px', border: 'transparent' },
-                        cls:'add_contact',
-                        height: '24px',
-                        width: '24px',
                         handler: function() {
                             biz_vnc_crm_client.add_contact(1);
                         }
