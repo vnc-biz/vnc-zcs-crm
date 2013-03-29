@@ -416,7 +416,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppNextActionDate',
-                    format: 'Y-m-d H:i:s.0',
+                    format: 'Y-m-d',
                     fieldLabel: biz_vnc_crm_client.nextActionDate,
                     anchor: '95%'
                 }, {
@@ -569,7 +569,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                 }, {
                     xtype: 'datefield',
                     id: 'dateOppExpectedClosing',
-                    format: 'Y-m-d H:i:s.0',
+                    format: 'Y-m-d',
                     fieldLabel: biz_vnc_crm_client.expectedClosing,
                     anchor: '95%'
                 }, {
@@ -1707,12 +1707,12 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
         Ext.getCmp('txtOppDaysToOpen').setValue(rec.get('dayOpen'));
         Ext.getCmp('txtOppDaysToClose').setValue(rec.get('dayClose'));
         Ext.getCmp('txtOppReferredBy').setValue(rec.get('referredBy'));
-        Ext.getCmp('dateOppExpectedClosing').setValue(rec.get('expectedDateClose'));
+        Ext.getCmp('dateOppExpectedClosing').setValue(rec.get('expectedDateClose').split(' ' )[0]);
         Ext.getCmp('dateOppOpened').setValue(rec.get('dateOpen'));
         Ext.getCmp('dateOppClosed').setValue(rec.get('dateClose'));
         Ext.getCmp('dateOppCreationdate').setValue(rec.get('createDate'));
         Ext.getCmp('dateOppUpdateDate').setValue(rec.get('writeDate'));
-        Ext.getCmp('dateOppNextActionDate').setValue(rec.get('nextActionDate'));
+        Ext.getCmp('dateOppNextActionDate').setValue(rec.get('nextActionDate').split(' ' )[0]);
     } else {
         Ext.getCmp('cmbOppsalesman').getStore().load({
             callback: function () {
