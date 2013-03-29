@@ -5816,6 +5816,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 150,
                 dataIndex: 'valuation',
                 sortable: true,
+                align: 'right',
                 renderer: function(value) {
                     value = biz_vnc_crm_client.numberFormatRender(value);
                     return biz_vnc_crm_client.oppGridColumnRender(value);
@@ -5825,6 +5826,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 width: 110,
                 dataIndex: 'probability',
                 sortable: true,
+                align: 'right',
                 renderer: biz_vnc_crm_client.oppGridColumnRender
             }, {
                 header: biz_vnc_crm_client.salesman,

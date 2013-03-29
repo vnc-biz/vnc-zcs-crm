@@ -558,6 +558,7 @@ ZmDashboardView.dashboard = function (app) {
                 width: 150,
                 dataIndex: 'valuation',
                 sortable: true,
+                align: 'right',
                 renderer: function(value) {
                     return biz_vnc_crm_client.numberFormatRender(value);
                 }
@@ -565,7 +566,8 @@ ZmDashboardView.dashboard = function (app) {
                 header: biz_vnc_crm_client.probability,
                 width: 110,
                 dataIndex: 'probability',
-                sortable: true
+                sortable: true,
+                align: 'right'
             }, {
                 header: biz_vnc_crm_client.state,
                 width: 120,

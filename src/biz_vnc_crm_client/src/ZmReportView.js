@@ -310,6 +310,7 @@ ZmReportView.createForm = function(app) {
             width: 100,
             dataIndex: 'valuation',
             sortable: true,
+            align: 'right',
             renderer: function(value) {
                 return biz_vnc_crm_client.numberFormatRender(value);
             },
@@ -322,6 +323,7 @@ ZmReportView.createForm = function(app) {
             width: 100,
             dataIndex: 'probability',
             sortable: true,
+            align: 'right',
             summaryType: 'average',
             summaryRenderer: function(value, summaryData, dataIndex){
                 value = biz_vnc_crm_client.setPrecision(value);
@@ -332,6 +334,7 @@ ZmReportView.createForm = function(app) {
             width: 100,
             dataIndex: 'dayOpen',
             sortable: true,
+            align: 'right',
             summaryType: 'max',
             summaryRenderer: function(value, summaryData, dataIndex){
                 return (biz_vnc_crm_client.reportMax + ': ' + value);
@@ -341,6 +344,7 @@ ZmReportView.createForm = function(app) {
             width: 100,
             dataIndex: 'dayClose',
             sortable: true,
+            align: 'right',
             summaryType: 'max',
             summaryRenderer: function(value, summaryData, dataIndex){
                 return (biz_vnc_crm_client.reportMax + ': ' + value);
