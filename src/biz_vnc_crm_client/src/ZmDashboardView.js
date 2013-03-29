@@ -408,7 +408,7 @@ ZmDashboardView.dashboard = function (app) {
             type: 'date'
         }, {
             name: 'expectedDateClose',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'stageName',
             mapping: 'stageBean.stageName',
@@ -470,7 +470,7 @@ ZmDashboardView.dashboard = function (app) {
             type: 'string'
         }, {
             name: 'nextActionDate',
-            type: 'date'
+            type: 'string'
         }, {
             name: 'nextAction',
             type: 'string'
