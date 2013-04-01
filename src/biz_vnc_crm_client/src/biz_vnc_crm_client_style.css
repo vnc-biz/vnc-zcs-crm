@@ -32,13 +32,15 @@
 .biz_vnc_crm_client_AttachMailTabBox
 {
 	background-color:#FDFCFA;
-	height:227px!important;
-	width:385px!important;
+	height:225px!important;
+	width:100px!important;
+	overflow:auto!important;
 }
 
-.biz_vnc_crm_client_AttachMailTabBox .biz_vnc_crm_client_AttachMailList
+.biz_vnc_crm_client_AttachMailList
 {
-	width:385px;
+	width:400px!important;
+	height:225px!important;
 }
 
 .ImgtabIcon

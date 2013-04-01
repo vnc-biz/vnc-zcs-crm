@@ -95,7 +95,7 @@ biz_vnc_crm_client_AttachMailTabView.prototype._createHtml1 = function () {
     this.showAttachMailTreeView();
     var params = {
         parent: appCtxt.getShell(),
-        className: "biz_vnc_crm_client_AttachMailTabBox biz_vnc_crm_client_AttachMailList",
+        className: "biz_vnc_crm_client_AttachMailList",
         posStyle: DwtControl.ABSOLUTE_STYLE,
         view: ZmId.VIEW_BRIEFCASE_ICON,
         type: ZmItem.ATT
