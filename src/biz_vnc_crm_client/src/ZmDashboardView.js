@@ -149,40 +149,44 @@ ZmDashboardView.dashboard = function (app) {
     var date, month;
     var jan = feb = march = april = may = jun = jul = aug = sep = oct = nov = dec = 0;
     for (var i = 0; i < oppData.length; i++) {
-        date = oppData[i].createDate;
-        date = date.split(" ");
-        month = AjxDateFormat.parse("yyyy-MM-dd", date[0]).getMonth();
-        var expectedValue = oppData[i].valuation;
-        if(expectedValue == "") {
-            expectedValue = 0;
-        } else {
-            expectedValue = parseInt(expectedValue);
-        }
-        if (month === 0) {
-            jan += expectedValue;
-        } else if (month == 1) {
-            feb += expectedValue;
-        } else if (month == 2) {
-            march += expectedValue;
-        } else if (month == 3) {
-            april += expectedValue;
-        } else if (month == 4) {
-            may += expectedValue;
-        } else if (month == 5) {
-            jun += expectedValue;
-        } else if (month == 6) {
-            jul += expectedValue;
-        } else if (month == 7) {
-            aug += expectedValue;
-        } else if (month == 8) {
-            sep += expectedValue;
-        } else if (month == 9) {
-            oct += expectedValue;
-        } else if (month == 10) {
-            nov += expectedValue;
-        } else if (month == 11) {
-            dec += expectedValue;
-        }
+        date = oppData[i].expectedDateClose;
+        if (date) {
+            date = date.split(" ");
+            month = AjxDateFormat.parse("yyyy-MM-dd", date[0]).getMonth();
+            var expectedValue = oppData[i].valuation;
+            if(new Date().getFullYear() == AjxDateFormat.parse("yyyy-MM-dd", date[0]).getFullYear()) {
+                if(expectedValue == "") {
+                    expectedValue = 0;
+                } else {
+                    expectedValue = parseInt(expectedValue);
+                }
+                if (month === 0) {
+                    jan += expectedValue;
+                } else if (month == 1) {
+                    feb += expectedValue;
+                } else if (month == 2) {
+                    march += expectedValue;
+                } else if (month == 3) {
+                    april += expectedValue;
+                } else if (month == 4) {
+                    may += expectedValue;
+                } else if (month == 5) {
+                    jun += expectedValue;
+                } else if (month == 6) {
+                    jul += expectedValue;
+                } else if (month == 7) {
+                    aug += expectedValue;
+                } else if (month == 8) {
+                    sep += expectedValue;
+                } else if (month == 9) {
+                    oct += expectedValue;
+                } else if (month == 10) {
+                    nov += expectedValue;
+                } else if (month == 11) {
+                    dec += expectedValue;
+                }
+            }
+        } 
     }
 
     var oppChartStore = Ext.create('Ext.data.JsonStore', {
