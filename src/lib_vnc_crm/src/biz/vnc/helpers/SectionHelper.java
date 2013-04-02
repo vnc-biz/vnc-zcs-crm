@@ -248,7 +248,7 @@ public class SectionHelper implements InterfaceHelper {
 				allAccounts = singleD.getAllAccounts();
 				for(int j=0; j<allAccounts.size(); j++) {
 					Account ac = (Account)allAccounts.get(j);
-					rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getMail().toString()+"\"}";
+					rec = "{\"value\":\""+ac.getMail().toString()+"\",\"label\":\""+ac.getAttr("cn").toString()+"\"}";
 					listOfAccounts.add(rec);
 				}
 			}
