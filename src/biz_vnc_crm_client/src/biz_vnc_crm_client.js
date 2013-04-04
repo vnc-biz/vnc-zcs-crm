@@ -6834,7 +6834,7 @@ biz_vnc_crm_client.disablePageSizeButtons = function(pageSize) {
 biz_vnc_crm_client.dateTimeRender = function(value) {
     if(value) {
         var date = value.match(/\d+/g);
-        var value = AjxDateFormat.getDateTimeInstance(AjxDateFormat.MEDIUM, AjxDateFormat.MEDIUM).format(new Date(date[0],date[1],date[2],date[3],date[4],date[5],date[6]));
+        var value = AjxDateFormat.getDateTimeInstance(AjxDateFormat.MEDIUM, AjxDateFormat.MEDIUM).format(new Date(date[0],date[1]-1,date[2],date[3],date[4],date[5],date[6]));
     }
     return value;
 }
