@@ -1729,10 +1729,10 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
             type: 'int'
         }, {
             name: 'dayClose',
-            type: 'float'
+            type: 'string'
         }, {
             name: 'dayOpen',
-            type: 'float'
+            type: 'string'
         }, {
             name: 'referredBy',
             type: 'string'
@@ -3608,7 +3608,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
                 text: biz_vnc_crm_client.phone,
-                width: 160,
+                width: 100,
                 dataIndex: 'phone',
                 renderer: biz_vnc_crm_client.leadGridColumnRender
             }, {
@@ -3626,6 +3626,144 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                 width: 160,
                 dataIndex: 'leadState',
                 renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.description,
+                width: 160,
+                dataIndex: 'leadDescription',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.company,
+                width: 160,
+                dataIndex: 'companyName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.fax,
+                width: 100,
+                dataIndex: 'fax',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.workPhone,
+                width: 100,
+                dataIndex: 'workPhone',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.mobile,
+                width: 100,
+                dataIndex: 'mobile',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.street1,
+                width: 160,
+                dataIndex: 'street1',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.street2,
+                width: 160,
+                dataIndex: 'street2',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.city,
+                width: 160,
+                dataIndex: 'city',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.zipCode,
+                width: 100,
+                dataIndex: 'zip',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.state,
+                width: 160,
+                dataIndex: 'stateName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.country,
+                width: 160,
+                dataIndex: 'countryName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.opened,
+                width: 160,
+                dataIndex: 'dateOpen',
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.leadGridColumnRender(value);
+                    return value;
+               }
+            }, {
+                text: biz_vnc_crm_client.closed,
+                width: 160,
+                dataIndex: 'dateClose',
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.leadGridColumnRender(value);
+                    return value;
+               }
+            }, {
+                text: biz_vnc_crm_client.channel,
+                width: 160,
+                dataIndex: 'channelName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.section,
+                width: 160,
+                dataIndex: 'sectionName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.category,
+                width: 160,
+                dataIndex: 'categoryName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.daystoOpen,
+                width: 160,
+                dataIndex: 'dayOpen',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.daystoClose,
+                width: 160,
+                dataIndex: 'dayClose',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.referredBy,
+                width: 160,
+                dataIndex: 'referredBy',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.priority,
+                width: 160,
+                dataIndex: 'priorityName',
+                hidden: true,
+                renderer: biz_vnc_crm_client.leadGridColumnRender
+            }, {
+                text: biz_vnc_crm_client.updateDate,
+                width: 160,
+                dataIndex: 'writeDate',
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.leadGridColumnRender(value);
+                    return value;
+               }
             }, {
                 sortable: false,
                 xtype: 'actioncolumn',
@@ -3984,10 +4122,10 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
             type: 'int'
         }, {
             name: 'dayClose',
-            type: 'float'
+            type: 'string'
         }, {
             name: 'dayOpen',
-            type: 'float'
+            type: 'string'
         }, {
             name: 'referredBy',
             type: 'string'
@@ -5825,7 +5963,7 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 }
             }, {
                 header: biz_vnc_crm_client.probability,
-                width: 110,
+                width: 100,
                 dataIndex: 'probability',
                 sortable: true,
                 align: 'right',
@@ -5842,6 +5980,190 @@ biz_vnc_crm_client.initOpportunityGrid = function (app) {
                 dataIndex: 'leadState',
                 sortable: true,
                 renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.description,
+                width: 120,
+                dataIndex: 'leadDescription',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.company,
+                width: 120,
+                dataIndex: 'companyName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.phone,
+                width: 100,
+                dataIndex: 'phone',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.fax,
+                width: 100,
+                dataIndex: 'fax',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.email,
+                width: 120,
+                dataIndex: 'email',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.workPhone,
+                width: 100,
+                dataIndex: 'workPhone',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.mobile,
+                width: 100,
+                dataIndex: 'mobile',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.street1,
+                width: 160,
+                dataIndex: 'street1',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.street2,
+                width: 160,
+                dataIndex: 'street2',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.city,
+                width: 120,
+                dataIndex: 'city',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.zipCode,
+                width: 100,
+                dataIndex: 'zip',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.state,
+                width: 120,
+                dataIndex: 'stateName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.country,
+                width: 120,
+                dataIndex: 'countryName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.opened,
+                width: 120,
+                dataIndex: 'dateOpen',
+                sortable: true,
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.oppGridColumnRender(value);
+                    return value;
+                } 
+            }, {
+                header: biz_vnc_crm_client.closed,
+                width: 120,
+                dataIndex: 'dateClose',
+                sortable: true,
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.oppGridColumnRender(value);
+                    return value;
+                }
+            }, {
+                header: biz_vnc_crm_client.expectedClosing,
+                width: 120,
+                dataIndex: 'expectedDateClose',
+                sortable: true,
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.oppGridColumnRender(value);
+                    return value;
+                }
+            }, {
+                header: biz_vnc_crm_client.channel,
+                width: 120,
+                dataIndex: 'channelName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.section,
+                width: 120,
+                dataIndex: 'sectionName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.category,
+                width: 120,
+                dataIndex: 'categoryName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.daystoOpen,
+                width: 120,
+                dataIndex: 'dayOpen',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.daystoClose,
+                width: 120,
+                dataIndex: 'dayClose',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.referredBy,
+                width: 120,
+                dataIndex: 'referredBy',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.priority,
+                width: 120,
+                dataIndex: 'priorityName',
+                sortable: true,
+                hidden: true,
+                renderer: biz_vnc_crm_client.oppGridColumnRender
+            }, {
+                header: biz_vnc_crm_client.updateDate,
+                width: 120,
+                dataIndex: 'writeDate',
+                sortable: true,
+                hidden: true,
+                renderer: function(value) {
+                    value = biz_vnc_crm_client.dateTimeRender(value);
+                    value = biz_vnc_crm_client.oppGridColumnRender(value);
+                    return value;
+                }
             }, {
                 sortable: false,
                 xtype: 'actioncolumn',
