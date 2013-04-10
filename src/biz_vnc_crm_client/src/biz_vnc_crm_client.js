@@ -112,6 +112,10 @@ biz_vnc_crm_client_HandlerObject.prototype.init = function (app, toolbar, contro
         object: "AllObject"
     });
     biz_vnc_crm_client.response = biz_vnc_crm_client.rpc(json);
+    
+    if(biz_vnc_crm_client.response.text == "" || biz_vnc_crm_client.response.text == null) {
+        biz_vnc_crm_client.response = biz_vnc_crm_client.rpc(json);
+    }
 
     var allObject = jsonParse(biz_vnc_crm_client.response.text);
 
