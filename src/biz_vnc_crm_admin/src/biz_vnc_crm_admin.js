@@ -112,6 +112,6 @@ biz_vnc_crm_admin.rpc = function(json) {
         biz_vnc_crm_admin.jspUrl,
         { "Content-Type": "application/x-www-form-urlencoded; charset=utf-8" },
         null,
-        false        
+        false
     );
 };

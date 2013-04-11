@@ -225,7 +225,7 @@ ZaCRMChannelModel.addButtonListener = function () {
         action: "COUNT",
         object: "channel"
     });
-    var response = biz_vnc_crm_admin.rpc(json); 
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

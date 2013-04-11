@@ -110,7 +110,7 @@ ZaCRMStageModel.prototype.doDelete = function (idArray) {
         array: idArray.toString(),
         writeBy: name
     });
-    var response = biz_vnc_crm_admin.rpc(json); 
+    var response = biz_vnc_crm_admin.rpc(json);
     instance[ZaCRMadmin.A_stage] = ZaCRMStageModel.display();
 
     ZaApp.getInstance().dialogs["confirmMessageDialog"].popdown();
@@ -169,7 +169,7 @@ ZaCRMStageModel.updateStage = function () {
         action: "COUNT",
         object: "stage"
     });
-    var response = biz_vnc_crm_admin.rpc(json); 
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editStageDlg) {
         this.parent.editStageDlg.popdown();
         var obj = this.parent.editStageDlg.getObject();
@@ -195,7 +195,7 @@ ZaCRMStageModel.updateStage = function () {
             status: obj[ZaCRMadmin.A_stageStatus],
             writeBy: obj[ZaCRMadmin.A_stageWriteby]
         });
-        var response = biz_vnc_crm_admin.rpc(json); 
+        var response = biz_vnc_crm_admin.rpc(json);
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_stageName]));
         instance[ZaCRMadmin.A_stage] = ZaCRMStageModel.display();
@@ -234,7 +234,7 @@ ZaCRMStageModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_stageCreatedby],
                 writeBy: obj[ZaCRMadmin.A_stageWriteby]
             });
-            var response = biz_vnc_crm_admin.rpc(json); 
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_stageName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_stage + " : " + obj[ZaCRMadmin.A_stageName]));
@@ -246,11 +246,11 @@ ZaCRMStageModel.addPerson = function () {
 }
 
 ZaCRMStageModel.addButtonListener = function () {
-    var json = JSON.stringify({ 
+    var json = JSON.stringify({
         action: "COUNT",
         object: "stage"
     });
-    var response = biz_vnc_crm_admin.rpc(json); 
+    var response = biz_vnc_crm_admin.rpc(json);
 
     if (response.text == 2){
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.usageLimitMessage));

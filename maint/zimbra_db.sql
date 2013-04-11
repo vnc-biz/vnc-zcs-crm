@@ -1,7 +1,7 @@
 /*
 ##############################################################################
 #    VNC-Virtual Network Consult GmbH.
-#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH 
+#    Copyright (C) 2004-TODAY VNC-Virtual Network Consult GmbH
 #    (< http://www.vnc.biz >).
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -148,9 +148,9 @@ zip varchar(8),
 stateId Integer REFERENCES tbl_crm_state(stateId),
 countryId Integer REFERENCES tbl_crm_country(countryId),
 type Integer,
-dateOpen timestamp NULL, 
+dateOpen timestamp NULL,
 dateClose timestamp NULL,
-expectedDateClose timestamp NULL, 
+expectedDateClose timestamp NULL,
 stageId Integer REFERENCES tbl_crm_stage(stageId),
 probability float,
 channelId Integer REFERENCES tbl_crm_channel(channelId),
@@ -172,17 +172,17 @@ writeDate timestamp NULL
 
 CREATE TABLE IF NOT EXISTS tbl_crm_lead_mailHistory (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
-messageId varchar(255) 
+messageId varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_crm_lead_task (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
-taskId varchar(255) 
+taskId varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS tbl_crm_lead_calendar (
 leadId Integer REFERENCES tbl_crm_lead(leadId),
-appointmentId varchar(255) 
+appointmentId varchar(255)
 );
 
 

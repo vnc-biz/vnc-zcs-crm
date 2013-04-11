@@ -212,7 +212,7 @@ ZaCRMSectionModel.updateSection = function () {
             status: obj[ZaCRMadmin.A_sectionStatus],
             writeBy: obj[ZaCRMadmin.A_sectionWriteby]
         });
-        var response = biz_vnc_crm_admin.rpc(json); 
+        var response = biz_vnc_crm_admin.rpc(json);
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_sectionName]));
         instance[ZaCRMadmin.A_section] = ZaCRMSectionModel.display();
@@ -260,7 +260,7 @@ ZaCRMSectionModel.addPerson = function () {
                 createBy: obj[ZaCRMadmin.A_sectionCreatedby],
                 writeBy: obj[ZaCRMadmin.A_sectionWriteby]
             });
-            var response = biz_vnc_crm_admin.rpc(json); 
+            var response = biz_vnc_crm_admin.rpc(json);
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Add + " : " + obj[ZaCRMadmin.A_sectionName]));
         } else {
             ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_dup_section + " : " + obj[ZaCRMadmin.A_sectionName] + " OR " + obj[ZaCRMadmin.A_sectionCode]));

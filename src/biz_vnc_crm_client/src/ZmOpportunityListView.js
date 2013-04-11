@@ -739,7 +739,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                         id: 'btnOppFormAddContact',
                         handler: function() {
                             biz_vnc_crm_client.add_contact(1);
-                        } 
+                        }
                     }]
                 }, {
                     columnWidth: .33,
@@ -1110,7 +1110,7 @@ ZmOpportunityListView.createForm = function (rec, contactList, app) {
                                         array: idArray.toString(),
                                         curUserId: curUserId,
                                         leadId: leadId
-                                    }); 
+                                    });
                                     var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {

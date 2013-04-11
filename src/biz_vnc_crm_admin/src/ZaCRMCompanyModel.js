@@ -105,7 +105,7 @@ ZaCRMCompanyModel.prototype.doDelete = function (idArray) {
         action: "DELETEBYID",
         object: "company",
         array: idArray.toString(),
-        writeBy: name 
+        writeBy: name
     });
     var response = biz_vnc_crm_admin.rpc(json);
     var instance = this.getInstance();

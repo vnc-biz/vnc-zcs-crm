@@ -4,7 +4,7 @@
 *.jpg    binary
 *.png    binary
 
-*.cs     text=auto diff=csharp 
+*.cs     text=auto diff=csharp
 *.java   text=auto
 *.html   text=auto
 *.css    text=auto
@@ -14,5 +14,5 @@
 *.mk     text=auto
 Makefile text=auto
 
-*.csproj text=auto merge=union 
-*.sln    text=auto eol=crlf merge=union 
+*.csproj text=auto merge=union
+*.sln    text=auto eol=crlf merge=union

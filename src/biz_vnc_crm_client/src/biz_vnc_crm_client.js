@@ -2882,7 +2882,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                                         array: idArray.toString(),
                                         curUserId: curUserId,
                                         leadId: leadId
-                                    }); 
+                                    });
                                     var responseUser = biz_vnc_crm_client.rpc(json);
                                     biz_vnc_crm_client.msgNotification(responseUser.text);
                                     if (responseUser.text != 20) {
@@ -3585,7 +3585,7 @@ biz_vnc_crm_client.initLeadGrid = function (app) {
                     value = biz_vnc_crm_client.dateTimeRender(value);
                     value = biz_vnc_crm_client.leadGridColumnRender(value);
                     return value;
-               } 
+               }
             }, {
                 text: biz_vnc_crm_client.subject,
                 width: 160,
@@ -6006,7 +6006,7 @@ biz_vnc_crm_client.requestTaskList = function (leadId, gridId) {
         action: "listTask",
         object: "lead",
         leadId: leadId
-    });    
+    });
     response = biz_vnc_crm_client.rpc(json);
     if(response.text == ']'){
         biz_vnc_crm_client.taskData = "[{'taskId':'','subject':'','status':'','complete':'','startTime':''}]";
@@ -6019,8 +6019,8 @@ biz_vnc_crm_client.requestTaskList = function (leadId, gridId) {
 
 biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
     var json = JSON.stringify({
-        action: "LISTHISTORY",  
-        object: "lead",  
+        action: "LISTHISTORY",
+        object: "lead",
         leadId: leadId
     });
     response = biz_vnc_crm_client.rpc(json);
@@ -6035,8 +6035,8 @@ biz_vnc_crm_client.requestMailList = function (leadId, gridId) {
 
 biz_vnc_crm_client.requestApptList = function (leadId, gridId) {
     var json = JSON.stringify({
-        action: "LISTAPPTHISTORY",  
-        object: "lead",  
+        action: "LISTAPPTHISTORY",
+        object: "lead",
         leadId: leadId
     });
     var responseApptHistory = biz_vnc_crm_client.rpc(json);
@@ -6557,7 +6557,7 @@ biz_vnc_crm_client_HandlerObject.prototype.onSaveApptSuccess = function(controll
             array: array.toString(),
             userId: userId,
             leadId: calItem.leadId
-        }); 
+        });
         var response = biz_vnc_crm_client.rpc(json);
         if (response.text == 0) {
             biz_vnc_crm_client.msgNotification(response.text);

@@ -155,7 +155,7 @@ ZaCRMStateModel.updateState = function () {
         action: "COUNT",
         object: "state"
     });
-    var response = biz_vnc_crm_admin.rpc(json); 
+    var response = biz_vnc_crm_admin.rpc(json);
     if (this.parent.editStateDlg) {
         this.parent.editStateDlg.popdown();
         var obj = this.parent.editStateDlg.getObject();
@@ -177,7 +177,7 @@ ZaCRMStateModel.updateState = function () {
             status: obj[ZaCRMadmin.A_stateCountryStatus],
             writeBy: obj[ZaCRMadmin.A_stateWriteby]
         });
-        var response = biz_vnc_crm_admin.rpc(json); 
+        var response = biz_vnc_crm_admin.rpc(json);
         instance[ZaCRMadmin.A_state] = ZaCRMStateModel.display();
 
         ZaApp.getInstance().getCurrentController().popupMsgDialog(AjxMessageFormat.format(biz_vnc_crm_admin.MSG_Edit + " : " + obj[ZaCRMadmin.A_stateName]));
