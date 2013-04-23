@@ -18,6 +18,7 @@ try {
 	ZStats zs = new ZStats();
 	Properties prop = JSPUtil.getZimletTranslationProperties(application,"biz_vnc_crm_admin");
 	zs.product_feedback("biz_vnc_crm_admin",prop.getProperty("ZIMLET_VERSION"),account.getName());
+	out.println("true");
 } catch (Exception e) {
 	out.println("error");
 	ZLog.err("VNC CRM for Zimbra Client", "vnccrmadminmonitoring.jsp fail ", e);
