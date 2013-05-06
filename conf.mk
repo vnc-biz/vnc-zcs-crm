@@ -1,4 +1,4 @@
-VERSION=1.1.5.3
+VERSION=1.1.5.4
 PACKAGE=zcs-crm
 MAINTAINER=Enrico Weigelt <enrico.weigelt@vnc.biz>
 SECTION=free/zcs-office
